@@ -5,9 +5,9 @@ using UnityEngine;
 public class CameraControls : MonoBehaviour
 {
     public Transform player;
-    public float followSpeed, maxPlayerDistance, cameraAngle,lowAngle = 45.0f, highAngle = 75.0f;
+    public float followSpeed, maxPlayerDistance, cameraAngle,lowAngle = 45.0f, highAngle = 75.0f, conversationAngle = 25.0f;
     public float camAdjustSpeed = 5;
-    public Vector3 camOffset,highCamOffset,lowCamOffSet;
+    public Vector3 camOffset,highCamOffset,lowCamOffSet,conversationOffset;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,10 +19,14 @@ public class CameraControls : MonoBehaviour
     {
         TrackPlayer();
 
-        if (Input.GetKeyDown(KeyCode.P)) { camOffset = highCamOffset;  }
+        if (Input.GetKeyDown(KeyCode.I)) { camOffset = highCamOffset;  }
+
         if (Input.GetKeyDown(KeyCode.O)) { camOffset = lowCamOffSet;   }
-        if (Input.GetKeyDown(KeyCode.I)) { cameraAngle = lowAngle; }
+        if (Input.GetKeyDown(KeyCode.P)) { cameraAngle = lowAngle; }
+
         if (Input.GetKeyDown(KeyCode.U)) { cameraAngle = highAngle; }
+        if (Input.GetKeyDown(KeyCode.Y)) { cameraAngle = conversationAngle; }
+        if (Input.GetKeyDown(KeyCode.T)) { camOffset = conversationOffset; }
 
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
 

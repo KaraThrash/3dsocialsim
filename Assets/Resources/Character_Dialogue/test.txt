@@ -1,0 +1,13 @@
+Name,type,mood,body
+Apollo,greeting,happy,hello,
+Apollo,smalltalk,happy,Isnt the weather great?
+Apollo,greeting,neutral,Hey
+Apollo,smalltalk,neutral,how are you
+Apollo,greeting,sad,Hi
+Apollo,smalltalk,sad,Isnt the weather terrible?
+Apollo,smalltalk,sad,I don’t like it here
+Apollo,smalltalk,sad,Can I go home
+Apollo,smalltalk,neutral,Fine I guess
+Apollo,smalltalk,neutral,Could be worse
+Apollo,smalltalk,happy,I want to be a pirate!,Dinosaurs are the best,Ninjas are cool too!
+Apollo,smalltalk,happy,Today is a good day,I like Ice Cube,I like Ice Cubes in my drink

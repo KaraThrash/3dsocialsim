@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
 
     public void Movement()
     {
+
         if (InputControls.HorizontalAxis() != 0 || InputControls.VerticalAxis() != 0)
         {
             //get the intended direction then rotate before moving
@@ -70,6 +71,13 @@ public class Player : MonoBehaviour
     {
 
         Debug.Log("Interact");
+        RaycastHit hit;
+        if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f),0.5f, transform.TransformDirection(Vector3.forward), out hit, 1.0f))
+        {
+            Debug.Log(hit.transform.name);
+            if (hit.transform.GetComponent<Villager>() != null)
+            { hit.transform.GetComponent<Villager>().Interact(); }
+        }
 
     }
 
