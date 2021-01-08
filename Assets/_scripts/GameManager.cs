@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public Player player;
     public GameObject chatbox;
-    public Text chatText;
+    public Text chatText,titleText;//for character names
 
     public Transform cam,activeObject, groundParent;
     public GameObject dirtsquare, grassSquare;
@@ -33,6 +33,14 @@ public class GameManager : MonoBehaviour
     {
         chatbox.SetActive(_line.Length > 0);
         chatText.text = _line;
+        titleText.text = "";
+    }
+
+    public void ShowDialogue(string _speakerName, string _line)
+    {
+        chatbox.SetActive(_line.Length > 1);
+        chatText.text = _line;
+        titleText.text = _speakerName;
     }
 
     public Player GetPlayer()

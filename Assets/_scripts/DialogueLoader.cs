@@ -121,7 +121,7 @@ public class DialogueLoader
 
             //if this is the dialogue for the specified character add it to the master dictionary
             //each entry should be a minimum of 4 elements: name, type, mood, body
-            if (tempstring.Length > 3)
+            if (tempstring.Length > 3 && tempstring[3] != "")
             {
 
                 //check if the character already has an entry, if not then create one
@@ -132,14 +132,23 @@ public class DialogueLoader
 
 
                 List<string> newbody = new List<string>();
+
                 for (int i = 3; i < tempstring.Length; i++)
                 {
-                    newbody.Add(tempstring[i]);
+                    //make sure no blank lines are mistakenly added due to text formatting 
+                    if (tempstring[i].Length > 1)
+                    { newbody.Add(tempstring[i]); }
+                   
                 }
-                //make a new dialogueline object from the spreadsheet entry // string:type string:mood List<string>:dialogue body by line
-                Dialogue tempLine = new Dialogue(tempstring[1], tempstring[2], newbody);
 
-                loadedDialogue[_characterName].Add(tempLine);
+                //make sure there were valid dialogue lines after accounting for text formatting mistakes
+                if (newbody.Count > 0)
+                {
+                    //make a new dialogueline object from the spreadsheet entry // string:type string:mood List<string>:dialogue body by line
+                    Dialogue tempLine = new Dialogue(tempstring[1], tempstring[2], newbody);
+
+                    loadedDialogue[_characterName].Add(tempLine);
+                }
             }
 
 

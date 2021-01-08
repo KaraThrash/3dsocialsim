@@ -38,11 +38,19 @@ public class Villager : MonoBehaviour
         }
 
         //send the next line of dialogue to the gamemanager to display in the chat box
-        gameManager.ShowDialogue(activeDialogue.NextDialogueLine());
+        gameManager.ShowDialogue(npcName,activeDialogue.NextDialogueLine());
+
 
         if (activeDialogue.EndOfDialogue())
         {  activeDialogue = null; }
     }
+
+
+    
+
+
+
+    
 
     public Dialogue FindDialogue(string _type="smalltalk")
     {
