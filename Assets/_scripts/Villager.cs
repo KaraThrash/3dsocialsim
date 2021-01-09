@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +7,8 @@ public class Villager : MonoBehaviour
     public GameManager gameManager;
 
     public string npcName,mood;
-    public float rotSpeed,speed;
+    public float rotSpeed,speed,timeBetweenGreetings = 120.0f; //time between greetings is the value of seconds that need to elapse before this npc will use a greeting instead of smalltalk
+    public DateTime lastInteractionDate;
     private Dialogue activeDialogue ;
 
     void Start()
@@ -34,8 +35,19 @@ public class Villager : MonoBehaviour
     {
         if (activeDialogue == null)
         {
-            activeDialogue = FindDialogue();
+            if ((lastInteractionDate - DateTime.Now).TotalSeconds >= timeBetweenGreetings)
+            {
+                activeDialogue = FindDialogue("greeting");
+            }
+            else 
+            {
+                activeDialogue = FindDialogue("smalltalk");
+            }
+            
         }
+
+   
+
 
         //send the next line of dialogue to the gamemanager to display in the chat box
         gameManager.ShowDialogue(npcName,activeDialogue.NextDialogueLine());
@@ -59,14 +71,14 @@ public class Villager : MonoBehaviour
 
         for (int i = 0; i < dialogueList.Count; i++)
         {
-            if (dialogueList[i].type == _type)
+            if (dialogueList[i].mood == mood && dialogueList[i].type == _type)
             {
                 listToRandomize.Add(dialogueList[i]);
             }
         
         }
 
-        return listToRandomize[(int)Random.Range(0,listToRandomize.Count)];
+        return listToRandomize[(int)UnityEngine.Random.Range(0,listToRandomize.Count)];
     }
 
 }

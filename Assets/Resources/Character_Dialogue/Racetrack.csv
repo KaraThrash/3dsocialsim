@@ -1,0 +1,13 @@
+﻿Name,type,mood,body
+Racetrack,greeting,happy,happy greeting
+Racetrack,smalltalk,happy,happy smalltalk
+Racetrack,greeting,neutral,neutral greeting
+Racetrack,smalltalk,neutral,neutral smalltalk
+Racetrack,greeting,sad,sad greeting
+Racetrack,smalltalk,sad,sad smalltalk
+Racetrack,greeting,happy,another happy greeting
+Racetrack,smalltalk,happy,another happy smalltalk
+Racetrack,greeting,neutral,another neutral greeting
+Racetrack,smalltalk,neutral,another  neutral smalltalk
+Racetrack,greeting,sad,another  sad greeting
+Racetrack,smalltalk,sad,another sad smalltalk

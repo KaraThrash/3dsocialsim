@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     public Transform cam,activeObject, groundParent;
     public GameObject dirtsquare, grassSquare;
+
+    private bool inConversation;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,20 +27,63 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public void InteractWithVillager(Villager _villager)
+    {
+        if (inConversation == false)
+        { StartConversation(); }
+
+        activeObject = _villager.transform;
+        _villager.Interact();
+
+    }
 
 
-    
+
+    public bool InConversation()
+    {
+
+        return inConversation;
+    }
+
+
+
+
+
+
+    public void StartConversation()
+    {
+        cam.GetComponent<CameraControls>().ConversationToggle(true);
+        chatbox.SetActive(true);
+        inConversation = true;
+    }
+
+    public void EndConversation()
+    {
+        cam.GetComponent<CameraControls>().ConversationToggle(false);
+        chatbox.SetActive(false);
+        inConversation = false;
+    }
 
     public void ShowDialogue(string _line)
     {
-        chatbox.SetActive(_line.Length > 0);
+        if (_line.Length == 0)
+        {
+            activeObject = null;
+            EndConversation();
+            return;
+        }
         chatText.text = _line;
         titleText.text = "";
     }
 
     public void ShowDialogue(string _speakerName, string _line)
     {
-        chatbox.SetActive(_line.Length > 1);
+        if (_line.Length == 0)
+        {
+            activeObject = null;
+            EndConversation();
+            return;
+        }
         chatText.text = _line;
         titleText.text = _speakerName;
     }

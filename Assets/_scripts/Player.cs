@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public GameManager gameManager;
     public float walkSpeed, rotSpeed;
     public float acceleration, deceleration;
     public float turnAngle; //buffer for when the player will start moving before facing the exact direction of travel 
@@ -18,7 +19,16 @@ public class Player : MonoBehaviour
   
     void Update()
     {
-        Movement();
+        if (gameManager.InConversation())
+        {
+            LookAtAction(gameManager.GetActiveObject());
+            rb.velocity = Vector3.zero;
+        }
+        else 
+        {
+            Movement();
+        }
+        
 
         if (InputControls.InteractButton() )
         { Interact(); }
@@ -27,6 +37,13 @@ public class Player : MonoBehaviour
 
     }
 
+    //conversation target, item pickup, or directly at the camera
+    public void LookAtAction(Transform _lookat)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(_lookat.position - transform.position);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotSpeed * Time.deltaTime);
+    }
 
     public void Movement()
     {
@@ -60,7 +77,11 @@ public class Player : MonoBehaviour
 
 
         }
-        else { rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration); }
+        else { 
+            rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
+            rb.angularVelocity = Vector3.zero;
+            
+        }
         
 
     }
@@ -71,12 +92,18 @@ public class Player : MonoBehaviour
     {
 
         Debug.Log("Interact");
+
+
+        
         RaycastHit hit;
-        if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f),0.5f, transform.TransformDirection(Vector3.forward), out hit, 1.0f))
+        if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f),0.2f, transform.TransformDirection(Vector3.forward), out hit, 1.0f))
         {
             Debug.Log(hit.transform.name);
             if (hit.transform.GetComponent<Villager>() != null)
-            { hit.transform.GetComponent<Villager>().Interact(); }
+            {
+                gameManager.InteractWithVillager(hit.transform.GetComponent<Villager>());
+               
+            }
         }
 
     }

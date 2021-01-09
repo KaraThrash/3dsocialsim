@@ -40,4 +40,11 @@ public class CameraControls : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, playerXYPos,Time.deltaTime * followSpeed );
         }
     }
+
+    public void ConversationToggle(bool _on)
+    {
+        cameraAngle = _on ? conversationAngle : lowAngle ;
+        camOffset = _on ? conversationOffset : lowCamOffSet;
+    }
+
 }

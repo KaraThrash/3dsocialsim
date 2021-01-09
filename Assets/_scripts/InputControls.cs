@@ -7,6 +7,7 @@ public static class InputControls
     public static bool gamePad;
 
     public static string hortAxis = "Horizontal", vertAxis = "Vertical", interactButton = "B", actionButton = "A";
+    public static KeyCode interactKey = KeyCode.Space, actionKey = KeyCode.LeftControl;
     // Start is called before the first frame update
      static void Start()
     {
@@ -30,14 +31,14 @@ public static class InputControls
 
     public static bool InteractButton()
     {
-        if (Input.GetButtonDown(interactButton))
+        if (Input.GetButtonDown(interactButton) || Input.GetKeyDown(interactKey))
         { return true; }
         return false;
     }
 
     public static bool ActionButton()
     {
-        if (Input.GetButtonDown(actionButton))
+        if (Input.GetButtonDown(actionButton) || Input.GetKeyDown(actionKey))
         { return true; }
         return false;
     }
