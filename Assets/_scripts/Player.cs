@@ -80,7 +80,6 @@ public class Player : MonoBehaviour
         else { 
             rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
             rb.angularVelocity = Vector3.zero;
-            
         }
         
 
