@@ -23,6 +23,7 @@ public static class InputControls
     {
         if (dPadVertPressed == true && Input.GetAxis(dPadVertButton) == 0)
         { dPadVertPressed = false; }
+
         if (dPadHortPressed == true && Input.GetAxis(dPadHortButton) == 0)
         { dPadHortPressed = false; }
 

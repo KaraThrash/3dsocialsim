@@ -30,7 +30,8 @@ public class Player : MonoBehaviour
         }
         else 
         {
-            Movement();
+            if (gameManager.PlayerCanMove())
+            { Movement(); }
         }
         
 
@@ -116,7 +117,18 @@ public class Player : MonoBehaviour
 
     public void PerformAction()
     {
-
+        if (inventory[currentItem].itemName == "shovel")
+        {
+            gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f),"dig");
+        }
+        else if (inventory[currentItem].itemName == "axe")
+        {
+            gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f),"chop");
+        }
+        else if (inventory[currentItem].itemName == "fishingrod")
+        {
+            gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "fish", inventory[currentItem].subItem);
+        }
         Debug.Log("PerformAction");
 
     }
@@ -142,7 +154,11 @@ public class Player : MonoBehaviour
         if (currentItem < 0) { currentItem = inventory.Count - 1; }
         if (currentItem >= inventory.Count) { currentItem = 0; }
 
-        inventory[currentItem].gameObject.SetActive(true);
+
+        if (inventory[currentItem].usable == true)
+        { inventory[currentItem].gameObject.SetActive(true); }
+        else { NextItem( _forward ); }
+       
 
 
     }

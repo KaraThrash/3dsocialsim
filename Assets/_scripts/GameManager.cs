@@ -6,24 +6,34 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public Player player;
+    public TerrainManager terrainManager;
     public GameObject chatbox;
     public Text chatText,titleText;//for character names
 
     public Transform cam,activeObject, groundParent;
     public GameObject dirtsquare, grassSquare;
 
-    private bool inConversation;
+    private bool inConversation,playerCanMove;
+    private float actionTimer;
     // Start is called before the first frame update
     void Start()
     {
-       
+        UnlockPlayerMovement(true);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (actionTimer > 0)
+        {
+            actionTimer -= Time.deltaTime;
+            if (actionTimer <= 0 && actionTimer != -1)
+            { 
+                actionTimer = 0;
+                UnlockPlayerMovement(true);
+            }
+        }
     }
 
 
@@ -39,13 +49,60 @@ public class GameManager : MonoBehaviour
 
 
 
+    public void InteractWithGround(Vector3 _square, string _interaction,GameObject _contextItem=null)
+    {
+        if (_interaction == "dig")
+        {
+            if (terrainManager.Dig(_square))
+            {
+                actionTimer = 1;
+                UnlockPlayerMovement(false);
+            }
+           
+
+        }
+       else if (_interaction == "chop")
+        {
+            if (terrainManager.Chop(_square))
+            {
+                actionTimer = 1;
+                UnlockPlayerMovement(false);
+            }
+        }
+        else if (_interaction == "fish")
+        {
+            if (terrainManager.Fish(_square, _contextItem))
+            {
+                actionTimer = -1;
+                UnlockPlayerMovement(false);
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
     public bool InConversation()
     {
 
         return inConversation;
     }
 
+    public bool PlayerCanMove()
+    {
 
+        return playerCanMove;
+    }
+    public void UnlockPlayerMovement(bool _canMove)
+    {
+        playerCanMove = _canMove;
+    }
 
 
 
@@ -55,6 +112,8 @@ public class GameManager : MonoBehaviour
         cam.GetComponent<CameraControls>().ConversationToggle(true);
         chatbox.SetActive(true);
         inConversation = true;
+        actionTimer = -1;
+        UnlockPlayerMovement(false);
     }
 
     public void EndConversation()
@@ -62,6 +121,8 @@ public class GameManager : MonoBehaviour
         cam.GetComponent<CameraControls>().ConversationToggle(false);
         chatbox.SetActive(false);
         inConversation = false;
+        actionTimer = 0;
+        UnlockPlayerMovement(true);
     }
 
     public void ShowDialogue(string _line)

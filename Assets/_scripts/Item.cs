@@ -7,11 +7,23 @@ public class Item : MonoBehaviour
     public string itemName;
     public bool usable, placable, holdable;
     public int stackSize = 1, maxStackSize = 1;
+    public GameObject subItem; //fishing bob
+    private Vector3 subItemStartPos;
 
 
-    void Start()
+    void OnEnable()
     {
-        
+        if (subItem != null)
+        { 
+            subItemStartPos = subItem.transform.localPosition;
+         }
+    }
+    void OnDisable()
+    {
+        if (subItem != null)
+        {
+            subItem.transform.localPosition = subItemStartPos;
+        }
     }
 
     void Update()
@@ -19,6 +31,9 @@ public class Item : MonoBehaviour
         
     }
 
-
+    public void ResetSubItemPos()
+    {
+        subItem.transform.localPosition = subItemStartPos;
+    }
 
 }
