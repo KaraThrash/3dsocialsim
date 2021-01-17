@@ -9,6 +9,10 @@ public class Player : MonoBehaviour
     public float acceleration, deceleration;
     public float turnAngle; //buffer for when the player will start moving before facing the exact direction of travel 
 
+    
+    public List<Item> inventory;
+    private int currentItem;
+
     private Rigidbody rb;
 
     void Start()
@@ -32,8 +36,14 @@ public class Player : MonoBehaviour
 
         if (InputControls.InteractButton() )
         { Interact(); }
+
         if (InputControls.ActionButton())
         { PerformAction(); }
+
+        if (InputControls.NextButton())
+        { NextItem(1); }
+        if (InputControls.PreviousButton())
+        { NextItem(-1); }
 
     }
 
@@ -71,9 +81,6 @@ public class Player : MonoBehaviour
                 rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * walkSpeed, Time.deltaTime * acceleration);
 
             }
-
-
-
 
 
         }
@@ -115,6 +122,30 @@ public class Player : MonoBehaviour
     }
 
 
+    public void ChangeHeldItem()
+    { 
+    
+    }
+
+    public void NextItem(int _forward=1) //or -1 for previous item
+    {
+        if (inventory == null) { return; }
+        inventory[currentItem].gameObject.SetActive(false);
+
+        if (_forward == 0)
+        {
+            currentItem = 0;
+            return;
+        }
+
+        currentItem += _forward;
+        if (currentItem < 0) { currentItem = inventory.Count - 1; }
+        if (currentItem >= inventory.Count) { currentItem = 0; }
+
+        inventory[currentItem].gameObject.SetActive(true);
+
+
+    }
 
 
 }

@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: brown_shader
+  m_Name: red_wShader
   m_Shader: {fileID: -6465566751694194690, guid: 940d79357fd7a4f01a49e7247aeaa4da,
     type: 3}
   m_ShaderKeywords: 
@@ -34,7 +34,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_72426835:
-        m_Texture: {fileID: 2800000, guid: a5028f4218d94de45ac7c5001891c705, type: 3}
+        m_Texture: {fileID: 2800000, guid: bc1b5e25b69b12f46abb69923cb9e5c3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -65,10 +65,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _cartoonsubgraph_C51301C4_Texture2D8EAC6BBF_3798722974:
-        m_Texture: {fileID: 2800000, guid: d388acef8c3d77043ac012754f2a3f6d, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _cartoonsubgraph_C51301C4_Texture2DBBB861EB_3363254825:
         m_Texture: {fileID: 2800000, guid: f3f466f9915de8447a164a274973b239, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -97,7 +93,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Vector2_6A93A1CF: {r: 1, g: 1, b: 0, a: 0}
-    - _BaseColor: {r: 0.5471698, g: 0.31478545, b: 0.10582057, a: 1}
+    - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
