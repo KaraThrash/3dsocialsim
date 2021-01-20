@@ -1,14 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
     public string itemName;
+    public Image icon;
     public bool usable, placable, holdable;
     public int stackSize = 1, maxStackSize = 1;
+    
     public GameObject subItem; //fishing bob
+    
     private Vector3 subItemStartPos;
+
 
 
     void OnEnable()

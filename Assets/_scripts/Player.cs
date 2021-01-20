@@ -8,9 +8,8 @@ public class Player : MonoBehaviour
     public float walkSpeed, rotSpeed;
     public float acceleration, deceleration;
     public float turnAngle; //buffer for when the player will start moving before facing the exact direction of travel 
-
-    
-    public List<Item> inventory;
+    public GameObject heldItem;
+    public Inventory inventory;
     private int currentItem;
 
     private Rigidbody rb;
@@ -117,18 +116,22 @@ public class Player : MonoBehaviour
 
     public void PerformAction()
     {
-        if (inventory[currentItem].itemName == "shovel")
+        if (inventory.PocketItemsCount() <= currentItem) { return; }
+
+        Item heldItem = inventory.GetFromPockets(currentItem);
+        if (heldItem != null && heldItem.itemName.Equals("shovel") )
         {
             gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f),"dig");
         }
-        else if (inventory[currentItem].itemName == "axe")
-        {
-            gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f),"chop");
-        }
-        else if (inventory[currentItem].itemName == "fishingrod")
-        {
-            gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "fish", inventory[currentItem].subItem);
-        }
+        //else if (inventory.GetFromPockets(currentItem).itemName.Equals("axe") )
+        //{
+        //    gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f),"chop");
+        //}
+        //else if (inventory.GetFromPockets(currentItem).itemName.Equals("fishingrod"))
+        //{
+        //    gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "fish", inventory.GetFromPockets(currentItem).subItem);
+        //}
+
         Debug.Log("PerformAction");
 
     }
@@ -142,7 +145,10 @@ public class Player : MonoBehaviour
     public void NextItem(int _forward=1) //or -1 for previous item
     {
         if (inventory == null) { return; }
-        inventory[currentItem].gameObject.SetActive(false);
+
+        
+
+      //  inventory[currentItem].gameObject.SetActive(false);
 
         if (_forward == 0)
         {
@@ -151,12 +157,20 @@ public class Player : MonoBehaviour
         }
 
         currentItem += _forward;
-        if (currentItem < 0) { currentItem = inventory.Count - 1; }
-        if (currentItem >= inventory.Count) { currentItem = 0; }
+        if (currentItem < 0) { currentItem = inventory.PocketItemsCount() - 1; }
+        if (currentItem >= inventory.PocketItemsCount()) { currentItem = 0; }
 
-
-        if (inventory[currentItem].usable == true)
-        { inventory[currentItem].gameObject.SetActive(true); }
+        Debug.Log("changing item: " );
+        Item tempItem = new Item();
+        tempItem = inventory.GetFromPockets(currentItem);
+        if (tempItem == null) { return; }
+        if (tempItem.usable == true)
+        {
+            Debug.Log("LoadingItem: " + (tempItem.itemName));
+            string itempath = "items/" + (tempItem.itemName);
+            heldItem = Resources.Load(itempath) as GameObject;
+            //inventory[currentItem].gameObject.SetActive(true);
+        }
         else { NextItem( _forward ); }
        
 
