@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//public enum PlayerState { }
+
 public class Player : MonoBehaviour
 {
     public GameManager gameManager;
@@ -116,21 +118,21 @@ public class Player : MonoBehaviour
 
     public void PerformAction()
     {
-        if (inventory.PocketItemsCount() <= currentItem) { return; }
+       // if (inventory.PocketItemsCount() <= currentItem) { return; }
 
-        Item heldItem = inventory.GetFromPockets(currentItem);
-        if (heldItem != null && heldItem.itemName.Equals("shovel") )
+       // Item heldItem = inventory.GetFromPockets(currentItem);
+        if (heldItem != null && heldItem.GetComponent<Item>().itemName.Equals("shovel") )
         {
             gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f),"dig");
         }
-        //else if (inventory.GetFromPockets(currentItem).itemName.Equals("axe") )
-        //{
-        //    gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f),"chop");
-        //}
-        //else if (inventory.GetFromPockets(currentItem).itemName.Equals("fishingrod"))
-        //{
-        //    gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "fish", inventory.GetFromPockets(currentItem).subItem);
-        //}
+        else if (heldItem != null && heldItem.GetComponent<Item>().itemName.Equals("axe"))
+        {
+            gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "chop");
+        }
+        else if (heldItem != null && heldItem.GetComponent<Item>().itemName.Equals("fishingRod"))
+        {
+            gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "fish", heldItem.GetComponent<Item>().subItem);
+        }
 
         Debug.Log("PerformAction");
 
@@ -164,12 +166,17 @@ public class Player : MonoBehaviour
         Item tempItem = new Item();
         tempItem = inventory.GetFromPockets(currentItem);
         if (tempItem == null) { return; }
+
         if (tempItem.usable == true)
         {
             Debug.Log("LoadingItem: " + (tempItem.itemName));
             string itempath = "items/" + (tempItem.itemName);
-            heldItem = Resources.Load(itempath) as GameObject;
-            //inventory[currentItem].gameObject.SetActive(true);
+            GameObject newheldItem = inventory.GetFromPockets(currentItem).gameObject;
+            newheldItem = Instantiate(newheldItem,heldItem.transform.position,heldItem.transform.rotation);
+            newheldItem.transform.parent = heldItem.transform.parent;
+            Destroy(heldItem);
+            heldItem = newheldItem;
+
         }
         else { NextItem( _forward ); }
        

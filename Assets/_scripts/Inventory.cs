@@ -68,12 +68,12 @@ public class Inventory : MonoBehaviour
     public void IntializeList()
     { 
         itemsInPockets = new List<Item>();
-        string itempath = "items/ax" ;
-        itemsInPockets.Add( Resources.Load(itempath) as Item);
-        itempath = "items/fishingrod";
-        itemsInPockets.Add(Resources.Load(itempath) as Item);
+        string itempath = "items/axe" ;
+        itemsInPockets.Add(( Resources.Load(itempath) as GameObject).GetComponent<Item>());
+        itempath = "items/fishingRod";
+        itemsInPockets.Add((Resources.Load(itempath) as GameObject).GetComponent<Item>());
         itempath = "items/shovel";
-        itemsInPockets.Add(Resources.Load(itempath) as Item);
+        itemsInPockets.Add((Resources.Load(itempath) as GameObject).GetComponent<Item>());
 
     }
 }

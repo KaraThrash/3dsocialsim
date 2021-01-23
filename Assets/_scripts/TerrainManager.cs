@@ -14,19 +14,8 @@ public class TerrainManager : MonoBehaviour
     void Start()
     {
         map = new Dictionary<Vector3, TerrainSquare>();
-        foreach (Transform el in mapParent)
-        {
-            if (el.GetComponent<TerrainSquare>() != null)
-            {
-                el.GetComponent<TerrainSquare>().TerrainManager(GetComponent<TerrainManager>());
-                map.Add(new Vector3(Mathf.FloorToInt(el.position.x), Mathf.CeilToInt(el.position.y), Mathf.FloorToInt(el.position.z)), el.GetComponent<TerrainSquare>());
-
-                float rnd = Random.Range(0,200);
-                if (rnd < 5 && trees.Count > 1) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[0],el.position,el.rotation)); }
-                else if (rnd < 10 && trees.Count > 2) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[1], el.position, el.rotation)); }
-                else if (rnd < 20 && trees.Count > 3) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[2], el.position, el.rotation)); }
-            }
-        }
+        //random roll to spawn trees to get a sense of the world layout/interations. Final version would have a saved state
+        RandomizeTrees();
     }
 
     void Update()
@@ -74,12 +63,13 @@ public class TerrainManager : MonoBehaviour
     {
 
         TerrainSquare terrainSquare = GetMapSquare(_square);
+        Debug.Log("fish 0");
         if (terrainSquare == null) { return false; }
-
-        if (terrainSquare.SquareStatus() == "water")
+        Debug.Log("fish 1");
+        if (terrainSquare.SquareStatus().Equals("water") )
         {
-
-           terrainSquare.Fish(_square, _bob);
+            Debug.Log("fish 2");
+            terrainSquare.Fish(_square, _bob);
             return true;
 
         }
@@ -115,6 +105,26 @@ public class TerrainManager : MonoBehaviour
 
 
 
+
+    public void RandomizeTrees()
+    {
+        foreach (Transform el in mapParent)
+        {
+            if (el.GetComponent<TerrainSquare>() != null )
+            {
+                el.GetComponent<TerrainSquare>().TerrainManager(GetComponent<TerrainManager>());
+                map.Add(new Vector3(Mathf.FloorToInt(el.position.x), Mathf.CeilToInt(el.position.y), Mathf.FloorToInt(el.position.z)), el.GetComponent<TerrainSquare>());
+                if (el.GetComponent<TerrainSquare>().SquareStatus().Equals("default"))
+                {
+                    float rnd = Random.Range(0, 200);
+                    if (rnd < 5 && trees.Count > 1) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[0], el.position, el.rotation)); }
+                    else if (rnd < 10 && trees.Count >= 2) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[1], el.position, el.rotation)); }
+                    else if (rnd < 20 && trees.Count >= 3) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[2], el.position, el.rotation)); }
+                    else if (rnd < 30 && trees.Count >= 3) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[3], el.position, el.rotation)); }
+                }
+            }
+        }
+    }
 
 
 

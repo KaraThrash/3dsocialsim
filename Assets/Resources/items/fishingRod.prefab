@@ -365,7 +365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e6319ef560e86645afa5b2415868462, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: fishingrod
+  itemName: fishingRod
   icon: {fileID: 0}
   usable: 1
   placable: 0

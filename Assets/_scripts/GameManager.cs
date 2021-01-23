@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
                 UnlockPlayerMovement(false);
             }
         }
-        else if (_interaction == "fish")
+        else if (_interaction.Equals("fish") )
         {
             if (terrainManager.Fish(_square, _contextItem))
             {
