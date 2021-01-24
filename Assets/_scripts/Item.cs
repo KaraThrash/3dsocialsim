@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Item : MonoBehaviour
 {
     public string itemName;
-    public Image icon;
+    public Sprite icon;
     public bool usable, placable, holdable;
     public int stackSize = 1, maxStackSize = 1;
     

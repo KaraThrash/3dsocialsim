@@ -116,11 +116,11 @@ public class TerrainManager : MonoBehaviour
                 map.Add(new Vector3(Mathf.FloorToInt(el.position.x), Mathf.CeilToInt(el.position.y), Mathf.FloorToInt(el.position.z)), el.GetComponent<TerrainSquare>());
                 if (el.GetComponent<TerrainSquare>().SquareStatus().Equals("default"))
                 {
-                    float rnd = Random.Range(0, 200);
+                    float rnd = Random.Range(0, 300);
                     if (rnd < 5 && trees.Count > 1) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[0], el.position, el.rotation)); }
-                    else if (rnd < 10 && trees.Count >= 2) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[1], el.position, el.rotation)); }
-                    else if (rnd < 20 && trees.Count >= 3) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[2], el.position, el.rotation)); }
-                    else if (rnd < 30 && trees.Count >= 3) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[3], el.position, el.rotation)); }
+                    else if ((rnd > 50 && rnd < 60) && trees.Count >= 2) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[1], el.position, el.rotation)); }
+                    else if ((rnd > 100 && rnd < 110) && trees.Count >= 3) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[2], el.position, el.rotation)); }
+                    else if ((rnd > 160 && rnd < 170) && trees.Count >= 3) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[3], el.position, el.rotation)); }
                 }
             }
         }

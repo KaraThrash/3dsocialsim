@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//public enum PlayerState { }
+public enum PlayerState { playerControlled,talking, choosing,fishing,acting}
 
 public class Player : MonoBehaviour
 {
     public GameManager gameManager;
+    public PlayerState state { get; set; }
+    public string playerStateString;
     public float walkSpeed, rotSpeed;
     public float acceleration, deceleration;
     public float turnAngle; //buffer for when the player will start moving before facing the exact direction of travel 
+    public Transform InHands;
     public GameObject heldItem;
     public Inventory inventory;
     private int currentItem;
@@ -24,17 +27,10 @@ public class Player : MonoBehaviour
   
     void Update()
     {
-        if (gameManager.InConversation())
-        {
-            LookAtAction(gameManager.GetActiveObject());
-            rb.velocity = Vector3.zero;
-        }
-        else 
-        {
-            if (gameManager.PlayerCanMove())
-            { Movement(); }
-        }
+        //for debug porpoises
+        playerStateString = state.ToString();
         
+        PlayerStates();
 
         if (InputControls.InteractButton() )
         { Interact(); }
@@ -48,6 +44,32 @@ public class Player : MonoBehaviour
         { NextItem(-1); }
 
     }
+
+
+    public void PlayerStates()
+    {
+        if (state == PlayerState.playerControlled)
+        {
+            Movement();
+        }
+        else if (state == PlayerState.talking)
+        {
+            LookAtAction(gameManager.GetActiveObject());
+            SetVelocities(Vector3.zero, Vector3.zero);
+            
+        }
+        else if (state == PlayerState.fishing)
+        {
+            LookAtAction(gameManager.GetActiveObject());
+            SetVelocities(Vector3.zero, Vector3.zero);
+        }
+
+    }
+
+
+
+
+
 
     //conversation target, item pickup, or directly at the camera
     public void LookAtAction(Transform _lookat)
@@ -118,9 +140,13 @@ public class Player : MonoBehaviour
 
     public void PerformAction()
     {
-       // if (inventory.PocketItemsCount() <= currentItem) { return; }
+        //TODO: more precise calculation of which square to interact in
+        // standing in the middle of a square should target the next square, standing on the edge facing inward should target that square
 
-       // Item heldItem = inventory.GetFromPockets(currentItem);
+
+        if (heldItem.GetComponent<Item>() == null) { return; }
+
+        // Item heldItem = inventory.GetFromPockets(currentItem);
         if (heldItem != null && heldItem.GetComponent<Item>().itemName.Equals("shovel") )
         {
             gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f),"dig");
@@ -159,30 +185,48 @@ public class Player : MonoBehaviour
         }
 
         currentItem += _forward;
-        if (currentItem < 0) { currentItem = inventory.PocketItemsCount() - 1; }
-        if (currentItem >= inventory.PocketItemsCount()) { currentItem = 0; }
+
+        //if at the end of the inventory in either direction dont loop over until the player toggles again
+        //this will prevent an infinite loop and allow the player to cycle through everything and back to empty hands
+        if (currentItem < 0) { currentItem = inventory.PocketItemsCount() ; Destroy(heldItem); return; }
+        if (currentItem >= inventory.PocketItemsCount()) { currentItem = -1; Destroy(heldItem); return; }
 
         Debug.Log("changing item: " );
         Item tempItem = new Item();
         tempItem = inventory.GetFromPockets(currentItem);
-        if (tempItem == null) { return; }
+        //if (tempItem == null) { return; }
 
-        if (tempItem.usable == true)
+        if (tempItem != null && tempItem.usable == true)
         {
+            //swap the current item for the new one
             Debug.Log("LoadingItem: " + (tempItem.itemName));
             string itempath = "items/" + (tempItem.itemName);
             GameObject newheldItem = inventory.GetFromPockets(currentItem).gameObject;
-            newheldItem = Instantiate(newheldItem,heldItem.transform.position,heldItem.transform.rotation);
-            newheldItem.transform.parent = heldItem.transform.parent;
-            Destroy(heldItem);
+            newheldItem = Instantiate(newheldItem, InHands.position, InHands.rotation);
+            newheldItem.transform.parent = InHands.transform;
+
+            //TODO: keep the loaded items/pocket items in a way that is more efficent
+            if (heldItem != null) { Destroy(heldItem); }
+            
             heldItem = newheldItem;
 
         }
-        else { NextItem( _forward ); }
+        else 
+        {
+           //only toggle through usable items
+           NextItem(_forward); 
+                
+        }
        
 
 
     }
 
+
+    public void SetVelocities(Vector3 vel, Vector3 angularVel)
+    {
+        rb.velocity = vel;
+        rb.angularVelocity = angularVel;
+    }
 
 }

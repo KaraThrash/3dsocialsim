@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
     private int pocketSize;
+    public Sprite emptyslot;
+    public Transform inventorySlots;
     private List<Item> itemsInPockets,itemsInStorage;
     // Start is called before the first frame update
 
@@ -65,15 +68,59 @@ public class Inventory : MonoBehaviour
         return itemsInPockets.Count;
     }
 
+
+
+    public void SetIconsInInventoryScreen()
+    {
+        int count = 0;
+        while (count < inventorySlots.childCount )
+        {
+            if (count < itemsInPockets.Count && inventorySlots.GetChild(count).GetComponent<Image>() != null)
+            {
+               
+
+                if (itemsInPockets[count].icon != null)
+                {
+                    inventorySlots.GetChild(count).GetComponent<Image>().sprite = itemsInPockets[count].icon;
+                    inventorySlots.GetChild(count).GetComponent<Image>().color = Color.black;
+
+                }
+                else 
+                {
+                    SetIconToEmpty(inventorySlots.GetChild(count).GetComponent<Image>());
+                }
+
+
+            }
+            else 
+            {
+
+                SetIconToEmpty(inventorySlots.GetChild(count).GetComponent<Image>());
+            }
+
+            count++;
+        }
+    
+    }
+
+    public void SetIconToEmpty(Image _img)
+    {
+        _img.sprite = emptyslot;
+        _img.color = Color.blue;
+    }
+
+
     public void IntializeList()
     { 
-        itemsInPockets = new List<Item>();
+        itemsInPockets = new List<Item>() ;
         string itempath = "items/axe" ;
         itemsInPockets.Add(( Resources.Load(itempath) as GameObject).GetComponent<Item>());
         itempath = "items/fishingRod";
         itemsInPockets.Add((Resources.Load(itempath) as GameObject).GetComponent<Item>());
         itempath = "items/shovel";
         itemsInPockets.Add((Resources.Load(itempath) as GameObject).GetComponent<Item>());
-
+        while (itemsInPockets.Count < pocketSize)
+        { itemsInPockets.Add(null); }
+        SetIconsInInventoryScreen();
     }
 }

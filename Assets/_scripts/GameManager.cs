@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
             if (actionTimer <= 0 && actionTimer != -1)
             { 
                 actionTimer = 0;
-                UnlockPlayerMovement(true);
+                player.state = PlayerState.playerControlled;
             }
         }
     }
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
             if (terrainManager.Dig(_square))
             {
                 actionTimer = 1;
-                UnlockPlayerMovement(false);
+                player.state = PlayerState.acting;
             }
            
 
@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
         chatbox.SetActive(true);
         inConversation = true;
         actionTimer = -1;
-        UnlockPlayerMovement(false);
+        player.state = PlayerState.talking;
     }
 
     public void EndConversation()
@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
         chatbox.SetActive(false);
         inConversation = false;
         actionTimer = 0;
-        UnlockPlayerMovement(true);
+        player.state = PlayerState.playerControlled;
     }
 
     public void ShowDialogue(string _line)
