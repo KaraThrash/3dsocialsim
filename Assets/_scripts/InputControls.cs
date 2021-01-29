@@ -6,12 +6,14 @@ public static class InputControls
 {
     public static bool gamePad;
     //controller buttons
-    public static string hortAxis = "Horizontal", vertAxis = "Vertical", interactButton = "B", actionButton = "A", nextButton = "RB", previousButton = "LB";
+    public static string hortAxis = "Horizontal", vertAxis = "Vertical", interactButton = "A", pickupButton = "Y", actionButton = "B", nextButton = "RB", previousButton = "LB";
+    public static string menuButton = "start";
     //controller axis as buttons
     public static string dPadVertButton = "DpadVert",dPadHortButton = "DpadHort";
     public static bool dPadVertPressed,dPadHortPressed;
 
-    public static KeyCode interactKey = KeyCode.Space, actionKey = KeyCode.LeftControl, nextKey = KeyCode.A, previousKey = KeyCode.A, dPadDownKey = KeyCode.DownArrow;
+    public static KeyCode interactKey = KeyCode.Space, pickupKey = KeyCode.LeftControl, actionKey = KeyCode.RightControl, nextKey = KeyCode.A, previousKey = KeyCode.A, dPadDownKey = KeyCode.DownArrow;
+    public static KeyCode menuKey = KeyCode.Return;
     // Start is called before the first frame update
      static void Start()
     {
@@ -30,11 +32,11 @@ public static class InputControls
 
         if (gamePad == false)
         {
-            KeyboardControls();
+           // KeyboardControls();
         }
         else
         {
-            GamepadControls();
+            //GamepadControls();
         }
     }
 
@@ -51,6 +53,25 @@ public static class InputControls
         { return true; }
         return false;
     }
+
+    public static bool MenuButton()
+    {
+        if (Input.GetButtonDown(menuButton) || Input.GetKeyDown(menuKey))
+        { return true; }
+        return false;
+    }
+
+    public static bool PickUpButton()
+    {
+        if (Input.GetButtonDown(pickupButton) || Input.GetKeyDown(pickupKey))
+        { return true; }
+        return false;
+    }
+
+
+
+
+
 
     public static bool NextButton()
     {

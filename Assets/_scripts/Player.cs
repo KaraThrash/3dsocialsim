@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlayerState { playerControlled,talking, choosing,fishing,acting}
+public enum PlayerState { playerControlled,inMenu,talking, choosing,fishing,acting,showing}
 
 public class Player : MonoBehaviour
 {
@@ -35,16 +35,26 @@ public class Player : MonoBehaviour
         if (InputControls.InteractButton() )
         { Interact(); }
 
-        if (InputControls.ActionButton())
-        { PerformAction(); }
+        if (InputControls.PickUpButton())
+        { 
+            PickUp(); 
+        }
 
         if (InputControls.NextButton())
         { NextItem(1); }
         if (InputControls.PreviousButton())
         { NextItem(-1); }
 
+
+        if (InputControls.MenuButton())
+        { gameManager.ToggleMenu("inventory"); }
+
     }
 
+    public void SetState(PlayerState _state)
+    {
+        state = _state;
+    }
 
     public void PlayerStates()
     {
@@ -116,29 +126,48 @@ public class Player : MonoBehaviour
 
     }
 
+    public void PickUp()
+    { }
 
-    //pick up items, talk to villagers, open doors, use enviromental object[mailbox, terminals, etc]
+
+    //Interact with characters and objects, Use tool or item, TODO:Move furniture(Press and hold A)
     public void Interact()
     {
 
         Debug.Log("Interact");
 
 
-        
+        //try to talk first, then try to use an item the player is in front of, otherwise if they have a tool in their hand, use it.
+
         RaycastHit hit;
-        if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f),0.2f, transform.TransformDirection(Vector3.forward), out hit, 1.0f))
+        if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f), 0.2f, transform.TransformDirection(Vector3.forward), out hit, 0.3f))
         {
             Debug.Log(hit.transform.name);
             if (hit.transform.GetComponent<Villager>() != null)
             {
                 gameManager.InteractWithVillager(hit.transform.GetComponent<Villager>());
-               
+
             }
+            else if (hit.transform.GetComponent<Item>() != null && heldItem != null && hit.transform.GetComponent<Item>().toolUsable.Equals(heldItem.GetComponent<Item>().itemName))
+            {
+                //dig hole with shovel, chop tree with axe
+                UseTool();
+            }
+            else if (hit.transform.GetComponent<Item>() != null && hit.transform.GetComponent<Item>().usable == true)
+            {
+                //iteract with item[mail box faucet etc]
+            }
+            else { UseTool(); }
+        }
+        else 
+        {
+            //if no one to talk to check hands for tools
+            UseTool();
         }
 
     }
 
-    public void PerformAction()
+    public void UseTool()
     {
         //TODO: more precise calculation of which square to interact in
         // standing in the middle of a square should target the next square, standing on the edge facing inward should target that square
@@ -157,13 +186,28 @@ public class Player : MonoBehaviour
         }
         else if (heldItem != null && heldItem.GetComponent<Item>().itemName.Equals("fishingRod"))
         {
-            gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "fish", heldItem.GetComponent<Item>().subItem);
+            gameManager.InteractWithGround(transform.position + (transform.forward * 1.6f), "fish", heldItem.GetComponent<Item>().subItem);
         }
-
+        else if (heldItem != null && heldItem.GetComponent<Item>().itemName.Equals("net"))
+        {
+            gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "net");
+        }
         Debug.Log("PerformAction");
 
     }
 
+
+    public void HoldToCamera(GameObject _obj)
+    {
+        _obj.transform.position = InHands.position;
+        _obj.transform.rotation = InHands.rotation;
+    }
+
+    public void HoldToCamera(Transform _obj)
+    {
+        _obj.position = InHands.position;
+        _obj.rotation = InHands.rotation;
+    }
 
     public void ChangeHeldItem()
     { 

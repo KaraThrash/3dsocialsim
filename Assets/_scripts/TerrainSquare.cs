@@ -9,10 +9,13 @@ public class TerrainSquare : MonoBehaviour
     public GameObject holePrefab,currentTerrain,currentObject;
     public Material dirt,grass,sidewalk,water;
     public Mesh cube,hole;
+    public bool walkable;
 
     void Start()
     {
-
+        if (terrainStatus.Equals("water"))
+        { walkable = false; GetComponent<BoxCollider>().size = new Vector3(1,2,1); }
+        else { walkable = true; }
     }
 
     void Update()
@@ -27,6 +30,9 @@ public class TerrainSquare : MonoBehaviour
           //  if (currentTerrain != null) { Destroy(currentTerrain); }
         }
     }
+
+    public bool Walkable()
+    { return walkable; }
 
     public void TerrainManager(TerrainManager _terrainManager)
     { terrainManager = _terrainManager; }
@@ -43,7 +49,7 @@ public class TerrainSquare : MonoBehaviour
 
     public void Fish(Vector3 _pos, GameObject _bob)
     {
-        _bob.transform.position = new Vector3(_pos.x,transform.position.y + 0.5f,_pos.z);
+        _bob.transform.position = new Vector3(_pos.x,transform.position.y + 0.5f,_pos.z) +( _bob.transform.parent.forward * 0.5f);
     
     }
 
@@ -88,6 +94,32 @@ public class TerrainSquare : MonoBehaviour
         currentTerrain = _hole;
         currentObject = _hole;
         terrainStatus = "hole";
+    }
+
+    public void PlaceBug(GameObject _bug)
+    {
+        _bug.transform.parent = this.transform;
+        _bug.transform.position = transform.position;
+        currentTerrain = _bug;
+        currentObject = _bug;
+        terrainStatus = "bug";
+
+    }
+
+
+    public bool HasBug()
+    { return terrainStatus == "bug" && currentObject != null; }
+
+    public GameObject CatchBug()
+    {
+        if (terrainStatus == "bug" && currentObject != null)
+        {
+            GameObject _obj = currentObject;
+            currentObject = null;
+            terrainStatus = "default";
+            return _obj;
+        }
+        return null;
     }
 
 

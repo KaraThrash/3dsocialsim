@@ -7,7 +7,9 @@ public class GameManager : MonoBehaviour
 {
     public Player player;
     public TerrainManager terrainManager;
-    public GameObject chatbox;
+    public UiManager uiManager;
+    public CameraControls cameraControls;
+    public GameObject chatbox,showCameraItem;
     public Text chatText,titleText;//for character names
 
     public Transform cam,activeObject, groundParent;
@@ -31,10 +33,31 @@ public class GameManager : MonoBehaviour
             if (actionTimer <= 0 && actionTimer != -1)
             { 
                 actionTimer = 0;
-                player.state = PlayerState.playerControlled;
+                PlayerStateTransition();
             }
         }
     }
+
+    public void PlayerStateTransition()
+    {
+        if (player.state == PlayerState.showing && activeObject != null)
+        {
+            cameraControls.ConversationToggle(false);
+            Destroy(activeObject.gameObject);
+        }
+        
+        player.state = PlayerState.playerControlled;
+    }
+
+
+    public void ToggleMenu(string _menu)
+    {
+        //if toggling the menu on set the state to inmenu, otherwise give control back to the player
+        if (UiManager().OpenMenu(_menu))
+        { player.SetState(PlayerState.inMenu); }
+        else { player.SetState(PlayerState.playerControlled); }
+    }
+
 
 
     public void InteractWithVillager(Villager _villager)
@@ -77,6 +100,19 @@ public class GameManager : MonoBehaviour
                 UnlockPlayerMovement(false);
             }
         }
+        else if (_interaction.Equals("net"))
+        {
+            GameObject _obj = terrainManager.Catch(_square);
+            if (_obj != null)
+            {
+                activeObject = _obj.transform;
+                actionTimer = 1;
+                cameraControls.ConversationToggle(true);
+                player.SetState(PlayerState.showing);
+                player.HoldToCamera(activeObject.GetChild(0));
+            }
+        }
+
     }
 
 
@@ -159,6 +195,14 @@ public class GameManager : MonoBehaviour
         if (activeObject == null) { return cam; }
         return activeObject; 
     }
+
+    public UiManager UiManager()
+    { return uiManager; }
+
+
+
+
+
 
     public void MakeGroundGrid()
     {

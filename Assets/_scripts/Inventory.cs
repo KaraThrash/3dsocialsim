@@ -119,6 +119,8 @@ public class Inventory : MonoBehaviour
         itemsInPockets.Add((Resources.Load(itempath) as GameObject).GetComponent<Item>());
         itempath = "items/shovel";
         itemsInPockets.Add((Resources.Load(itempath) as GameObject).GetComponent<Item>());
+        itempath = "items/net";
+        itemsInPockets.Add((Resources.Load(itempath) as GameObject).GetComponent<Item>());
         while (itemsInPockets.Count < pocketSize)
         { itemsInPockets.Add(null); }
         SetIconsInInventoryScreen();

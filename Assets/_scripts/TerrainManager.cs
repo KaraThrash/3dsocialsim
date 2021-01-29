@@ -7,7 +7,7 @@ public class TerrainManager : MonoBehaviour
     public GameManager gameManager;
     public Transform mapParent;
 
-    public GameObject holePrefab,stumpPrefab;
+    public GameObject holePrefab,stumpPrefab,butterfly;
     public List<GameObject> trees;
     public Dictionary<Vector3, TerrainSquare> map;
 
@@ -15,7 +15,8 @@ public class TerrainManager : MonoBehaviour
     {
         map = new Dictionary<Vector3, TerrainSquare>();
         //random roll to spawn trees to get a sense of the world layout/interations. Final version would have a saved state
-        RandomizeTrees();
+        // RandomizeTrees(mapParent);
+        ContructDictionary(mapParent);
     }
 
     void Update()
@@ -103,14 +104,48 @@ public class TerrainManager : MonoBehaviour
 
     }
 
-
-
-
-    public void RandomizeTrees()
+    public GameObject Catch(Vector3 _square)
     {
-        foreach (Transform el in mapParent)
+
+        TerrainSquare terrainSquare = GetMapSquare(_square);
+        if (terrainSquare == null) { return null; }
+
+        if (terrainSquare.HasBug())
         {
-            if (el.GetComponent<TerrainSquare>() != null )
+          
+            return terrainSquare.CatchBug();
+
+        }
+      
+
+        return null;
+    }
+
+
+    public void ContructDictionary(Transform _mapParent)
+    {
+        foreach (Transform el in _mapParent)
+        {
+            Transform el2 = el;
+            if (el.GetComponent<TerrainSquare>() != null)
+            {
+                el.GetComponent<TerrainSquare>().TerrainManager(GetComponent<TerrainManager>());
+                map.Add(new Vector3(Mathf.FloorToInt(el.position.x), Mathf.CeilToInt(el.position.y), Mathf.FloorToInt(el.position.z)), el.GetComponent<TerrainSquare>());
+
+      
+            }
+            else
+            {
+                if (el.childCount > 0) { ContructDictionary(el); }
+            }
+        }
+    }
+
+    public void RandomizeTrees(Transform _mapParent)
+    {
+        foreach (Transform el in _mapParent)
+        {
+            if (el.GetComponent<TerrainSquare>() != null)
             {
                 el.GetComponent<TerrainSquare>().TerrainManager(GetComponent<TerrainManager>());
                 map.Add(new Vector3(Mathf.FloorToInt(el.position.x), Mathf.CeilToInt(el.position.y), Mathf.FloorToInt(el.position.z)), el.GetComponent<TerrainSquare>());
@@ -121,7 +156,16 @@ public class TerrainManager : MonoBehaviour
                     else if ((rnd > 50 && rnd < 60) && trees.Count >= 2) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[1], el.position, el.rotation)); }
                     else if ((rnd > 100 && rnd < 110) && trees.Count >= 3) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[2], el.position, el.rotation)); }
                     else if ((rnd > 160 && rnd < 170) && trees.Count >= 3) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[3], el.position, el.rotation)); }
+                    else if ((rnd > 210 && rnd < 220))
+                    {
+
+                        el.GetComponent<TerrainSquare>().PlaceBug(Instantiate(butterfly, el.position, el.rotation));
+                    }
                 }
+            }
+            else 
+            {
+                if (el.childCount > 0) { RandomizeTrees(el); }
             }
         }
     }
