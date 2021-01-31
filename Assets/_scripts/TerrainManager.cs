@@ -26,7 +26,7 @@ public class TerrainManager : MonoBehaviour
 
     public TerrainSquare GetMapSquare(Vector3 _square)
     {
-        Vector3 squarePos = new Vector3(Mathf.RoundToInt(_square.x), Mathf.FloorToInt(_square.y), Mathf.RoundToInt(_square.z));
+        Vector3 squarePos = new Vector3(Mathf.RoundToInt(_square.x), 0, Mathf.RoundToInt(_square.z));
         if (map.ContainsKey(squarePos) == false) { return null; }
         return map[squarePos];
     }

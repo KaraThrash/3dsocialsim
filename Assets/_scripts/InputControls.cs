@@ -10,7 +10,7 @@ public static class InputControls
     public static string menuButton = "start";
     //controller axis as buttons
     public static string dPadVertButton = "DpadVert",dPadHortButton = "DpadHort";
-    public static bool dPadVertPressed,dPadHortPressed;
+    public static bool dPadVertPressed,dPadHortPressed,vertPressed,hortPressed;
 
     public static KeyCode interactKey = KeyCode.Space, pickupKey = KeyCode.LeftControl, actionKey = KeyCode.RightControl, nextKey = KeyCode.A, previousKey = KeyCode.A, dPadDownKey = KeyCode.DownArrow;
     public static KeyCode menuKey = KeyCode.Return;
@@ -23,11 +23,8 @@ public static class InputControls
     // Update is called once per frame
      static void Update()
     {
-        if (dPadVertPressed == true && Input.GetAxis(dPadVertButton) == 0)
-        { dPadVertPressed = false; }
 
-        if (dPadHortPressed == true && Input.GetAxis(dPadHortButton) == 0)
-        { dPadHortPressed = false; }
+        TrackAxisButtons();
 
 
         if (gamePad == false)
@@ -38,6 +35,22 @@ public static class InputControls
         {
             //GamepadControls();
         }
+    }
+
+    public static void TrackAxisButtons()
+    {
+        //for using the axises as a button, can only press again once they reset to 0
+        if (dPadVertPressed == true && Input.GetAxis(dPadVertButton) == 0)
+        { dPadVertPressed = false; }
+
+        if (dPadHortPressed == true && Input.GetAxis(dPadHortButton) == 0)
+        { dPadHortPressed = false; }
+
+        if (hortPressed == true && Input.GetAxis(hortAxis) == 0)
+        { hortPressed = false; }
+
+        if (vertPressed == true && Input.GetAxis(vertAxis) == 0)
+        { vertPressed = false; }
     }
 
     public static bool InteractButton()

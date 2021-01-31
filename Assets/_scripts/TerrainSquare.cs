@@ -7,6 +7,7 @@ public class TerrainSquare : MonoBehaviour
     public TerrainManager terrainManager;
     public string terrainType, terrainStatus;
     public GameObject holePrefab,currentTerrain,currentObject;
+    public Item item;
     public Material dirt,grass,sidewalk,water;
     public Mesh cube,hole;
     public bool walkable;
@@ -30,6 +31,12 @@ public class TerrainSquare : MonoBehaviour
           //  if (currentTerrain != null) { Destroy(currentTerrain); }
         }
     }
+
+    public Item GetItem()
+    { return item; }
+
+    public void  SetItem(Item _item)
+    {  item = _item; }
 
     public bool Walkable()
     { return walkable; }

@@ -199,7 +199,8 @@ public class GameManager : MonoBehaviour
     public UiManager UiManager()
     { return uiManager; }
 
-
+    public TerrainManager TerrainManager()
+    { return terrainManager; }
 
 
 

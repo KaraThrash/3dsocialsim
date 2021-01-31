@@ -66,13 +66,19 @@ public class Player : MonoBehaviour
         {
             LookAtAction(gameManager.GetActiveObject());
             SetVelocities(Vector3.zero, Vector3.zero);
-            
+
         }
         else if (state == PlayerState.fishing)
         {
             LookAtAction(gameManager.GetActiveObject());
             SetVelocities(Vector3.zero, Vector3.zero);
         }
+        else if (state == PlayerState.inMenu)
+        {
+
+            SetVelocities(Vector3.zero, Vector3.zero);
+        }
+        else { SetVelocities(Vector3.zero, Vector3.zero); }
 
     }
 
@@ -126,8 +132,52 @@ public class Player : MonoBehaviour
 
     }
 
-    public void PickUp()
-    { }
+    public void PickUp( )
+    {
+        Vector3 squarePos = new Vector3(Mathf.RoundToInt((transform.position + (transform.forward * 0.3f)).x), Mathf.FloorToInt((transform.position + (transform.forward * 0.3f)).y), Mathf.RoundToInt((transform.position + (transform.forward * 0.3f)).z));
+
+        if (gameManager.TerrainManager().GetMapSquare(transform.position + (transform.forward * 0.3f)) == null) {
+            Debug.Log("No square saved at : " + squarePos); 
+            return; 
+        }
+        //check if there is an item
+        //check that it can be picked up
+        TerrainSquare _square = gameManager.TerrainManager().GetMapSquare(transform.position + (transform.forward * 0.3f));
+        Item _item = _square.GetItem();
+        if (_item != null)
+        {
+            //check that it can stack and if the player has a not full stack of it
+            if (inventory.TryToAddItemToPockets(_item))
+            {
+                inventory.PutItemInPocket(_item);
+                _square.SetItem(null);
+                _item.gameObject.SetActive(false);
+            }
+            else
+            {
+                //the item didnt fit in the player's pockets
+                if (_item.stackSize > 0)
+                {
+                    //TODO: no room messaging
+                }
+            }
+
+
+            //check that the player has room
+            //if room, pick up
+
+            if (_item.stackSize == 0)
+            {
+                _square.SetItem(null);
+                _item.gameObject.SetActive(false);
+            }
+
+        }
+        else { Debug.Log("No item saved at : " + squarePos); }
+
+
+
+    }
 
 
     //Interact with characters and objects, Use tool or item, TODO:Move furniture(Press and hold A)
@@ -235,7 +285,7 @@ public class Player : MonoBehaviour
         if (currentItem < 0) { currentItem = inventory.PocketItemsCount() ; Destroy(heldItem); return; }
         if (currentItem >= inventory.PocketItemsCount()) { currentItem = -1; Destroy(heldItem); return; }
 
-        Debug.Log("changing item: " );
+       // Debug.Log("changing item: " );
         Item tempItem = new Item();
         tempItem = inventory.GetFromPockets(currentItem);
         //if (tempItem == null) { return; }
@@ -243,7 +293,7 @@ public class Player : MonoBehaviour
         if (tempItem != null && tempItem.usable == true)
         {
             //swap the current item for the new one
-            Debug.Log("LoadingItem: " + (tempItem.itemName));
+          //  Debug.Log("LoadingItem: " + (tempItem.itemName));
             string itempath = "items/" + (tempItem.itemName);
             GameObject newheldItem = inventory.GetFromPockets(currentItem).gameObject;
             newheldItem = Instantiate(newheldItem, InHands.position, InHands.rotation);

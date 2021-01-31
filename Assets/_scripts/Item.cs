@@ -8,7 +8,7 @@ public class Item : MonoBehaviour
     public string itemName,toolUsable; //what tool can be used on this item if any [axe on trees, shovel on holes]
     public Sprite icon;
     public bool usable, placable, holdable;
-    public int stackSize = 1, maxStackSize = 1;
+    public int stackSize = 1, maxStackSize = 1,footprintWidth=-1,footprintDepth=-1;
     
     public GameObject subItem; //fishing bob type items
     

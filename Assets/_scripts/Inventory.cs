@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    private int pocketSize;
+    public int pocketSize;
     public Sprite emptyslot;
     public Transform inventorySlots;
     private List<Item> itemsInPockets,itemsInStorage;
@@ -62,10 +62,98 @@ public class Inventory : MonoBehaviour
         return null;
     }
 
+    public void SetItemInList(List<Item> listToAddTo,Item _item, int _spot)
+    {
+        if (listToAddTo.Count > _spot)
+        {
+            listToAddTo[_spot] = _item;
+        }
+    }
+
+
+
+    public bool TryToAddItemToPockets(Item _item)
+    {
+        //checks that there is space in the pockets, or unfinished stacks.
+        //tops off unfinished stacks, if there is leftover the remaining items 'dont fit'
+
+        //return true if a new item slot needs to be taken for the item
+        //return false if it doesnt fit or if all of it fits into unfinished stacks
+
+        //if the item does not stack there needs to be an empty inventory spot for it
+        //if the item is at max stacks dont check if there is an incomplete stack
+        if (_item.maxStackSize == _item.stackSize)
+        {
+            if (PocketItemsCount() < pocketSize)
+            {
+                return true; 
+            }
+        }
+        else 
+        {
+            foreach (Item el in itemsInPockets)
+            {
+                if (el != null && el.name.Equals(_item.name) && _item.maxStackSize == _item.stackSize)
+                {
+                    while (el.maxStackSize > el.stackSize )
+                    {
+                        el.stackSize++;
+                        _item.stackSize--;
+                        if (_item.stackSize == 0) { SetIconsInInventoryScreen(); return false; }
+                    }
+                }
+            }
+
+            //if unstacked items are still leftover and there is room in the pockets
+            if (_item.stackSize > 0 && PocketItemsCount() < pocketSize)
+            { return true; }
+        }
+
+
+
+
+
+        return false;
+    }
+
+    public void PutItemInPocket(Item _item)
+    {
+        //replace a null space with an item
+        int count = 0;
+        while (count < pocketSize)
+        {
+            if (itemsInPockets[count] == null)
+            {
+                //found an empty inventory slot, add the item and return
+                //itemsInPockets[count] = _item;
+                SetItemInList(itemsInPockets, _item, count);
+                SetIconsInInventoryScreen();
+                return;
+            }
+            count++;
+          
+        }
+    }
+
+
+
+
+
+
+
     public int PocketItemsCount()
     {
         if (itemsInPockets == null) { IntializeList(); }
-        return itemsInPockets.Count;
+        int count = 0;
+        foreach (Item el in itemsInPockets)
+        {
+            if (el != null )
+            {
+                count++;
+            }
+        }
+        Debug.Log("Pocket Item Count: " + count + " Counted but list.count: " + itemsInPockets.Count);
+        return count;
     }
 
 
@@ -79,7 +167,7 @@ public class Inventory : MonoBehaviour
             {
                
 
-                if (itemsInPockets[count].icon != null)
+                if (itemsInPockets[count] != null && itemsInPockets[count].icon != null)
                 {
                     inventorySlots.GetChild(count).GetComponent<Image>().sprite = itemsInPockets[count].icon;
                     inventorySlots.GetChild(count).GetComponent<Image>().color = Color.black;
