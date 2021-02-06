@@ -46,14 +46,15 @@ public class TerrainManager : MonoBehaviour
     }
 
 
-    public void EnterBuilding(GameObject _insideObj)
+    public void EnterBuilding(GameObject _interiorObj, GameObject _connectedArea)
     {
         interiorMap = new Dictionary<Vector3, TerrainSquare>();
         //hide the outside, show the inside
-       // mapParent.gameObject.SetActive(false);
-        _insideObj.SetActive(true);
+        // mapParent.gameObject.SetActive(false);
+        _interiorObj.SetActive(true);
+        _connectedArea.SetActive(true);
 
-        interiorMapParent = _insideObj.transform;
+        interiorMapParent = _interiorObj.transform;
 
         //make a dictionary for this area to interact with the ground. Interior areas are small so we can do this on enter instead of saving it
         MakeMapOfArea(interiorMapParent);
@@ -66,6 +67,13 @@ public class TerrainManager : MonoBehaviour
     public void LeaveBuilding()
     {
       
+    }
+
+    public void RoomChange(GameObject _connectedArea)
+    {
+        //the interior map contains all rooms, transition through them for camera manipulation
+
+
     }
 
 

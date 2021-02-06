@@ -125,13 +125,13 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void EnterBuilding(GameObject _insideObj)
+    public void EnterBuilding(GameObject _interiorObj, GameObject _connectedArea)
     {
         actionTimer = 1;
         player.state = PlayerState.acting;
 
-        TerrainManager().EnterBuilding(_insideObj);
-        player.transform.position = new Vector3(player.transform.position.x, -20, player.transform.position.z);
+        TerrainManager().EnterBuilding(_interiorObj,_connectedArea);
+        player.transform.position = new Vector3(_connectedArea.transform.position.x, -20, _connectedArea.transform.position.z);
 
         cameraControls.SetCameraTrackingOffset("inside");
         cameraControls.SetLocation(player.transform.position);
@@ -150,7 +150,18 @@ public class GameManager : MonoBehaviour
         cameraControls.SetLocation(player.transform.position);
     }
 
+    public void EnterRoom(GameObject _connectedArea)
+    {
+        actionTimer = 0.1f;
+        player.state = PlayerState.acting;
 
+        TerrainManager().RoomChange(_connectedArea);
+        player.transform.position = new Vector3(_connectedArea.transform.position.x, player.transform.position.y, _connectedArea.transform.position.z);
+
+        cameraControls.SetCameraTrackingOffset("inside");
+        cameraControls.SetLocation(player.transform.position);
+
+    }
 
 
     public void UnlockPlayerMovement(bool _canMove)
