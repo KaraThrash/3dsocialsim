@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
   
     void Update()
     {
+
         //for debug porpoises
         playerStateString = state.ToString();
         
@@ -60,13 +61,11 @@ public class Player : MonoBehaviour
     {
         if (state == PlayerState.playerControlled)
         {
-            Movement();
+            PlayerControlled();
         }
         else if (state == PlayerState.talking)
         {
-            LookAtAction(gameManager.GetActiveObject());
-            SetVelocities(Vector3.zero, Vector3.zero);
-
+            Talking();
         }
         else if (state == PlayerState.fishing)
         {
@@ -77,13 +76,35 @@ public class Player : MonoBehaviour
         {
 
             SetVelocities(Vector3.zero, Vector3.zero);
+            InMenuControls();
+
         }
         else { SetVelocities(Vector3.zero, Vector3.zero); }
 
     }
 
+    public void PlayerControlled()
+    {
+        Movement();
+
+  
+    }
+
+    public void Talking()
+    {
+        LookAtAction(gameManager.GetActiveObject());
+        SetVelocities(Vector3.zero, Vector3.zero);
+    }
 
 
+    public void InMenuControls()
+    {
+        if (InputControls.HortAsButton()) { gameManager.UiManager().MoveCursor((int)Mathf.Sign(InputControls.HorizontalAxis())); }
+        else if (InputControls.VertAsButton()) { gameManager.UiManager().MoveCursor(-10 * (int)Mathf.Sign(InputControls.VerticalAxis())); }
+        else if (InputControls.DpadVertAsButton()) { gameManager.UiManager().MoveCursor(-10 * (int)Mathf.Sign(InputControls.DpadVert())); }
+        else if (InputControls.DpadHortAsButton()) { gameManager.UiManager().MoveCursor( (int)Mathf.Sign(InputControls.DpadHort())); }
+        else { InputControls.TrackAxisButtons(); }
+    }
 
 
 
@@ -205,7 +226,10 @@ public class Player : MonoBehaviour
             }
             else if (hit.transform.GetComponent<Item>() != null && hit.transform.GetComponent<Item>().usable == true)
             {
-                //iteract with item[mail box faucet etc]
+                //iteract with item[door mail box faucet etc]
+
+                //
+                hit.transform.GetComponent<Item>().Interact(gameManager);
             }
             else { UseTool(); }
         }
@@ -223,7 +247,7 @@ public class Player : MonoBehaviour
         // standing in the middle of a square should target the next square, standing on the edge facing inward should target that square
 
 
-        if (heldItem.GetComponent<Item>() == null) { return; }
+        if (heldItem == null || heldItem.GetComponent<Item>() == null) { return; }
 
         // Item heldItem = inventory.GetFromPockets(currentItem);
         if (heldItem != null && heldItem.GetComponent<Item>().itemName.Equals("shovel") )

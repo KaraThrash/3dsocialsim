@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
-    public GameObject chatBox, inventory, pauseMenu;
-    public Transform inventorySlots,inventoryCursor,inventorySelectionHighlight;
+    public GameObject chatBox, pauseMenu;
+    public Menus activeMenu,inventory;
+    public Transform inventorySlots;
     public Image emptySlotIcon;
     public Sprite emptyslot;
     // Start is called before the first frame update
@@ -21,12 +22,28 @@ public class UiManager : MonoBehaviour
         
     }
 
+    public void MoveCursor(int _dir)
+    {
+        activeMenu.MoveCursor(_dir);
+
+    }
+
+
     public void OpenMenu(string _menu,bool _open)
     {
         if (_menu.Equals("inventory")) 
         {
-            inventory.SetActive(_open);
-           
+            //NOTE: swapping inventory items should be a part of the menu, but can wait as a QoL element
+
+            //disable any other open menu and enable the inventory
+            activeMenu.gameObject.SetActive(false);
+            inventory.gameObject.SetActive(_open);
+            //reset the inventory to neutral
+            inventory.Init();
+            activeMenu = inventory;
+
+
+
         }
         else if (_menu.Equals("pause")) 
         {
@@ -40,8 +57,29 @@ public class UiManager : MonoBehaviour
     {
         if (_menu.Equals("inventory"))
         {
-            inventory.SetActive(!inventory.activeSelf);
-            return inventory.activeSelf;
+            if (activeMenu != null)
+            {
+                if (activeMenu == inventory)
+                {
+                    activeMenu.gameObject.SetActive(false);
+                    activeMenu = null;
+                    return false;
+                }
+                else 
+                {
+                    //disable the previous menu
+                 activeMenu.gameObject.SetActive(false);
+
+                }
+            }
+
+            inventory.gameObject.SetActive(true);
+            //reset the inventory to neutral
+            inventory.Init();
+            activeMenu = inventory;
+            return true;
+            
+
         }
         else if (_menu.Equals("pause"))
         {
@@ -92,9 +130,6 @@ public class UiManager : MonoBehaviour
         _img.sprite = emptyslot;
         _img.color = Color.blue;
     }
-
-
-
 
 
 

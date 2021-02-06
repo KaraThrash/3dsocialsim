@@ -42,4 +42,6 @@ public class Item : MonoBehaviour
         subItem.transform.localPosition = subItemStartPos;
     }
 
+    public virtual void Interact(GameManager gameManager) { }
+
 }

@@ -5,11 +5,13 @@ using UnityEngine;
 public class TerrainManager : MonoBehaviour
 {
     public GameManager gameManager;
-    public Transform mapParent;
+    public Transform mapParent,interiorMapParent;
+    public bool inside;
+
 
     public GameObject holePrefab,stumpPrefab,butterfly;
     public List<GameObject> trees;
-    public Dictionary<Vector3, TerrainSquare> map;
+    public Dictionary<Vector3, TerrainSquare> map,interiorMap;
 
     void Start()
     {
@@ -27,8 +29,65 @@ public class TerrainManager : MonoBehaviour
     public TerrainSquare GetMapSquare(Vector3 _square)
     {
         Vector3 squarePos = new Vector3(Mathf.RoundToInt(_square.x), 0, Mathf.RoundToInt(_square.z));
-        if (map.ContainsKey(squarePos) == false) { return null; }
-        return map[squarePos];
+        if (inside)
+        {
+           //interior map should be set when entering the building
+            if (interiorMap == null || interiorMap.ContainsKey(squarePos) == false) { return null; }
+            return interiorMap[squarePos];
+            
+        }
+        else 
+        {
+            if (map == null || map.ContainsKey(squarePos) == false) { return null; }
+            return map[squarePos];
+        }
+
+  
+    }
+
+
+    public void EnterBuilding(GameObject _insideObj)
+    {
+        interiorMap = new Dictionary<Vector3, TerrainSquare>();
+        //hide the outside, show the inside
+       // mapParent.gameObject.SetActive(false);
+        _insideObj.SetActive(true);
+
+        interiorMapParent = _insideObj.transform;
+
+        //make a dictionary for this area to interact with the ground. Interior areas are small so we can do this on enter instead of saving it
+        MakeMapOfArea(interiorMapParent);
+
+       
+
+    }
+
+
+    public void LeaveBuilding()
+    {
+      
+    }
+
+
+    public void MakeMapOfArea(Transform _insideObj)
+    {
+        
+
+        foreach (Transform el in _insideObj)
+        {
+            if (el.GetComponent<TerrainSquare>() != null)
+            {
+                el.GetComponent<TerrainSquare>().TerrainManager(GetComponent<TerrainManager>());
+                interiorMap.Add(new Vector3(Mathf.FloorToInt(el.position.x), Mathf.CeilToInt(el.position.y), Mathf.FloorToInt(el.position.z)), el.GetComponent<TerrainSquare>());
+               
+            }
+            else
+            {
+                if (el.childCount > 0) { MakeMapOfArea(el); }
+            }
+        }
+
+
     }
 
 

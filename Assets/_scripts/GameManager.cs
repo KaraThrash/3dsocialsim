@@ -43,7 +43,13 @@ public class GameManager : MonoBehaviour
         if (player.state == PlayerState.showing && activeObject != null)
         {
             cameraControls.ConversationToggle(false);
-            Destroy(activeObject.gameObject);
+            //if the player is showing the item to camera it means there is room for it
+            if (player.inventory.TryToAddItemToPockets(activeObject.GetComponent<Item>()))
+            {
+                player.inventory.PutItemInPocket(activeObject.GetComponent<Item>());
+                activeObject.gameObject.SetActive(false);
+            }
+
         }
         
         player.state = PlayerState.playerControlled;
@@ -71,7 +77,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-
     public void InteractWithGround(Vector3 _square, string _interaction,GameObject _contextItem=null)
     {
         if (_interaction == "dig")
@@ -81,7 +86,6 @@ public class GameManager : MonoBehaviour
                 actionTimer = 1;
                 player.state = PlayerState.acting;
             }
-           
 
         }
        else if (_interaction == "chop")
@@ -106,35 +110,49 @@ public class GameManager : MonoBehaviour
             if (_obj != null)
             {
                 activeObject = _obj.transform;
+
                 actionTimer = 1;
+
                 cameraControls.ConversationToggle(true);
+
                 player.SetState(PlayerState.showing);
                 player.HoldToCamera(activeObject.GetChild(0));
+
+               
+
             }
         }
 
     }
 
-
-
-
-
-
-
-
-
-
-    public bool InConversation()
+    public void EnterBuilding(GameObject _insideObj)
     {
+        actionTimer = 1;
+        player.state = PlayerState.acting;
 
-        return inConversation;
+        TerrainManager().EnterBuilding(_insideObj);
+        player.transform.position = new Vector3(player.transform.position.x, -20, player.transform.position.z);
+
+        cameraControls.SetCameraTrackingOffset("inside");
+        cameraControls.SetLocation(player.transform.position);
+
     }
 
-    public bool PlayerCanMove()
+    public void LeaveBuilding()
     {
+        actionTimer = 1;
+        player.state = PlayerState.acting;
 
-        return playerCanMove;
+        TerrainManager().LeaveBuilding();
+        player.transform.position = new Vector3(player.transform.position.x, 0, player.transform.position.z);
+
+        cameraControls.SetCameraTrackingOffset("high");
+        cameraControls.SetLocation(player.transform.position);
     }
+
+
+
+
     public void UnlockPlayerMovement(bool _canMove)
     {
         playerCanMove = _canMove;

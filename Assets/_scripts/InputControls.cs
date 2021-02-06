@@ -14,6 +14,8 @@ public static class InputControls
 
     public static KeyCode interactKey = KeyCode.Space, pickupKey = KeyCode.LeftControl, actionKey = KeyCode.RightControl, nextKey = KeyCode.A, previousKey = KeyCode.A, dPadDownKey = KeyCode.DownArrow;
     public static KeyCode menuKey = KeyCode.Return;
+
+    private static float deadtime = 0.2f, deadClock; //holding an axis while using as a button
     // Start is called before the first frame update
      static void Start()
     {
@@ -51,6 +53,18 @@ public static class InputControls
 
         if (vertPressed == true && Input.GetAxis(vertAxis) == 0)
         { vertPressed = false; }
+
+        if (deadClock > 0)
+        {
+            deadClock -= Time.deltaTime;
+            if (deadClock <= 0)
+            {
+                dPadVertPressed = false;
+                dPadHortPressed = false;
+                hortPressed = false;
+                vertPressed = false;
+            }
+        }
     }
 
     public static bool InteractButton()
@@ -88,46 +102,82 @@ public static class InputControls
 
     public static bool NextButton()
     {
-        if (Input.GetButtonDown(nextButton) || Input.GetKeyDown(nextKey) || (dPadHortPressed == false && Input.GetAxis(dPadHortButton) == 1))
-        { dPadHortPressed = true; return true; }
-        if (Input.GetAxis(dPadHortButton) == 0)
-        { dPadHortPressed = false; }
+        if (Input.GetButtonDown(nextButton) || Input.GetKeyDown(nextKey) )
+        {  return true; }
         return false;
     }
 
     public static bool PreviousButton()
     {
-        if (Input.GetButtonDown(previousButton) || Input.GetKeyDown(previousKey) || (dPadHortPressed == false && Input.GetAxis(dPadHortButton) == -1))
-        { dPadHortPressed = true;  return true; }
+        if (Input.GetButtonDown(previousButton) || Input.GetKeyDown(previousKey) )
+        {  return true; }
         return false;
     }
 
-    public static bool DpadVert()
+    public static bool DpadHortAsButton()
     {
-        if (dPadVertPressed == false && Input.GetAxis(dPadVertButton) != 0)
+        if (dPadHortPressed == false && (Input.GetAxis(dPadHortButton) != 0))
         {
-            dPadVertPressed = true;
-            return true; 
+            dPadHortPressed = true;
+            return true;
         }
         return false;
     }
 
-    public static bool DpadHort()
+    public static bool DpadVertAsButton()
     {
-        if (dPadHortPressed == false && (Input.GetAxis(dPadHortButton) != 0))
+        if (dPadVertPressed == false && Input.GetAxis(dPadVertButton) != 0)
         {
-           // dPadHortPressed = true;
+            deadClock = deadtime;
+            dPadVertPressed = true;
             return true;
         }
         return false;
     }
 
 
+
+    public static bool VertAsButton()
+    {
+        if (vertPressed == false && Input.GetAxis(vertAxis) != 0)
+        {
+            deadClock = deadtime;
+            vertPressed = true;
+            return true;
+        }
+        return false;
+    }
+
+    public static bool HortAsButton()
+    {
+        if (hortPressed == false && (Input.GetAxis(hortAxis) != 0))
+        {
+            deadClock = deadtime;
+            hortPressed = true;
+            return true;
+        }
+        return false;
+    }
+
     public static float HorizontalAxis()
     { return Input.GetAxis(hortAxis); }
 
     public static float VerticalAxis()
     { return Input.GetAxis(vertAxis); }
+
+    public static float DpadHort()
+    {
+
+        return Input.GetAxis(dPadHortButton);
+    }
+
+    public static float DpadVert()
+    {
+
+        return Input.GetAxis(dPadVertButton);
+    }
+
+
 
     public static void KeyboardControls()
     {

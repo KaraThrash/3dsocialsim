@@ -5,9 +5,9 @@ using UnityEngine;
 public class CameraControls : MonoBehaviour
 {
     public Transform player;
-    public float followSpeed, maxPlayerDistance, cameraAngle,lowAngle = 45.0f, highAngle = 75.0f, conversationAngle = 25.0f;
+    public float followSpeed, maxPlayerDistance, cameraAngle,lowAngle = 45.0f, highAngle = 75.0f, conversationAngle = 25.0f,insideAngle=50.0f;
     public float camAdjustSpeed = 5;
-    public Vector3 camOffset,highCamOffset,lowCamOffSet,conversationOffset;
+    public Vector3 camOffset,highCamOffset,lowCamOffSet,conversationOffset,insideOffset;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,10 +41,48 @@ public class CameraControls : MonoBehaviour
         }
     }
 
+    public void SetCameraTrackingOffset(string _offsetType)
+    {
+        if (_offsetType.Equals("conversation"))
+        { 
+            cameraAngle = conversationAngle;
+            camOffset = conversationOffset;
+        }
+        else if (_offsetType.Equals("inside"))
+        {
+            cameraAngle = insideAngle;
+            camOffset = insideOffset;
+        }
+        else if (_offsetType.Equals("showoff"))
+        {
+            cameraAngle = conversationAngle;
+            camOffset = conversationOffset;
+        }
+        else if (_offsetType.Equals("high"))
+        {
+            cameraAngle = highAngle;
+            camOffset = highCamOffset;
+        }
+        else if (_offsetType.Equals("low"))
+        {
+            cameraAngle = lowAngle;
+            camOffset = lowCamOffSet;
+        }
+
+    }
+
+
+
     public void ConversationToggle(bool _on)
     {
         cameraAngle = _on ? conversationAngle : lowAngle ;
         camOffset = _on ? conversationOffset : lowCamOffSet;
+    }
+
+    public void SetLocation(Vector3 _pos)
+    {
+        transform.position = _pos + camOffset;
+    
     }
 
 }

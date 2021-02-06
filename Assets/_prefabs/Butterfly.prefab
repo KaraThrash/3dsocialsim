@@ -325,6 +325,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 638744635902673047}
+  - component: {fileID: -2104951376079896894}
   m_Layer: 0
   m_Name: Butterfly
   m_TagString: Untagged
@@ -347,6 +348,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2104951376079896894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638744635902673044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6319ef560e86645afa5b2415868462, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: butterfly
+  toolUsable: 
+  icon: {fileID: -9196237000961732866, guid: fb4c7c0c40bd66e43bbdce2e3a227c18, type: 3}
+  usable: 0
+  placable: 0
+  holdable: 0
+  stackSize: 1
+  maxStackSize: 1
+  footprintWidth: -1
+  footprintDepth: -1
+  subItem: {fileID: 0}
 --- !u!1 &638744636046322213
 GameObject:
   m_ObjectHideFlags: 0
