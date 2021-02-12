@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public float walkSpeed, rotSpeed;
     public float acceleration, deceleration;
     public float turnAngle; //buffer for when the player will start moving before facing the exact direction of travel 
+    public bool inside;
     public Transform InHands;
     public GameObject heldItem;
     public Inventory inventory;
@@ -346,5 +347,8 @@ public class Player : MonoBehaviour
         rb.velocity = vel;
         rb.angularVelocity = angularVel;
     }
+
+    public bool IsInside() { return inside; }
+
 
 }

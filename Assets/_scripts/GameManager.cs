@@ -133,8 +133,10 @@ public class GameManager : MonoBehaviour
         TerrainManager().EnterBuilding(_interiorObj,_connectedArea);
         player.transform.position = new Vector3(_connectedArea.transform.position.x, -20, _connectedArea.transform.position.z);
 
+        player.inside = true;
+
         cameraControls.SetCameraTrackingOffset("inside");
-        cameraControls.SetLocation(player.transform.position);
+        cameraControls.SetLocation(_connectedArea.transform.parent.position);
 
     }
 
@@ -145,6 +147,8 @@ public class GameManager : MonoBehaviour
 
         TerrainManager().LeaveBuilding();
         player.transform.position = new Vector3(player.transform.position.x, 0, player.transform.position.z);
+
+        player.inside = false;
 
         cameraControls.SetCameraTrackingOffset("high");
         cameraControls.SetLocation(player.transform.position);
@@ -159,7 +163,7 @@ public class GameManager : MonoBehaviour
         player.transform.position = new Vector3(_connectedArea.transform.position.x, player.transform.position.y, _connectedArea.transform.position.z);
 
         cameraControls.SetCameraTrackingOffset("inside");
-        cameraControls.SetLocation(player.transform.position);
+        cameraControls.SetLocation(_connectedArea.transform.parent.position);
 
     }
 

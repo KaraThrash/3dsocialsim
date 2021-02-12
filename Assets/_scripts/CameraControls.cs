@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraControls : MonoBehaviour
 {
     public Transform player;
-    public float followSpeed, maxPlayerDistance, cameraAngle,lowAngle = 45.0f, highAngle = 75.0f, conversationAngle = 25.0f,insideAngle=50.0f;
+    public float followSpeed, maxPlayerDistance, maxPlayerDistanceInside, cameraAngle,lowAngle = 45.0f, highAngle = 75.0f, conversationAngle = 25.0f,insideAngle=50.0f;
     public float camAdjustSpeed = 5;
     public Vector3 camOffset,highCamOffset,lowCamOffSet,conversationOffset,insideOffset;
     // Start is called before the first frame update
@@ -17,7 +17,15 @@ public class CameraControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TrackPlayer();
+        if (player.GetComponent<Player>().IsInside())
+        {
+            TrackPlayerInside();
+        }
+        else 
+        {
+            TrackPlayer();
+        }
+        
 
         if (Input.GetKeyDown(KeyCode.I)) { camOffset = highCamOffset;  }
 
@@ -40,6 +48,16 @@ public class CameraControls : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, playerXYPos,Time.deltaTime * followSpeed );
         }
     }
+
+    public void TrackPlayerInside()
+    {
+        Vector3 playerXYPos = camOffset + player.position;
+        if (Vector3.Distance(playerXYPos, transform.position) > maxPlayerDistanceInside)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, playerXYPos, Time.deltaTime * followSpeed);
+        }
+    }
+
 
     public void SetCameraTrackingOffset(string _offsetType)
     {
