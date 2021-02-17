@@ -17,8 +17,8 @@ public class TerrainManager : MonoBehaviour
     {
         map = new Dictionary<Vector3, TerrainSquare>();
         //random roll to spawn trees to get a sense of the world layout/interations. Final version would have a saved state
-        // RandomizeTrees(mapParent);
-        ContructDictionary(mapParent);
+        RandomizeTrees(mapParent);
+        //ContructDictionary(mapParent);
     }
 
     void Update()
@@ -218,7 +218,7 @@ public class TerrainManager : MonoBehaviour
                 map.Add(new Vector3(Mathf.FloorToInt(el.position.x), Mathf.CeilToInt(el.position.y), Mathf.FloorToInt(el.position.z)), el.GetComponent<TerrainSquare>());
                 if (el.GetComponent<TerrainSquare>().SquareStatus().Equals("default"))
                 {
-                    float rnd = Random.Range(0, 300);
+                    float rnd = Random.Range(0, 600);
                     if (rnd < 5 && trees.Count > 1) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[0], el.position, el.rotation)); }
                     else if ((rnd > 50 && rnd < 60) && trees.Count >= 2) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[1], el.position, el.rotation)); }
                     else if ((rnd > 100 && rnd < 110) && trees.Count >= 3) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[2], el.position, el.rotation)); }

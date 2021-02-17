@@ -17,6 +17,7 @@ public class TerrainSquare : MonoBehaviour
         if (terrainStatus.Equals("water"))
         { walkable = false; GetComponent<BoxCollider>().size = new Vector3(1,2,1); }
         else { walkable = true; }
+       // ResetSquare();
     }
 
     void Update()
@@ -31,6 +32,15 @@ public class TerrainSquare : MonoBehaviour
           //  if (currentTerrain != null) { Destroy(currentTerrain); }
         }
     }
+
+    public void ResetSquare()
+    {
+        if(currentObject != null){ Destroy(currentObject); }
+        if(item != null){ Destroy(item.gameObject); }
+        if(terrainStatus.Equals("building") == false && terrainStatus.Equals("water") == false) { terrainStatus = "default"; }
+
+    }
+
 
     public Item GetItem()
     { return item; }

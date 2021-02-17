@@ -19,7 +19,7 @@ public class WhatKey : MonoBehaviour
             detectPressedKeyOrButton();
         }
         
-            Debug.Log("DpadHort Axis down: " + Input.GetAxis("DpadHort"));
+           // Debug.Log("DpadHort Axis down: " + Input.GetAxis("DpadHort"));
     }
 
     public void detectPressedKeyOrButton()
