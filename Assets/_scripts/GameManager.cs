@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public Player player;
     public TerrainManager terrainManager;
+    public TimeManager timeManager;
     public UiManager uiManager;
     public CameraControls cameraControls;
     public GameObject chatbox,showCameraItem;
@@ -21,7 +22,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         UnlockPlayerMovement(true);
-
+        StartDay();
     }
 
     // Update is called once per frame
@@ -36,6 +37,14 @@ public class GameManager : MonoBehaviour
                 PlayerStateTransition();
             }
         }
+
+        if (Input.GetKey(KeyCode.L))
+        {
+            TimeManager().AdvanceTime(5);
+         
+
+        }
+
     }
 
     public void PlayerStateTransition()
@@ -176,6 +185,7 @@ public class GameManager : MonoBehaviour
 
 
 
+
     public void StartConversation()
     {
         cam.GetComponent<CameraControls>().ConversationToggle(true);
@@ -218,6 +228,18 @@ public class GameManager : MonoBehaviour
         titleText.text = _speakerName;
     }
 
+
+    public void StartDay()
+    {
+        //music clouds
+        //villager locations
+        //reset fruit, bugs, fish?
+        TimeManager().SetSunAngle(new Vector3(TimeManager().GetDay() * -15,0,171));
+    }
+
+
+
+
     public Player GetPlayer()
     { return player; }
 
@@ -229,11 +251,17 @@ public class GameManager : MonoBehaviour
         return activeObject; 
     }
 
+
+
     public UiManager UiManager()
     { return uiManager; }
 
     public TerrainManager TerrainManager()
     { return terrainManager; }
+
+    public TimeManager TimeManager()
+    { return timeManager; }
+
 
 
 

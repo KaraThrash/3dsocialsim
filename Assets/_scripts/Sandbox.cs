@@ -10,7 +10,6 @@ public class Sandbox : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -18,6 +17,18 @@ public class Sandbox : MonoBehaviour
     {
         
     }
+
+    public void BuildFence()
+    {
+        int count = 0;
+        while (count < 50)
+        {
+            GameObject clone = Instantiate(obj1,obj1.transform.position + new Vector3(0,0,count),obj1.transform.rotation);
+            clone.transform.parent = newParent;
+            count++;
+        }
+    }
+
 
     public void PopulateMenuSpots()
     {
