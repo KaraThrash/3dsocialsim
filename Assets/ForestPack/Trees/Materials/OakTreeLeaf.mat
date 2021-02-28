@@ -82,7 +82,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - Color_394A4422: {r: 0, g: 0, b: 0, a: 0}
+    - Color_394A4422: {r: 0, g: 0, b: 0, a: 1}
     - Color_49F14EFF: {r: 0, g: 0, b: 0, a: 0}
     - Color_F52EE448: {r: 0, g: 0, b: 0, a: 0}
     - Vector2_6A93A1CF: {r: 1, g: 1, b: 0, a: 0}
