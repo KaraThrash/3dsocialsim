@@ -7,7 +7,8 @@ public class AudioCloud : MonoBehaviour
     public AudioManager audioManager;
     public AudioClip clip;
     public string cloudColor;
-
+    public int clipByNumber;
+    public bool areaBasedSound;
 
     // Start is called before the first frame update
     void Start()
@@ -30,10 +31,22 @@ public class AudioCloud : MonoBehaviour
     {
         if (audioManager != null && clip == null)
         {
-            //get an audio clip from the manager when the player first enters the cloud
-            clip = audioManager.GetClip(cloudColor);
-            GetComponent<AudioSource>().clip = clip;
-            GetComponent<AudioSource>().Play();
+
+            //whether the sound should be based on the cloud's location or not
+            if (areaBasedSound)
+            {
+                //get an audio clip from the manager when the player first enters the cloud
+                clip = audioManager.GetClip(cloudColor);
+                GetComponent<AudioSource>().clip = clip;
+                GetComponent<AudioSource>().Play();
+            }
+            else
+            { 
+                 audioManager.EnterCloud(cloudColor,clipByNumber);
+
+            }
+
+          
         }
     }
 

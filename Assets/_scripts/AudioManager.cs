@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    public float masterVolumeModifier, mainVolumeModifier, cloudVolumeModifier; // 0<->1 sound setting for user volume controls
+    public float fadeInTime;
+
+    public AudioSource mainSource, cloudSource, worldEffectsSource; //for non diagetic sound effects
+
+    private float fadeTimer=-1;//multiply the cloud volume by this to have control over the main volume while also fading it in
+
+
     public List<AudioClip> green, yellow, red;
     void Start()
     {
@@ -13,16 +21,62 @@ public class AudioManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        if (fadeTimer != -1) { FadeClip(); }
+
     }
 
-    public AudioClip GetClip(string _color)
+    public void FadeClip()
     {
-        if (_color.Equals("green") && green.Count > 0) { return green[0]; }
-        if (_color.Equals("yellow") && yellow.Count > 0) { return yellow[0]; }
-        if (_color.Equals("red") && red.Count > 0) { return red[0]; }
+        fadeTimer += Time.deltaTime;
+
+        SetSourceVolume(cloudSource, cloudVolumeModifier * (fadeTimer / fadeInTime));
+
+        if (fadeTimer >= fadeInTime) { fadeTimer = -1; }
+    }
+
+
+
+    public void EnterCloud(string _color, int _clip = 0)
+    {
+        SetSourceClip(cloudSource,GetClip(_color, _clip));
+        SetSourceVolume(cloudSource,0);
+
+        fadeTimer = 0;
+
+        cloudSource.Play();
+    }
+
+    public void Enter3dCloud(string _color, int _clip = 0)
+    {
+        SetSourceClip(cloudSource, GetClip(_color, _clip));
+        SetSourceVolume(cloudSource, 0);
+
+        fadeTimer = 0;
+
+        cloudSource.Play();
+    }
+
+
+    public void SetSourceVolume(AudioSource _source,float _volume)
+    {
+        _source.volume = _volume;
+    }
+
+    public void SetSourceClip(AudioSource _source,AudioClip _clip)
+    {
+        _source.clip = _clip;
+    }
+
+
+    public AudioClip GetClip(string _color,int _clip=0)
+    {
+        if (_color.Equals("green") && green.Count > _clip) { return green[_clip]; }
+        if (_color.Equals("yellow") && yellow.Count > _clip) { return yellow[_clip]; }
+        if (_color.Equals("red") && red.Count > _clip) { return red[_clip]; }
 
         return null;
     }
+
 
 }

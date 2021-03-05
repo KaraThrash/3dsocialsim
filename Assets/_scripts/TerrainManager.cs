@@ -16,8 +16,10 @@ public class TerrainManager : MonoBehaviour
     void Start()
     {
         map = new Dictionary<Vector3, TerrainSquare>();
+
         //random roll to spawn trees to get a sense of the world layout/interations. Final version would have a saved state
         //RandomizeTrees(mapParent);
+
         ContructDictionary(mapParent);
     }
 
