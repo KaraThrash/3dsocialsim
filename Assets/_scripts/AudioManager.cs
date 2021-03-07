@@ -28,6 +28,7 @@ public class AudioManager : MonoBehaviour
 
     public void FadeClip()
     {
+        
         fadeTimer += Time.deltaTime;
 
         SetSourceVolume(cloudSource, cloudVolumeModifier * (fadeTimer / fadeInTime));

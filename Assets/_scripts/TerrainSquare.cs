@@ -17,7 +17,7 @@ public class TerrainSquare : MonoBehaviour
         if (terrainStatus.Equals("water"))
         { walkable = false; GetComponent<BoxCollider>().size = new Vector3(1,2,1); }
         else { walkable = true; }
-      //  ResetSquare();
+        //ResetSquare();
     }
 
     void Update()

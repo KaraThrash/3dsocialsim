@@ -3,8 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance
+    {
+        get => singleton.instance;
+    }
+
+    private static GlobalSingletonGetter<GameManager> singleton =
+        new GlobalSingletonGetter<GameManager>(gameObjectName: "GameManager");
+
+
     public Player player;
     public TerrainManager terrainManager;
     public TimeManager timeManager;
