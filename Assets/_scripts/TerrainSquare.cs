@@ -17,6 +17,7 @@ public class TerrainSquare : MonoBehaviour
         if (terrainStatus.Equals("water"))
         { walkable = false; GetComponent<BoxCollider>().size = new Vector3(1,2,1); }
         else { walkable = true; }
+
         //ResetSquare();
     }
 
@@ -76,7 +77,7 @@ public class TerrainSquare : MonoBehaviour
 
     public void PlantTree(GameObject _tree)
     {
-        _tree.transform.parent = this.transform;
+        //_tree.transform.parent = this.transform;
         _tree.transform.position = transform.position;
         _tree.transform.Rotate(0,Random.Range(-15.0f,15.0f),0);
         currentTerrain = _tree;
@@ -88,7 +89,7 @@ public class TerrainSquare : MonoBehaviour
     public void ChopTree(GameObject _stump)
     {
         Destroy(currentObject); 
-        _stump.transform.parent = this.transform;
+      //  _stump.transform.parent = this.transform;
         _stump.transform.position = transform.position;
         currentTerrain = _stump;
         currentObject = _stump;
@@ -109,6 +110,7 @@ public class TerrainSquare : MonoBehaviour
         {
             Destroy(currentObject);
         }
+        Debug.Log("dig square");
         currentTerrain = _hole;
         currentObject = _hole;
         terrainStatus = "hole";

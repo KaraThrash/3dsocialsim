@@ -26,6 +26,16 @@ public class AudioManager : MonoBehaviour
 
     }
 
+    public void PlayWorldEffect(AudioClip _clip)
+    {
+        SetSourceClip(worldEffectsSource, _clip);
+        SetSourceVolume(worldEffectsSource, 1);
+
+
+        worldEffectsSource.Play();
+    }
+
+
     public void FadeClip()
     {
         
@@ -40,6 +50,9 @@ public class AudioManager : MonoBehaviour
 
     public void EnterCloud(string _color, int _clip = 0)
     {
+
+        //dont interrupt something playing
+        if (cloudSource.isPlaying == true) { return; }
         SetSourceClip(cloudSource,GetClip(_color, _clip));
         SetSourceVolume(cloudSource,0);
 
@@ -79,5 +92,12 @@ public class AudioManager : MonoBehaviour
         return null;
     }
 
+
+
+    public void SpawnCloudsForDay(int _green,int _yellow,int _red)
+    { 
+        
+
+    }
 
 }

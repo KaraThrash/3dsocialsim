@@ -7,7 +7,7 @@ public enum PlayerState { playerControlled,inMenu,talking, choosing,fishing,acti
 public class Player : MonoBehaviour
 {
     public GameManager gameManager;
-    public PlayerState state { get; set; }
+    public PlayerState state;
     public string playerStateString;
     public float walkSpeed, rotSpeed;
     public float acceleration, deceleration;
@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
     private int currentItem;
 
     private Rigidbody rb;
+
+    public PlayerState State (){ return state; }
+
 
     void Start()
     {
@@ -156,15 +159,16 @@ public class Player : MonoBehaviour
 
     public void PickUp( )
     {
-        Vector3 squarePos = new Vector3(Mathf.RoundToInt((transform.position + (transform.forward * 0.3f)).x), Mathf.FloorToInt((transform.position + (transform.forward * 0.3f)).y), Mathf.RoundToInt((transform.position + (transform.forward * 0.3f)).z));
+        Vector3 squarePos = new Vector3(Mathf.RoundToInt((transform.position + (transform.forward * 0.3f)).x), Mathf.FloorToInt(transform.position.y), Mathf.RoundToInt((transform.position + (transform.forward * 0.3f)).z));
 
-        if (gameManager.TerrainManager().GetMapSquare(transform.position + (transform.forward * 0.3f)) == null) {
+        if (gameManager.TerrainManager().GetMapSquare(squarePos) == null) {
             Debug.Log("No square saved at : " + squarePos); 
             return; 
         }
         //check if there is an item
         //check that it can be picked up
         TerrainSquare _square = gameManager.TerrainManager().GetMapSquare(transform.position + (transform.forward * 0.3f));
+
         Item _item = _square.GetItem();
         if (_item != null)
         {
@@ -217,7 +221,15 @@ public class Player : MonoBehaviour
             Debug.Log(hit.transform.name);
             if (hit.transform.GetComponent<Villager>() != null)
             {
-                gameManager.InteractWithVillager(hit.transform.GetComponent<Villager>());
+                if (heldItem != null && heldItem.GetComponent<Item>().itemName.Equals("net"))
+                {
+                    gameManager.BonkVillager(hit.transform.GetComponent<Villager>());
+                }
+                else 
+                {
+                    gameManager.InteractWithVillager(hit.transform.GetComponent<Villager>());
+
+                }
 
             }
             else if (hit.transform.GetComponent<Item>() != null && heldItem != null && hit.transform.GetComponent<Item>().toolUsable.Equals(heldItem.GetComponent<Item>().itemName))
@@ -232,7 +244,11 @@ public class Player : MonoBehaviour
                 //
                 hit.transform.GetComponent<Item>().Interact(gameManager);
             }
-            else { UseTool(); }
+            else
+            {
+                //if no one to talk to check hands for tools
+                UseTool();
+            }
         }
         else 
         {
@@ -244,29 +260,34 @@ public class Player : MonoBehaviour
 
     public void UseTool()
     {
+        Vector3 squarePos = new Vector3(Mathf.RoundToInt((transform.position + (transform.forward * 0.3f)).x), Mathf.RoundToInt(transform.position.y), Mathf.RoundToInt((transform.position + (transform.forward * 0.3f)).z));
+
         //TODO: more precise calculation of which square to interact in
         // standing in the middle of a square should target the next square, standing on the edge facing inward should target that square
 
-
         if (heldItem == null || heldItem.GetComponent<Item>() == null) { return; }
-
         // Item heldItem = inventory.GetFromPockets(currentItem);
-        if (heldItem != null && heldItem.GetComponent<Item>().itemName.Equals("shovel") )
+        if (heldItem != null  )
         {
-            gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f),"dig");
+
+            if (heldItem.GetComponent<Item>().itemName.Equals("shovel"))
+            {
+                gameManager.InteractWithGround(squarePos, "dig");
+            }
+            else if ( heldItem.GetComponent<Item>().itemName.Equals("axe"))
+            {
+                gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "chop");
+            }
+            else if (heldItem.GetComponent<Item>().itemName.Equals("fishingRod"))
+            {
+                gameManager.InteractWithGround(transform.position + (transform.forward * 1.6f), "fish", heldItem.GetComponent<Item>().subItem);
+            }
+            else if (heldItem.GetComponent<Item>().itemName.Equals("net"))
+            {
+                gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "net");
+            }
         }
-        else if (heldItem != null && heldItem.GetComponent<Item>().itemName.Equals("axe"))
-        {
-            gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "chop");
-        }
-        else if (heldItem != null && heldItem.GetComponent<Item>().itemName.Equals("fishingRod"))
-        {
-            gameManager.InteractWithGround(transform.position + (transform.forward * 1.6f), "fish", heldItem.GetComponent<Item>().subItem);
-        }
-        else if (heldItem != null && heldItem.GetComponent<Item>().itemName.Equals("net"))
-        {
-            gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "net");
-        }
+
         Debug.Log("PerformAction");
 
     }

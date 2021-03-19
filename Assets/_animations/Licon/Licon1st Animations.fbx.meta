@@ -39,7 +39,172 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Licon Armature|Idle
+      takeName: Licon Armature|Idle
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Licon Armature
+        weight: 1
+      - path: Licon Armature/Lower body
+        weight: 1
+      - path: Licon Armature/Lower body/Leg1_L
+        weight: 1
+      - path: Licon Armature/Lower body/Leg1_L/Leg2_L
+        weight: 1
+      - path: Licon Armature/Lower body/Leg1_R
+        weight: 1
+      - path: Licon Armature/Lower body/Leg1_R/Leg2_R
+        weight: 1
+      - path: Licon Armature/Lower body/Tail1
+        weight: 1
+      - path: Licon Armature/Lower body/Tail1/Tail2
+        weight: 1
+      - path: Licon Armature/Lower body/Tail1/Tail2/Tail3
+        weight: 1
+      - path: Licon Armature/Lower body/Upper body
+        weight: 1
+      - path: Licon Armature/Lower body/Upper body/Chest_L
+        weight: 1
+      - path: Licon Armature/Lower body/Upper body/Chest_L/Arm1_L
+        weight: 1
+      - path: Licon Armature/Lower body/Upper body/Chest_L/Arm1_L/Arm2_L
+        weight: 1
+      - path: Licon Armature/Lower body/Upper body/Chest_R
+        weight: 1
+      - path: Licon Armature/Lower body/Upper body/Chest_R/Arm1_R
+        weight: 1
+      - path: Licon Armature/Lower body/Upper body/Chest_R/Arm1_R/Arm2_R
+        weight: 1
+      - path: Licon Armature/Lower body/Upper body/Head
+        weight: 1
+      - path: Licon Armature/Lower body/Upper body/Head/Ear_L
+        weight: 1
+      - path: Licon Armature/Lower body/Upper body/Head/Ear_R
+        weight: 1
+      - path: Licon Armature/Lower body/Upper body/Head/Hat
+        weight: 1
+      - path: Licon Armature/Lower body/Upper body/Head/Head.001
+        weight: 1
+      - path: Licon_Belt_Buckle
+        weight: 1
+      - path: Licon_Body
+        weight: 1
+      - path: Licon_Cabeza
+        weight: 0
+      - path: Licon_Ear
+        weight: 1
+      - path: Licon_Eye_L
+        weight: 1
+      - path: Licon_Eye_R
+        weight: 1
+      - path: Licon_Flor
+        weight: 1
+      - path: Licon_Hat_Base
+        weight: 1
+      - path: Licon_Hat_Ribbon
+        weight: 1
+      - path: Licon_Hat_Tip
+        weight: 1
+      - path: Licon_Nose
+        weight: 1
+      - path: Licon_Tail
+        weight: 1
+      - path: Licon_Tooth
+        weight: 1
+      - path: Licon_Tuft_01
+        weight: 1
+      - path: Licon_Tuft_02
+        weight: 1
+      - path: Licon_Tuft_03
+        weight: 1
+      - path: Licon_Tuft_04
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Licon Armature|Idle Loop
+      takeName: Licon Armature|Idle Loop
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 49
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Licon Armature|Walk action
+      takeName: Licon Armature|Walk action
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 39
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -91,7 +256,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: 
+    rootMotionBoneName: Licon Armature
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
@@ -99,7 +264,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

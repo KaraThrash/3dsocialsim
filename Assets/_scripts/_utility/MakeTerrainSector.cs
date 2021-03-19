@@ -14,7 +14,7 @@ public class MakeTerrainSector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
@@ -23,7 +23,9 @@ public class MakeTerrainSector : MonoBehaviour
         if (on)
         {
             on = false;
-            MakeArea();
+            //MakeArea();
+            //LoadMapFromBlueprint();
+            MakeGroundGrid();
         }
         if (clean)
         {
@@ -32,6 +34,45 @@ public class MakeTerrainSector : MonoBehaviour
         }
 
     }
+
+
+    //testing --- using raycasts to place, to have more dynamic enviroment and not need the grid of squares
+    public void MakeGroundGrid()
+    {
+        int xpos = -20, zpos = -width;
+
+        while (zpos < width)
+        {
+            xpos = -length;
+            while (xpos < length)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(squareParent.position  + new Vector3(xpos,5, zpos), Vector3.down, out hit, 6.0f))
+                {
+                    if (hit.transform.tag.Equals("rock"))
+                    { Instantiate(cornerfence, hit.point, squareParent.rotation); }
+                    
+
+                }
+           
+                xpos++;
+            }
+            zpos++;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void CleanArea()
     {
@@ -56,8 +97,32 @@ public class MakeTerrainSector : MonoBehaviour
                 if (_width == morewater) { morewater += 0.35f; }
                 GameObject clone = Instantiate(square, new Vector3(squareParent.position.x + _width, squareParent.position.y, squareParent.position.z + _length), squareParent.rotation);
                 clone.transform.parent = squareParent;
+                if ( (_width == 0 && _length == 0 ) || (_length == 0 && _width + 1 == width) || (_width == 0 && _length + 1 == length))
+                {
+                    //corners
+                    clone.GetComponent<MeshRenderer>().material = fencemat;
+                    clone.GetComponent<TerrainSquare>().terrainStatus = "fence";
 
-                if (_width == 0 || _width + 1 == width)
+                    clone = Instantiate(cornerfence, new Vector3(squareParent.position.x + _width, squareParent.position.y, squareParent.position.z + _length), squareParent.rotation);
+                    clone.transform.parent = objectParent;
+                }
+                else if (_length == Mathf.RoundToInt(length / 2) || _width == Mathf.RoundToInt(width / 2))
+                {
+                    clone.GetComponent<MeshRenderer>().material = roadmat;
+                    clone.GetComponent<TerrainSquare>().terrainStatus = "road";
+                }
+                else if ((_width == 0 && _length == 0) || (_length == 0 && _width + 1 == width) || (_width == 0 && _length + 1 == length))
+                {
+                    //corners
+                    clone.GetComponent<MeshRenderer>().material = fencemat;
+                    clone.GetComponent<TerrainSquare>().terrainStatus = "fence";
+
+                    clone = Instantiate(cornerfence, new Vector3(squareParent.position.x + _width, squareParent.position.y, squareParent.position.z + _length), squareParent.rotation);
+                    clone.transform.parent = objectParent;
+                }
+
+
+                else if (_width == 0 || _width + 1 == width)
                 {
                     
                     clone.GetComponent<MeshRenderer>().material = fencemat;
@@ -70,27 +135,21 @@ public class MakeTerrainSector : MonoBehaviour
                 {
                     clone.GetComponent<MeshRenderer>().material = fencemat;
                     clone.GetComponent<TerrainSquare>().terrainStatus = "fence";
-                    clone = Instantiate(hortfence, new Vector3(squareParent.position.x + _width, squareParent.position.y, squareParent.position.z + _length), squareParent.rotation);
                     clone.transform.parent = objectParent;
                 }
-                else if (_length == Mathf.RoundToInt(length / 2) || _width == Mathf.RoundToInt(width / 2))
-                {
-                    clone.GetComponent<MeshRenderer>().material = roadmat;
-                    clone.GetComponent<TerrainSquare>().terrainStatus = "road";
-                }
-                else { 
-                    
-                    if (Random.Range(0.01f, 1.0f) > 0.1f + morewater)
+               
+                else {
+                    float rnd = Random.Range(0, 1.0f);
+                    if (rnd > 0.01f + morewater)
                     { 
-                    clone.GetComponent<MeshRenderer>().material = grassmat[(int)Random.Range(0,grassmat.Count)]; clone.GetComponent<TerrainSquare>().terrainStatus = "default";
                         morewater -= 0.1f;
-                        if (morewater < 0) { morewater = 0; }
+                        if (morewater < 0.1f) { morewater = 0.1f; }
                     }
                     else
                     { 
                        clone.GetComponent<MeshRenderer>().material = watermat; clone.GetComponent<TerrainSquare>().terrainStatus = "water";
-                        morewater += 0.45f;
-                        if (morewater > 0.85f) { morewater = 0.85f; }
+                        morewater += 0.2f;
+                        if (morewater > 0.75f) { morewater = 0.75f; }
 
                         waterCount++;
                         if (morewaterlength == -1) { morewaterlength = _width; }
@@ -104,6 +163,98 @@ public class MakeTerrainSector : MonoBehaviour
             _length++;
         }
     
+    }
+    public  void LoadMapFromBlueprint()
+    {
+
+        if (Resources.Load<TextAsset>("MapSheet") == null)
+        {
+
+            Debug.Log("No MapSheet found");
+
+  
+            return;
+        }
+
+
+        // string text = File.ReadAllText("./Resources/DialogueSpreadsheet.txt");
+        //Load a text file (Assets/Resources/....)
+        string text = Resources.Load<TextAsset>("MapSheet").ToString();
+        string[] strValues = text.Split('\n');
+
+
+        int count = 0;
+        while (count < strValues.Length)
+        {
+            string[] tempstring = strValues[count].Split(',');
+            //if this is the dialogue for the specified character add it to the master dictionary
+            //each entry should be a minimum of 4 elements: name, type, mood, body
+            if (tempstring.Length > 0)
+            {
+
+
+
+                for (int i = 0; i < tempstring.Length; i++)
+                {
+                    if (tempstring[i] != "c" && tempstring[i] != "v" && tempstring[i] != "h" && tempstring[i] != "w" && tempstring[i] != "g" && tempstring[i] != "s")
+                    { }
+                    else { 
+                        GameObject clone = Instantiate(square, new Vector3(squareParent.position.x + i, squareParent.position.y, squareParent.position.z - count), squareParent.rotation);
+                        clone.transform.parent = squareParent;
+                        //make sure no blank lines are mistakenly added due to text formatting 
+                        if (tempstring[i] == "g")
+                        {
+                            clone.GetComponent<MeshRenderer>().material = grassmat[(int)Random.Range(0, grassmat.Count)]; clone.GetComponent<TerrainSquare>().terrainStatus = "default";
+
+                        }
+                        else if (tempstring[i].Equals("w"))
+                        {
+                            clone.GetComponent<MeshRenderer>().material = watermat; clone.GetComponent<TerrainSquare>().terrainStatus = "water";
+
+                        }
+                        else if (tempstring[i].Equals("h"))
+                        {
+                            clone.GetComponent<MeshRenderer>().material = fencemat;
+                            clone.GetComponent<TerrainSquare>().terrainStatus = "fence";
+                            clone = Instantiate(hortfence, new Vector3(squareParent.position.x + i, squareParent.position.y, squareParent.position.z - count), squareParent.rotation);
+                            clone.transform.parent = objectParent;
+
+                        }
+                        else if (tempstring[i] == "v")
+                        {
+                            clone.GetComponent<MeshRenderer>().material = fencemat;
+                            clone.GetComponent<TerrainSquare>().terrainStatus = "fence";
+                            clone = Instantiate(vertfence, new Vector3(squareParent.position.x + i, squareParent.position.y, squareParent.position.z - count), squareParent.rotation);
+                            clone.transform.parent = objectParent;
+
+                        }
+                        else if (tempstring[i].Equals("c"))
+                        {
+                            clone.GetComponent<MeshRenderer>().material = fencemat;
+                            clone.GetComponent<TerrainSquare>().terrainStatus = "fence";
+                            clone = Instantiate(cornerfence, new Vector3(squareParent.position.x + i, squareParent.position.y, squareParent.position.z - count), squareParent.rotation);
+                            clone.transform.parent = objectParent;
+
+                        }
+                        else if (tempstring[i].Equals("s"))
+                        {
+                            clone.GetComponent<MeshRenderer>().material = roadmat;
+                            clone.GetComponent<TerrainSquare>().terrainStatus = "road";
+                        }
+                    }
+
+                }
+
+
+            }
+
+
+
+            count++;
+
+        }
+
+
     }
 
 

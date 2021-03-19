@@ -248,6 +248,7 @@ GameObject:
   - component: {fileID: 5882580264021632441}
   - component: {fileID: 4659549016069748928}
   - component: {fileID: 4857686193716179035}
+  - component: {fileID: 7211706478712029003}
   m_Layer: 0
   m_Name: willow_tree
   m_TagString: Untagged
@@ -301,6 +302,22 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1.3, z: 0}
+--- !u!208 &7211706478712029003
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8623631856708950951}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.3, y: 0.5, z: 0.3}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.5, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &8760597849654246740
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,12 +19,13 @@ public class GameManager : MonoBehaviour
     public TerrainManager terrainManager;
     public TimeManager timeManager;
     public UiManager uiManager;
+    public AudioManager audioManager;
     public CameraControls cameraControls;
     public GameObject chatbox,showCameraItem;
     public Text chatText,titleText;//for character names
 
-    public Transform cam,activeObject, groundParent;
-    public GameObject dirtsquare, grassSquare;
+    public Transform cam,activeObject, groundParent,villagerParent;
+    public GameObject emoteBubblePrefab,dirtsquare, grassSquare;
 
     private bool inConversation,playerCanMove;
     private float actionTimer;
@@ -83,12 +84,21 @@ public class GameManager : MonoBehaviour
         else { player.SetState(PlayerState.playerControlled); }
     }
 
+    public void BonkVillager(Villager _villager)
+    {
+        //todo: check for scene state here
+        _villager.Bonk();
 
+    }
 
     public void InteractWithVillager(Villager _villager)
     {
         if (inConversation == false)
-        { StartConversation(); }
+        {
+            
+            StartConversation();
+            audioManager.PlayWorldEffect(_villager.Voice());
+        }
 
         activeObject = _villager.transform;
         _villager.Interact();
@@ -245,6 +255,18 @@ public class GameManager : MonoBehaviour
         //villager locations
         //reset fruit, bugs, fish?
         TimeManager().SetSunAngle(new Vector3(TimeManager().GetDay() * -15,0,171));
+
+
+        foreach (Transform el in villagerParent)
+        {
+            if (el.GetComponent<Villager>() != null)
+            {
+                el.GetComponent<Villager>().ResetToStart();
+
+            }
+        }
+
+
     }
 
 

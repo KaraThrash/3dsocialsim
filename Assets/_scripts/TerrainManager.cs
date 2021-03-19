@@ -5,7 +5,7 @@ using UnityEngine;
 public class TerrainManager : MonoBehaviour
 {
     public GameManager gameManager;
-    public Transform mapParent,interiorMapParent;
+    public Transform mapParent,treeParent,interiorMapParent;
     public bool inside;
 
 
@@ -18,7 +18,7 @@ public class TerrainManager : MonoBehaviour
         map = new Dictionary<Vector3, TerrainSquare>();
 
         //random roll to spawn trees to get a sense of the world layout/interations. Final version would have a saved state
-        //RandomizeTrees(mapParent);
+       // RandomizeTrees(mapParent);
 
         ContructDictionary(mapParent);
     }
@@ -30,7 +30,16 @@ public class TerrainManager : MonoBehaviour
 
     public TerrainSquare GetMapSquare(Vector3 _square)
     {
-        Vector3 squarePos = new Vector3(Mathf.RoundToInt(_square.x), 0, Mathf.RoundToInt(_square.z));
+        if (map == null)
+        {
+            map = new Dictionary<Vector3, TerrainSquare>();
+            ContructDictionary(mapParent);
+        }
+
+
+         Vector3 squarePos = new Vector3(Mathf.RoundToInt(_square.x), 0, Mathf.RoundToInt(_square.z));
+
+        Debug.Log("getmapsquare: " + squarePos.ToString());
         if (inside)
         {
            //interior map should be set when entering the building
@@ -40,7 +49,7 @@ public class TerrainManager : MonoBehaviour
         }
         else 
         {
-            if (map == null || map.ContainsKey(squarePos) == false) { return null; }
+            if (map == null || map.ContainsKey(squarePos) == false) { Debug.Log("NO square  " + squarePos.ToString()); return null; }
             return map[squarePos];
         }
 
@@ -103,8 +112,9 @@ public class TerrainManager : MonoBehaviour
 
     public bool Dig(Vector3 _square)
     {
- 
+
         TerrainSquare terrainSquare = GetMapSquare(_square);
+
         if (terrainSquare == null) { return false; }
 
         if (terrainSquare.CanDig())
@@ -200,7 +210,6 @@ public class TerrainManager : MonoBehaviour
             {
                 el.GetComponent<TerrainSquare>().TerrainManager(GetComponent<TerrainManager>());
                 map.Add(new Vector3(Mathf.FloorToInt(el.position.x), Mathf.CeilToInt(el.position.y), Mathf.FloorToInt(el.position.z)), el.GetComponent<TerrainSquare>());
-
       
             }
             else
@@ -218,13 +227,26 @@ public class TerrainManager : MonoBehaviour
             {
                 el.GetComponent<TerrainSquare>().TerrainManager(GetComponent<TerrainManager>());
                 map.Add(new Vector3(Mathf.FloorToInt(el.position.x), Mathf.CeilToInt(el.position.y), Mathf.FloorToInt(el.position.z)), el.GetComponent<TerrainSquare>());
+
+
                 if (el.GetComponent<TerrainSquare>().SquareStatus().Equals("default"))
                 {
-                    float rnd = Random.Range(0, 600);
-                    if (rnd < 5 && trees.Count > 1) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[0], el.position, el.rotation)); }
-                    else if ((rnd > 50 && rnd < 60) && trees.Count >= 2) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[1], el.position, el.rotation)); }
-                    else if ((rnd > 100 && rnd < 110) && trees.Count >= 3) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[2], el.position, el.rotation)); }
-                    else if ((rnd > 160 && rnd < 170) && trees.Count >= 3) { el.GetComponent<TerrainSquare>().PlantTree(Instantiate(trees[3], el.position, el.rotation)); }
+                    float rnd = Random.Range(0, 1000);
+                    if (rnd > 1 && rnd < 60)
+                    {
+                        GameObject clone ;
+
+                        if (rnd < 5 && trees.Count > 1) { clone = Instantiate(trees[0], el.position, el.rotation); }
+                        else if ((rnd > 50 && rnd < 60) && trees.Count >= 2) { clone = Instantiate(trees[1], el.position, el.rotation); }
+                        else if ((rnd > 5 && rnd < 20) && trees.Count >= 3) { clone = Instantiate(trees[2], el.position, el.rotation); }
+                        else if ((rnd > 20 && rnd < 45) && trees.Count > 3) { clone = Instantiate(trees[3], el.position, el.rotation); }
+                        else 
+                        { clone = Instantiate(trees[0], el.position, el.rotation); }
+                        clone.transform.parent = treeParent;
+                        el.GetComponent<TerrainSquare>().PlantTree(clone);
+
+
+                    }
                     else if ((rnd > 210 && rnd < 220))
                     {
 
