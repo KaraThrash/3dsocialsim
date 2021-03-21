@@ -18,6 +18,8 @@ public class TerrainSquare : MonoBehaviour
         { walkable = false; GetComponent<BoxCollider>().size = new Vector3(1,2,1); }
         else { walkable = true; }
 
+
+
         //ResetSquare();
     }
 

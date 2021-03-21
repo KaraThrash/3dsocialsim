@@ -6,10 +6,14 @@ using UnityEngine.UI;
 public class Sandbox : MonoBehaviour
 {
     public GameObject obj1;
-    public Transform newParent;
+    public Transform newParent,oldParent;
+    public bool on;
     // Start is called before the first frame update
     void Start()
     {
+       
+
+
     }
 
     // Update is called once per frame
