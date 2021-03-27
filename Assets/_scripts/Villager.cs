@@ -14,7 +14,7 @@ public class Villager : MonoBehaviour
 
     public VillagerState currentState;
     public VillagerStoryState currentStoryState;
-    public string npcName,mood;
+    public string npcName,mood,scene;
     public float rotSpeed,speed; //time between greetings is the value of seconds that need to elapse before this npc will use a greeting instead of smalltalk
     public Animator anim;
     public Transform head,animatedHead;
@@ -29,7 +29,12 @@ public class Villager : MonoBehaviour
     private Rigidbody rb;
 
     private float movingTimer,idleToMoveRange = 10.0f, turnDirection = -1; //number to use to randomize how long a villager should stand idle before pacing around
-    private float timeBetweenGreetings = 120.0f, maxHeadAngle = 45.0f; //time between greetings is the value of seconds that need to elapse before this npc will use a greeting instead of smalltalk
+    private float timeBetweenGreetings = 120.0f, maxHeadAngle = 75.0f; //time between greetings is the value of seconds that need to elapse before this npc will use a greeting instead of smalltalk
+
+    public float blinkTimer;
+    public SkinnedMeshRenderer leftEye, rightEye;
+    public Material closedEye, openEye;
+    private bool eyesOpen;
 
     private Vector3 startPos;
 
@@ -40,6 +45,34 @@ public class Villager : MonoBehaviour
     public VillagerStoryState StoryState() { return currentStoryState; }
 
     private NavMeshAgent nav;
+
+
+    public void BlinkTimer()
+    {
+        blinkTimer -= Time.deltaTime;
+        if (blinkTimer <= 0)
+        {
+            if (eyesOpen)
+            {
+                eyesOpen = false;
+                leftEye.material = closedEye;
+                rightEye.material = closedEye;
+                blinkTimer = UnityEngine.Random.Range(0.01f, 0.5f);
+               
+            }
+            else 
+            {
+                eyesOpen = true;
+                leftEye.material = openEye;
+                rightEye.material = openEye;
+                blinkTimer = UnityEngine.Random.Range(1.0f, 6.0f);
+            }
+
+            
+        }
+
+
+    }
 
     void Start()
     {
@@ -61,11 +94,22 @@ public class Villager : MonoBehaviour
         // if (Input.GetKeyDown(KeyCode.Space)) { Interact(); }
         //if (Input.GetKeyDown(KeyCode.N)) { activeDialogue = null; }
 
-
+        if (StoryState() == VillagerStoryState.inScene)
+        {
+            StoryAct();
+        }
+        else
+        {
+            Act();
+        }
         Act();
 
         if (watchPlayer)
         { WatchPlayer(); }
+
+        if (leftEye != null)
+        { BlinkTimer(); }
+        
 
     }
 
@@ -92,45 +136,53 @@ public class Villager : MonoBehaviour
     {
         if (head == null || animatedHead == null) { return; }
 
-        Vector3 targetYCorrected = new Vector3(gameManager.player.transform.position.x, head.position.y, gameManager.player.transform.position.z);
+        Vector3 targetYCorrected = new Vector3(gameManager.player.transform.position.x, transform.position.y + 0.58f, gameManager.player.transform.position.z);
         Quaternion targetRotation = Quaternion.LookRotation(targetYCorrected - head.position);
 
         Quaternion newrot  = Quaternion.Slerp(head.rotation, targetRotation, rotSpeed * Time.deltaTime);
 
-        if (Quaternion.Angle(newrot, transform.rotation) < maxHeadAngle )
+        if (Quaternion.Angle(targetRotation, transform.rotation) < maxHeadAngle)
         {
-           
 
-            head.rotation = newrot;
+
+            if (Quaternion.Angle(newrot, transform.rotation) < maxHeadAngle)
+            {
+
+
+                head.rotation = newrot;
+            }
+        }
+        else
+        {
+            Debug.Log("going back to normal rotation");
+            Quaternion.Slerp(head.rotation, animatedHead.rotation, rotSpeed * Time.deltaTime);
+        
         }
 
     }
 
+    public void StoryAct()
+    {
 
+        InScene();
+    }
 
     public void Act()
     {
 
-
-        if (StoryState() == VillagerStoryState.inScene)
+        if (State() == VillagerState.talking)
         {
-            InScene();
+            Talking();
         }
-        else 
+        else if (State() == VillagerState.moving)
         {
-            if (State() == VillagerState.talking)
-            {
-                Talking();
-            }
-            else if (State() == VillagerState.moving)
-            {
-                Walking();
-            }
-            else if (State() == VillagerState.idle)
-            {
-                Idle();
-            }
+            Walking();
         }
+        else if (State() == VillagerState.idle)
+        {
+            Idle();
+        }
+        
 
     }
 
@@ -202,7 +254,11 @@ public class Villager : MonoBehaviour
     {
         if (GetComponent<SceneActions>() != null)
         {
-            GetComponent<SceneActions>().TrailPlayer(this);
+            if (scene.Equals("trail"))
+            { GetComponent<SceneActions>().TrailPlayer(this); }
+            else { GetComponent<SceneActions>().ReplaceNotice(this); }
+            //GetComponent<SceneActions>().TrailPlayer(this);
+            
         }
     }
 
@@ -262,7 +318,7 @@ public class Villager : MonoBehaviour
     }
 
 
-    public void ThoughtBubble(string _thought)
+    public void ThoughtBubble(string _thought,float _duration=1)
     {
         if (emoteBubble == null)
         { 
@@ -274,7 +330,7 @@ public class Villager : MonoBehaviour
         emoteBubble.gameObject.SetActive(true);
 
         if (_thought.Equals("happy")) { }
-        else if (_thought.Equals("angry")) { emoteBubble.SetMaterial(EmotionImages.Angry()) ; }
+        else if (_thought.Equals("angry")) { emoteBubble.SetMaterial(EmotionImages.Angry(),_duration) ; }
         else if (_thought.Equals("tired")) { }
 
         

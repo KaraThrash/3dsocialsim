@@ -22,6 +22,15 @@ public class Player : MonoBehaviour
 
     public PlayerState State (){ return state; }
 
+    public Vector3 PositionRounded( )
+    {
+       return new Vector3(Mathf.RoundToInt(transform.position.x ), Mathf.RoundToInt(transform.position.y), Mathf.RoundToInt(transform.position.z));
+    }
+
+    public Vector3 PositionRounded(Vector3 _offset)
+    {
+        return new Vector3(Mathf.RoundToInt(transform.position.x + _offset.x), Mathf.RoundToInt(transform.position.y + _offset.y), Mathf.RoundToInt(transform.position.z + _offset.z));
+    }
 
     void Start()
     {
@@ -215,35 +224,23 @@ public class Player : MonoBehaviour
 
         //try to talk first, then try to use an item the player is in front of, otherwise if they have a tool in their hand, use it.
 
+        //check forward first, then check down
+
         RaycastHit hit;
         if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f), 0.2f, transform.TransformDirection(Vector3.forward), out hit, 0.3f))
         {
-            Debug.Log(hit.transform.name);
+           
             if (hit.transform.GetComponent<Villager>() != null)
             {
-                if (heldItem != null && heldItem.GetComponent<Item>().itemName.Equals("net"))
-                {
-                    gameManager.BonkVillager(hit.transform.GetComponent<Villager>());
-                }
-                else 
-                {
-                    gameManager.InteractWithVillager(hit.transform.GetComponent<Villager>());
-
-                }
+                InteractWithVillager(hit.transform.GetComponent<Villager>());
+                
 
             }
-            else if (hit.transform.GetComponent<Item>() != null && heldItem != null && hit.transform.GetComponent<Item>().toolUsable.Equals(heldItem.GetComponent<Item>().itemName))
+            else if (hit.transform.GetComponent<Item>() != null )
             {
-                //dig hole with shovel, chop tree with axe
-                UseTool();
+                InteractWithItem(hit.transform.GetComponent<Item>());
             }
-            else if (hit.transform.GetComponent<Item>() != null && hit.transform.GetComponent<Item>().usable == true)
-            {
-                //iteract with item[door mail box faucet etc]
-
-                //
-                hit.transform.GetComponent<Item>().Interact(gameManager);
-            }
+            
             else
             {
                 //if no one to talk to check hands for tools
@@ -254,13 +251,73 @@ public class Player : MonoBehaviour
         {
             //if no one to talk to check hands for tools
             UseTool();
+
+
         }
 
     }
 
+    public void InteractWithVillager(Villager _villager)
+    {
+
+        if (heldItem != null && heldItem.GetComponent<Item>().itemName.Equals("net"))
+        {
+            gameManager.BonkVillager(_villager);
+        }
+      //  else if()
+      //  {
+      //TODO
+           //story relevant interation, framing, etc
+
+      //  }
+        else
+        {
+            gameManager.InteractWithVillager(_villager);
+
+        }
+
+    }
+
+
+    public void InteractWithItem(Item _item)
+    {
+
+        if (heldItem != null)
+        {
+            if (heldItem.GetComponent<Item>().usable && _item.toolUsable.Equals(heldItem.GetComponent<Item>().itemName))
+            {
+                //dig hole with shovel, chop tree with axe
+                UseTool();
+            }
+            //todo: bury held item
+        }
+        else if (_item.usable == true)
+        {
+            //if not holding an item try to interact
+
+            if (transform.position.z < _item.transform.position.z && _item.CheckForNotice())
+            { _item.TakedownNotice(); }
+            else 
+            {
+                _item.Interact(gameManager);
+            }
+
+            //iteract with item[door mail box faucet etc]
+            
+
+        }
+
+    }
+
+
+
+
+
+
+
     public void UseTool()
     {
-        Vector3 squarePos = new Vector3(Mathf.RoundToInt((transform.position + (transform.forward * 0.3f)).x), Mathf.RoundToInt(transform.position.y), Mathf.RoundToInt((transform.position + (transform.forward * 0.3f)).z));
+        Vector3 squarePos = PositionRounded(transform.forward * 0.2f);
 
         //TODO: more precise calculation of which square to interact in
         // standing in the middle of a square should target the next square, standing on the edge facing inward should target that square
@@ -291,6 +348,39 @@ public class Player : MonoBehaviour
         Debug.Log("PerformAction");
 
     }
+
+
+
+    public void Dig()
+    {
+        RaycastHit hit;
+        if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f), 0.2f, transform.TransformDirection(Vector3.forward), out hit, 0.3f)) 
+        {
+            if (hit.transform.tag == "grass")
+            { 
+            
+            }
+            else if (hit.transform.GetComponent<Item>() != null && hit.transform.GetComponent<Item>().toolUsable.Equals("shovel"))
+            {
+                //stumps
+                //grubs
+                //fossiles and rocks?
+            }
+
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     public void HoldToCamera(GameObject _obj)

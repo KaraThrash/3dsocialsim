@@ -7,6 +7,17 @@ public class SceneActions : MonoBehaviour
     public Transform player;
     public float speed, rotSpeed,maxAngle;
 
+    public Item relevantItem;
+
+    private bool _onChange;
+
+    // private Villager villager;
+
+    void Start()
+    {
+        _onChange = true;
+    }
+
     public void TrailPlayer(Transform _actor)
     {
       //  GetComponent<Renderer>().isVisible
@@ -30,6 +41,7 @@ public class SceneActions : MonoBehaviour
         Vector3 screenPoint = GameManager.instance.cam.GetComponent<Camera>().WorldToViewportPoint(_villager.GetNavMeshDestination());
         if (screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1)
         {
+
         }
 
             _villager.SetNavMeshDestination(player.position);
@@ -43,9 +55,9 @@ public class SceneActions : MonoBehaviour
             if (screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1)
             {
                 _villager.SetNavMeshSpeed(0);
+                _villager.SetAnimatorParameter("walking", false);
 
-       
-                if (Quaternion.Angle(_villager.head.rotation, _villager.animatedHead.rotation) > 30)
+            if (Quaternion.Angle(_villager.head.rotation, _villager.animatedHead.rotation) > 30)
                 {
                     RotateToFace(_villager.transform, player);
 
@@ -67,7 +79,46 @@ public class SceneActions : MonoBehaviour
     }
 
 
+    public void ReplaceNotice(Villager _villager)
+    {
+        // if (villager == null) { villager = GetComponent<Villager>(); }
 
+        if (relevantItem == null) { return; }
+
+        if (relevantItem.notice.activeSelf)
+        { _villager.Act(); _onChange = true; }
+        else 
+        {
+            if (_onChange)
+            {
+                _villager.SetNavMeshDestination(relevantItem.transform.position + new Vector3(0, 0, -1));
+                _villager.SetAnimatorParameter("walking",true);
+                _onChange = false;
+                _villager.ThoughtBubble("angry",-1);
+            }
+
+            if (_villager.GetNavMeshDestination() != relevantItem.transform.position + new Vector3(0, 0, -1))
+            { _villager.SetNavMeshDestination(relevantItem.transform.position + new Vector3(0, 0, -1)); }
+
+            if (Vector3.Distance(_villager.GetNavMeshDestination(), _villager.transform.position) > 0.2f)
+            {
+                _villager.SetNavMeshSpeed(_villager.speed);
+            }
+            else
+            {
+                _villager.SetAnimatorParameter("walking", false);
+
+                if (RotateToFace(_villager.transform, relevantItem.transform) < 5)
+                {
+                    _villager.ThoughtBubble("angry", 0);
+                    relevantItem.HangNotice();
+                }
+
+            }
+        
+        }
+
+    }
 
 
 

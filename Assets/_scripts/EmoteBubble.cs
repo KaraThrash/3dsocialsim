@@ -17,10 +17,11 @@ public class EmoteBubble : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        transform.rotation = Quaternion.Lerp(transform.rotation, new Quaternion(0, 0, 0, 0), Time.deltaTime);
 
         if (timer != -1)
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity,Time.deltaTime);
+            
                 //Quaternion.identity;
             timer -= Time.deltaTime;
             if (timer <= 0) 
@@ -34,7 +35,7 @@ public class EmoteBubble : MonoBehaviour
 
 
 
-    public void SetMaterial(Material _mat)
+    public void SetMaterial(Material _mat, float _duration = 1)
     {
        
 
@@ -45,8 +46,24 @@ public class EmoteBubble : MonoBehaviour
 
         renderer.material = _mat;
 
-        timer = displayTime; 
+        timer = _duration; 
    
+
+    }
+
+    public void SetMaterial(Material _mat)
+    {
+
+
+        if (renderer == null)
+        { return; }
+
+
+
+        renderer.material = _mat;
+
+        timer = displayTime;
+
 
     }
 

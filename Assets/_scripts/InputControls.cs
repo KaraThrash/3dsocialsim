@@ -16,8 +16,38 @@ public static class InputControls
     public static KeyCode menuKey = KeyCode.Return;
 
     private static float deadtime = 0.2f, deadClock; //holding an axis while using as a button
-    // Start is called before the first frame update
-     static void Start()
+
+
+
+    // https://game8.co/games/Animal-Crossing-New-Horizons/archives/284569#hl_3
+
+    //    Control Action
+    //A Interact with characters and objects
+    //Use tool or item
+    //Move furniture(Press and hold A)
+    //B Cancel action
+    //X   Open up pockets(Inventory)
+    //Y Pick up item
+    //Left Control Stick Move(Walk/Run)
+    //Right Control Stick Pan Camera(Outdoors)
+    //Rotate Camera(Indoors)
+    //ZL Use NookPhone
+    //R   Chat with other players on the island
+    //ZR  Use Reactions
+    //↑	Open up the Tool Ring(Unlockable)
+    //← or →	Switch between tools
+    //↓	Store tool
+    //-	Save and quit game
+    //+	Switch between permits(When using the Island Designer app)
+    //Capture Take a screenshot
+    //Capture the last 30-second gameplay(Press and hold the Capture button)
+
+
+
+
+
+
+    static void Start()
     {
      
     }

@@ -11,6 +11,7 @@ public class Item : MonoBehaviour
     public int stackSize = 1, maxStackSize = 1,footprintWidth=-1,footprintDepth=-1;
     
     public GameObject subItem; //fishing bob type items
+    public GameObject notice;
     
     private Vector3 subItemStartPos;
 
@@ -42,6 +43,38 @@ public class Item : MonoBehaviour
         subItem.transform.localPosition = subItemStartPos;
     }
 
-    public virtual void Interact(GameManager gameManager) { }
+
+    public virtual void Interact( )
+    {
+
+        if (notice != null && notice.activeSelf) {  }
+    
+    }
+    public virtual void Interact(GameManager gameManager) {  }
+
+
+
+    public virtual void HangNotice() 
+    {
+        if (notice != null)
+        {
+            notice.SetActive(true);
+        }
+    }
+
+    public virtual void TakedownNotice()
+    {
+        if (notice != null)
+        {
+            notice.SetActive(false);
+        }
+    }
+
+    public bool CheckForNotice()
+    {
+        if (notice != null && notice.activeSelf) { return true; }
+            return false;
+    }
+
 
 }
