@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1957928521022663880, guid: af96847b6a05bc84e8f5f4017993eb95, type: 3}
+  - {fileID: 2100000, guid: d449715f0aef9bb458eba860ebac09b4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -396,10 +396,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c268457c27040b4985e81186b894567, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: 
+  toolUsable: 
+  icon: {fileID: 0}
+  usable: 1
+  placable: 0
+  holdable: 0
+  stackSize: 1
+  maxStackSize: 1
+  footprintWidth: -1
+  footprintDepth: -1
+  subItem: {fileID: 0}
+  notice: {fileID: 3382807704945547230}
   stump: {fileID: 3423261240328122315}
   trunk: {fileID: 5928986723372842378}
   leaves: {fileID: 8760597849654246740}
-  notice: {fileID: 3382807704945547230}
 --- !u!136 &4857686193716179035
 CapsuleCollider:
   m_ObjectHideFlags: 0

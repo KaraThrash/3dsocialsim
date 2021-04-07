@@ -227,30 +227,33 @@ public class Player : MonoBehaviour
         //check forward first, then check down
 
         RaycastHit hit;
-        if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f), 0.2f, transform.TransformDirection(Vector3.forward), out hit, 0.3f))
+       // if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f), 0.2f, transform.TransformDirection(Vector3.forward), out hit, 0.3f))
+        if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f), 0.2f, transform.TransformDirection((Vector3.down + Vector3.forward).normalized), out hit, 0.6f))
         {
            
             if (hit.transform.GetComponent<Villager>() != null)
             {
                 InteractWithVillager(hit.transform.GetComponent<Villager>());
-                
 
             }
             else if (hit.transform.GetComponent<Item>() != null )
             {
                 InteractWithItem(hit.transform.GetComponent<Item>());
             }
-            
+
+        
+
             else
             {
-                //if no one to talk to check hands for tools
-                UseTool();
+                //if no one to talk to and not standing in front of a tree/hole/board etc check hands for tools
+                UseTool(hit);
             }
+            
         }
         else 
         {
             //if no one to talk to check hands for tools
-            UseTool();
+       //     UseTool();
 
 
         }
@@ -284,11 +287,28 @@ public class Player : MonoBehaviour
 
         if (heldItem != null)
         {
-            if (heldItem.GetComponent<Item>().usable && _item.toolUsable.Equals(heldItem.GetComponent<Item>().itemName))
+
+            if (heldItem.GetComponent<Item>().itemName.Equals("axe") && _item.GetComponent<Tree>() != null && _item.GetComponent<Tree>().JustStump())
             {
-                //dig hole with shovel, chop tree with axe
-                UseTool();
+                heldItem.GetComponent<Tree>().Chop();
             }
+            else if (heldItem.GetComponent<Item>().itemName.Equals("shovel") && _item.GetComponent<Hole>() != null)
+            {
+                if (_item.GetComponent<Hole>().open)
+                {
+                    _item.GetComponent<Hole>().Bury(null);
+                }
+                else if (_item.GetComponent<Hole>().GetItem() != null)
+                {
+                    _item.GetComponent<Hole>().Bury(null);
+                }
+            }
+
+            //if (heldItem.GetComponent<Item>().usable && _item.toolUsable.Equals(heldItem.GetComponent<Item>().itemName))
+            //{
+            //    //dig hole with shovel, chop tree with axe
+            //    UseTool(_item);
+            //}
             //todo: bury held item
         }
         else if (_item.usable == true)
@@ -310,12 +330,55 @@ public class Player : MonoBehaviour
     }
 
 
+    public void UseTool(Item _item)
+    {
+        Vector3 squarePos = PositionRounded(transform.forward * 0.2f);
+
+        //TODO: more precise calculation of which square to interact in
+        // standing in the middle of a square should target the next square, standing on the edge facing inward should target that square
+
+        if (heldItem == null || heldItem.GetComponent<Item>() == null) { return; }
+        // Item heldItem = inventory.GetFromPockets(currentItem);
+        if (heldItem != null)
+        {
+
+            if (heldItem.GetComponent<Item>().itemName.Equals("shovel"))
+            {
+                gameManager.InteractWithGround(squarePos, "dig");
+            }
+            else if (_item.GetComponent<Tree>() != null && heldItem.GetComponent<Item>().itemName.Equals("axe"))
+            {
+
+                _item.GetComponent<Tree>().Chop();
+            }
+            else if (heldItem.GetComponent<Item>().itemName.Equals("fishingRod"))
+            {
+                gameManager.InteractWithGround(transform.position + (transform.forward * 1.6f), "fish", heldItem.GetComponent<Item>().subItem);
+            }
+            else if (heldItem.GetComponent<Item>().itemName.Equals("net"))
+            {
+                gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "net");
+            }
+            // to be able to bury an item
+            else if (heldItem.GetComponent<Item>().buryable)
+            {
+                gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "net");
+            }
 
 
 
 
 
-    public void UseTool()
+        }
+
+        Debug.Log("PerformAction");
+
+    }
+
+
+
+
+    public void UseTool(RaycastHit _hit)
     {
         Vector3 squarePos = PositionRounded(transform.forward * 0.2f);
 
@@ -329,10 +392,14 @@ public class Player : MonoBehaviour
 
             if (heldItem.GetComponent<Item>().itemName.Equals("shovel"))
             {
-                gameManager.InteractWithGround(squarePos, "dig");
+                gameManager.TerrainManager().Dig(this, _hit);
+
+               // Dig();
+                //gameManager.InteractWithGround(squarePos, "dig");
             }
             else if ( heldItem.GetComponent<Item>().itemName.Equals("axe"))
             {
+
                 gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "chop");
             }
             else if (heldItem.GetComponent<Item>().itemName.Equals("fishingRod"))
@@ -354,17 +421,25 @@ public class Player : MonoBehaviour
     public void Dig()
     {
         RaycastHit hit;
+
         if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f), 0.2f, transform.TransformDirection(Vector3.forward), out hit, 0.3f)) 
         {
             if (hit.transform.tag == "grass")
             { 
             
             }
-            else if (hit.transform.GetComponent<Item>() != null && hit.transform.GetComponent<Item>().toolUsable.Equals("shovel"))
+            else if (hit.transform.GetComponent<Hole>() != null )
             {
                 //stumps
                 //grubs
                 //fossiles and rocks?
+
+            }
+            else if (hit.transform.GetComponent<Tree>() != null && hit.transform.GetComponent<Tree>().JustStump())
+            {
+                //stumps
+               
+
             }
 
         }

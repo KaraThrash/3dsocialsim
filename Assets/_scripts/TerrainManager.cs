@@ -117,6 +117,8 @@ public class TerrainManager : MonoBehaviour
 
         if (terrainSquare == null) { return false; }
 
+
+        //NOTE: keep a list of buried items and check against the dig location
         if (terrainSquare.CanDig())
         {
             GameObject clone = Instantiate(holePrefab, terrainSquare.transform.position, terrainSquare.transform.rotation);
@@ -137,6 +139,37 @@ public class TerrainManager : MonoBehaviour
         }
        
         return false;
+    }
+
+    public void Dig(Player _player, RaycastHit _hit)
+    {
+        //RaycastHit hit;
+
+        //if (Physics.SphereCast(_player.transform.position + (Vector3.up * 0.5f), 0.2f, _player.transform.TransformDirection(Vector3.forward), out hit, 0.3f))
+        //{
+            if (_hit.transform.tag == "grass")
+            {
+                GameObject clone = Instantiate(holePrefab, _hit.point, holePrefab.transform.rotation);
+
+
+            }
+            else if (_hit.transform.GetComponent<Hole>() != null)
+            {
+                if (_player.heldItem != null && _player.heldItem.GetComponent<Item>() != null && _player.heldItem.GetComponent<Item>().buryable)
+                {
+                _hit.transform.GetComponent<Hole>().Bury(_player.heldItem.GetComponent<Item>());
+                }
+
+            }
+            else if (_hit.transform.GetComponent<Tree>() != null && _hit.transform.GetComponent<Tree>().JustStump() && _player.heldItem != null && _player.heldItem.GetComponent<Item>().itemName.Equals("shovel"))
+            {
+                GameObject clone = Instantiate(holePrefab, _hit.transform.position, holePrefab.transform.rotation);
+                Destroy(_hit.transform.gameObject);
+
+
+            }
+
+        //}
     }
 
     public bool Fish(Vector3 _square,GameObject _bob)
