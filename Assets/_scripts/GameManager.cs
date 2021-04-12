@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Yarn.Unity;
 
 
 public class GameManager : MonoBehaviour
@@ -16,6 +17,8 @@ public class GameManager : MonoBehaviour
 
 
     public Player player;
+    public DialogueRunner dialogueRunner;
+    public YarnFunctions yarnFunctions;
     public TerrainManager terrainManager;
     public TimeManager timeManager;
     public UiManager uiManager;
@@ -95,12 +98,12 @@ public class GameManager : MonoBehaviour
     {
         if (inConversation == false)
         {
-            
             StartConversation();
             audioManager.PlayWorldEffect(_villager.Voice());
         }
 
         activeObject = _villager.transform;
+        dialogueRunner.StartDialogue(_villager.name);
         _villager.Interact();
 
     }
@@ -209,7 +212,10 @@ public class GameManager : MonoBehaviour
     public void StartConversation()
     {
         cam.GetComponent<CameraControls>().ConversationToggle(true);
-        chatbox.SetActive(true);
+        
+
+
+        //chatbox.SetActive(true);
         inConversation = true;
         actionTimer = -1;
         player.state = PlayerState.talking;
@@ -218,10 +224,14 @@ public class GameManager : MonoBehaviour
     public void EndConversation()
     {
         cam.GetComponent<CameraControls>().ConversationToggle(false);
-        chatbox.SetActive(false);
+       // chatbox.SetActive(false);
         inConversation = false;
         actionTimer = 0;
         player.state = PlayerState.playerControlled;
+
+        if (activeObject != null && activeObject.GetComponent<Villager>() != null)
+        { activeObject.GetComponent<Villager>().State(VillagerState.idle); }
+
     }
 
     public void ShowDialogue(string _line)
@@ -294,7 +304,19 @@ public class GameManager : MonoBehaviour
     public TimeManager TimeManager()
     { return timeManager; }
 
+    public bool DialogueIsRunning()
+    {
+        if (dialogueRunner != null && dialogueRunner.IsDialogueRunning == true)
+        {
+            return true;
+        }
+        return false;
+    }
 
+    public void StartDialogue(string _name)
+    { 
+        dialogueRunner.StartDialogue(_name); 
+    }
 
 
 

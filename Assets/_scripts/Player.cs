@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Yarn.Unity;
 public enum PlayerState { playerControlled,inMenu,talking, choosing,fishing,acting,showing}
 
 public class Player : MonoBehaviour
@@ -41,6 +41,11 @@ public class Player : MonoBehaviour
     void Update()
     {
 
+        //TODO: find a better way to do this
+        if (gameManager.DialogueIsRunning() == true)
+        {
+            return;
+        }
         //for debug porpoises
         playerStateString = state.ToString();
         
@@ -276,6 +281,7 @@ public class Player : MonoBehaviour
         else
         {
             gameManager.InteractWithVillager(_villager);
+
 
         }
 

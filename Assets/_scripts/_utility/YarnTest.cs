@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Yarn.Unity;
 
-public class YarnTest : MonoBehaviour
+public class YarnTest 
 {
-    [YarnCommand("yarntest")]
-    public void YarnFunction(string spriteName)
-    {
-        Debug.Log("Testing Yarn Function");
-        Debug.Log(spriteName);
+    //[YarnCommand("yarntest")]
+    //public void YarnFunction(string spriteName)
+    //{
+    //    Debug.Log("Testing Yarn Function");
+    //    Debug.Log(spriteName);
 
-        //<<yarntest Sally name>>
-        //<<yarncommand Actor parameters>>
-    }
+    //    //<<yarntest Sally name>>
+    //    //<<yarncommand Actor parameters>>
+    //}
 }

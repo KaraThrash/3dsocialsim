@@ -268,29 +268,32 @@ public class Villager : MonoBehaviour
 
     public void Interact()
     {
-        if (activeDialogue == null)
-        {
-            if ((lastInteractionDate - DateTime.Now).TotalSeconds >= timeBetweenGreetings)
-            {
-                activeDialogue = FindDialogue("greeting");
-            }
-            else 
-            {
-                activeDialogue = FindDialogue("smalltalk");
-            }
+        State(VillagerState.talking);
 
-            State(VillagerState.talking);
-        }
+
+        //if (activeDialogue == null)
+        //{
+        //    if ((lastInteractionDate - DateTime.Now).TotalSeconds >= timeBetweenGreetings)
+        //    {
+        //        activeDialogue = FindDialogue("greeting");
+        //    }
+        //    else 
+        //    {
+        //        activeDialogue = FindDialogue("smalltalk");
+        //    }
+
+        //    State(VillagerState.talking);
+        //}
 
    
 
 
-        //send the next line of dialogue to the gamemanager to display in the chat box
-        gameManager.ShowDialogue(npcName,activeDialogue.NextDialogueLine());
+        ////send the next line of dialogue to the gamemanager to display in the chat box
+        //gameManager.ShowDialogue(npcName,activeDialogue.NextDialogueLine());
 
 
-        if (activeDialogue.EndOfDialogue())
-        {  activeDialogue = null; }
+        //if (activeDialogue.EndOfDialogue())
+        //{  activeDialogue = null; }
     }
 
 
@@ -378,7 +381,11 @@ public class Villager : MonoBehaviour
         { anim.SetFloat(_parameter, _value); }
     }
 
-
+    public void PlayAnimation(string _parameter)
+    {
+        if (anim != null)
+        { anim.Play(_parameter); }
+    }
 
 
     //NavMeshFunctions
