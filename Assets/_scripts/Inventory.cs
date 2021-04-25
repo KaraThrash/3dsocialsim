@@ -152,7 +152,7 @@ public class Inventory : MonoBehaviour
                 count++;
             }
         }
-        Debug.Log("Pocket Item Count: " + count + " Counted but list.count: " + itemsInPockets.Count);
+        //Debug.Log("Pocket Item Count: " + count + " Counted but list.count: " + itemsInPockets.Count);
         return count;
     }
 

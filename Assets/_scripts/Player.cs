@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Yarn.Unity;
 public enum PlayerState { playerControlled,inMenu,talking, choosing,fishing,acting,showing}
 
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour
     public Transform InHands;
     public GameObject heldItem;
     public Inventory inventory;
+    public WorldUi placeholderActionText;
     private int currentItem;
 
     private Rigidbody rb;
@@ -32,14 +34,26 @@ public class Player : MonoBehaviour
         return new Vector3(Mathf.RoundToInt(transform.position.x + _offset.x), Mathf.RoundToInt(transform.position.y + _offset.y), Mathf.RoundToInt(transform.position.z + _offset.z));
     }
 
+    public void SetText(string text="")
+    {
+        if (placeholderActionText != null && text.Equals("") == false)
+        {
+            placeholderActionText.SetText(text);
+        }
+
+    }
+
+
     void Start()
     {
+        SetText("game start");
         rb = GetComponent<Rigidbody>();
     }
 
   
     void Update()
     {
+        
 
         //TODO: find a better way to do this
         if (gameManager.DialogueIsRunning() == true)
@@ -61,6 +75,7 @@ public class Player : MonoBehaviour
 
         if (InputControls.NextButton())
         { NextItem(1); }
+
         if (InputControls.PreviousButton())
         { NextItem(-1); }
 
@@ -231,9 +246,11 @@ public class Player : MonoBehaviour
 
         //check forward first, then check down
 
+       // Vector3 fwd = (transform.position + (Vector3.up * 0.5f)) - (transform.position + (transform.forward * 0.5f));
+
         RaycastHit hit;
        // if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f), 0.2f, transform.TransformDirection(Vector3.forward), out hit, 0.3f))
-        if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f), 0.2f, transform.TransformDirection((Vector3.down + Vector3.forward).normalized), out hit, 0.6f))
+        if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.15f, transform.TransformDirection((Vector3.down + Vector3.forward).normalized), out hit, 0.9f))
         {
            
             if (hit.transform.GetComponent<Villager>() != null)
@@ -245,8 +262,11 @@ public class Player : MonoBehaviour
             {
                 InteractWithItem(hit.transform.GetComponent<Item>());
             }
+            else if (hit.transform.GetComponent<Tree>() != null)
+            {
+                InteractWithItem(hit.transform.GetComponent<Tree>());
+            }
 
-        
 
             else
             {
@@ -286,7 +306,7 @@ public class Player : MonoBehaviour
         }
 
     }
-
+   
 
     public void InteractWithItem(Item _item)
     {
@@ -294,20 +314,41 @@ public class Player : MonoBehaviour
         if (heldItem != null)
         {
 
-            if (heldItem.GetComponent<Item>().itemName.Equals("axe") && _item.GetComponent<Tree>() != null && _item.GetComponent<Tree>().JustStump())
+            if (heldItem.GetComponent<Item>().itemName.Equals("axe") && _item.GetComponent<Tree>() != null && !_item.GetComponent<Tree>().JustStump())
             {
-                heldItem.GetComponent<Tree>().Chop();
+                Debug.Log("chop");
+                _item.GetComponent<Tree>().Chop();
             }
-            else if (heldItem.GetComponent<Item>().itemName.Equals("shovel") && _item.GetComponent<Hole>() != null)
+            else if (heldItem.GetComponent<Item>().itemName.Equals("shovel") )
             {
-                if (_item.GetComponent<Hole>().open)
+                _item.Dig();
+
+                if (_item.GetComponent<Hole>() != null)
                 {
-                    _item.GetComponent<Hole>().Bury(null);
+                    if (_item.GetComponent<Hole>().open)
+                    {
+                        _item.GetComponent<Hole>().Bury(null);
+                    }
+                    else if (_item.GetComponent<Hole>().GetItem() != null)
+                    {
+                        _item.GetComponent<Hole>().Bury(null);
+                    }
                 }
-                else if (_item.GetComponent<Hole>().GetItem() != null)
-                {
-                    _item.GetComponent<Hole>().Bury(null);
+                else if (_item.GetComponent<Tree>() != null && _item.GetComponent<Tree>().JustStump())
+                { 
+                
                 }
+
+
+
+            }
+            else if (heldItem.GetComponent<Item>().itemName.Equals("net"))
+            {
+                _item.Catch();
+
+
+
+
             }
 
             //if (heldItem.GetComponent<Item>().usable && _item.toolUsable.Equals(heldItem.GetComponent<Item>().itemName))
@@ -428,7 +469,7 @@ public class Player : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f), 0.2f, transform.TransformDirection(Vector3.forward), out hit, 0.3f)) 
+        if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.1f, transform.TransformDirection(Vector3.forward), out hit, 0.3f)) 
         {
             if (hit.transform.tag == "grass")
             { 
@@ -466,12 +507,14 @@ public class Player : MonoBehaviour
 
     public void HoldToCamera(GameObject _obj)
     {
+        transform.LookAt(new Vector3(transform.position.x,transform.position.y,transform.position.z -10));
         _obj.transform.position = InHands.position;
         _obj.transform.rotation = InHands.rotation;
     }
 
     public void HoldToCamera(Transform _obj)
     {
+        transform.LookAt(new Vector3(transform.position.x, transform.position.y, transform.position.z - 10));
         _obj.position = InHands.position;
         _obj.rotation = InHands.rotation;
     }

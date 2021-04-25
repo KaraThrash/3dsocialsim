@@ -1,0 +1,35 @@
+title: Starbuck
+tags:
+---
+<<if visited("Starbuck") is false>>
+    Starbuck: Hey, friend.  #line:5837f2
+    Player: Hi, Starbuck. #line:Starbuck9
+    Player: How's space? #line:Starbuck10
+    Starbuck: Oh, man. #line:Starbuck11
+    <<setsprite StarbuckFace happy>>
+    Starbuck: It's HUGE! #line:Starbuck12
+    <<setsprite StarbuckFace neutral>>
+<<else>>
+    <<setsprite StarbuckFace happy>>
+    Starbuck: Hey!! #line:Starbuck13
+    <<setsprite StarbuckFace neutral>>
+<<endif>>
+
+<<if $should_see_Starbuck is true and $sally_warning is false>>
+    Player: Sally said you wanted to see me? #line:Starbuck1
+    <<setsprite StarbuckFace happy>> 
+    Starbuck: She totally did!! #line:Starbuck3
+    <<setsprite StarbuckFace neutral>> 
+    Starbuck: She wanted me to tell you... #line:Starbuck4
+    Starbuck: If you ever go off-watch without resetting the console again... #line:Starbuck5
+    <<setsprite StarbuckFace happy>>
+    Starbuck: She'll flay you alive! #line:Starbuck6
+    <<set $sally_warning to true>>
+    <<wait 1>>
+    Player: Uh. #line:Starbuck7
+    
+    <<setsprite StarbuckFace neutral>>
+
+
+<<endif>>
+===

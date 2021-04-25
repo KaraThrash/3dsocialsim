@@ -10,7 +10,12 @@ public class Menus : MonoBehaviour
 
     void Start()
     {
-        
+        //disable the highlight, reset the cursor location
+        SetCursorActive(cursor, true);
+        SetCursorActive(selectionHighlight, false);
+
+        cursorTarget = 0;
+        MoveCursor(0);
     }
 
     void Update()
@@ -24,8 +29,8 @@ public class Menus : MonoBehaviour
         SetCursorActive(cursor,true);
         SetCursorActive(selectionHighlight, false);
 
-        cursorTarget = 0;
-        MoveCursor(0);
+       // cursorTarget = 0;
+       // MoveCursor(0);
     }
 
     public void MoveCursor(int _dir)

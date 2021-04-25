@@ -5,7 +5,7 @@ using UnityEngine;
 public class Hole : Item
 {
     public bool open;
-    public GameObject holeCollider;
+    public GameObject holeCollider,buriedIndicator;
     public Material openDirt, buriedGrass;
     public MeshRenderer renderer;
 
@@ -27,7 +27,7 @@ public class Hole : Item
             {
                 buriedItem = _item;
                 open = false;
-
+                buriedIndicator.SetActive(true);
                 if (renderer != null)
                 { renderer.material = buriedGrass; }
 
@@ -43,6 +43,7 @@ public class Hole : Item
     {
         if (!open && GetItem() != null)
         {
+            buriedIndicator.SetActive(false);
             open = true;
 
             if (renderer != null)

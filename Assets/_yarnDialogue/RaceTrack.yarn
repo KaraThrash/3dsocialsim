@@ -1,0 +1,13 @@
+﻿title: RaceTrack
+tags:
+---
+<<if visited("RaceTrack") is false>>
+    <<PlayAnimation YarnFunctions WaveHello>>
+ 
+    RaceTrack: Oh! Hi. 
+    Player: Hey, RaceTrack. 
+    RaceTrack: You snuck up on me.
+    RaceTrack: Don't do that.
+<<endif>>
+
+===

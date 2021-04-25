@@ -37,9 +37,18 @@ public class LostWoodsArea : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
-        { 
+        {
+            string direction = "north";
+            if (other.transform.position.x < transform.position.x - 2)
+            { direction = "east"; }
+            else if (other.transform.position.x > transform.position.x + 2)
+            { direction = "west"; }
+            else if (other.transform.position.z > transform.position.z + 2)
+            { direction = "north"; }
+            else if (other.transform.position.z < transform.position.z - 2)
+            { direction = "south"; }
 
-            lostWoods.EnterNewArea(id, other);
+            lostWoods.EnterNewArea(id, other, direction);
 
         }
     }

@@ -6,6 +6,8 @@ public class TerrainManager : MonoBehaviour
 {
     public GameManager gameManager;
     public Transform mapParent,treeParent,interiorMapParent;
+
+
     public bool inside;
 
 
@@ -112,7 +114,8 @@ public class TerrainManager : MonoBehaviour
 
     public bool Dig(Vector3 _square)
     {
-
+         Instantiate(holePrefab, _square, holePrefab.transform.rotation);
+        return true;
         TerrainSquare terrainSquare = GetMapSquare(_square);
 
         if (terrainSquare == null) { return false; }

@@ -8,12 +8,12 @@ public class Door : Item
     public GameManager gameManager;
     public bool interior;
     public bool exit;
-
+    public string _camSetting;
 
     public override void Interact(GameManager _gameManager) 
     {
         gameManager = _gameManager;
-        gameManager.EnterBuilding(interiorObj,connectedArea);
+        gameManager.EnterArea(interiorObj,connectedArea, _camSetting);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -23,9 +23,12 @@ public class Door : Item
         if (other.GetComponent<Player>() != null && other.GetComponent<Player>().state != PlayerState.acting && connectedArea != null)
         {
             if (exit) 
-            { gameManager.LeaveBuilding(); }
+            { 
+                gameManager.LeaveBuilding();
+            }
             else 
             {
+
                 gameManager.EnterRoom(connectedArea);
 
             }

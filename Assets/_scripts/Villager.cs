@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+using Yarn.Unity;
 
 public enum VillagerState { moving,idle,waiting,talking,activity }
 public enum VillagerStoryState { idle,inScene,inPrison, offScreen }
@@ -44,6 +44,7 @@ public class Villager : MonoBehaviour
     public void StoryState(VillagerStoryState _state) { currentStoryState = _state; }
     public VillagerStoryState StoryState() { return currentStoryState; }
 
+    public YarnProgram scriptToLoad;
     private NavMeshAgent nav;
 
 
@@ -81,7 +82,11 @@ public class Villager : MonoBehaviour
 
         ResetToStart();
 
-
+        if (scriptToLoad != null)
+        {
+            DialogueRunner dialogueRunner = FindObjectOfType<Yarn.Unity.DialogueRunner>();
+            dialogueRunner.Add(scriptToLoad);
+        }
 
         if (head != null && animatedHead != null)
         {
@@ -154,7 +159,6 @@ public class Villager : MonoBehaviour
         }
         else
         {
-            Debug.Log("going back to normal rotation");
             Quaternion.Slerp(head.rotation, animatedHead.rotation, rotSpeed * Time.deltaTime);
         
         }
@@ -317,7 +321,7 @@ public class Villager : MonoBehaviour
 
         //TODO: check scene, and state for cases where this is part of the scene or an idle bonking
         ThoughtBubble("angry");
-
+        GameManager.instance.AudioManager().PlayWorldEffect(Voice());
     }
 
 

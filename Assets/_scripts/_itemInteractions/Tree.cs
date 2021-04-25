@@ -20,11 +20,15 @@ public class Tree : Item
 
     public bool JustStump()
     {
-        return trunk.activeSelf;
+        return !trunk.activeSelf;
     }
 
-    public void Dig()
-    { }
+    public override void Dig()
+    {
+
+        GameManager.instance.InteractWithGround(transform.position, "dig");
+        Destroy(this.gameObject);
+    }
 
     public override void HangNotice()
     {

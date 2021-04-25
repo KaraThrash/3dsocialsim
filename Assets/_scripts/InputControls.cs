@@ -12,7 +12,7 @@ public static class InputControls
     public static string dPadVertButton = "DpadVert",dPadHortButton = "DpadHort";
     public static bool dPadVertPressed,dPadHortPressed,vertPressed,hortPressed;
 
-    public static KeyCode interactKey = KeyCode.Space, pickupKey = KeyCode.LeftControl, actionKey = KeyCode.RightControl, nextKey = KeyCode.A, previousKey = KeyCode.A, dPadDownKey = KeyCode.DownArrow;
+    public static KeyCode interactKey = KeyCode.Space, pickupKey = KeyCode.LeftControl, actionKey = KeyCode.RightControl, nextKey = KeyCode.E, previousKey = KeyCode.Q, dPadDownKey = KeyCode.DownArrow;
     public static KeyCode menuKey = KeyCode.Return;
 
     private static float deadtime = 0.2f, deadClock; //holding an axis while using as a button

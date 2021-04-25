@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Yarn.Unity;
 
@@ -24,6 +25,9 @@ public class GameManager : MonoBehaviour
     public UiManager uiManager;
     public AudioManager audioManager;
     public CameraControls cameraControls;
+
+
+
     public GameObject chatbox,showCameraItem;
     public Text chatText,titleText;//for character names
 
@@ -36,6 +40,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         UnlockPlayerMovement(true);
+
         StartDay();
     }
 
@@ -56,6 +61,20 @@ public class GameManager : MonoBehaviour
         {
             TimeManager().AdvanceTime(5);
          
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SceneManager.LoadScene(0);
+
 
         }
 
@@ -96,15 +115,24 @@ public class GameManager : MonoBehaviour
 
     public void InteractWithVillager(Villager _villager)
     {
-        if (inConversation == false)
-        {
-            StartConversation();
-            audioManager.PlayWorldEffect(_villager.Voice());
-        }
+       
 
-        activeObject = _villager.transform;
-        dialogueRunner.StartDialogue(_villager.name);
-        _villager.Interact();
+        if (_villager.scriptToLoad != null)
+        {
+            if (inConversation == false)
+            {
+                StartConversation();
+                audioManager.PlayWorldEffect(_villager.Voice());
+            }
+
+            activeObject = _villager.transform;
+            // dialogueRunner.Add(_villager.scriptToLoad);
+            //  _villager.scriptToLoad = null;
+            dialogueRunner.StartDialogue(_villager.name);
+            _villager.Interact();
+        }
+        else { _villager.Bonk(); }
+
 
     }
 
@@ -115,7 +143,7 @@ public class GameManager : MonoBehaviour
         {
             if (terrainManager.Dig(_square))
             {
-                actionTimer = 1;
+                actionTimer = 0.2f;
                 player.state = PlayerState.acting;
             }
 
@@ -124,7 +152,7 @@ public class GameManager : MonoBehaviour
         {
             if (terrainManager.Chop(_square))
             {
-                actionTimer = 1;
+                actionTimer = 0.2f;
                 UnlockPlayerMovement(false);
             }
         }
@@ -141,14 +169,7 @@ public class GameManager : MonoBehaviour
             GameObject _obj = terrainManager.Catch(_square);
             if (_obj != null)
             {
-                activeObject = _obj.transform;
-
-                actionTimer = 1;
-
-                cameraControls.ConversationToggle(true);
-
-                player.SetState(PlayerState.showing);
-                player.HoldToCamera(activeObject.GetChild(0));
+               
 
                
 
@@ -157,24 +178,110 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void EnterBuilding(GameObject _interiorObj, GameObject _connectedArea)
+    public void CatchBug(Item _bug)
     {
-        actionTimer = 1;
+        activeObject = _bug.transform;
+
+        actionTimer = 2;
+
+        cameraControls.ConversationToggle(true);
+
+        player.SetState(PlayerState.showing);
+        player.HoldToCamera(activeObject.GetChild(0));
+    }
+
+
+
+    public void EnterArea(GameObject _interiorObj, GameObject _connectedArea,string _type="")
+    {
+       
+
+        if (_type.Equals("building"))
+        {
+            cameraControls.SetCameraTrackingOffset("inside");
+            player.inside = true;
+
+        }
+        else if (_type.Equals("lostwoods"))
+        {
+            cameraControls.SetCameraTrackingOffset("lostwoods");
+
+            if (_interiorObj.GetComponent<LostWoods>() != null)
+            {
+                _interiorObj.GetComponent<LostWoods>().StartLostWoods();
+            }
+        }
+
+        actionTimer = 0.2f;
         player.state = PlayerState.acting;
 
-        TerrainManager().EnterBuilding(_interiorObj,_connectedArea);
+       // TerrainManager().EnterBuilding(_interiorObj, _connectedArea);
+
+
+        player.transform.position = new Vector3(_connectedArea.transform.position.x, _connectedArea.transform.position.y, _connectedArea.transform.position.z);
+        cameraControls.SetLocation(_connectedArea.transform.position);
+
+
+        if (_connectedArea.transform.parent != null)
+        {
+           // cameraControls.SetLocation(_connectedArea.transform.parent.position);
+
+        }
+        else
+        {
+            cameraControls.SetLocation(_connectedArea.transform.position);
+
+        }
+
+    }
+
+
+    public void EnterBuilding(GameObject _interiorObj, GameObject _connectedArea,string _camSetting="")
+    {
+        actionTimer = 0.2f;
+        player.state = PlayerState.acting;
+
+      //  TerrainManager().EnterBuilding(_interiorObj,_connectedArea);
+
         player.transform.position = new Vector3(_connectedArea.transform.position.x, -20, _connectedArea.transform.position.z);
 
-        player.inside = true;
 
-        cameraControls.SetCameraTrackingOffset("inside");
+        if (_camSetting.Equals("building"))
+        {
+            cameraControls.SetCameraTrackingOffset("inside");
+            player.inside = true;
+
+        }
+        else 
+        {
+
+         cameraControls.SetCameraTrackingOffset(_camSetting);
+
+            if (_interiorObj.GetComponent<LostWoods>() != null)
+            {
+                _interiorObj.GetComponent<LostWoods>().StartLostWoods();
+            }
+
+
+        }
+
+
+        if (_connectedArea.transform.parent != null)
+        {
         cameraControls.SetLocation(_connectedArea.transform.parent.position);
+
+        }
+        else 
+        {
+        cameraControls.SetLocation(_connectedArea.transform.position);
+
+        }
 
     }
 
     public void LeaveBuilding()
     {
-        actionTimer = 1;
+        actionTimer = 0.2f;
         player.state = PlayerState.acting;
 
         TerrainManager().LeaveBuilding();
@@ -303,6 +410,18 @@ public class GameManager : MonoBehaviour
 
     public TimeManager TimeManager()
     { return timeManager; }
+
+    public AudioManager AudioManager()
+    {
+        if (audioManager == null) { audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>(); }
+        return audioManager;
+    }
+
+
+
+
+
+
 
     public bool DialogueIsRunning()
     {

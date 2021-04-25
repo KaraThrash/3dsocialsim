@@ -52,7 +52,17 @@ public class Item : MonoBehaviour
     }
     public virtual void Interact(GameManager gameManager) {  }
 
+    public virtual void Dig()
+    {
 
+       //note: cant dig here animation should be the default
+    }
+
+    public virtual void Catch()
+    {
+
+
+    }
 
     public virtual void HangNotice() 
     {
