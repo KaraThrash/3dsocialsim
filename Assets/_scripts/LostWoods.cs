@@ -11,7 +11,7 @@ public class LostWoods : MonoBehaviour
     public int current,previous;
     public Vector3 areaOffset; // for placing squares adjacent to each other
     public Transform sections,forestLayouts;
-    public Transform exit;
+    public Transform entrance,exit;
 
     public string pathTaken, targetPath0, targetpath1;
     public int distanceToLeave,totalDistanceTraveled,sequence; //how many correct transitions need to happen
@@ -53,7 +53,7 @@ public class LostWoods : MonoBehaviour
             }
         }
 
-        LostWoodsArea cur = forestLayouts.GetChild(0).GetComponent<LostWoodsArea>();
+        LostWoodsArea cur = entrance.GetComponent<LostWoodsArea>();
 
         cur.transform.parent = sections;
         cur.transform.position = sections.position;

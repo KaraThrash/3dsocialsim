@@ -7,7 +7,8 @@ public class LostWoodsArea : MonoBehaviour
     public LostWoods lostWoods;
     public LostWoodsArea north,south,east,west;
     public int id;
-    public Transform treeLayout;
+    public string specialArea;
+    public Transform treeLayout,specialAreas;
 
     public void ResetAllConnections()
     {
@@ -26,9 +27,18 @@ public class LostWoodsArea : MonoBehaviour
 
     public void BreakConnection(Transform forestLayouts)
     {
-        
+        //the exit and entrance are special conditions that shouldnt be included in the infinite loop
+        if (specialArea.Equals(""))
+        {
             transform.parent = forestLayouts;
             transform.position = forestLayouts.position;
+        }
+        else 
+        {
+            transform.parent = specialAreas;
+            transform.position = specialAreas.position;
+        }
+           
             ResetAllConnections();
 
         

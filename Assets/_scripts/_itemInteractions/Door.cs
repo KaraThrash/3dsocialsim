@@ -6,6 +6,9 @@ public class Door : Item
 {
     public GameObject interiorObj,connectedArea,wall;
     public GameManager gameManager;
+
+    public Transform exitObj;// where the player should go when using this door
+
     public bool interior;
     public bool exit;
     public string _camSetting;
@@ -13,6 +16,7 @@ public class Door : Item
     public override void Interact(GameManager _gameManager) 
     {
         gameManager = _gameManager;
+
         gameManager.EnterArea(interiorObj,connectedArea, _camSetting);
     }
 
@@ -28,8 +32,15 @@ public class Door : Item
             }
             else 
             {
+                if (interiorObj != null)
+                {
+                    gameManager.EnterArea(interiorObj, connectedArea, _camSetting);
 
-                gameManager.EnterRoom(connectedArea);
+                }
+                else
+                {
+                    gameManager.EnterRoom(connectedArea);
+                }
 
             }
             

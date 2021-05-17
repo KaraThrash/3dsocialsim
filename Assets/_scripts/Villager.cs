@@ -56,18 +56,44 @@ public class Villager : MonoBehaviour
             if (eyesOpen)
             {
                 eyesOpen = false;
-                leftEye.material = closedEye;
-                rightEye.material = closedEye;
+                if (leftEye.materials.Length > 1)
+                {
+                    Material[] mats = new Material[2];
+
+                    mats[0] = closedEye;
+                    mats[1] = closedEye;
+                    leftEye.materials = mats;
+                    rightEye.materials = mats;
+                }
+                else 
+                {
+                    leftEye.material = closedEye;
+                    rightEye.material = closedEye;
+                }
+                
                 blinkTimer = UnityEngine.Random.Range(0.01f, 0.5f);
                
             }
             else 
             {
                 eyesOpen = true;
-                leftEye.material = openEye;
-                rightEye.material = openEye;
+                if (leftEye.materials.Length > 1)
+                {
+                    Material[] mats = new Material[2];
+
+                    mats[0] = openEye;
+                    mats[1] = openEye;
+                    leftEye.materials = mats;
+                    rightEye.materials = mats;
+                }
+                else
+                {
+                    leftEye.material = openEye;
+                    rightEye.material = openEye;
+                }
                 blinkTimer = UnityEngine.Random.Range(1.0f, 6.0f);
             }
+
 
             
         }

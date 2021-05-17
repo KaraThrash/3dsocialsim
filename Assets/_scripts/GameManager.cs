@@ -35,7 +35,14 @@ public class GameManager : MonoBehaviour
     public GameObject emoteBubblePrefab,dirtsquare, grassSquare;
 
     private bool inConversation,playerCanMove;
-    private float actionTimer;
+
+    private EventInit eventInit;
+    public float actionTimer,transitionTimer;
+
+
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +61,17 @@ public class GameManager : MonoBehaviour
             { 
                 actionTimer = 0;
                 PlayerStateTransition();
+            }
+        }
+
+        if (transitionTimer > 0)
+        {
+            transitionTimer -= Time.deltaTime;
+
+            if (transitionTimer <= 0)
+            {
+                transitionTimer = 0;
+                cameraControls.SetLocation(player.transform.position);
             }
         }
 
@@ -208,11 +226,17 @@ public class GameManager : MonoBehaviour
 
             if (_interiorObj.GetComponent<LostWoods>() != null)
             {
-                _interiorObj.GetComponent<LostWoods>().StartLostWoods();
+                //_interiorObj.GetComponent<LostWoods>().StartLostWoods();
+
+                EventInit().StartLostWoods(this);
+
             }
+
+            return;
         }
 
-        actionTimer = 0.2f;
+        actionTimer = 0.35f;
+        transitionTimer = 0.3f;
         player.state = PlayerState.acting;
 
        // TerrainManager().EnterBuilding(_interiorObj, _connectedArea);
@@ -299,6 +323,7 @@ public class GameManager : MonoBehaviour
         player.state = PlayerState.acting;
 
         TerrainManager().RoomChange(_connectedArea);
+
         player.transform.position = new Vector3(_connectedArea.transform.position.x, player.transform.position.y, _connectedArea.transform.position.z);
 
         cameraControls.SetCameraTrackingOffset("inside");
@@ -417,7 +442,14 @@ public class GameManager : MonoBehaviour
         return audioManager;
     }
 
+    public EventInit EventInit()
+    {
 
+        if (eventInit == null)
+        { eventInit = GetComponent<EventInit>(); }
+
+        return eventInit;
+    }
 
 
 

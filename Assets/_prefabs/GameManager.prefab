@@ -97,6 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29be8cfc6d79c504b96925901f662f60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cloudPrefab3D: {fileID: 0}
+  cloudPrefabWorld: {fileID: 0}
+  cloudParent: {fileID: 0}
   masterVolumeModifier: 1
   mainVolumeModifier: 1
   cloudVolumeModifier: 1
@@ -578,6 +581,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1107749310353012849}
   - component: {fileID: 1107749310353012848}
+  - component: {fileID: 4351133002652371902}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -617,6 +621,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  dialogueRunner: {fileID: 0}
+  yarnFunctions: {fileID: 0}
   terrainManager: {fileID: 3675154958646238335}
   timeManager: {fileID: 1107749309173519313}
   uiManager: {fileID: 1107749308968636266}
@@ -634,3 +640,15 @@ MonoBehaviour:
     type: 3}
   dirtsquare: {fileID: 0}
   grassSquare: {fileID: 0}
+--- !u!114 &4351133002652371902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107749310353012851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 156f679e7b469a24b92ef50b467347a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

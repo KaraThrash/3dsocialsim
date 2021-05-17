@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
 public enum PlayerState { playerControlled,inMenu,talking, choosing,fishing,acting,showing}
+public enum WorldLocation { overworld,inside,lostwoods,bus}
 
 public class Player : MonoBehaviour
 {
     public GameManager gameManager;
     public PlayerState state;
+    public WorldLocation worldLocation;
     public string playerStateString;
     public float walkSpeed, rotSpeed;
     public float acceleration, deceleration;
@@ -18,11 +20,15 @@ public class Player : MonoBehaviour
     public GameObject heldItem;
     public Inventory inventory;
     public WorldUi placeholderActionText;
-    private int currentItem;
 
+    private int currentItem;
+    private Vector3 moveDirection;
     private Rigidbody rb;
 
     public PlayerState State (){ return state; }
+    public WorldLocation WorldLocation(){ return worldLocation; }
+
+
 
     public Vector3 PositionRounded( )
     {
@@ -155,7 +161,7 @@ public class Player : MonoBehaviour
         if (InputControls.HorizontalAxis() != 0 || InputControls.VerticalAxis() != 0)
         {
             //get the intended direction then rotate before moving
-            Vector3 moveDirection = Vector3.right * InputControls.HorizontalAxis();
+             moveDirection = Vector3.right * InputControls.HorizontalAxis();
             moveDirection = moveDirection + (Vector3.forward * InputControls.VerticalAxis());
             
             //rebalance the speed for the input, avoid the goldeneye diagonal speed multiplier while also remaining still with no input
@@ -584,6 +590,7 @@ public class Player : MonoBehaviour
     }
 
     public bool IsInside() { return inside; }
+    public Vector3 MoveDirection() { return moveDirection; }
 
 
 }

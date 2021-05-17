@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class CameraControls : MonoBehaviour
 {
-    public Transform player;
+    public Player player;
     public float followSpeed, maxPlayerDistance, maxPlayerDistanceInside, cameraAngle,lowAngle = 45.0f, highAngle = 75.0f, conversationAngle = 25.0f,insideAngle=50.0f;
     public float camAdjustSpeed = 5,followSpeedAdjustment=1;//followspeed adjustment for controlling how cloesly the camera follows
     public Vector3 camOffset,highCamOffset,lowCamOffSet,conversationOffset,insideOffset;
+    public CameraEffect activeCameraEffect,lostwoodsEffect;
+
+    public Animation fadetoblack;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +21,9 @@ public class CameraControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player.GetComponent<Player>().IsInside())
+        if (GameManager.instance.transitionTimer > 0) { return; }
+
+        if (player.IsInside())
         {
             TrackPlayerInside();
         }
@@ -64,16 +69,58 @@ public class CameraControls : MonoBehaviour
 
     public void TrackPlayer()
     {
-        Vector3 playerXYPos = camOffset + player.position;
+        Vector3 playerXYPos = camOffset + player.transform.position;
+
+        CameraEffect();
+
         if (Vector3.Distance(playerXYPos, transform.position) > maxPlayerDistance )
         {
             transform.position = Vector3.MoveTowards(transform.position, playerXYPos,Time.deltaTime * followSpeed * followSpeedAdjustment);
         }
     }
 
+    public void CameraEffect()
+    {
+        if (activeCameraEffect != null && player.WorldLocation() == WorldLocation.lostwoods)
+        {
+            activeCameraEffect.Effect(player.MoveDirection());
+        }
+
+    }
+
+    public void StartCameraEffect(string _effect)
+    {
+        if (_effect.Equals("lostwoods"))
+        {
+            activeCameraEffect = lostwoodsEffect;
+            activeCameraEffect.StartEffect();
+        }
+        else if (_effect.Equals("bus"))
+        {
+
+        }
+        else 
+        {
+            activeCameraEffect = null;
+        }
+
+    }
+
+    public void EndCameraEffect(string _effect)
+    {
+        if (activeCameraEffect == null) { return; }
+
+        activeCameraEffect.EndEffect();
+    }
+
+
+
+
+
+
     public void TrackPlayerInside()
     {
-        Vector3 playerXYPos = camOffset + player.position;
+        Vector3 playerXYPos = camOffset + player.transform.position;
         if (Vector3.Distance(playerXYPos, transform.position) > maxPlayerDistanceInside)
         {
             transform.position = Vector3.MoveTowards(transform.position, playerXYPos, Time.deltaTime * followSpeed * followSpeedAdjustment);

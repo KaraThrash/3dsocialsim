@@ -38,4 +38,11 @@ public class YarnFunctions : MonoBehaviour
         //<<yarncommand Actor parameters>>
     }
 
+    [YarnCommand("Comment")]
+    public void YarnComment(string[] _comment)
+    {
+        Debug.Log("comment: " + _comment);
+
+    }
+
 }
