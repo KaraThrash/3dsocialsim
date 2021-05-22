@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     private static GlobalSingletonGetter<GameManager> singleton =
         new GlobalSingletonGetter<GameManager>(gameObjectName: "GameManager");
 
-
+    public GameState gameState;
     public Player player;
     public DialogueRunner dialogueRunner;
     public YarnFunctions yarnFunctions;
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     private EventInit eventInit;
     public float actionTimer,transitionTimer;
 
-
+    public Vector3 pendingNewPosition; //apply at the end of the transitioning step
 
 
 
@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
         if (actionTimer > 0)
         {
             actionTimer -= Time.deltaTime;
@@ -71,7 +73,8 @@ public class GameManager : MonoBehaviour
             if (transitionTimer <= 0)
             {
                 transitionTimer = 0;
-                cameraControls.SetLocation(player.transform.position);
+                State(GameState.free);
+              //  cameraControls.SetLocation(player.transform.position);
             }
         }
 
@@ -146,6 +149,9 @@ public class GameManager : MonoBehaviour
             activeObject = _villager.transform;
             // dialogueRunner.Add(_villager.scriptToLoad);
             //  _villager.scriptToLoad = null;
+
+            //find the script for this village based on the game state
+            //todo: contextual checks
             dialogueRunner.StartDialogue(_villager.name);
             _villager.Interact();
         }
@@ -237,13 +243,16 @@ public class GameManager : MonoBehaviour
 
         actionTimer = 0.35f;
         transitionTimer = 0.3f;
+
+        State(GameState.transitioning);
+
         player.state = PlayerState.acting;
 
        // TerrainManager().EnterBuilding(_interiorObj, _connectedArea);
 
-
-        player.transform.position = new Vector3(_connectedArea.transform.position.x, _connectedArea.transform.position.y, _connectedArea.transform.position.z);
-        cameraControls.SetLocation(_connectedArea.transform.position);
+        pendingNewPosition = new Vector3(_connectedArea.transform.position.x, _connectedArea.transform.position.y, _connectedArea.transform.position.z);
+        //player.transform.position = new Vector3(_connectedArea.transform.position.x, _connectedArea.transform.position.y, _connectedArea.transform.position.z);
+        //cameraControls.SetLocation(_connectedArea.transform.position);
 
 
         if (_connectedArea.transform.parent != null)
@@ -467,6 +476,38 @@ public class GameManager : MonoBehaviour
     public void StartDialogue(string _name)
     { 
         dialogueRunner.StartDialogue(_name); 
+    }
+
+
+
+
+    public void State(GameState _state)
+    {
+        OnGameStateChange(_state);
+
+        gameState = _state;
+    }
+
+    public GameState State()
+    { return gameState; }
+
+
+    public void OnGameStateChange(GameState _state)
+    {
+        //old state is same as the new state
+        if (State() == _state) { return; }
+
+        if (State() == GameState.transitioning) 
+        {
+            //dont move the player until the transition effect is over (e.g. fading to black, dont move until the screen is fully black) 
+            player.transform.position = pendingNewPosition;
+            cameraControls.SetLocation(player.transform.position);
+
+            return;
+        }
+
+        
+
     }
 
 

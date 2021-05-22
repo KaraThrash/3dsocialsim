@@ -1,0 +1,13 @@
+﻿title: TestCharacter
+tags:
+---
+<<if visited("TestCharacter") is false>>
+    <<FadeToBlack YarnFunctions>>
+ 
+    TestCharacter: Oh! Hi. 
+    Player: Hey, TestCharacter. 
+    TestCharacter: You snuck up on me.
+    TestCharacter: Don't do that.
+<<endif>>
+
+===

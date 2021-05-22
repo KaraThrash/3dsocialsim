@@ -22,7 +22,7 @@ public class TerrainManager : MonoBehaviour
         //random roll to spawn trees to get a sense of the world layout/interations. Final version would have a saved state
        // RandomizeTrees(mapParent);
 
-        ContructDictionary(mapParent);
+       // ContructDictionary(mapParent);
     }
 
     void Update()

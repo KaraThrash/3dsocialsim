@@ -383,7 +383,7 @@ AnimatorStateMachine:
     m_Position: {x: 500, y: 430, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6306543701015881849}
-    m_Position: {x: 535, y: 495, z: 0}
+    m_Position: {x: 570, y: 490, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -455,7 +455,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Licon Armature_Idle_loop_mouthtest
-  m_Speed: 1
+  m_Speed: 0.5
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []

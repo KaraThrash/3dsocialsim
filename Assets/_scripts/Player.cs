@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Yarn.Unity;
-public enum PlayerState { playerControlled,inMenu,talking, choosing,fishing,acting,showing}
-public enum WorldLocation { overworld,inside,lostwoods,bus}
+
 
 public class Player : MonoBehaviour
 {
@@ -26,6 +25,17 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
 
     public PlayerState State (){ return state; }
+
+    public void State(PlayerState _state) { OnStateChange(_state); state = _state; }
+
+    public void OnStateChange(PlayerState _state)
+    {
+        //new state is same as the old state
+        if (State() == _state) { return; }
+
+    }
+
+
     public WorldLocation WorldLocation(){ return worldLocation; }
 
 

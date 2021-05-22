@@ -12,13 +12,27 @@ public class EventInit : MonoBehaviour
 
         lostWoods.StartLostWoods();
 
-        gameManager.actionTimer = 0.35f;
-        gameManager.transitionTimer = 0.3f;
+        gameManager.actionTimer = 1.1f;
+        gameManager.transitionTimer = 1.1f;
+
+        //gameManager.player.state = PlayerState.acting;
+
+       // gameManager.player.transform.position = new Vector3(lostWoods.transform.position.x, lostWoods.transform.position.y, lostWoods.transform.position.z);
+
+        gameManager.State(GameState.transitioning);
 
         gameManager.player.state = PlayerState.acting;
 
-        gameManager.player.transform.position = new Vector3(lostWoods.transform.position.x, lostWoods.transform.position.y, lostWoods.transform.position.z);
-        gameManager.cameraControls.fadetoblack.Play();
+        // TerrainManager().EnterBuilding(_interiorObj, _connectedArea);
+
+        gameManager.pendingNewPosition = new Vector3(lostWoods.transform.position.x, lostWoods.transform.position.y, lostWoods.transform.position.z);
+
+        //camera fade to black animation is 1 second to black and .1 before the black clears
+        gameManager.cameraControls.anim.speed = 1;
+
+        gameManager.cameraControls.anim.Play("CameraFadeToBlack");
+
+
         gameManager.cameraControls.StartCameraEffect("lostwoods");
 
 

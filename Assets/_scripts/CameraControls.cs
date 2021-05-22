@@ -11,9 +11,12 @@ public class CameraControls : MonoBehaviour
     public CameraEffect activeCameraEffect,lostwoodsEffect;
 
     public Animation fadetoblack;
+    public Animator anim;
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponent<Animator>();
+
         camOffset = lowCamOffSet;
         cameraAngle = lowAngle;
     }
@@ -23,6 +26,7 @@ public class CameraControls : MonoBehaviour
     {
         if (GameManager.instance.transitionTimer > 0) { return; }
 
+
         if (player.IsInside())
         {
             TrackPlayerInside();
@@ -31,16 +35,10 @@ public class CameraControls : MonoBehaviour
         {
             TrackPlayer();
         }
-        
 
-        if (Input.GetKeyDown(KeyCode.I)) { camOffset = highCamOffset;  }
 
-        if (Input.GetKeyDown(KeyCode.O)) { camOffset = lowCamOffSet;   }
-        if (Input.GetKeyDown(KeyCode.P)) { cameraAngle = lowAngle; }
-
-        if (Input.GetKeyDown(KeyCode.U)) { cameraAngle = highAngle; }
-        if (Input.GetKeyDown(KeyCode.Y)) { cameraAngle = conversationAngle; }
-        if (Input.GetKeyDown(KeyCode.T)) { camOffset = conversationOffset; }
+        ManualAdjust();
+       
 
         if (InputControls.PickUpButton())
         {
@@ -66,6 +64,22 @@ public class CameraControls : MonoBehaviour
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
 
     }
+
+    public void ManualAdjust()
+    {
+
+        if (Input.GetKeyDown(KeyCode.I)) { camOffset = highCamOffset; }
+
+        if (Input.GetKeyDown(KeyCode.O)) { camOffset = lowCamOffSet; }
+        if (Input.GetKeyDown(KeyCode.P)) { cameraAngle = lowAngle; }
+
+        if (Input.GetKeyDown(KeyCode.U)) { cameraAngle = highAngle; }
+        if (Input.GetKeyDown(KeyCode.Y)) { cameraAngle = conversationAngle; }
+
+        if (Input.GetKeyDown(KeyCode.T)) { camOffset = conversationOffset; }
+
+    }
+
 
     public void TrackPlayer()
     {
