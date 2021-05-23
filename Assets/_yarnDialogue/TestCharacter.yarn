@@ -2,12 +2,16 @@
 tags:
 ---
 <<if visited("TestCharacter") is false>>
-    <<FadeToBlack YarnFunctions>>
+    <<MovePlayerAndSpeaker YarnFunctions constructionsite>>
  
     TestCharacter: Oh! Hi. 
     Player: Hey, TestCharacter. 
     TestCharacter: You snuck up on me.
     TestCharacter: Don't do that.
 <<endif>>
-
+<<if visited("TestCharacter") is true>>
+    <<FadeToBlack YarnFunctions>>
+ 
+    TestCharacter: We are already here
+<<endif>>
 ===

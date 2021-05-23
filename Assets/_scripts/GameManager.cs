@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public UiManager uiManager;
     public AudioManager audioManager;
     public CameraControls cameraControls;
+    public LocationManager locationManager;
 
 
 
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
     public Transform cam,activeObject, groundParent,villagerParent;
     public GameObject emoteBubblePrefab,dirtsquare, grassSquare;
 
+    public bool acceptInput;
     private bool inConversation,playerCanMove;
 
     private EventInit eventInit;
@@ -101,6 +103,33 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void MovePlayerAndSpeaker(string _location)
+    {
+        //maintain any speaker
+
+        //when called from a yarnfunction get the location from the provided string
+        MovePlayer(LocationManager().FindLocation(_location));
+
+    }
+
+
+    public void MovePlayer(string _location)
+    {
+       
+        //TODO: end conversations and interactions
+
+        //when called from a yarnfunction get the location from the provided string
+        MovePlayer(LocationManager().FindLocation(_location));
+
+    }
+
+    public void MovePlayer(Transform _location)
+    {
+
+        EventInit().MovePlayer(GetComponent<GameManager>(),_location);
+
+    }
+
     public void PlayerStateTransition()
     {
         if (player.state == PlayerState.showing && activeObject != null)
@@ -117,6 +146,8 @@ public class GameManager : MonoBehaviour
         
         player.state = PlayerState.playerControlled;
     }
+
+
 
 
     public void ToggleMenu(string _menu)
@@ -151,8 +182,11 @@ public class GameManager : MonoBehaviour
             //  _villager.scriptToLoad = null;
 
             //find the script for this village based on the game state
+
             //todo: contextual checks
+            //yarn wants a string for the title of the dialogue
             dialogueRunner.StartDialogue(_villager.name);
+
             _villager.Interact();
         }
         else { _villager.Bonk(); }
@@ -301,12 +335,12 @@ public class GameManager : MonoBehaviour
 
         if (_connectedArea.transform.parent != null)
         {
-        cameraControls.SetLocation(_connectedArea.transform.parent.position);
+            cameraControls.SetLocation(_connectedArea.transform.parent.position);
 
         }
         else 
         {
-        cameraControls.SetLocation(_connectedArea.transform.position);
+            cameraControls.SetLocation(_connectedArea.transform.position);
 
         }
 
@@ -460,7 +494,14 @@ public class GameManager : MonoBehaviour
         return eventInit;
     }
 
+    public LocationManager LocationManager()
+    {
 
+        if (eventInit == null)
+        { locationManager = GameObject.Find("LocationManager").GetComponent<LocationManager>(); }
+
+        return locationManager;
+    }
 
 
 
@@ -499,13 +540,35 @@ public class GameManager : MonoBehaviour
 
         if (State() == GameState.transitioning) 
         {
+            acceptInput = true;
+            dialogueRunner.GetComponent<Yarn.Unity.DialogueUI>().acceptsInput = true;
+           
+
+
+            if (activeObject != null)
+            {
+                if (activeObject.GetComponent<Villager>() != null)
+                {
+                    Vector3 _pos = (activeObject.position - player.transform.position) + pendingNewPosition;
+                    activeObject.GetComponent<Villager>().WarpNavMesh(new Vector3(_pos.x, activeObject.position.y, _pos.z));
+                }
+            }
+
             //dont move the player until the transition effect is over (e.g. fading to black, dont move until the screen is fully black) 
             player.transform.position = pendingNewPosition;
+
+            player.SetVelocities(Vector3.zero,Vector3.zero);
+
             cameraControls.SetLocation(player.transform.position);
 
             return;
         }
 
+        if (_state == GameState.transitioning) 
+        { 
+            acceptInput = false;
+              dialogueRunner.GetComponent<Yarn.Unity.DialogueUI>().acceptsInput = false;
+        }
         
 
     }

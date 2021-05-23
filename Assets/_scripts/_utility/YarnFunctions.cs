@@ -26,8 +26,10 @@ public class YarnFunctions : MonoBehaviour
     public void FadeToBlack()
     {
         Debug.Log("Yarn FadeToBlack");
-        GameManager.instance.cameraControls.fadetoblack.Play();
 
+        GameManager.instance.cameraControls.anim.speed = 1;
+
+        GameManager.instance.cameraControls.anim.Play("CameraFadeToBlack");
     }
 
 
@@ -48,20 +50,40 @@ public class YarnFunctions : MonoBehaviour
 
 
 
-    [YarnCommand("PlayAnimation")]
-    public void Move(string _animation, string _who)
+    [YarnCommand("MovePlayer")]
+    public void MovePlayer(string _location)
     {
-        Debug.Log("Yarn Move");
-        Debug.Log(_animation);
+        Debug.Log("Yarn MovePlayer");
 
-        GameManager.instance.activeObject.GetComponent<Villager>().PlayAnimation(_animation);
+        GameManager.instance.MovePlayer(_location);
+
+        //<<yarntest Sally name>>
+        //<<yarncommand Actor parameters>>
+    }
+
+    [YarnCommand("MovePlayerAndSpeaker")]
+    public void MovePlayerAndSpeaker(string _location)
+    {
+        //move the player and who they are speaking to
+        Debug.Log("Yarn MovePlayerAndSpeaker");
+
+        GameManager.instance.MovePlayerAndSpeaker(_location);
 
         //<<yarntest Sally name>>
         //<<yarncommand Actor parameters>>
     }
 
 
+    [YarnCommand("MoveScene")]
+    public void MoveScene(string _location)
+    {
+        //move every character involved in the scene
+        Debug.Log("Yarn MoveScene");
 
+
+        //<<yarntest Sally name>>
+        //<<yarncommand Actor parameters>>
+    }
 
 
     /// <summary>
