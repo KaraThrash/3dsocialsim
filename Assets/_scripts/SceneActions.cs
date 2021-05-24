@@ -2,27 +2,58 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SceneActions : MonoBehaviour
+
+public class SceneObj : MonoBehaviour
 {
-    public Transform player;
-    public float speed, rotSpeed,maxAngle;
+   
 
-    public Item relevantItem;
 
-    private bool _onChange;
+
+
+}
+
+public static class SceneActions 
+{
+    public static Transform player;
+    
+    public static float speed, rotSpeed, maxAngle;
+
+    public static Item relevantItem;
+
+    private static bool _onChange=true;
 
     // private Villager villager;
 
-    void Start()
+
+
+
+    public static void LeadPlayer(Transform _actor,Transform _location)
     {
-        _onChange = true;
+
+        Vector3 screenPoint = GameManager.instance.cam.GetComponent<Camera>().WorldToViewportPoint(_actor.position);
+
+        if (screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1)
+        {
+            RotateToFace(_actor, player);
+        }
+        else
+        {
+            if (RotateToFace(_actor, player) < maxAngle)
+            {
+                _actor.position = Vector3.MoveTowards(_actor.position, _actor.position + _actor.forward, speed * Time.deltaTime);
+            }
+        }
     }
 
-    public void TrailPlayer(Transform _actor)
+
+
+
+    public static void TrailPlayer(Transform _actor)
     {
       //  GetComponent<Renderer>().isVisible
      
-            Vector3 screenPoint = GameManager.instance.cam.GetComponent<Camera>().WorldToViewportPoint(_actor.position);
+        Vector3 screenPoint = GameManager.instance.cam.GetComponent<Camera>().WorldToViewportPoint(_actor.position);
+
         if (screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1)
         {
             RotateToFace(_actor,player);
@@ -36,9 +67,12 @@ public class SceneActions : MonoBehaviour
         }
     }
 
-    public void TrailPlayer(Villager _villager)
+
+
+    public static void TrailPlayer(Villager _villager)
     {
         Vector3 screenPoint = GameManager.instance.cam.GetComponent<Camera>().WorldToViewportPoint(_villager.GetNavMeshDestination());
+
         if (screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1)
         {
 
@@ -57,7 +91,7 @@ public class SceneActions : MonoBehaviour
                 _villager.SetNavMeshSpeed(0);
                 _villager.SetAnimatorParameter("walking", false);
 
-            if (Quaternion.Angle(_villager.head.rotation, _villager.animatedHead.rotation) > 30)
+                if (Quaternion.Angle(_villager.head.rotation, _villager.animatedHead.rotation) > 30)
                 {
                     RotateToFace(_villager.transform, player);
 
@@ -79,7 +113,7 @@ public class SceneActions : MonoBehaviour
     }
 
 
-    public void ReplaceNotice(Villager _villager)
+    public static void ReplaceNotice(Villager _villager)
     {
         // if (villager == null) { villager = GetComponent<Villager>(); }
 
@@ -127,7 +161,7 @@ public class SceneActions : MonoBehaviour
 
 
 
-    public float RotateToFace(Transform _actor, Transform _facetarget)
+    public static float RotateToFace(Transform _actor, Transform _facetarget)
     {
         Vector3 targetYCorrected = new Vector3(_facetarget.position.x, _actor.position.y, _facetarget.position.z);
         Quaternion targetRotation = Quaternion.LookRotation(targetYCorrected - _actor.position);

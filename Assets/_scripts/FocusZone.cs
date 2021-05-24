@@ -22,11 +22,31 @@ public class FocusZone : MonoBehaviour
 
             if (cam != null)
             {
-                cam.camOffset = Vector3.Lerp(cam.camOffset,camOffset,changeSpeed * Time.deltaTime * ((radiusToStartChanging - Vector3.Distance(cam.transform.position,transform.position)) / radiusToStartChanging) );
-                cam.cameraAngle = Mathf.Lerp(cam.cameraAngle, camAngle, changeSpeed * Time.deltaTime * ((radiusToStartChanging - Vector3.Distance(cam.transform.position,transform.position)) / radiusToStartChanging) );
+                cam.InFocusZone(new Vector3(transform.position.x - cam.player.transform.position.x, camOffset.y,camOffset.z),camAngle,((radiusToStartChanging - Vector3.Distance(cam.transform.position, transform.position)) / radiusToStartChanging));
+              
             }
         }
 
 
     }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<Player>() != null)
+        {
+            if (cam == null)
+            {
+                cam = FindObjectOfType<CameraControls>();
+            }
+
+            if (cam != null)
+            {
+                cam.State(CameraState.outside);
+
+            }
+        }
+
+
+    }
+
 }

@@ -12,6 +12,7 @@ public class Villager : MonoBehaviour
 
     public VillagerState currentState;
     public VillagerStoryState currentStoryState;
+    public SceneAction scriptedAction;
     public string npcName,mood,scene;
     public float rotSpeed,speed; //time between greetings is the value of seconds that need to elapse before this npc will use a greeting instead of smalltalk
     public Animator anim;
@@ -42,13 +43,22 @@ public class Villager : MonoBehaviour
     public void StoryState(VillagerStoryState _state) { currentStoryState = _state; }
     public VillagerStoryState StoryState() { return currentStoryState; }
 
+
+    public void ScriptedAction(SceneAction _action) { scriptedAction = _action; }
+    public SceneAction ScriptedAction() { return scriptedAction; }
+
+
+
     public YarnProgram scriptToLoad;
     private NavMeshAgent nav;
+
+
 
 
     public void BlinkTimer()
     {
         blinkTimer -= Time.deltaTime;
+
         if (blinkTimer <= 0)
         {
             if (eyesOpen)
@@ -129,8 +139,9 @@ public class Villager : MonoBehaviour
         }
         else
         {
-            Act();
+           // Act();
         }
+
         Act();
 
         if (watchPlayer)
@@ -191,8 +202,10 @@ public class Villager : MonoBehaviour
 
     public void StoryAct()
     {
-
-        InScene();
+        if (ScriptedAction() == SceneAction.trailPlayer)
+        { SceneActions.TrailPlayer(this); }
+        else if (ScriptedAction() == SceneAction.fliers) 
+        { SceneActions.ReplaceNotice(this); }
     }
 
     public void Act()
@@ -278,17 +291,7 @@ public class Villager : MonoBehaviour
         
     }
 
-    public void InScene()
-    {
-        if (GetComponent<SceneActions>() != null)
-        {
-            if (scene.Equals("trail"))
-            { GetComponent<SceneActions>().TrailPlayer(this); }
-            else { GetComponent<SceneActions>().ReplaceNotice(this); }
-            //GetComponent<SceneActions>().TrailPlayer(this);
-            
-        }
-    }
+
 
 
 

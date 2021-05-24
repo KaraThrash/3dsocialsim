@@ -5,14 +5,39 @@ using UnityEngine;
 public class CameraControls : MonoBehaviour
 {
     public Player player;
+    public CameraState cameraState;
     public float followSpeed, maxPlayerDistance, maxPlayerDistanceInside, cameraAngle,lowAngle = 45.0f, highAngle = 75.0f, conversationAngle = 25.0f,insideAngle=50.0f;
-    public float camAdjustSpeed = 5,followSpeedAdjustment=1;//followspeed adjustment for controlling how cloesly the camera follows
+    public float focusAngle;
+    public float defaultCamAdjustSpeed,defaultFollowSpeed=8,camAdjustSpeed = 5,followSpeedAdjustment=1; //followspeed adjustment for controlling how cloesly the camera follows
     public Vector3 camOffset,highCamOffset,lowCamOffSet,conversationOffset,insideOffset;
+    public Vector3 focusOffset;
     public CameraEffect activeCameraEffect,lostwoodsEffect;
 
     public Animation fadetoblack;
     public Animator anim;
-    // Start is called before the first frame update
+
+    public CameraState State() { return cameraState; }
+
+    public void State(CameraState _state) { OnStateChange(_state); cameraState = _state; }
+
+    public void OnStateChange(CameraState _state)
+    {
+        //new state is same as the old state
+        if (State() == _state) { return; }
+        if (State() == CameraState.focusing) 
+        { 
+            camAdjustSpeed = defaultCamAdjustSpeed;
+            followSpeed = defaultFollowSpeed;
+            camOffset = lowCamOffSet;
+            cameraAngle = lowAngle;
+        }
+
+    }
+
+
+
+
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -25,6 +50,13 @@ public class CameraControls : MonoBehaviour
     void Update()
     {
         if (GameManager.instance.transitionTimer > 0) { return; }
+
+        if (State() != CameraState.focusing)
+        {
+            camAdjustSpeed = Mathf.Lerp(camAdjustSpeed, defaultCamAdjustSpeed, Time.deltaTime);
+            followSpeed = Mathf.Lerp(followSpeed, defaultFollowSpeed, Time.deltaTime);
+        }
+        
 
 
         if (player.IsInside())
@@ -40,26 +72,7 @@ public class CameraControls : MonoBehaviour
         ManualAdjust();
        
 
-        if (InputControls.PickUpButton())
-        {
-
-            if (camOffset == highCamOffset)
-            {
-                camOffset = lowCamOffSet;
-                cameraAngle = lowAngle;
-            }
-           else if (camOffset == lowCamOffSet)
-            {
-                camOffset = highCamOffset;
-                cameraAngle = highAngle;
-            }
-            else 
-            {
-                camOffset = lowCamOffSet;
-                cameraAngle = lowAngle;
-            }
-
-        }
+      
 
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
 
@@ -67,8 +80,10 @@ public class CameraControls : MonoBehaviour
 
     public void ManualAdjust()
     {
+        if (State() == CameraState.focusing) { return; }
 
-        if (Input.GetKeyDown(KeyCode.I)) { camOffset = highCamOffset; }
+
+            if (Input.GetKeyDown(KeyCode.I)) { camOffset = highCamOffset; }
 
         if (Input.GetKeyDown(KeyCode.O)) { camOffset = lowCamOffSet; }
         if (Input.GetKeyDown(KeyCode.P)) { cameraAngle = lowAngle; }
@@ -77,7 +92,26 @@ public class CameraControls : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y)) { cameraAngle = conversationAngle; }
 
         if (Input.GetKeyDown(KeyCode.T)) { camOffset = conversationOffset; }
+        if (InputControls.PickUpButton())
+        {
 
+            if (camOffset == highCamOffset)
+            {
+                camOffset = lowCamOffSet;
+                cameraAngle = lowAngle;
+            }
+            else if (camOffset == lowCamOffSet)
+            {
+                camOffset = highCamOffset;
+                cameraAngle = highAngle;
+            }
+            else
+            {
+                camOffset = lowCamOffSet;
+                cameraAngle = lowAngle;
+            }
+
+        }
     }
 
 
@@ -189,6 +223,26 @@ public class CameraControls : MonoBehaviour
 
     }
 
+    public void InFocusZone(Vector3 _offset,float _angle,float _speed)
+    {
+
+
+        camAdjustSpeed = Mathf.Lerp(camAdjustSpeed,_speed, Time.deltaTime);
+        followSpeed = Mathf.Lerp(followSpeed, _speed, Time.deltaTime);
+        camOffset = _offset;
+        cameraAngle = _angle;
+        if (State() != CameraState.focusing)
+        {
+            State(CameraState.focusing);
+           
+            camAdjustSpeed = 0;
+            followSpeed = 0;
+
+        }
+
+        //camOffset = Vector3.Lerp(camOffset, _offset, _speed * Time.deltaTime );
+        //cameraAngle = Mathf.Lerp(cameraAngle, _angle, _speed * Time.deltaTime );
+    }
 
 
     public void ConversationToggle(bool _on)

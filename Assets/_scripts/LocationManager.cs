@@ -7,7 +7,7 @@ public class LocationManager : MonoBehaviour
     public Transform playerHouseFrontDoor, playerRoomInterior;
     public Transform townhallFrontDoor,townhallInterior, constructionSite;
     public Transform lostWoodsSouthEntrance, lostwoodsNorthEntrance, lostwoodsInterior;
-    public Transform townEntrance;
+    public Transform townEntrance,voiceInWall;
 
 
     public Transform FindLocation(string _location)
@@ -24,6 +24,8 @@ public class LocationManager : MonoBehaviour
         { return townEntrance; }
         else if (_location.ToLower().Equals("constructionsite"))
         { return constructionSite; }
+        else if (_location.ToLower().Equals("voiceinwall"))
+        { return voiceInWall; }
 
         //playerhouse outside
         else if (_location.ToLower().Equals("playerhouse"))
