@@ -6,6 +6,27 @@ public class EventInit : MonoBehaviour
 {
     public LostWoods lostWoods;
 
+    public void HavePlayerFollow(GameManager gameManager, Villager _villager, Vector3 _location)
+    {
+
+        _villager.StoryState(VillagerStoryState.inScene);
+        _villager.ScriptedAction(SceneAction.leadPlayer);
+        _villager.SetNavMeshDestination(_location);
+
+
+
+    }
+    public void LeadPlayer(GameManager gameManager, Villager _villager,Vector3 _location)
+    {
+
+        _villager.StoryState(VillagerStoryState.inScene);
+        _villager.ScriptedAction(SceneAction.leadPlayer);
+        _villager.SetNavMeshDestination(_location);
+
+
+
+    }
+
 
     public void MovePlayer(GameManager gameManager,Transform _location)
     {

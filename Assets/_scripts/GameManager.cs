@@ -123,12 +123,41 @@ public class GameManager : MonoBehaviour
 
     }
 
+
+
     public void MovePlayer(Transform _location)
     {
 
         EventInit().MovePlayer(GetComponent<GameManager>(),_location);
 
     }
+
+    public void LeadPlayer(string _location,string _villagerName)
+    {
+
+        //TODO: end conversations and interactions
+
+        //when called from a yarnfunction get the location from the provided string
+        LeadPlayer(LocationManager().FindLocation(_location), FindVillager(_villagerName));
+
+    }
+
+    public void LeadPlayer(Transform _location,Villager _villager)
+    {
+
+        EventInit().LeadPlayer(GetComponent<GameManager>(), _villager,_location.position);
+
+    }
+
+    public void HavePlayerFollow(string _location, string _villagerName)
+    {
+
+        EventInit().HavePlayerFollow(GetComponent<GameManager>(), FindVillager(_villagerName), LocationManager().FindLocation(_location).position);
+
+    }
+
+
+
 
     public void PlayerStateTransition()
     {
@@ -573,6 +602,23 @@ public class GameManager : MonoBehaviour
 
     }
 
+
+
+    public Villager FindVillager(string _name)
+    {
+        if (villagerParent == null)
+        {
+            villagerParent = transform.Find("VillagerParent");
+        }
+
+        foreach (Transform el in villagerParent)
+        {
+            if (el.GetComponent<Villager>() != null && el.GetComponent<Villager>().npcName.Equals(_name))
+            { return el.GetComponent<Villager>(); }
+        }
+
+        return null;
+    }
 
 
     public void MakeGroundGrid()

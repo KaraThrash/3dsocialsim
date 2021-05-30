@@ -5,58 +5,63 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ScriptedScene")]
 public class ScriptableScene : ScriptableObject
 {
-    //transforms if the scene is in a specific location
-    public Transform startLocation, endLocation;
-    public List<Transform> locations;
 
-    //Vector3 if the scene is in am arbitrary location
-    public Vector3 startPos, endPos;
-    public List<Vector3> positions;
+    public Villager primary, secondary;
+    public List<Villager> villagers;
 
-
+    //the enum group map locations to move to and from
+    public MapLocation startWorldLocation, endWorldLocation;
+    public List<MapLocation> worldLocations;
 
 
+    //Vector3 if the scene is in an arbitrary location
+    //public Vector3 startPos, endPos;
+    //public List<Vector3> positions;
 
-    public void StartPosition(Vector3 _pos)
-    { startPos = _pos; }
 
-    public Vector3 StartPosition()
-    { return startPos; }
-    public void EndPosition(Vector3 _pos)
-    { endPos = _pos; }
+    public void StartLocation(MapLocation _pos)
+    { startWorldLocation = _pos; }
 
-    public Vector3 EndPosition()
-    { return endPos; }
+    public MapLocation StartLocation()
+    { return startWorldLocation; }
+    public void EndLocation(MapLocation _pos)
+    { endWorldLocation = _pos; }
 
-    public void AddPosition(Vector3 _pos)
+    public MapLocation EndLocation()
+    { return endWorldLocation; }
+
+    public void AddLocation(MapLocation _pos)
     {
-        if (positions == null || positions.Count == 0)
-        { positions = new List<Vector3>(); }
+        if (worldLocations == null || worldLocations.Count == 0)
+        { worldLocations = new List<MapLocation>(); }
 
-        positions.Add(_pos);
+        worldLocations.Add(_pos);
 
     }
 
 
+    //public void StartPosition(Vector3 _pos)
+    //{ startPos = _pos; }
 
-    public void StartLocation(Transform _pos)
-    { startLocation = _pos; }
+    //public Vector3 StartPosition()
+    //{ return startPos; }
+    //public void EndPosition(Vector3 _pos)
+    //{ endPos = _pos; }
 
-    public Transform StartLocation()
-    { return startLocation; }
-    public void EndLocation(Transform _pos)
-    { endLocation = _pos; }
+    //public Vector3 EndPosition()
+    //{ return endPos; }
 
-    public Transform EndLocation()
-    { return endLocation; }
+    //public void AddPosition(Vector3 _pos)
+    //{
+    //    if (positions == null || positions.Count == 0)
+    //    { positions = new List<Vector3>(); }
 
-    public void AddLocation(Transform _pos)
-    {
-        if (locations == null || locations.Count == 0)
-        { locations = new List<Transform>(); }
+    //    positions.Add(_pos);
 
-        locations.Add(_pos);
+    //}
 
-    }
+
+
+ 
 
 }

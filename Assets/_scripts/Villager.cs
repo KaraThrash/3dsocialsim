@@ -33,9 +33,16 @@ public class Villager : MonoBehaviour
     public float blinkTimer;
     public SkinnedMeshRenderer leftEye, rightEye;
     public Material closedEye, openEye;
+
+    public int phase = 0;
+
     private bool eyesOpen;
 
     private Vector3 startPos;
+
+
+
+
 
     public void State(VillagerState _state) { OnStateChange(State(),_state); currentState = _state; }
     public VillagerState State() { return currentState; }
@@ -139,10 +146,9 @@ public class Villager : MonoBehaviour
         }
         else
         {
-           // Act();
+            Act();
         }
 
-        Act();
 
         if (watchPlayer)
         { WatchPlayer(); }
@@ -203,9 +209,59 @@ public class Villager : MonoBehaviour
     public void StoryAct()
     {
         if (ScriptedAction() == SceneAction.trailPlayer)
-        { SceneActions.TrailPlayer(this); }
+        { SceneActions.TrailPlayer(transform); }
         else if (ScriptedAction() == SceneAction.fliers) 
         { SceneActions.ReplaceNotice(this); }
+        else if (ScriptedAction() == SceneAction.leadPlayer)
+        {
+
+
+            if (phase == 0)
+            {
+                SceneActions.HavePlayerFollow(this.transform, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn), gameManager.player.GetComponent<Player>(), 1);
+                if (Vector3.Distance(transform.position, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn).position) < 1)
+                { phase = 1; }
+
+            }
+            else if (phase == 1)
+            {
+                SceneActions.HavePlayerFollow(this.transform, gameManager.LocationManager().FindLocation(MapLocation.playerHouse), gameManager.player.GetComponent<Player>(), 1);
+                if (Vector3.Distance(transform.position, gameManager.LocationManager().FindLocation(MapLocation.playerHouse).position) < 1)
+                { phase = 2; }
+            }
+            else if (phase == 2)
+            {
+                SceneActions.HavePlayerFollow(this.transform, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn), gameManager.player.GetComponent<Player>(), 1);
+                if (Vector3.Distance(transform.position, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn).position) < 1)
+                { phase = 0; }
+            }
+
+        }
+        //else if (ScriptedAction() == SceneAction.leadPlayer)
+        //{
+
+
+        //    if (phase == 0)
+        //    {
+        //        SceneActions.LeadPlayer(this.transform, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn), gameManager.player.GetComponent<Player>(), 1);
+        //        if (Vector3.Distance(transform.position, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn).position) < 1)
+        //        { phase = 1; }
+
+        //    }
+        //    else if (phase == 1)
+        //    {
+        //        SceneActions.LeadPlayer(this.transform, gameManager.LocationManager().FindLocation(MapLocation.playerHouse), gameManager.player.GetComponent<Player>(), 1);
+        //        if (Vector3.Distance(transform.position, gameManager.LocationManager().FindLocation(MapLocation.playerHouse).position) < 1)
+        //        { phase = 2; }
+        //    }
+        //    else if (phase == 2)
+        //    {
+        //        SceneActions.LeadPlayer(this.transform, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn), gameManager.player.GetComponent<Player>(), 1);
+        //        if (Vector3.Distance(transform.position, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn).position) < 1)
+        //        { phase = 0; }
+        //    }
+
+        //}
     }
 
     public void Act()
@@ -457,6 +513,16 @@ public class Villager : MonoBehaviour
         }
     }
 
+    public float GetNavMeshSpeed( )
+    {
+        if (nav != null )
+        {
+            return nav.speed ;
+
+        }
+        return 0;
+    }
+
 
     public void WarpNavMesh(Vector3 _warpTo)
     {
@@ -476,6 +542,17 @@ public class Villager : MonoBehaviour
 
 
         }
+    }
+
+    public Vector3 GetNavmeshVelocity( )
+    {
+        if (nav != null)
+        {
+            return nav.velocity;
+
+
+        }
+        return Vector3.zero;
     }
 
     public Vector3 GetNavMeshSteeringTarget()

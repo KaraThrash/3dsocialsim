@@ -101,10 +101,12 @@ public class Player : MonoBehaviour
 
     }
 
+
     public void SetState(PlayerState _state)
     {
         state = _state;
     }
+
 
     public void PlayerStates()
     {
@@ -118,7 +120,7 @@ public class Player : MonoBehaviour
         }
         else if (state == PlayerState.fishing)
         {
-            LookAtAction(gameManager.GetActiveObject());
+            LookAtAction(gameManager.GetActiveObject(),rotSpeed);
             SetVelocities(Vector3.zero, Vector3.zero);
         }
         else if (state == PlayerState.inMenu)
@@ -132,18 +134,21 @@ public class Player : MonoBehaviour
 
     }
 
+
     public void PlayerControlled()
     {
         Movement();
 
-  
     }
+
+
 
     public void Talking()
     {
-        LookAtAction(gameManager.GetActiveObject());
+        LookAtAction(gameManager.GetActiveObject(),rotSpeed);
         SetVelocities(Vector3.zero, Vector3.zero);
     }
+
 
 
     public void InMenuControls()
@@ -157,50 +162,80 @@ public class Player : MonoBehaviour
 
 
 
-    //conversation target, item pickup, or directly at the camera
-    public void LookAtAction(Transform _lookat)
-    {
-        Quaternion targetRotation = Quaternion.LookRotation(_lookat.position - transform.position);
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotSpeed * Time.deltaTime);
-    }
-
     public void Movement()
     {
 
         if (InputControls.HorizontalAxis() != 0 || InputControls.VerticalAxis() != 0)
         {
             //get the intended direction then rotate before moving
-             moveDirection = Vector3.right * InputControls.HorizontalAxis();
+            moveDirection = Vector3.right * InputControls.HorizontalAxis();
             moveDirection = moveDirection + (Vector3.forward * InputControls.VerticalAxis());
-            
+
             //rebalance the speed for the input, avoid the goldeneye diagonal speed multiplier while also remaining still with no input
             if (moveDirection.magnitude > 1)
             { moveDirection = (moveDirection).normalized; }
 
 
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotSpeed * Time.deltaTime);
-            float angle = Vector3.Angle((transform.position + moveDirection) - transform.position, transform.forward);
-
-            //larger turnAngle will have a rounder run arc instead of angular turns
-            if (angle < turnAngle)
-            {
-
-                rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * walkSpeed, Time.deltaTime * acceleration);
-
-            }
+            MoveTo(moveDirection);
 
 
         }
-        else { 
+        else
+        {
             rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
             rb.angularVelocity = Vector3.zero;
         }
-        
+
 
     }
+
+
+
+
+    public void MoveTo(Vector3 _moveDirection)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(_moveDirection);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotSpeed * Time.deltaTime);
+        float angle = Vector3.Angle((transform.position + moveDirection) - transform.position, transform.forward);
+
+        //larger turnAngle will have a rounder run arc instead of angular turns
+        if (angle < turnAngle)
+        {
+
+            rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * walkSpeed, Time.deltaTime * acceleration);
+
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //conversation target, item pickup, or directly at the camera
+    public void LookAtAction(Transform _lookat,float _rotSpeed=1)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(_lookat.position - transform.position);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotSpeed * Time.deltaTime);
+    }
+
+
+  
+
+
+    
 
     public void PickUp( )
     {
@@ -593,11 +628,13 @@ public class Player : MonoBehaviour
     }
 
 
+
     public void SetVelocities(Vector3 vel, Vector3 angularVel)
     {
         rb.velocity = vel;
         rb.angularVelocity = angularVel;
     }
+
 
     public bool IsInside() { return inside; }
     public Vector3 MoveDirection() { return moveDirection; }

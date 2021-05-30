@@ -25,36 +25,64 @@ public static class SceneActions
     // private Villager villager;
 
 
-
-
-    public static void LeadPlayer(Transform _actor,Transform _location)
+    public static void HavePlayerFollow(Transform _actor, Transform _location, Player _player, float _speed)
     {
 
-        Vector3 screenPoint = GameManager.instance.cam.GetComponent<Camera>().WorldToViewportPoint(_actor.position);
+        _actor.GetComponent<Villager>().SetNavMeshDestination(_location.position);
 
-        if (screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1)
+        speed = 3; rotSpeed = 3;
+
+        if (OnCamera(_actor.position))
         {
-            RotateToFace(_actor, player);
+            _actor.GetComponent<Villager>().SetNavMeshSpeed(_player.GetComponent<Rigidbody>().velocity.magnitude + 1);
+
         }
-        else
-        {
-            if (RotateToFace(_actor, player) < maxAngle)
-            {
-                _actor.position = Vector3.MoveTowards(_actor.position, _actor.position + _actor.forward, speed * Time.deltaTime);
-            }
-        }
+        else { _actor.GetComponent<Villager>().SetNavMeshSpeed(0); }
+
+
+
     }
 
+    public static void LeadPlayer(Transform _actor,Transform _location,Player _player,float _speed)
+    {
+        
 
+        speed = 3; rotSpeed = 3;
+
+
+
+        Vector3 playerTarget = _actor.position - _actor.forward;
+        playerTarget = (playerTarget  - _player.transform.position).normalized ;
+
+        _player.SetVelocities(_actor.GetComponent<Villager>().GetNavmeshVelocity().magnitude * playerTarget * Vector3.Distance(_actor.position,_player.transform.position), Vector3.zero);
+
+
+
+        _player.transform.LookAt(_actor);
+        _actor.GetComponent<Villager>().SetNavMeshDestination(_location.position);
+        _actor.GetComponent<Villager>().SetAnimatorParameter("speed", _actor.GetComponent<Villager>().GetNavmeshVelocity().magnitude);
+
+
+    }
+
+    public static bool OnCamera(Vector3 _pos)
+    {
+        Vector3 screenPoint = GameManager.instance.cam.GetComponent<Camera>().WorldToViewportPoint(_pos);
+
+        if (screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1) 
+        { return true; }
+
+        return false;
+    }
 
 
     public static void TrailPlayer(Transform _actor)
     {
       //  GetComponent<Renderer>().isVisible
      
-        Vector3 screenPoint = GameManager.instance.cam.GetComponent<Camera>().WorldToViewportPoint(_actor.position);
+     //   Vector3 screenPoint = GameManager.instance.cam.GetComponent<Camera>().WorldToViewportPoint(_actor.position);
 
-        if (screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1)
+        if (OnCamera(_actor.position))
         {
             RotateToFace(_actor,player);
         }
@@ -69,16 +97,16 @@ public static class SceneActions
 
 
 
-    public static void TrailPlayer(Villager _villager)
+    public static void TrailPlayer(Villager _villager,Transform _player)
     {
         Vector3 screenPoint = GameManager.instance.cam.GetComponent<Camera>().WorldToViewportPoint(_villager.GetNavMeshDestination());
 
-        if (screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1)
+        if (OnCamera(_villager.transform.position))
         {
 
         }
 
-            _villager.SetNavMeshDestination(player.position);
+            _villager.SetNavMeshDestination(_player.position);
 
 
         float angle = Vector3.Angle((_villager.GetNavMeshNextPosition() - _villager.transform.position), _villager.transform.forward);
@@ -164,6 +192,16 @@ public static class SceneActions
     public static float RotateToFace(Transform _actor, Transform _facetarget)
     {
         Vector3 targetYCorrected = new Vector3(_facetarget.position.x, _actor.position.y, _facetarget.position.z);
+        Quaternion targetRotation = Quaternion.LookRotation(targetYCorrected - _actor.position);
+
+        _actor.rotation = Quaternion.Slerp(_actor.rotation, targetRotation, rotSpeed * Time.deltaTime);
+        return Vector3.Angle((targetYCorrected - _actor.position), _actor.forward);
+
+    }
+
+    public static float RotateToFace(Transform _actor, Vector3 _facetarget)
+    {
+        Vector3 targetYCorrected = new Vector3(_facetarget.x, _actor.position.y, _facetarget.z);
         Quaternion targetRotation = Quaternion.LookRotation(targetYCorrected - _actor.position);
 
         _actor.rotation = Quaternion.Slerp(_actor.rotation, targetRotation, rotSpeed * Time.deltaTime);

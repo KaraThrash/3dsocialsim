@@ -8,6 +8,8 @@ public class LocationManager : MonoBehaviour
     public Transform townhallFrontDoor,townhallInterior, constructionSite;
     public Transform lostWoodsSouthEntrance, lostwoodsNorthEntrance, lostwoodsInterior;
     public Transform townEntrance,voiceInWall;
+    public Transform northRoadTurn,southRoadTurn;
+
 
 
     public Transform FindLocation(string _location)
@@ -47,11 +49,52 @@ public class LocationManager : MonoBehaviour
         else if (_location.ToLower().Equals("lostwoods"))
         { return lostWoodsSouthEntrance; }
 
+        else if (_location.ToLower().Equals("southroadturn"))
+        { return southRoadTurn; }
+       
 
 
 
         //if nothing matches send the player to their house
         return playerRoomInterior;
     }
+
+
+    public Transform FindLocation(MapLocation _location)
+    {
+
+        //for getting the location from indicators in a yarn script
+
+        //town
+        if (_location == MapLocation.townhall)
+        { return townhallFrontDoor; }
+        else if (_location == MapLocation.townEntrance)
+        { return townEntrance; }
+        else if (_location == MapLocation.constructionSite)
+        { return constructionSite; }
+        else if (_location == MapLocation.voiceInWall)
+        { return voiceInWall; }
+
+        //playerhouse outside
+        else if (_location == MapLocation.playerHouse)
+        { return playerHouseFrontDoor; }
+
+        //lostwoods
+        else if (_location == MapLocation.lostwoodsSouthEntrance)
+        { return lostWoodsSouthEntrance; }
+        else if (_location == MapLocation.lostwoodsNorthEntrance)
+        { return lostwoodsNorthEntrance; }
+
+        else if (_location == MapLocation.northRoadTurn)
+        { return northRoadTurn; }
+        else if (_location == MapLocation.southRoadTurn)
+        { return southRoadTurn; }
+
+
+        //if nothing matches send the player to their house
+        return playerRoomInterior;
+    }
+
+
 
 }

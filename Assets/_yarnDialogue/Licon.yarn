@@ -9,6 +9,7 @@ position: 168,26
 <<Comment YarnFunctions Lcion leads Margo through town. As we walk past, we see other characters - Cindy hiding in the trees, Pollack patrolling, FFM fishing, etc. These should be momentary set pieces, as though being positioned for a movie scene from the camera's perspective, to make it feel like more of a cinematic introduction to the town>>
 
 Licon: Welcome, welcome, welcome!
+<<wait 2>>
 Licon: This is the beautiful town of Happydale! See our beautiful trees, our luscious fruits, our thriving fish…
 Licon: Happydale is my pride and joy. Happydale is what gives me life! It’s my reason for breathing!
 Margo: Oh, wow, this guy is a loooot. I hope he’ll shut up soon…

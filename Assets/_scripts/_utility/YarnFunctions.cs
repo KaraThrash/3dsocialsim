@@ -73,6 +73,31 @@ public class YarnFunctions : MonoBehaviour
         //<<yarncommand Actor parameters>>
     }
 
+    
+  [YarnCommand("HavePlayerFollow")]
+    public void HavePlayerFollow(string _location, string _who)
+    {
+        //move the player and who they are speaking to
+        Debug.Log("Yarn HavePlayerFollow: " + _who);
+
+        GameManager.instance.HavePlayerFollow(_location, _who);
+
+        //<<yarntest Sally name>>
+        //<<yarncommand Actor parameters>>
+    }
+
+    [YarnCommand("LeadPlayer")]
+    public void LeadPlayer(string _location, string _who)
+    {
+        //move the player and who they are speaking to
+        Debug.Log("Yarn LeadPlayer: " + _who);
+
+        GameManager.instance.LeadPlayer(_location, _who);
+
+        //<<yarntest Sally name>>
+        //<<yarncommand Actor parameters>>
+    }
+
 
     [YarnCommand("MoveScene")]
     public void MoveScene(string _location)
@@ -151,4 +176,44 @@ public class YarnFunctions : MonoBehaviour
 
     }
 
+}
+
+public class CustomWaitCommand : MonoBehaviour
+{
+
+    // Drag and drop your Dialogue Runner into this variable.
+    public DialogueRunner dialogueRunner;
+
+    public void Awake()
+    {
+        dialogueRunner = FindObjectOfType<DialogueRunner>();
+        // Create a new command called 'custom_wait', which waits for one second.
+        dialogueRunner.AddCommandHandler(
+            "custom_wait",
+            CustomWait
+        );
+    }
+
+    // The method that gets called when '<<custom_wait>>' is run.
+    private void CustomWait(string[] parameters, System.Action onComplete)
+    {
+
+        // Start a coroutine that waits for one second:
+        StartCoroutine(DoWait(onComplete));
+
+        // Because this method takes a System.Action parameter, it's a blocking
+        // command. Yarn Spinner will wait until onComplete is called.
+    }
+
+    private IEnumerator DoWait(System.Action onComplete)
+    {
+
+        // Wait for 1 second
+        yield return new WaitForSeconds(1.0f);
+
+        // Call the completion handler
+        onComplete();
+
+        // Yarn Spinner will now continue running!
+    }
 }
