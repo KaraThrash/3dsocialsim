@@ -2,12 +2,34 @@
 
 
 
-title: TestCharacter
+title: TestCharacter3
+tags: 
+
+---
+
+<<Comment YarnFunctions I haven't edited this yet, as I imagine the length of the scene will change once we see how long moving takes and how the pacing feels with movement in>>
+
+<<Comment YarnFunctions Lcion leads Margo through town. As we walk past, we see other characters - Cindy hiding in the trees, Pollack patrolling, FFM fishing, etc. These should be momentary set pieces, as though being positioned for a movie scene from the camera's perspective, to make it feel like more of a cinematic introduction to the town>>
+<<WalkAndTalk YarnFunctions southRoadTurn TestCharacter 6>>
+Licon: Moving on - follow me!
+Licon: Between your house and town is this thick forest.
+Licon: Line 1.
+Licon: Line 2.
+Licon: Line 3.
+Licon: Line 4.
+<<WalkAndTalk YarnFunctions playerHouse TestCharacter 3>>
+Licon: line A.
+Licon: line B.
+Licon: It’s lovely during the day, but please stay out of it at night. We’ve had way too many cases of villagers getting lost, and Pollack won’t like having to run after you!
+===
+
+
+title: TestCharacter2
 tags: 
 
 ---
 <<if visited("TestCharacter") is false>>
-    <<HavePlayerFollow YarnFunctions lostwoodsSouthEntrance TestCharacter>>
+    <<WalkAndTalk YarnFunctions southRoadTurn TestCharacter>>
     TestCharacter: Oh! Hi. 
 
 <<else>>
@@ -20,8 +42,13 @@ tags:
 <<Comment YarnFunctions Lcion leads Margo through town. As we walk past, we see other characters - Cindy hiding in the trees, Pollack patrolling, FFM fishing, etc. These should be momentary set pieces, as though being positioned for a movie scene from the camera's perspective, to make it feel like more of a cinematic introduction to the town>>
 
 Licon: Moving on - follow me!
-<<HavePlayerFollow YarnFunctions southRoadTurn TestCharacter>>
+<<WalkAndTalk YarnFunctions southRoadTurn TestCharacter 3>>
 Licon: Between your house and town is this thick forest.
-<<LeadPlayer YarnFunctions lostwoodsSouthEntrance TestCharacter>>
+Licon: Line 2.
+Licon: Line 3.
+Licon: Line 4.
+<<WalkAndTalk YarnFunctions playerHouse TestCharacter 2>>
+Licon: line A.
+Licon: line B.
 Licon: It’s lovely during the day, but please stay out of it at night. We’ve had way too many cases of villagers getting lost, and Pollack won’t like having to run after you!
 ===

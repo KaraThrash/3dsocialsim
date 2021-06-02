@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 using Yarn.Unity;
 
@@ -16,7 +17,7 @@ public class Player : MonoBehaviour
     public float turnAngle; //buffer for when the player will start moving before facing the exact direction of travel 
     public bool inside;
     public Transform InHands;
-    public GameObject heldItem;
+    public GameObject heldItem,navLeadObject;
     public Inventory inventory;
     public WorldUi placeholderActionText;
 
@@ -74,15 +75,14 @@ public class Player : MonoBehaviour
         //TODO: find a better way to do this
         if (gameManager.DialogueIsRunning() == true)
         {
-            return;
+            //return;
         }
         //for debug porpoises
         playerStateString = state.ToString();
         
         PlayerStates();
 
-        if (InputControls.InteractButton() )
-        { Interact(); }
+      
 
         if (InputControls.PickUpButton())
         { 
@@ -130,13 +130,21 @@ public class Player : MonoBehaviour
             InMenuControls();
 
         }
-        else { SetVelocities(Vector3.zero, Vector3.zero); }
+        else if (state == PlayerState.inScene)
+        {
+
+            
+
+        }
+        // else { SetVelocities(Vector3.zero, Vector3.zero); }
 
     }
 
 
     public void PlayerControlled()
     {
+        if (InputControls.InteractButton())
+        { Interact(); }
         Movement();
 
     }
@@ -174,6 +182,7 @@ public class Player : MonoBehaviour
             //rebalance the speed for the input, avoid the goldeneye diagonal speed multiplier while also remaining still with no input
             if (moveDirection.magnitude > 1)
             { moveDirection = (moveDirection).normalized; }
+
 
 
             MoveTo(moveDirection);
@@ -301,7 +310,7 @@ public class Player : MonoBehaviour
 
         RaycastHit hit;
        // if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f), 0.2f, transform.TransformDirection(Vector3.forward), out hit, 0.3f))
-        if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.15f, transform.TransformDirection((Vector3.down + Vector3.forward).normalized), out hit, 0.9f))
+        if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.05f, transform.TransformDirection((Vector3.down + Vector3.forward + Vector3.forward).normalized), out hit, 1.5f))
         {
            
             if (hit.transform.GetComponent<Villager>() != null)
@@ -635,6 +644,53 @@ public class Player : MonoBehaviour
         rb.angularVelocity = angularVel;
     }
 
+
+    public void SetNavLeadObject(Vector3 _dest,float _speed)
+    {
+        if (navLeadObject == null) { return; }
+
+        if (navLeadObject.transform.parent != null)
+        {
+            navLeadObject.transform.position = transform.position;
+            navLeadObject.transform.parent = null;
+            transform.parent = navLeadObject.transform;
+            navLeadObject.GetComponent<NavMeshAgent>().enabled = true;
+            SetKinematic(true);
+        }
+
+        navLeadObject.GetComponent<NavMeshAgent>().SetDestination(_dest);
+        navLeadObject.GetComponent<NavMeshAgent>().speed = _speed;
+
+    }
+
+    public void EndNavLeadObject()
+    {
+        if (navLeadObject == null) { return; }
+
+        if (navLeadObject.transform.parent == null)
+        {
+            navLeadObject.GetComponent<NavMeshAgent>().enabled = false;
+            transform.parent = null;
+            navLeadObject.transform.position = transform.position;
+            navLeadObject.transform.parent = transform;
+            
+            SetKinematic(true);
+        }
+
+  
+
+    }
+
+
+    public void SetKinematic(bool _kinematic)
+    {
+        if (rb == null)
+        { rb = GetComponent<Rigidbody>(); }
+
+        if (rb == null) { return; }
+
+        rb.isKinematic = _kinematic;
+    }
 
     public bool IsInside() { return inside; }
     public Vector3 MoveDirection() { return moveDirection; }

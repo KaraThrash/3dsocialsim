@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraControls : MonoBehaviour
 {
     public Player player;
+    public Transform otherTarget;
     public CameraState cameraState;
     public float followSpeed, maxPlayerDistance, maxPlayerDistanceInside, cameraAngle,lowAngle = 45.0f, highAngle = 75.0f, conversationAngle = 25.0f,insideAngle=50.0f;
     public float focusAngle;
@@ -53,8 +54,20 @@ public class CameraControls : MonoBehaviour
 
         if (State() != CameraState.focusing)
         {
-            camAdjustSpeed = Mathf.Lerp(camAdjustSpeed, defaultCamAdjustSpeed, Time.deltaTime);
-            followSpeed = Mathf.Lerp(followSpeed, defaultFollowSpeed, Time.deltaTime);
+            if (player.State() == PlayerState.inScene && otherTarget != null)
+            {
+                camAdjustSpeed = Mathf.Lerp(camAdjustSpeed, defaultCamAdjustSpeed, Time.deltaTime);
+                followSpeed = otherTarget.GetComponent<Villager>().GetNavmeshVelocity().magnitude;
+
+                Track(otherTarget);
+            }
+            else
+            {
+                camAdjustSpeed = Mathf.Lerp(camAdjustSpeed, defaultCamAdjustSpeed, Time.deltaTime);
+                followSpeed = Mathf.Lerp(followSpeed, defaultFollowSpeed, Time.deltaTime);
+
+                Track(player.transform);
+            }
         }
         
 
@@ -65,7 +78,7 @@ public class CameraControls : MonoBehaviour
         }
         else 
         {
-            TrackPlayer();
+          //  Track(otherTarget);
         }
 
 
@@ -111,6 +124,18 @@ public class CameraControls : MonoBehaviour
                 cameraAngle = lowAngle;
             }
 
+        }
+    }
+
+    public void Track(Transform _target)
+    {
+        Vector3 _targetXYPos = camOffset + _target.position;
+
+        CameraEffect();
+
+        if (Vector3.Distance(_targetXYPos, transform.position) > maxPlayerDistance)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _targetXYPos, Time.deltaTime * followSpeed * followSpeedAdjustment);
         }
     }
 

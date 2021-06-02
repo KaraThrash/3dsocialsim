@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class SceneObj : MonoBehaviour
+public class SceneObject 
 {
-   
+    public SceneObject() { }
+    public SceneAction actionType;
+    public Vector3 startPos,targetPos;
+    public int linesOfDialogue,phase;
+    public float distanceIncrement;
+    public float primarySpeed;
 
 
 
@@ -24,7 +29,23 @@ public static class SceneActions
 
     // private Villager villager;
 
+    public static void HavePlayerFollow(Transform _actor, Vector3 _location, Player _player, float _speed)
+    {
 
+        _actor.GetComponent<Villager>().SetNavMeshDestination(_location);
+
+        speed = 3; rotSpeed = 3;
+
+        if (OnCamera(_actor.position))
+        {
+            _actor.GetComponent<Villager>().SetNavMeshSpeed(_player.GetComponent<Rigidbody>().velocity.magnitude + 1);
+
+        }
+        else { _actor.GetComponent<Villager>().SetNavMeshSpeed(0); }
+
+
+
+    }
     public static void HavePlayerFollow(Transform _actor, Transform _location, Player _player, float _speed)
     {
 
@@ -43,27 +64,26 @@ public static class SceneActions
 
     }
 
-    public static void LeadPlayer(Transform _actor,Transform _location,Player _player,float _speed)
+    public static void LeadPlayer(Transform _actor,Vector3 _location,Player _player,float _speed=1)
     {
         
 
-        speed = 3; rotSpeed = 3;
-
-
-
-        Vector3 playerTarget = _actor.position - _actor.forward;
-        playerTarget = (playerTarget  - _player.transform.position).normalized ;
-
-        _player.SetVelocities(_actor.GetComponent<Villager>().GetNavmeshVelocity().magnitude * playerTarget * Vector3.Distance(_actor.position,_player.transform.position), Vector3.zero);
-
+         rotSpeed = 3;
+      
+        _player.SetNavLeadObject((_actor.position - _actor.forward), _speed);
+        
 
 
         _player.transform.LookAt(_actor);
-        _actor.GetComponent<Villager>().SetNavMeshDestination(_location.position);
+
+        _actor.GetComponent<Villager>().SetNavMeshSpeed(_speed);
+        _actor.GetComponent<Villager>().SetNavMeshDestination(_location);
         _actor.GetComponent<Villager>().SetAnimatorParameter("speed", _actor.GetComponent<Villager>().GetNavmeshVelocity().magnitude);
 
 
     }
+
+
 
     public static bool OnCamera(Vector3 _pos)
     {

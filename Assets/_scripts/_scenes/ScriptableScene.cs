@@ -13,6 +13,8 @@ public class ScriptableScene : ScriptableObject
     public MapLocation startWorldLocation, endWorldLocation;
     public List<MapLocation> worldLocations;
 
+    public Vector3 cameraOffset;
+
 
     //Vector3 if the scene is in an arbitrary location
     //public Vector3 startPos, endPos;

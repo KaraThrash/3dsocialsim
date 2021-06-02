@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Yarn.Unity;
@@ -12,9 +13,7 @@ using Yarn.Unity;
 
 public class YarnFunctions : MonoBehaviour
 {
-    // public GameManager gameManager;
-
-
+    
 
     /// <summary>
     /// Transitions
@@ -41,7 +40,45 @@ public class YarnFunctions : MonoBehaviour
     /// </summary>
 
 
+    /// <summary>
+    /// start - Conversation types
+    /// </summary>
 
+
+    [YarnCommand("StaticConversation")]
+    public void StaticConversation()
+    {
+        Debug.Log("Yarn StaticConversation");
+
+        //set camera angle
+        //lock player movement
+        //have player face speaker
+
+        GameManager.instance.cameraControls.anim.speed = 1;
+
+        GameManager.instance.cameraControls.anim.Play("CameraFadeToBlack");
+    }
+
+
+    [YarnCommand("WalkAndTalk")]
+    public void WalkAndTalk(string _location, string _villager, string _lineCount)
+    {
+        Debug.Log("Yarn WalkAndTalk");
+
+        //set camera angle
+        //lock player movement
+        //have player face speaker
+   
+       
+        GameManager.instance.WalkAndTalk(_location, _villager, _lineCount);
+        // GameManager.instance.cameraControls.anim.speed = 1;
+
+        //  GameManager.instance.cameraControls.anim.Play("CameraFadeToBlack");
+    }
+
+    /// <summary>
+    /// end - Conversation types
+    /// </summary>
 
 
     /// <summary>
@@ -98,6 +135,29 @@ public class YarnFunctions : MonoBehaviour
         //<<yarncommand Actor parameters>>
     }
 
+    [YarnCommand("LeadPlayerAndTalk")]
+    public void LeadPlayer(string _location, string _who, string _lineCount)
+    {
+        //move the player and who they are speaking to
+        Debug.Log("Yarn LeadPlayer: " + _who);
+
+        GameManager.instance.LeadPlayer(_location, _who,  _lineCount);
+
+        //<<yarntest Sally name>>
+        //<<yarncommand Actor parameters>>
+    }
+
+    [YarnCommand("LeadPlayerAndTalkRunning")]
+    public void LeadPlayer(string _location, string _who, string _lineCount,string _speed)
+    {
+        //move the player and who they are speaking to
+        Debug.Log("Yarn LeadPlayer: " + _who);
+
+        GameManager.instance.LeadPlayer(_location, _who, _lineCount, _speed);
+
+        //<<yarntest Sally name>>
+        //<<yarncommand Actor parameters>>
+    }
 
     [YarnCommand("MoveScene")]
     public void MoveScene(string _location)
@@ -150,6 +210,13 @@ public class YarnFunctions : MonoBehaviour
     {
         Debug.Log("_who and Yarn animations");
         Debug.Log(_animation);
+
+        Villager villager = GameManager.instance.FindVillager(_who);
+
+
+        if (villager == null) { return; }
+
+            villager.PlayAnimation(_animation);
 
         //<<yarntest Sally name>>
         //<<yarncommand Actor parameters>>

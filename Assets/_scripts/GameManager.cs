@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     public AudioManager audioManager;
     public CameraControls cameraControls;
     public LocationManager locationManager;
+    public SceneDirector sceneDirector;
 
 
 
@@ -41,6 +43,8 @@ public class GameManager : MonoBehaviour
     private EventInit eventInit;
     public float actionTimer,transitionTimer;
 
+    public Button continueButton;
+
     public Vector3 pendingNewPosition; //apply at the end of the transitioning step
 
 
@@ -48,6 +52,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
+        print(ContinueButton());
+
         UnlockPlayerMovement(true);
 
         StartDay();
@@ -127,7 +134,7 @@ public class GameManager : MonoBehaviour
 
     public void MovePlayer(Transform _location)
     {
-
+        if (sceneDirector.sceneActive == true) { SceneDirector().EndScene(); }
         EventInit().MovePlayer(GetComponent<GameManager>(),_location);
 
     }
@@ -142,21 +149,51 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void LeadPlayer(Transform _location,Villager _villager)
+    public void LeadPlayer(string _location, string _villagerName,string _lineCount)
     {
 
-        EventInit().LeadPlayer(GetComponent<GameManager>(), _villager,_location.position);
+        //TODO: end conversations and interactions
+
+        //when called from a yarnfunction get the location from the provided string
+        LeadPlayer(LocationManager().FindLocation(_location), FindVillager(_villagerName), Int32.Parse(_lineCount));
+
+    }
+
+    public void LeadPlayer(string _location, string _villagerName, string _lineCount,string _speed)
+    {
+
+        //TODO: end conversations and interactions
+
+        //when called from a yarnfunction get the location from the provided string
+        LeadPlayer(LocationManager().FindLocation(_location), FindVillager(_villagerName), Int32.Parse(_lineCount), float.Parse(_speed));
+
+    }
+
+    public void LeadPlayer(Transform _location,Villager _villager,int _lineCount=1,float _speed=1)
+    {
+        if (SceneDirector().sceneActive == true) { SceneDirector().EndScene(); }
+
+        EventInit().LeadPlayer(GetComponent<GameManager>(), _villager,_location.position, _lineCount, _speed);
 
     }
 
     public void HavePlayerFollow(string _location, string _villagerName)
     {
-
+        if (sceneDirector.sceneActive == true) { SceneDirector().EndScene(); }
         EventInit().HavePlayerFollow(GetComponent<GameManager>(), FindVillager(_villagerName), LocationManager().FindLocation(_location).position);
 
     }
+    public void WalkAndTalk(string _location, string _villagerName,string _lineCount)
+    {
+        if (sceneDirector.sceneActive == true) { SceneDirector().EndScene(); }
 
+        FindVillager(_villagerName).InitScriptableScene(LocationManager().FindLocation(_location), Int32.Parse(_lineCount));
 
+      //  SceneDirector().InitWalkAndTalk(FindVillager(_villagerName), LocationManager().FindLocation(_location).position, Int32.Parse(_lineCount));
+
+        EventInit().WalkAndTalk(GetComponent<GameManager>(), FindVillager(_villagerName), LocationManager().FindLocation(_location).position, Int32.Parse(_lineCount));
+
+    }
 
 
     public void PlayerStateTransition()
@@ -207,7 +244,7 @@ public class GameManager : MonoBehaviour
             }
 
             activeObject = _villager.transform;
-            // dialogueRunner.Add(_villager.scriptToLoad);
+           //  dialogueRunner.Add(_villager.scriptToLoad);
             //  _villager.scriptToLoad = null;
 
             //find the script for this village based on the game state
@@ -514,6 +551,13 @@ public class GameManager : MonoBehaviour
         return audioManager;
     }
 
+    public SceneDirector SceneDirector()
+    {
+        if (sceneDirector == null) { sceneDirector = GameObject.Find("SceneDirector").GetComponent<SceneDirector>(); }
+        return sceneDirector;
+    }
+
+
     public EventInit EventInit()
     {
 
@@ -602,7 +646,14 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public Button ContinueButton()
+    {
+        if (continueButton == null)
+        { continueButton = dialogueRunner.GetComponent<DialogueUI>().dialogueContainer.transform.Find("Continue Button").GetComponent<Button>(); }
+        return continueButton;
 
+
+    }
 
     public Villager FindVillager(string _name)
     {

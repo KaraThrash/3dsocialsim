@@ -155,7 +155,9 @@ public class Villager : MonoBehaviour
 
         if (leftEye != null)
         { BlinkTimer(); }
-        
+
+        SetAnimatorParameter("speed",GetNavmeshVelocity().magnitude);
+
 
     }
 
@@ -206,6 +208,26 @@ public class Villager : MonoBehaviour
 
     }
 
+
+    private SceneObject currentScene;
+
+
+    public void InitScriptableScene(Transform _target,int _linesOfDialogue)
+    {
+        currentScene = new SceneObject();
+        currentScene.targetPos = _target.position;
+        currentScene.startPos = transform.position;
+        currentScene.linesOfDialogue = _linesOfDialogue;
+        currentScene.distanceIncrement = Vector3.Distance(transform.position, _target.position) / _linesOfDialogue;
+       // currentScene.distanceIncrement = 5;
+         ScriptedAction(SceneAction.walkAndTalk);
+    }
+
+
+
+
+
+
     public void StoryAct()
     {
         if (ScriptedAction() == SceneAction.trailPlayer)
@@ -216,52 +238,46 @@ public class Villager : MonoBehaviour
         {
 
 
-            if (phase == 0)
-            {
-                SceneActions.HavePlayerFollow(this.transform, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn), gameManager.player.GetComponent<Player>(), 1);
-                if (Vector3.Distance(transform.position, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn).position) < 1)
-                { phase = 1; }
+            //if (phase == 0)
+            //{
+            //    SceneActions.HavePlayerFollow(this.transform, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn), gameManager.player.GetComponent<Player>(), 1);
+            //    if (Vector3.Distance(transform.position, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn).position) < 1)
+            //    {
+            //        phase = 1;
+            //        gameManager.dialogueRunner.GetComponent<DialogueUI>().MarkLineComplete();
+            //    }
 
-            }
-            else if (phase == 1)
-            {
-                SceneActions.HavePlayerFollow(this.transform, gameManager.LocationManager().FindLocation(MapLocation.playerHouse), gameManager.player.GetComponent<Player>(), 1);
-                if (Vector3.Distance(transform.position, gameManager.LocationManager().FindLocation(MapLocation.playerHouse).position) < 1)
-                { phase = 2; }
-            }
-            else if (phase == 2)
-            {
-                SceneActions.HavePlayerFollow(this.transform, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn), gameManager.player.GetComponent<Player>(), 1);
-                if (Vector3.Distance(transform.position, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn).position) < 1)
-                { phase = 0; }
-            }
+            //}
+            //else if (phase == 1)
+            //{
+            //    SceneActions.HavePlayerFollow(this.transform, gameManager.LocationManager().FindLocation(MapLocation.playerHouse), gameManager.player.GetComponent<Player>(), 1);
+            //    if (Vector3.Distance(transform.position, gameManager.LocationManager().FindLocation(MapLocation.playerHouse).position) < 1)
+            //    { phase = 2; gameManager.dialogueRunner.GetComponent<DialogueUI>().MarkLineComplete(); }
+            //}
+            //else if (phase == 2)
+            //{
+            //    SceneActions.HavePlayerFollow(this.transform, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn), gameManager.player.GetComponent<Player>(), 1);
+            //    if (Vector3.Distance(transform.position, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn).position) < 1)
+            //    { phase = 0; gameManager.dialogueRunner.GetComponent<DialogueUI>().MarkLineComplete(); }
+            //}
 
         }
-        //else if (ScriptedAction() == SceneAction.leadPlayer)
-        //{
+        else if (ScriptedAction() == SceneAction.walkAndTalk)
+        {
+            //if (currentScene == null || currentScene.linesOfDialogue <= currentScene.phase) { return; InitScriptableScene(gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn), 2); }
 
+            //SceneActions.HavePlayerFollow(this.transform, currentScene.targetPos, gameManager.player.GetComponent<Player>(), 1);
 
-        //    if (phase == 0)
-        //    {
-        //        SceneActions.LeadPlayer(this.transform, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn), gameManager.player.GetComponent<Player>(), 1);
-        //        if (Vector3.Distance(transform.position, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn).position) < 1)
-        //        { phase = 1; }
+            //if ( Vector3.Distance(transform.position, currentScene.startPos)  >  currentScene.distanceIncrement)
+            //{
+            //    currentScene.startPos = transform.position;
+            //    currentScene.phase++;
+            //    gameManager.dialogueRunner.GetComponent<DialogueUI>().MarkLineComplete();
+            //}
 
-        //    }
-        //    else if (phase == 1)
-        //    {
-        //        SceneActions.LeadPlayer(this.transform, gameManager.LocationManager().FindLocation(MapLocation.playerHouse), gameManager.player.GetComponent<Player>(), 1);
-        //        if (Vector3.Distance(transform.position, gameManager.LocationManager().FindLocation(MapLocation.playerHouse).position) < 1)
-        //        { phase = 2; }
-        //    }
-        //    else if (phase == 2)
-        //    {
-        //        SceneActions.LeadPlayer(this.transform, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn), gameManager.player.GetComponent<Player>(), 1);
-        //        if (Vector3.Distance(transform.position, gameManager.LocationManager().FindLocation(MapLocation.southRoadTurn).position) < 1)
-        //        { phase = 0; }
-        //    }
+            
 
-        //}
+        }
     }
 
     public void Act()
@@ -279,7 +295,10 @@ public class Villager : MonoBehaviour
         {
             Idle();
         }
-        
+        else if (State() == VillagerState.waiting)
+        {
+        }
+
 
     }
 
@@ -287,12 +306,11 @@ public class Villager : MonoBehaviour
     public void Talking()
     {
 
-        if ( activeDialogue != null)
-        {
+      
             Quaternion targetRotation = Quaternion.LookRotation(gameManager.GetPlayer().transform.position - transform.position);
 
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotSpeed * Time.deltaTime);
-        }
+        
     }
 
     public void Walking()
@@ -456,16 +474,31 @@ public class Villager : MonoBehaviour
 
 
 
+
+    public bool ContainsParam(Animator _Anim, string _ParamName)
+    {
+        foreach (AnimatorControllerParameter param in _Anim.parameters)
+        {
+            if (param.name == _ParamName) return true;
+        }
+        return false;
+    }
+
     public void SetAnimatorParameter(string _parameter, bool _value)
     {
-        if (anim != null)
-        { anim.SetBool(_parameter,_value); }
+        if (anim == null || !ContainsParam(anim, _parameter)  )
+        { return; }
+
+         anim.SetBool(_parameter,_value); 
     }
 
     public void SetAnimatorParameter(string _parameter, float _value)
     {
-        if (anim != null)
-        { anim.SetFloat(_parameter, _value); }
+        if (anim == null || !ContainsParam(anim, _parameter))
+        { return; }
+
+
+         anim.SetFloat(_parameter, _value); 
     }
 
     public void PlayAnimation(string _parameter)
@@ -473,6 +506,9 @@ public class Villager : MonoBehaviour
         if (anim != null)
         { anim.Play(_parameter); }
     }
+
+
+
 
 
     //NavMeshFunctions

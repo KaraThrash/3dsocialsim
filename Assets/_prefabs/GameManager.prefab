@@ -104,6 +104,58 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueRunner: {fileID: 6719310538647257588}
+--- !u!1 &1314299334
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1314299335}
+  - component: {fileID: 1314299336}
+  m_Layer: 0
+  m_Name: SceneDirector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1314299335
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314299334}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1107749310353012849}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1314299336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314299334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e274c5747f1230438cc3d02bda6b6d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeScene: {fileID: 0}
+  player: {fileID: 0}
+  primary: {fileID: 0}
+  secondary: {fileID: 0}
+  startPos: {x: 0, y: 0, z: 0}
+  endPos: {x: 0, y: 0, z: 0}
+  villagers: []
+  locations: 
+  sceneActive: 0
 --- !u!1 &2015067651
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,6 +208,9 @@ MonoBehaviour:
   lostwoodsNorthEntrance: {fileID: 0}
   lostwoodsInterior: {fileID: 0}
   townEntrance: {fileID: 0}
+  voiceInWall: {fileID: 0}
+  northRoadTurn: {fileID: 0}
+  southRoadTurn: {fileID: 0}
 --- !u!1 &1107749308968636261
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,7 +733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enablePlanet: 1
-  bendingAmount: 0.005
+  bendingAmount: 0.01
 --- !u!1 &1107749310130831061
 GameObject:
   m_ObjectHideFlags: 0
@@ -776,6 +831,7 @@ Transform:
   - {fileID: 528822697}
   - {fileID: 258380385}
   - {fileID: 2015067652}
+  - {fileID: 1314299335}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -794,13 +850,14 @@ MonoBehaviour:
   gameState: 0
   player: {fileID: 0}
   dialogueRunner: {fileID: 6719310538647257588}
-  yarnFunctions: {fileID: 0}
+  yarnFunctions: {fileID: 258380387}
   terrainManager: {fileID: 3675154958646238335}
   timeManager: {fileID: 1107749309173519313}
   uiManager: {fileID: 1107749308968636266}
   audioManager: {fileID: 1107749309054517227}
   cameraControls: {fileID: 0}
-  locationManager: {fileID: 0}
+  locationManager: {fileID: 2015067653}
+  sceneDirector: {fileID: 1314299336}
   chatbox: {fileID: 0}
   showCameraItem: {fileID: 0}
   chatText: {fileID: 0}
@@ -816,6 +873,7 @@ MonoBehaviour:
   acceptInput: 0
   actionTimer: 0
   transitionTimer: 0
+  continueButton: {fileID: 0}
   pendingNewPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &4351133002652371902
 MonoBehaviour:
@@ -829,6 +887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 156f679e7b469a24b92ef50b467347a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneDirector: {fileID: 1314299336}
   lostWoods: {fileID: 0}
 --- !u!1001 &1107749310624482869
 PrefabInstance:
@@ -1230,6 +1289,11 @@ PrefabInstance:
         type: 3}
       propertyPath: onDialogueComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5935829475398715334, guid: 4ec3df5875e7347beb6176b545b8fb39,
+        type: 3}
+      propertyPath: acceptsInput
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5935829475398715334, guid: 4ec3df5875e7347beb6176b545b8fb39,
         type: 3}
@@ -1675,6 +1739,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ec3df5875e7347beb6176b545b8fb39, type: 3}
+--- !u!114 &6990572124743490172 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7952235919768132681, guid: 4ec3df5875e7347beb6176b545b8fb39,
+    type: 3}
+  m_PrefabInstance: {fileID: 1107749310624482869}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8245811344372935941 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9020856951131138864, guid: 4ec3df5875e7347beb6176b545b8fb39,
+    type: 3}
+  m_PrefabInstance: {fileID: 1107749310624482869}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7183528177584471263 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7849352976167254762, guid: 4ec3df5875e7347beb6176b545b8fb39,
@@ -1741,21 +1823,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6990572124743490172 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7952235919768132681, guid: 4ec3df5875e7347beb6176b545b8fb39,
-    type: 3}
-  m_PrefabInstance: {fileID: 1107749310624482869}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &8245811344372935941 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9020856951131138864, guid: 4ec3df5875e7347beb6176b545b8fb39,
-    type: 3}
-  m_PrefabInstance: {fileID: 1107749310624482869}
-  m_PrefabAsset: {fileID: 0}

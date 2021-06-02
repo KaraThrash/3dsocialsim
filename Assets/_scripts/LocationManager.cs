@@ -9,6 +9,7 @@ public class LocationManager : MonoBehaviour
     public Transform lostWoodsSouthEntrance, lostwoodsNorthEntrance, lostwoodsInterior;
     public Transform townEntrance,voiceInWall;
     public Transform northRoadTurn,southRoadTurn;
+    public Transform southeastRoadEnd;
 
 
 
@@ -51,8 +52,10 @@ public class LocationManager : MonoBehaviour
 
         else if (_location.ToLower().Equals("southroadturn"))
         { return southRoadTurn; }
-       
-
+        else if (_location.ToLower().Equals("northroadturn"))
+        { return northRoadTurn; }
+        else if (_location.ToLower().Equals("southeastroadend"))
+        { return southeastRoadEnd; }
 
 
         //if nothing matches send the player to their house
@@ -89,7 +92,8 @@ public class LocationManager : MonoBehaviour
         { return northRoadTurn; }
         else if (_location == MapLocation.southRoadTurn)
         { return southRoadTurn; }
-
+        else if (_location == MapLocation.southeastRoadEnd)
+        { return southeastRoadEnd; }
 
         //if nothing matches send the player to their house
         return playerRoomInterior;
