@@ -24,7 +24,10 @@ public class MouthController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M)) { SetMouthPattern(MouthPattern.angry); }
+
+        if (mouthRenderer == null) { return; }
+
+        if (Input.GetKeyDown(KeyCode.M)) { SetMouthPattern(MouthPattern.angry,12); }
         if (Input.GetKeyDown(KeyCode.N)) { SetMouthPattern(MouthPattern.sad); }
         if (Input.GetKeyDown(KeyCode.B)) { SetMouthPattern(MouthPattern.happy); }
 
@@ -39,6 +42,8 @@ public class MouthController : MonoBehaviour
             if (mouthTimer <= 0)
             {
                 mouthTimer = -1;
+
+                SetMouth(mouthRenderer.materials[0], closed);
             }
             else 
             {
@@ -56,31 +61,42 @@ public class MouthController : MonoBehaviour
     }
 
 
-
-
     public void MoveMouth()
     {
+        if (mouthRenderer == null) { return; }
+
         count++;
         if (count >= mouths.Count) { count = 0; }
 
-        Material[] mats = new Material[2] ;
-        mats[0] = mouthRenderer.materials[0];
-        mats[1] = mouths[count];
-        mouthRenderer.materials = mats;
+        SetMouth(mouthRenderer.materials[0], mouths[count]);
+
         
     }
 
-    public void SetMouthPattern(MouthPattern _pattern)
+    public void SetMouth(Material _head,Material _mouth)
     {
        
 
-        mouthTimer = speakTime;
-        intervalTimer = mouthInterval;
+        Material[] mats = new Material[2];
+        mats[0] = _head;
+        mats[1] = _mouth;
+        mouthRenderer.materials = mats;
+
+    }
+
+    public void SetMouthPattern(MouthPattern _pattern, float _length = 1)
+    {
+        if (mouthRenderer == null) { return; }
+
+        if (pattern == _pattern && mouthTimer != -1)
+        { return; }
+
+        mouthTimer = _length;
+        intervalTimer = mouthInterval + UnityEngine.Random.Range(0.01f, 0.1f);
 
         count = 0;
 
-        if (pattern == _pattern)
-        { return; }
+      
 
         mouths = new List<Material>();
         pattern = _pattern;

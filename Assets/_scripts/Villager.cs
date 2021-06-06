@@ -39,7 +39,7 @@ public class Villager : MonoBehaviour
     private bool eyesOpen;
 
     private Vector3 startPos;
-
+    private MouthController mouthAnimator;
 
 
 
@@ -471,6 +471,18 @@ public class Villager : MonoBehaviour
     public AudioClip Motif() { return motif; }
     public void Motif(AudioClip _clip) { motif = _clip; ; }
     public void Voice(AudioClip _clip) { voice = _clip; }
+
+
+    public void AnimateMouth(MouthPattern _pattern, float _length)
+    { 
+        if (mouthAnimator == null)
+        { mouthAnimator = GetComponent<MouthController>(); }
+
+        if (mouthAnimator != null)
+        {
+            mouthAnimator.SetMouthPattern(_pattern, _length);
+        }
+    }
 
 
 

@@ -110,6 +110,12 @@ public class GameManager : MonoBehaviour
 
     }
 
+
+    public void EndScene()
+    {
+        SceneDirector().EndScene();
+    }
+
     public void MovePlayerAndSpeaker(string _location)
     {
         //maintain any speaker
@@ -134,7 +140,7 @@ public class GameManager : MonoBehaviour
 
     public void MovePlayer(Transform _location)
     {
-        if (sceneDirector.sceneActive == true) { SceneDirector().EndScene(); }
+       // if (sceneDirector.sceneActive == true) { SceneDirector().EndScene(); }
         EventInit().MovePlayer(GetComponent<GameManager>(),_location);
 
     }
@@ -171,7 +177,7 @@ public class GameManager : MonoBehaviour
 
     public void LeadPlayer(Transform _location,Villager _villager,int _lineCount=1,float _speed=1)
     {
-        if (SceneDirector().sceneActive == true) { SceneDirector().EndScene(); }
+       // if (SceneDirector().sceneActive == true) { SceneDirector().EndScene(); }
 
         EventInit().LeadPlayer(GetComponent<GameManager>(), _villager,_location.position, _lineCount, _speed);
 
@@ -179,13 +185,13 @@ public class GameManager : MonoBehaviour
 
     public void HavePlayerFollow(string _location, string _villagerName)
     {
-        if (sceneDirector.sceneActive == true) { SceneDirector().EndScene(); }
+      //  if (sceneDirector.sceneActive == true) { SceneDirector().EndScene(); }
         EventInit().HavePlayerFollow(GetComponent<GameManager>(), FindVillager(_villagerName), LocationManager().FindLocation(_location).position);
 
     }
     public void WalkAndTalk(string _location, string _villagerName,string _lineCount)
     {
-        if (sceneDirector.sceneActive == true) { SceneDirector().EndScene(); }
+      //  if (sceneDirector.sceneActive == true) { SceneDirector().EndScene(); }
 
         FindVillager(_villagerName).InitScriptableScene(LocationManager().FindLocation(_location), Int32.Parse(_lineCount));
 
@@ -628,7 +634,7 @@ public class GameManager : MonoBehaviour
             }
 
             //dont move the player until the transition effect is over (e.g. fading to black, dont move until the screen is fully black) 
-            player.transform.position = pendingNewPosition;
+            player.TeleportPlayer(pendingNewPosition);
 
             player.SetVelocities(Vector3.zero,Vector3.zero);
 

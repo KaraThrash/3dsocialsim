@@ -34,7 +34,7 @@ public static class SceneActions
 
         _actor.GetComponent<Villager>().SetNavMeshDestination(_location);
 
-        speed = 3; rotSpeed = 3;
+        speed = 5; rotSpeed = 3;
 
         if (OnCamera(_actor.position))
         {
@@ -51,7 +51,7 @@ public static class SceneActions
 
         _actor.GetComponent<Villager>().SetNavMeshDestination(_location.position);
 
-        speed = 3; rotSpeed = 3;
+        speed = 5; rotSpeed = 3;
 
         if (OnCamera(_actor.position))
         {
@@ -64,7 +64,7 @@ public static class SceneActions
 
     }
 
-    public static void LeadPlayer(Transform _actor,Vector3 _location,Player _player,float _speed=1)
+    public static void LeadPlayer(Transform _actor,Vector3 _location,Player _player,float _speed=5)
     {
         
 

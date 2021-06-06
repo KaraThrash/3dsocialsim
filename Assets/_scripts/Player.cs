@@ -219,7 +219,18 @@ public class Player : MonoBehaviour
     }
 
 
+    public void TeleportPlayer(Vector3 _pos) 
+    {
+        if (navLeadObject != null && transform.parent != null && transform.parent == navLeadObject.transform)
+        {
+            navLeadObject.GetComponent<NavMeshAgent>().Warp(_pos);
+        }
+        else 
+        {
+            transform.position = _pos;
+        }
 
+    }
 
 
 
@@ -235,7 +246,7 @@ public class Player : MonoBehaviour
     //conversation target, item pickup, or directly at the camera
     public void LookAtAction(Transform _lookat,float _rotSpeed=1)
     {
-        Quaternion targetRotation = Quaternion.LookRotation(_lookat.position - transform.position);
+        Quaternion targetRotation = Quaternion.LookRotation(new Vector3(_lookat.position.x, transform.position.y, _lookat.position.z) - transform.position);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotSpeed * Time.deltaTime);
     }

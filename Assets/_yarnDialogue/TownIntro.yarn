@@ -7,13 +7,16 @@ tags:
 
 <<Comment YarnFunctions Lcion leads Margo through town. As we walk past, we see other characters - Cindy hiding in the trees, Pollack patrolling, FFM fishing, etc. These should be momentary set pieces, as though being positioned for a movie scene from the camera's perspective, to make it feel like more of a cinematic introduction to the town>>
 <<PlayAnimation YarnFunctions wavehello TestCharacter4>>
+<<AnimateMouth YarnFunctions angry 4 TestCharacter4>>
 Licon: Welcome, welcome, welcome!
 Licon: This is the beautiful town of Happydale! See our beautiful trees, our luscious fruits, our thriving fish…
 <<LeadPlayerAndTalkRunning YarnFunctions southeastroadend TestCharacter4 5 1>>
 Licon: Happydale is my pride and joy. Happydale is what gives me life! It’s my reason for breathing!
+<<AnimateMouth YarnFunctions sad 4 TestCharacter4>>
 Margo: Oh, wow, this guy is a loooot. I hope he’ll shut up soon…
 Licon: Each and every one of our residents pours our soul into Happydale. It’s the efforts of all of us that makes it what it is.
 Licon: We expect that you’ll make the same efforts with your cafe!
+<<AnimateMouth YarnFunctions happy 4 TestCharacter4>>
 Licon: Oh, but first - you need a place to live, don’t you?
 <<LeadPlayerAndTalkRunning YarnFunctions playerhouseoutside TestCharacter4 4 2>>
 Licon: Licon: It just so happens we have a spare house available! Follow me!
@@ -25,24 +28,23 @@ Margo: Mind?! Do you know how long I’ve been dreaming of living in a house of 
 Margo: I’ll take it!
 Licon: Great! You have no idea how much it pained me to see this house empty…
 Licon: Knowing you’re here to bring it to life will keep me at peace.
+<<LeadPlayerAndTalkRunning YarnFunctions southRoadTurn TestCharacter4 2 2>>
 Margo: I sure wish I could be at peace right about now…
-<<LeadPlayerAndTalk YarnFunctions southRoadTurn TestCharacter4 0>>
 Licon: Moving on - follow me!
-<<LeadPlayerAndTalk YarnFunctions lostwoodssouth TestCharacter4 0>>
+<<LeadPlayerAndTalkRunning YarnFunctions lostwoodssouth TestCharacter4 1 1>>
 Licon: Between your house and town is this thick forest.
-<<MovePlayerAndSpeaker YarnFunctions northroadturn>>
+<<MovePlayerAndSpeaker YarnFunctions lostwoodsnorth>>
+<<LeadPlayerAndTalk YarnFunctions northRoadTurn TestCharacter4 2>>
 Licon: It’s lovely during the day, but please stay out of it at night. We’ve had way too many cases of villagers getting lost, and Pollack won’t like having to run after you!
-<<LeadPlayerAndTalk YarnFunctions constructionSite TestCharacter4 2>>
 <<Comment YarnFunctions They emerge into the town plaza>>
 Licon: And this is the town plaza! As you can see, here’s the town hall - I spend a lot of my time here.
 <<LeadPlayerAndTalkRunning YarnFunctions constructionSite TestCharacter4 1 4>>
 Licon: And over here…
 <<Comment YarnFunctions They run to the cafe>>
 Licon: This is where we’ll be building your cafe!
-
 <<Playanimation YarnFunctions LiconFlourish>>
 Licon: What do you think?
-
+<<EndScene YarnFunctions>>
 <<Comment YarnFunctions These choices are Margo's>>
 -> It’s perfect!
     Margo: It's perfect! I couldn't have made it better myself!

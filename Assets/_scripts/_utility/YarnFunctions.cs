@@ -31,7 +31,16 @@ public class YarnFunctions : MonoBehaviour
         GameManager.instance.cameraControls.anim.Play("CameraFadeToBlack");
     }
 
+    [YarnCommand("EndScene")]
+    public void EndScene()
+    {
+        Debug.Log("Yarn EndScene");
 
+        GameManager.instance.EndScene();
+
+        //<<yarntest Sally name>>
+        //<<yarncommand Actor parameters>>
+    }
 
 
 
@@ -223,6 +232,21 @@ public class YarnFunctions : MonoBehaviour
     }
 
 
+    [YarnCommand("AnimateMouth")]
+    public void AnimateMouth(string _pattern,string _length,  string _who)
+    {
+        Debug.Log("Yabrn AnimateMouth");
+
+        Villager villager = GameManager.instance.FindVillager(_who);
+
+
+        if (villager == null) { return; }
+
+        villager.AnimateMouth(EnumGroups.ConvertMouthPattern(_pattern), float.Parse(_length));
+
+        //<<yarntest Sally name>>
+        //<<yarncommand Actor parameters>>
+    }
 
 
     /// <summary>

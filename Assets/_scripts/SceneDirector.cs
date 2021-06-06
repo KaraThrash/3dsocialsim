@@ -57,6 +57,7 @@ public class SceneDirector : MonoBehaviour
             }
             if (player != null)
             {
+                player.EndNavLeadObject();
                 player.SetState(PlayerState.talking);
             }
         }
@@ -92,6 +93,13 @@ public class SceneDirector : MonoBehaviour
 
 
         sceneActive = false;
+        ReEnabledContinueButton();
+
+
+    }
+
+    public void ReEnabledContinueButton()
+    {
         GameManager.instance.ContinueButton().GetComponent<Image>().enabled = true;
         GameManager.instance.ContinueButton().transform.GetChild(0).GetComponent<Text>().enabled = true;
         GameManager.instance.ContinueButton().interactable = true;
@@ -128,7 +136,8 @@ public class SceneDirector : MonoBehaviour
 
         if (currentScene == null || Vector3.Distance(primary.transform.position, currentScene.targetPos) < 1)
         {
-            EndScene();
+            ReEnabledContinueButton();
+            //EndScene();
             return;
         }
 

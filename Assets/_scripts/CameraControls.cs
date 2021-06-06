@@ -59,7 +59,15 @@ public class CameraControls : MonoBehaviour
                 camAdjustSpeed = Mathf.Lerp(camAdjustSpeed, defaultCamAdjustSpeed, Time.deltaTime);
                 followSpeed = otherTarget.GetComponent<Villager>().GetNavmeshVelocity().magnitude;
 
-                Track(otherTarget);
+                //Track(otherTarget);
+                TrackTalking((player.transform.position + otherTarget.position) / 2);
+            }
+            if (player.State() == PlayerState.talking && otherTarget != null)
+            {
+                camAdjustSpeed = Mathf.Lerp(camAdjustSpeed, defaultCamAdjustSpeed, Time.deltaTime);
+                followSpeed = otherTarget.GetComponent<Villager>().GetNavmeshVelocity().magnitude;
+
+                TrackTalking(player.transform.position + player.transform.forward);
             }
             else
             {
@@ -126,6 +134,21 @@ public class CameraControls : MonoBehaviour
 
         }
     }
+
+    public void TrackTalking(Vector3 _target)
+    {
+        Vector3 _targetXYPos = camOffset + _target;
+
+        CameraEffect();
+
+        transform.LookAt(_target);
+
+        if (Vector3.Distance(_targetXYPos, transform.position) > maxPlayerDistance)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _targetXYPos, Time.deltaTime * followSpeed * followSpeedAdjustment);
+        }
+    }
+
 
     public void Track(Transform _target)
     {
