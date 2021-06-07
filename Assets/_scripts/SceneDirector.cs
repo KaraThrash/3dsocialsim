@@ -6,15 +6,17 @@ using UnityEngine.UI;
 using Yarn.Unity;
 public class SceneDirector : MonoBehaviour
 {
+    public SceneAction currentaction;
     public ScriptableScene activeScene;
 
     public Player player;
 
     public Villager primary, secondary;
 
-    public Vector3 startPos, endPos;
+    public Vector3 startPos, endPos, checkPoint;
 
     public List<Villager> villagers;
+
     public List<MapLocation> locations;
 
     public bool sceneActive = false;
@@ -31,88 +33,83 @@ public class SceneDirector : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (currentScene != null) { currentaction = currentScene.actionType; }
+
         if (sceneActive) 
         {
             if (currentScene.actionType == SceneAction.walkAndTalk)
             {
-                WalkAndTalk();
+              //  WalkAndTalk();
             }
             else if (currentScene.actionType == SceneAction.leadPlayer)
             {
                 LeadPlayer();
             }
+            else if (currentScene.actionType == SceneAction.walkingToCheckpoint)
+            {
+                CheckForCheckPoint();
+            }
+            else 
+            {
+                SceneActions.RotateToFace(primary.transform,player.transform);
+                GameManager.instance.SetContinueButton(true);
+
+            }
         }
+    }
+
+    public void CheckForCheckPoint()
+    {
+        //check if a final location was tagged, and if so make sure the villager is going there
+        if (checkPoint != Vector3.zero)
+        {
+            
+                if (Vector3.Distance(checkPoint, primary.transform.position) > 1)
+                {
+                    SceneActions.LeadPlayer(primary.transform, checkPoint, player, primary.GetNavMeshSpeed());
+                GameManager.instance.SetContinueButton(false);
+                return;
+                }
+         
+        }
+        else 
+        {
+          //  return;
+        }
+
+        currentScene.actionType = SceneAction.none;
+        GameManager.instance.SetContinueButton(true);
+        //RunDialogue();
+
     }
 
 
     public void EndScene()
     {
-        if (currentScene.actionType == SceneAction.walkAndTalk)
+        if (primary != null)
         {
-            if (primary != null)
-            {
-                primary.State(VillagerState.waiting);
-                primary.StoryState(VillagerStoryState.idle);
-                primary.SetNavMeshDestination(primary.transform.position);
-            }
-            if (player != null)
-            {
-                player.EndNavLeadObject();
-                player.SetState(PlayerState.talking);
-            }
+            primary.State(VillagerState.waiting);
+            primary.StoryState(VillagerStoryState.idle);
+            primary.SetNavMeshDestination(primary.transform.position);
         }
-        else if (currentScene.actionType == SceneAction.leadPlayer)
+        if (player != null)
         {
-            if (primary != null)
-            {
-                primary.State(VillagerState.waiting);
-                primary.StoryState(VillagerStoryState.idle);
-                primary.SetNavMeshDestination(primary.transform.position);
-            }
-            if (player != null)
-            {
-                player.EndNavLeadObject();
-                player.SetState(PlayerState.talking);
-            }
+            player.EndNavLeadObject();
+            player.SetState(PlayerState.playerControlled);
         }
-        else 
-        {
-            if (primary != null)
-            {
-                primary.State(VillagerState.waiting);
-                primary.StoryState(VillagerStoryState.idle);
-                primary.SetNavMeshDestination(primary.transform.position);
-            }
-            if (player != null)
-            {
-                player.EndNavLeadObject();
-                player.SetState(PlayerState.talking);
-            }
-        }
-
-
 
         sceneActive = false;
-        ReEnabledContinueButton();
+        GameManager.instance.SetContinueButton(true);
 
 
     }
 
-    public void ReEnabledContinueButton()
-    {
-        GameManager.instance.ContinueButton().GetComponent<Image>().enabled = true;
-        GameManager.instance.ContinueButton().transform.GetChild(0).GetComponent<Text>().enabled = true;
-        GameManager.instance.ContinueButton().interactable = true;
-
-        EventSystem.current.SetSelectedGameObject(GameManager.instance.ContinueButton().gameObject);
-
-    }
 
     public void WalkAndTalk()
     {
         if (primary == null) { return; }
 
-        if (currentScene == null  || Vector3.Distance(primary.transform.position, currentScene.targetPos) < 1  ) 
+        if ( Vector3.Distance(primary.transform.position, currentScene.targetPos) < 1  ) 
         {
             EndScene();
             return;  
@@ -134,19 +131,31 @@ public class SceneDirector : MonoBehaviour
     {
         if (primary == null) { return; }
 
-        if (currentScene == null || Vector3.Distance(primary.transform.position, currentScene.targetPos) < 1)
+        if ( (Vector3.Distance(primary.transform.position, currentScene.targetPos) < 1 ))
         {
-            ReEnabledContinueButton();
+            //GameManager.instance.dialogueRunner.GetComponent<DialogueUI>().MarkLineComplete();
+            if (checkPoint != Vector3.zero)
+            { GameManager.instance.SetContinueButton(false); }
+
+            endPos = currentScene.targetPos;
+            currentScene.actionType = SceneAction.walkingToCheckpoint;
+
+
+          //  GameManager.instance.SetContinueButton(false);
+            // ReEnabledContinueButton();
             //EndScene();
+
+            // RunDialogue();
             return;
         }
 
         SceneActions.LeadPlayer(primary.transform, currentScene.targetPos, player, currentScene.primarySpeed);
 
-        if (currentScene.linesOfDialogue > 0)
+        if (currentScene.linesOfDialogue > currentScene.phase)
         {
-            RunDialogueByDistance();
+          //  RunDialogueByDistance();
         }
+       // else { ReEnabledContinueButton(); }
 
 
 
@@ -159,14 +168,24 @@ public class SceneDirector : MonoBehaviour
         {
             currentScene.startPos = primary.transform.position;
             currentScene.phase++;
-            GameManager.instance.dialogueRunner.GetComponent<DialogueUI>().MarkLineComplete();
+            RunDialogue();
         }
+        else { currentScene.actionType = SceneAction.walkingToCheckpoint; }
 
 
     }
 
 
+    public void RunDialogue()
+    {
 
+        
+    
+            GameManager.instance.dialogueRunner.GetComponent<DialogueUI>().MarkLineComplete();
+        
+
+
+    }
 
 
 
@@ -180,6 +199,8 @@ public class SceneDirector : MonoBehaviour
 
         activeScene = _scene;
     }
+
+
 
 
 }

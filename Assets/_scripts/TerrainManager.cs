@@ -41,7 +41,7 @@ public class TerrainManager : MonoBehaviour
 
          Vector3 squarePos = new Vector3(Mathf.RoundToInt(_square.x), 0, Mathf.RoundToInt(_square.z));
 
-        Debug.Log("getmapsquare: " + squarePos.ToString());
+       // Debug.Log("getmapsquare: " + squarePos.ToString());
         if (inside)
         {
            //interior map should be set when entering the building
@@ -51,7 +51,10 @@ public class TerrainManager : MonoBehaviour
         }
         else 
         {
-            if (map == null || map.ContainsKey(squarePos) == false) { Debug.Log("NO square  " + squarePos.ToString()); return null; }
+            if (map == null || map.ContainsKey(squarePos) == false) { 
+              //  Debug.Log("NO square  " + squarePos.ToString()); 
+                return null;
+            }
             return map[squarePos];
         }
 

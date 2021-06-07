@@ -7,7 +7,9 @@ public class SceneObject
 {
     public SceneObject() { }
     public SceneAction actionType;
+
     public Vector3 startPos,targetPos;
+
     public int linesOfDialogue,phase;
     public float distanceIncrement;
     public float primarySpeed;

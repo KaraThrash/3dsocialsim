@@ -13,7 +13,38 @@ using Yarn.Unity;
 
 public class YarnFunctions : MonoBehaviour
 {
-    
+
+    /// <summary>
+    /// System Commands
+    /// </summary>
+
+
+
+    [YarnCommand("EnableContinueButton")]
+    public void EnableContinueButton()
+    {
+        Debug.Log("Yarn EnableContinueButton");
+
+        GameManager.instance.SetContinueButton(true);
+    }
+
+    [YarnCommand("DisableContinueButton")]
+    public void DisableContinueButton()
+    {
+        Debug.Log("Yarn DisableContinueButton");
+
+
+        GameManager.instance.SetContinueButton(false);
+    }
+
+
+
+    /// <summary>
+    /// end System Commands
+    /// </summary>
+
+
+
 
     /// <summary>
     /// Transitions
@@ -49,6 +80,9 @@ public class YarnFunctions : MonoBehaviour
     /// </summary>
 
 
+
+
+
     /// <summary>
     /// start - Conversation types
     /// </summary>
@@ -69,25 +103,12 @@ public class YarnFunctions : MonoBehaviour
     }
 
 
-    [YarnCommand("WalkAndTalk")]
-    public void WalkAndTalk(string _location, string _villager, string _lineCount)
-    {
-        Debug.Log("Yarn WalkAndTalk");
 
-        //set camera angle
-        //lock player movement
-        //have player face speaker
-   
-       
-        GameManager.instance.WalkAndTalk(_location, _villager, _lineCount);
-        // GameManager.instance.cameraControls.anim.speed = 1;
-
-        //  GameManager.instance.cameraControls.anim.Play("CameraFadeToBlack");
-    }
 
     /// <summary>
     /// end - Conversation types
     /// </summary>
+
 
 
     /// <summary>
@@ -179,11 +200,26 @@ public class YarnFunctions : MonoBehaviour
         //<<yarncommand Actor parameters>>
     }
 
+    [YarnCommand("SetConversationTargetLocation")]
+    public void SetConversationTargetLocation(string _location)
+    {
+        Debug.Log("Yarn SetConversationTargetLocation");
+
+        GameManager.instance.SetConversationTargetLocation(_location);
+
+        //<<yarntest Sally name>>
+        //<<yarncommand Actor parameters>>
+    }
+
+
 
     /// <summary>
     /// end Movement
     /// </summary>
     /// 
+
+
+
 
 
 

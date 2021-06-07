@@ -106,6 +106,9 @@ public class MouthController : MonoBehaviour
             mouths.Add(open);
             mouths.Add(closed);
             mouths.Add(angry);
+            mouths.Add(open);
+            mouths.Add(closed);
+            mouths.Add(neutral);
             mouths.Add(closed);
             mouths.Add(angry);
         }else if (_pattern == MouthPattern.sad)
@@ -113,17 +116,34 @@ public class MouthController : MonoBehaviour
             mouths.Add(sad);
             mouths.Add(closed);
             mouths.Add(sad);
+            mouths.Add(open);
+            mouths.Add(closed);
+            mouths.Add(neutral);
             mouths.Add(closed);
             mouths.Add(sad);
         }
-        else 
+        else if (_pattern == MouthPattern.neutral)
         {
             mouths.Add(open);
             mouths.Add(closed);
             mouths.Add(neutral);
             mouths.Add(closed);
+            mouths.Add(sad);
+            mouths.Add(open);
+            mouths.Add(closed);
+            mouths.Add(neutral);
         }
-
+         else
+        {
+            mouths.Add(open);
+            mouths.Add(closed);
+            mouths.Add(neutral);
+            mouths.Add(closed);
+            mouths.Add(sad);
+            mouths.Add(open);
+            mouths.Add(closed);
+            mouths.Add(neutral);
+        }
 
 
 

@@ -113,26 +113,26 @@ public class CameraControls : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y)) { cameraAngle = conversationAngle; }
 
         if (Input.GetKeyDown(KeyCode.T)) { camOffset = conversationOffset; }
-        if (InputControls.PickUpButton())
-        {
+        //if (InputControls.PickUpButton())
+        //{
 
-            if (camOffset == highCamOffset)
-            {
-                camOffset = lowCamOffSet;
-                cameraAngle = lowAngle;
-            }
-            else if (camOffset == lowCamOffSet)
-            {
-                camOffset = highCamOffset;
-                cameraAngle = highAngle;
-            }
-            else
-            {
-                camOffset = lowCamOffSet;
-                cameraAngle = lowAngle;
-            }
+        //    if (camOffset == highCamOffset)
+        //    {
+        //        camOffset = lowCamOffSet;
+        //        cameraAngle = lowAngle;
+        //    }
+        //    else if (camOffset == lowCamOffSet)
+        //    {
+        //        camOffset = highCamOffset;
+        //        cameraAngle = highAngle;
+        //    }
+        //    else
+        //    {
+        //        camOffset = lowCamOffSet;
+        //        cameraAngle = lowAngle;
+        //    }
 
-        }
+        //}
     }
 
     public void TrackTalking(Vector3 _target)

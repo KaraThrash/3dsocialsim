@@ -262,7 +262,7 @@ public class Player : MonoBehaviour
         Vector3 squarePos = new Vector3(Mathf.RoundToInt((transform.position + (transform.forward * 0.3f)).x), Mathf.FloorToInt(transform.position.y), Mathf.RoundToInt((transform.position + (transform.forward * 0.3f)).z));
 
         if (gameManager.TerrainManager().GetMapSquare(squarePos) == null) {
-            Debug.Log("No square saved at : " + squarePos); 
+          //  Debug.Log("No square saved at : " + squarePos); 
             return; 
         }
         //check if there is an item
@@ -299,7 +299,7 @@ public class Player : MonoBehaviour
             }
 
         }
-        else { Debug.Log("No item saved at : " + squarePos); }
+      //  else { Debug.Log("No item saved at : " + squarePos); }
 
 
 
@@ -666,6 +666,7 @@ public class Player : MonoBehaviour
             navLeadObject.transform.parent = null;
             transform.parent = navLeadObject.transform;
             navLeadObject.GetComponent<NavMeshAgent>().enabled = true;
+            navLeadObject.GetComponent<NavMeshAgent>().Warp(transform.position);
             SetKinematic(true);
         }
 
@@ -685,7 +686,7 @@ public class Player : MonoBehaviour
             navLeadObject.transform.position = transform.position;
             navLeadObject.transform.parent = transform;
             
-            SetKinematic(true);
+            SetKinematic(false);
         }
 
   

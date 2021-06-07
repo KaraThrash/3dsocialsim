@@ -135,8 +135,9 @@ public class GameManager : MonoBehaviour
         MovePlayer(LocationManager().FindLocation(_location));
 
     }
+    
 
-
+    
 
     public void MovePlayer(Transform _location)
     {
@@ -145,6 +146,23 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void SetConversationTargetLocation(string _location)
+    {
+
+
+        //when called from a yarnfunction get the location from the provided string
+        SetConversationTargetLocation(LocationManager().FindLocation(_location));
+
+    }
+
+    public void SetConversationTargetLocation(Transform _location)
+    {
+
+        // set where the villager needs to walk to before the conversation can continue
+        //disables the continue button until arrival
+        EventInit().SetCheckPointLocation(GetComponent<GameManager>(), _location);
+
+    }
     public void LeadPlayer(string _location,string _villagerName)
     {
 
@@ -189,17 +207,7 @@ public class GameManager : MonoBehaviour
         EventInit().HavePlayerFollow(GetComponent<GameManager>(), FindVillager(_villagerName), LocationManager().FindLocation(_location).position);
 
     }
-    public void WalkAndTalk(string _location, string _villagerName,string _lineCount)
-    {
-      //  if (sceneDirector.sceneActive == true) { SceneDirector().EndScene(); }
-
-        FindVillager(_villagerName).InitScriptableScene(LocationManager().FindLocation(_location), Int32.Parse(_lineCount));
-
-      //  SceneDirector().InitWalkAndTalk(FindVillager(_villagerName), LocationManager().FindLocation(_location).position, Int32.Parse(_lineCount));
-
-        EventInit().WalkAndTalk(GetComponent<GameManager>(), FindVillager(_villagerName), LocationManager().FindLocation(_location).position, Int32.Parse(_lineCount));
-
-    }
+  
 
 
     public void PlayerStateTransition()
@@ -660,6 +668,22 @@ public class GameManager : MonoBehaviour
 
 
     }
+
+    public void SetContinueButton(bool _on)
+    {
+        if (continueButton == null)
+        { continueButton = dialogueRunner.GetComponent<DialogueUI>().dialogueContainer.transform.Find("Continue Button").GetComponent<Button>(); }
+
+        ContinueButton().GetComponent<Image>().enabled = _on;
+        ContinueButton().transform.GetChild(0).GetComponent<Text>().enabled = _on;
+        ContinueButton().interactable = _on;
+        ContinueButton().Select();
+
+
+    }
+
+
+
 
     public Villager FindVillager(string _name)
     {

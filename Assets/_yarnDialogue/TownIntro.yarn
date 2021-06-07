@@ -2,44 +2,43 @@
 tags: 
 
 ---
-
-<<Comment YarnFunctions I haven't edited this yet, as I imagine the length of the scene will change once we see how long moving takes and how the pacing feels with movement in>>
-
-<<Comment YarnFunctions Lcion leads Margo through town. As we walk past, we see other characters - Cindy hiding in the trees, Pollack patrolling, FFM fishing, etc. These should be momentary set pieces, as though being positioned for a movie scene from the camera's perspective, to make it feel like more of a cinematic introduction to the town>>
 <<PlayAnimation YarnFunctions wavehello TestCharacter4>>
-<<AnimateMouth YarnFunctions angry 4 TestCharacter4>>
+<<AnimateMouth YarnFunctions happy 5 TestCharacter4>>
 Licon: Welcome, welcome, welcome!
+<<LeadPlayerAndTalkRunning YarnFunctions southeastroadend TestCharacter4 1 2>>
 Licon: This is the beautiful town of Happydale! See our beautiful trees, our luscious fruits, our thriving fish…
-<<LeadPlayerAndTalkRunning YarnFunctions southeastroadend TestCharacter4 5 1>>
 Licon: Happydale is my pride and joy. Happydale is what gives me life! It’s my reason for breathing!
-<<AnimateMouth YarnFunctions sad 4 TestCharacter4>>
 Margo: Oh, wow, this guy is a loooot. I hope he’ll shut up soon…
 Licon: Each and every one of our residents pours our soul into Happydale. It’s the efforts of all of us that makes it what it is.
 Licon: We expect that you’ll make the same efforts with your cafe!
-<<AnimateMouth YarnFunctions happy 4 TestCharacter4>>
+<<AnimateMouth YarnFunctions neutral 4 TestCharacter4>>
 Licon: Oh, but first - you need a place to live, don’t you?
-<<LeadPlayerAndTalkRunning YarnFunctions playerhouseoutside TestCharacter4 4 2>>
+<<SetConversationTargetLocation YarnFunctions southeastroadend>>
 Licon: Licon: It just so happens we have a spare house available! Follow me!
+<<LeadPlayerAndTalkRunning YarnFunctions playerhouse TestCharacter4 1 2>>
 <<Comment YarnFunctions Licon leads Margo to her new home>>
 Licon: It hasn’t been lived in for a while, but it was too sentimental for us to get rid of…
 Licon: You don’t mind, do you?
+<<SetConversationTargetLocation YarnFunctions playerhouse>>
 Margo: Mind?! Do you know how long I’ve been dreaming of living in a house of my own?!
-<<wait 1>>
 Margo: I’ll take it!
 Licon: Great! You have no idea how much it pained me to see this house empty…
 Licon: Knowing you’re here to bring it to life will keep me at peace.
-<<LeadPlayerAndTalkRunning YarnFunctions southRoadTurn TestCharacter4 2 2>>
 Margo: I sure wish I could be at peace right about now…
+<<LeadPlayerAndTalkRunning YarnFunctions southRoadTurn TestCharacter4 1 2>>
+<<SetConversationTargetLocation YarnFunctions lostwoodssouth>>
 Licon: Moving on - follow me!
-<<LeadPlayerAndTalkRunning YarnFunctions lostwoodssouth TestCharacter4 1 1>>
+<<DisableContinueButton YarnFunctions>>
 Licon: Between your house and town is this thick forest.
 <<MovePlayerAndSpeaker YarnFunctions lostwoodsnorth>>
+<<wait 1>>
 <<LeadPlayerAndTalk YarnFunctions northRoadTurn TestCharacter4 2>>
 Licon: It’s lovely during the day, but please stay out of it at night. We’ve had way too many cases of villagers getting lost, and Pollack won’t like having to run after you!
 <<Comment YarnFunctions They emerge into the town plaza>>
 Licon: And this is the town plaza! As you can see, here’s the town hall - I spend a lot of my time here.
 <<LeadPlayerAndTalkRunning YarnFunctions constructionSite TestCharacter4 1 4>>
 Licon: And over here…
+<<SetConversationTargetLocation YarnFunctions constructionSite>>
 <<Comment YarnFunctions They run to the cafe>>
 Licon: This is where we’ll be building your cafe!
 <<Playanimation YarnFunctions LiconFlourish>>
@@ -60,12 +59,10 @@ Licon: Now, then. I think it would be helpful for you to go around and meet all 
 Licon: I, unfortunately, am very busy at the moment, or I would introduce you myself! No matter.
 Licon: Go give everyone a big hello. Make friends! Make connections! Explore!
 Licon: There’s so much to love about Happydale!
+<<PlayAnimation YarnFunctions dustingoff>>
 Licon: Remember - you have three days to win our bet!
-
-<<PlayAnimation YarnFunctions LiconFlourish>>
-<<PlayAnimation YarnFunctions Margo Sigh>>
-
 Licon: I’ll see you later!
+<<EndScene YarnFunctions>>
 
 <<Comment YarnFunctions Licon will wander around as Margo walks away, but when he is off screen and far enough away he will disappear, or else enter the town hall>>
 
