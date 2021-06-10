@@ -219,6 +219,105 @@ public class YarnFunctions : MonoBehaviour
     /// 
 
 
+    /// <summary>
+    /// Villager Controls
+    /// </summary>
+    /// 
+
+    [YarnCommand("StartGroupPlacement")]
+    public void StartGroupPlacement()
+    {
+        Debug.Log("Yarn StartGroupPlacement");
+
+    }
+
+
+    [YarnCommand("TeleportVillager")]
+    public void TeleportVillager(string _villager,string _location)
+    {
+        Debug.Log("Yarn TeleportVillager");
+
+        Villager villager = GameManager.instance.FindVillager(_villager);
+
+        villager.Teleport(GameManager.instance.LocationManager().FindLocation(_location));
+
+    }
+
+    [YarnCommand("TeleportVillagerVector3")]
+    public void TeleportVillagerVector3(string _villager, string _x,string _z)
+    {
+        Debug.Log("Yarn TeleportVillagerVector3");
+
+        Villager villager = GameManager.instance.FindVillager(_villager);
+
+        Vector3 tempvec = new Vector3(Int32.Parse(_x), villager.transform.position.y, Int32.Parse(_z) );
+
+
+        villager.Teleport(tempvec);
+
+    }
+
+
+
+    [YarnCommand("SetVillagerMood")]
+    public void SetVillagerMood(string _villager, string _mood)
+    {
+        Debug.Log("Yarn SetVillagerMood");
+
+        Villager villager = GameManager.instance.FindVillager(_villager);
+
+        villager.CurrentMood(EnumGroups.MoodFromString(_mood));
+
+    }
+
+    [YarnCommand("SetVillagerState")]
+    public void SetVillagerState(string _villager, string _state)
+    {
+        Debug.Log("Yarn SetVillagerState");
+
+        Villager villager = GameManager.instance.FindVillager(_villager);
+
+        villager.State(EnumGroups.VillagerStateFromString(_state));
+    }
+
+    [YarnCommand("SetVillagerStoryState")]
+    public void SetVillagerStoryState(string _villager, string _state)
+    {
+        Debug.Log("Yarn SetVillagerStoryState");
+
+        Villager villager = GameManager.instance.FindVillager(_villager);
+
+        villager.StoryState(EnumGroups.VillagerStoryStateFromString(_state));
+
+    }
+
+    [YarnCommand("VillagerHoldAnimationUntilOnScreen")]
+    public void VillagerHoldAnimationUntilOnScreen(string _villager, string _animation)
+    {
+        Debug.Log("Yarn VillagerHoldAnimationUntilOnScreen");
+
+        Villager villager = GameManager.instance.FindVillager(_villager);
+
+        villager.StoryState(VillagerStoryState.inScene);
+        villager.ScriptedAction(SceneAction.holdingAnimation);
+        villager.heldAnimation = _animation;
+
+    }
+
+
+
+    /// <summary>
+    /// End Villager Controls
+    /// </summary>
+
+
+
+
+
+
+
+
+
 
 
 

@@ -18,6 +18,7 @@ public class EmoteBubble : MonoBehaviour
     void Update()
     {
         transform.rotation = Quaternion.Lerp(transform.rotation, new Quaternion(0, 0, 0, 0), Time.deltaTime);
+        transform.LookAt(transform.position - new Vector3(0,0,-10));
 
         if (timer != -1)
         {

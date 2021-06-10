@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
             if (actionTimer <= 0 && actionTimer != -1)
             { 
                 actionTimer = 0;
-                PlayerStateTransition();
+                //PlayerStateTransition();
             }
         }
 
@@ -234,8 +234,8 @@ public class GameManager : MonoBehaviour
     {
         //if toggling the menu on set the state to inmenu, otherwise give control back to the player
         if (UiManager().OpenMenu(_menu))
-        { player.SetState(PlayerState.inMenu); }
-        else { player.SetState(PlayerState.playerControlled); }
+        { player.State(PlayerState.inMenu); }
+        else { player.State(PlayerState.playerControlled); }
     }
 
     public void BonkVillager(Villager _villager)
@@ -267,11 +267,14 @@ public class GameManager : MonoBehaviour
             //yarn wants a string for the title of the dialogue
             dialogueRunner.StartDialogue(_villager.name);
 
-            _villager.Interact();
+           // _villager.Interact();
         }
-        else { _villager.Bonk(); }
+        else {
 
+           // _villager.Bonk();
+        }
 
+        _villager.Interact();
     }
 
 
@@ -324,7 +327,7 @@ public class GameManager : MonoBehaviour
 
         cameraControls.ConversationToggle(true);
 
-        player.SetState(PlayerState.showing);
+        player.State(PlayerState.showing);
         player.HoldToCamera(activeObject.GetChild(0));
     }
 

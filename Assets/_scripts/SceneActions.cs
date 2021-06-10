@@ -178,7 +178,7 @@ public static class SceneActions
                 _villager.SetNavMeshDestination(relevantItem.transform.position + new Vector3(0, 0, -1));
                 _villager.SetAnimatorParameter("walking",true);
                 _onChange = false;
-                _villager.ThoughtBubble("angry",-1);
+                _villager.ThoughtBubble(Mood.angry,-1);
             }
 
             if (_villager.GetNavMeshDestination() != relevantItem.transform.position + new Vector3(0, 0, -1))
@@ -194,7 +194,7 @@ public static class SceneActions
 
                 if (RotateToFace(_villager.transform, relevantItem.transform) < 5)
                 {
-                    _villager.ThoughtBubble("angry", 0);
+                    _villager.ThoughtBubble(Mood.angry, 0);
                     relevantItem.HangNotice();
                 }
 

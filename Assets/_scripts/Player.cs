@@ -63,6 +63,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+      
         SetText("game start");
         rb = GetComponent<Rigidbody>();
     }

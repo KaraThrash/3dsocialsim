@@ -1,6 +1,8 @@
 ﻿
 
 
+using System;
+
 public enum GameState {free,transitioning,singleCamera,multiCamera }
 public enum CameraState {outside,low,high,inside,showoff,conversation,focusing,lostwoods }
 
@@ -17,11 +19,56 @@ public enum VillagerStoryState { idle, inScene, inPrison, offScreen }
 public enum Mood { happy, sad, neutral, scared, angry, confused, tired }
 public enum MouthPattern { happy, sad, neutral, scared, angry, confused, tired,fast,slow }
 
-public enum SceneAction { none,talk,leadPlayer, trailPlayer,watchPlayer,fliers,walkAndTalk,walkingToCheckpoint }
+public enum SceneAction { none,talk,leadPlayer, trailPlayer,watchPlayer,fliers,walkAndTalk,walkingToCheckpoint, holdingAnimation }
 
 
 public static class EnumGroups 
 {
+
+    public static Mood MoodFromString(string _pattern)
+    {
+        foreach (Mood el in (Mood[])Enum.GetValues(typeof(Mood)))
+        {
+            if (el.ToString().Equals(_pattern))
+            { return el; }
+        }
+       
+
+        return Mood.neutral;
+    }
+
+    public static VillagerState VillagerStateFromString(string _pattern)
+    {
+        foreach (VillagerState el in (VillagerState[])Enum.GetValues(typeof(VillagerState)))
+        {
+            if (el.ToString().Equals(_pattern))
+            { return el; }
+        }
+
+
+        return VillagerState.idle;
+    }
+
+
+    public static VillagerStoryState VillagerStoryStateFromString(string _pattern)
+    {
+        foreach (VillagerStoryState el in (VillagerStoryState[])Enum.GetValues(typeof(VillagerStoryState)))
+        {
+            if (el.ToString().Equals(_pattern))
+            { return el; }
+        }
+
+
+        return VillagerStoryState.idle;
+    }
+
+
+
+
+
+
+
+
 
     public static MouthPattern ConvertMouthPattern(string _pattern)
     {

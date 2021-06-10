@@ -2,6 +2,20 @@
 tags: 
 
 ---
+<<StartGroupPlacement YarnFunctions>>
+<<TeleportVillagerVector3 YarnFunctions Apollo 44 -22>>
+<<TeleportVillagerVector3 YarnFunctions Apollo2 35 -22>>
+<<TeleportVillagerVector3 YarnFunctions Apollo3 30 -22>>
+<<TeleportVillagerVector3 YarnFunctions Apoll4 44 -22>>
+<<TeleportVillagerVector3 YarnFunctions Apollo5 25 -22>>
+<<TeleportVillagerVector3 YarnFunctions Apollo6 20 -22>>
+<<VillagerHoldAnimationUntilOnScreen YarnFunctions Apollo wavehello>>
+<<VillagerHoldAnimationUntilOnScreen YarnFunctions Apollo2 wavehello>>
+<<VillagerHoldAnimationUntilOnScreen YarnFunctions Apollo3 wavehello>>
+
+<<TeleportVillagerVector3 YarnFunctions Starbuck 41 -22>>
+<<PlayAnimation YarnFunctions wavehello Starbuck>>
+<<EndGroupPlacement YarnFunctions>>
 <<PlayAnimation YarnFunctions wavehello TestCharacter4>>
 <<AnimateMouth YarnFunctions happy 5 TestCharacter4>>
 Licon: Welcome, welcome, welcome!
@@ -43,6 +57,7 @@ Licon: And over here…
 Licon: This is where we’ll be building your cafe!
 <<Playanimation YarnFunctions LiconFlourish>>
 Licon: What do you think?
+<<EnableContinueButton YarnFunctions>>
 <<EndScene YarnFunctions>>
 <<Comment YarnFunctions These choices are Margo's>>
 -> It’s perfect!
@@ -72,7 +87,7 @@ Licon: I’ll see you later!
 ===
 
 
-title: TestCharacter2
+title: TestCharacter23
 tags: 
 
 ---

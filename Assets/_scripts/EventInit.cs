@@ -71,12 +71,12 @@ public class EventInit : MonoBehaviour
     {
 
         gameManager.actionTimer = 1.1f;
-        gameManager.transitionTimer = 0.5f;
+        gameManager.transitionTimer = 2.1f;
 
 
         gameManager.State(GameState.transitioning);
 
-        gameManager.player.SetState(PlayerState.acting);
+        gameManager.player.State(PlayerState.acting);
 
         gameManager.pendingNewPosition = new Vector3(_location.position.x, gameManager.GetPlayer().transform.position.y, _location.position.z) - Vector3.forward;
 

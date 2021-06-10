@@ -6,25 +6,29 @@ title: TestCharacter3
 tags: 
 
 ---
+<<StartGroupPlacement YarnFunctions>>
+<<TeleportVillagerVector3 YarnFunctions Apollo 44 -28>>
+<<TeleportVillagerVector3 YarnFunctions Apollo2 35 -28>>
+<<TeleportVillagerVector3 YarnFunctions Apollo3 30 -28>>
+<<TeleportVillagerVector3 YarnFunctions Apollo4 44 -28>>
+<<TeleportVillagerVector3 YarnFunctions Apollo5 25 -28>>
+<<TeleportVillagerVector3 YarnFunctions Apollo6 20 -28>>
+<<VillagerHoldAnimationUntilOnScreen YarnFunctions Apollo wavehello>>
+<<VillagerHoldAnimationUntilOnScreen YarnFunctions Apollo2 breathing_loop>>
+<<VillagerHoldAnimationUntilOnScreen YarnFunctions Apollo3 laugh>>
+<<VillagerHoldAnimationUntilOnScreen YarnFunctions Apollo4 nervous>>
+<<VillagerHoldAnimationUntilOnScreen YarnFunctions Apollo5 dustingoff>>
+<<VillagerHoldAnimationUntilOnScreen YarnFunctions Apollo6 Licon Armature_Sitting_start>>
 
-<<Comment YarnFunctions I haven't edited this yet, as I imagine the length of the scene will change once we see how long moving takes and how the pacing feels with movement in>>
-
-<<Comment YarnFunctions Lcion leads Margo through town. As we walk past, we see other characters - Cindy hiding in the trees, Pollack patrolling, FFM fishing, etc. These should be momentary set pieces, as though being positioned for a movie scene from the camera's perspective, to make it feel like more of a cinematic introduction to the town>>
-<<WalkAndTalk YarnFunctions southRoadTurn TestCharacter 6>>
-Licon: Moving on - follow me!
-Licon: Between your house and town is this thick forest.
+<<TeleportVillagerVector3 YarnFunctions Starbuck 41 -22>>
+<<PlayAnimation YarnFunctions wavehello Starbuck>>
 Licon: Line 1.
-Licon: Line 2.
-Licon: Line 3.
-Licon: Line 4.
-<<WalkAndTalk YarnFunctions playerHouse TestCharacter 3>>
-Licon: line A.
 Licon: line B.
 Licon: It’s lovely during the day, but please stay out of it at night. We’ve had way too many cases of villagers getting lost, and Pollack won’t like having to run after you!
 ===
 
 
-title: TestCharacter2
+title: TestCharacter22
 tags: 
 
 ---

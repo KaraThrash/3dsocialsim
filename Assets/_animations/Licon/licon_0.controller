@@ -150,7 +150,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Licon Armature_Sitting (start)
+  m_Name: Licon Armature_Sitting_start
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -772,7 +772,7 @@ AnimatorStateMachine:
     m_Position: {x: 500, y: 350, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8656999852133990214}
-    m_Position: {x: 530, y: 60, z: 0}
+    m_Position: {x: 540, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5314689798573114303}
     m_Position: {x: 640, y: -50, z: 0}

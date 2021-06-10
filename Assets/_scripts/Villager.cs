@@ -13,7 +13,8 @@ public class Villager : MonoBehaviour
     public VillagerState currentState;
     public VillagerStoryState currentStoryState;
     public SceneAction scriptedAction;
-    public string npcName,mood,scene;
+    public Mood mood;
+    public string npcName,scene,heldAnimation;
     public float rotSpeed,speed; //time between greetings is the value of seconds that need to elapse before this npc will use a greeting instead of smalltalk
     public Animator anim;
     public Transform head,animatedHead;
@@ -36,7 +37,7 @@ public class Villager : MonoBehaviour
 
     public int phase = 0;
 
-    private bool eyesOpen;
+    private bool eyesOpen,toggleToResetRepeatedAction; //e.g. player animation when appearing on camera, and do that everything they appear on camera
 
     private Vector3 startPos;
     private MouthController mouthAnimator;
@@ -47,7 +48,7 @@ public class Villager : MonoBehaviour
     public void State(VillagerState _state) { OnStateChange(State(),_state); currentState = _state; }
     public VillagerState State() { return currentState; }
 
-    public void StoryState(VillagerStoryState _state) { currentStoryState = _state; }
+    public void StoryState(VillagerStoryState _state) { OnStoryStateChange(StoryState(), _state); currentStoryState = _state; }
     public VillagerStoryState StoryState() { return currentStoryState; }
 
 
@@ -133,6 +134,8 @@ public class Villager : MonoBehaviour
         {
             head.transform.rotation = animatedHead.transform.rotation;
         }
+
+       
     }
 
     void Update()
@@ -234,6 +237,24 @@ public class Villager : MonoBehaviour
         { SceneActions.TrailPlayer(transform); }
         else if (ScriptedAction() == SceneAction.fliers) 
         { SceneActions.ReplaceNotice(this); }
+        else if (ScriptedAction() == SceneAction.holdingAnimation)
+        {
+            transform.LookAt(GameManager.instance.player.transform.position);
+            if ( SceneActions.OnCamera(transform.position))
+            {
+                if (toggleToResetRepeatedAction == true)
+                {
+                    PlayAnimation(heldAnimation);
+                    toggleToResetRepeatedAction = false;
+                }
+            }
+            else 
+            {
+                toggleToResetRepeatedAction = true;
+            }
+
+        }
+        
         else if (ScriptedAction() == SceneAction.leadPlayer)
         {
 
@@ -375,7 +396,14 @@ public class Villager : MonoBehaviour
     {
         State(VillagerState.talking);
 
-
+        if (scriptToLoad != null)
+        {
+            scriptToLoad = null;
+        }
+        else 
+        {
+            ThoughtBubble(mood,2);
+        }
         //if (activeDialogue == null)
         //{
         //    if ((lastInteractionDate - DateTime.Now).TotalSeconds >= timeBetweenGreetings)
@@ -387,18 +415,18 @@ public class Villager : MonoBehaviour
         //        activeDialogue = FindDialogue("smalltalk");
         //    }
 
-        //    State(VillagerState.talking);
-        //}
-
-   
+            //    State(VillagerState.talking);
+            //}
 
 
-        ////send the next line of dialogue to the gamemanager to display in the chat box
-        //gameManager.ShowDialogue(npcName,activeDialogue.NextDialogueLine());
 
 
-        //if (activeDialogue.EndOfDialogue())
-        //{  activeDialogue = null; }
+            ////send the next line of dialogue to the gamemanager to display in the chat box
+            //gameManager.ShowDialogue(npcName,activeDialogue.NextDialogueLine());
+
+
+            //if (activeDialogue.EndOfDialogue())
+            //{  activeDialogue = null; }
     }
 
 
@@ -415,18 +443,30 @@ public class Villager : MonoBehaviour
 
     }
 
+    public void OnStoryStateChange(VillagerStoryState _oldState, VillagerStoryState _state)
+    {
+        toggleToResetRepeatedAction = false;
+        if (_state == VillagerStoryState.inScene)
+        {  }
+        else if (_state == VillagerStoryState.idle)
+        {  }
+  
+
+
+    }
+
 
     public void Bonk()
     {
         //getting hit with the net
 
         //TODO: check scene, and state for cases where this is part of the scene or an idle bonking
-        ThoughtBubble("angry");
+        ThoughtBubble(Mood.angry,2);
         GameManager.instance.AudioManager().PlayWorldEffect(Voice());
     }
 
 
-    public void ThoughtBubble(string _thought,float _duration=1)
+    public void ThoughtBubble(Mood _mood,float _duration=1)
     {
         if (emoteBubble == null)
         { 
@@ -436,10 +476,11 @@ public class Villager : MonoBehaviour
         }
 
         emoteBubble.gameObject.SetActive(true);
+        emoteBubble.SetMaterial(EmotionImages.GetEmotion(_mood), _duration);
 
-        if (_thought.Equals("happy")) { }
-        else if (_thought.Equals("angry")) { emoteBubble.SetMaterial(EmotionImages.Angry(),_duration) ; }
-        else if (_thought.Equals("tired")) { }
+        //if (_thought.Equals("happy")) { }
+        //else if (_thought.Equals("angry")) { emoteBubble.SetMaterial(EmotionImages.GetEmotion(mood),_duration) ; }
+        //else if (_thought.Equals("tired")) { }
 
         
 
@@ -453,24 +494,54 @@ public class Villager : MonoBehaviour
         List<Dialogue> dialogueList = DialogueLoader.GetDialogue(npcName);
         List<Dialogue> listToRandomize = new List<Dialogue>();
 
-        for (int i = 0; i < dialogueList.Count; i++)
-        {
-            if (dialogueList[i].mood == mood && dialogueList[i].type == _type)
-            {
-                listToRandomize.Add(dialogueList[i]);
-            }
+        //for (int i = 0; i < dialogueList.Count; i++)
+        //{
+        //    if (dialogueList[i].mood == mood && dialogueList[i].type == _type)
+        //    {
+        //        listToRandomize.Add(dialogueList[i]);
+        //    }
         
-        }
+        //}
 
         return listToRandomize[(int)UnityEngine.Random.Range(0,listToRandomize.Count)];
     }
 
 
 
+
+    public Mood CurrentMood() { return mood; }
+    public void CurrentMood(Mood _mood) { mood = _mood; }
+
     public AudioClip Voice() { return voice; }
     public AudioClip Motif() { return motif; }
     public void Motif(AudioClip _clip) { motif = _clip; ; }
     public void Voice(AudioClip _clip) { voice = _clip; }
+
+
+
+    public void Teleport(Transform _location)
+    {
+        transform.position = _location.position;
+        WarpNavMesh(_location.position);
+    
+    }
+
+    public void Teleport(Vector3 _location)
+    {
+        transform.position = _location;
+        WarpNavMesh(_location);
+
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     public void AnimateMouth(MouthPattern _pattern, float _length)
