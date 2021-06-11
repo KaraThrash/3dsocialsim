@@ -70,8 +70,8 @@ public class EventInit : MonoBehaviour
     public void MovePlayer(GameManager gameManager,Transform _location)
     {
 
-        gameManager.actionTimer = 1.1f;
-        gameManager.transitionTimer = 2.1f;
+        gameManager.actionTimer = 2.1f;
+        gameManager.transitionTimer = 1.1f;
 
 
         gameManager.State(GameState.transitioning);
@@ -81,7 +81,27 @@ public class EventInit : MonoBehaviour
         gameManager.pendingNewPosition = new Vector3(_location.position.x, gameManager.GetPlayer().transform.position.y, _location.position.z) - Vector3.forward;
 
         //camera fade to black animation is 1 second to black and .1 before the black clears
-        gameManager.cameraControls.anim.speed = 1;
+        gameManager.cameraControls.anim.speed = 3;
+
+        gameManager.cameraControls.anim.Play("CameraFadeToBlack");
+
+    }
+
+    public void MovePlayer(GameManager gameManager, Vector3 _location)
+    {
+
+        gameManager.actionTimer = 2.1f;
+        gameManager.transitionTimer = 1.1f;
+
+
+        gameManager.State(GameState.transitioning);
+
+        gameManager.player.State(PlayerState.acting);
+
+        gameManager.pendingNewPosition = _location;
+
+        //camera fade to black animation is 1 second to black and .1 before the black clears
+        gameManager.cameraControls.anim.speed = 3;
 
         gameManager.cameraControls.anim.Play("CameraFadeToBlack");
 
@@ -90,11 +110,10 @@ public class EventInit : MonoBehaviour
 
 
 
-
-
-    public void StartLostWoods(GameManager gameManager)
+    public void StartLostWoods(GameManager gameManager,bool _enteredFromSouth)
     {
 
+        lostWoods.SetOverWorldExit(_enteredFromSouth);
         lostWoods.StartLostWoods();
 
         gameManager.actionTimer = 1.1f;

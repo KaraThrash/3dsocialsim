@@ -12,7 +12,8 @@ public class LostWoods : MonoBehaviour
     public Vector3 areaOffset; // for placing squares adjacent to each other
     public Transform sections,forestLayouts;
     public Transform entrance,exit;
-
+    public Transform overWorldNorth, overWorldSouth;
+    public Door exitArea;
     public string pathTaken, targetPath0, targetpath1;
     public int distanceToLeave,totalDistanceTraveled,sequence; //how many correct transitions need to happen
 
@@ -30,6 +31,19 @@ public class LostWoods : MonoBehaviour
         
     }
 
+
+    public void SetOverWorldExit(bool _north)
+    {
+        if (_north)
+        {
+            exitArea.exitObj = overWorldNorth;
+            exitArea.connectedArea = overWorldNorth.gameObject;
+        }
+        else 
+        {
+            exitArea.connectedArea = overWorldSouth.gameObject;
+        }
+    }
 
     public void StartLostWoods()
     {
@@ -149,7 +163,7 @@ public class LostWoods : MonoBehaviour
                 else if (el.GetComponent<LostWoodsArea>().id == current)
                 {
                     cur = el.GetComponent<LostWoodsArea>();
-                    audioCloud.transform.position = el.position;
+                 //   audioCloud.transform.position = el.position;
                 }
 
             }
@@ -169,7 +183,7 @@ public class LostWoods : MonoBehaviour
                 if (audioCloud.AudioSource().isPlaying == false || audioCloud.cloudColor.Equals("green") == false)
                 {
                    
-                        GameManager.instance.AudioManager().Set3dCloud(audioCloud, "green");
+                      //  GameManager.instance.AudioManager().Set3dCloud(audioCloud, "green");
                     
                 }
 
@@ -178,17 +192,17 @@ public class LostWoods : MonoBehaviour
             else 
             {
                 //when going the wrong direction set the clouds to yellow, and then red if still going the wrong way
-                if (audioCloud.AudioSource().isPlaying == false || audioCloud.cloudColor.Equals("green") == false)
-                {
-                    if (audioCloud.AudioSource().isPlaying == false || audioCloud.cloudColor.Equals("yellow") == false)
-                    {
-                        GameManager.instance.AudioManager().Set3dCloud(audioCloud, "yellow");
-                    }
-                    else 
-                    {
-                        GameManager.instance.AudioManager().Set3dCloud(audioCloud, "red");
-                    }
-                }
+                //if (audioCloud.AudioSource().isPlaying == false || audioCloud.cloudColor.Equals("green") == false)
+                //{
+                //    if (audioCloud.AudioSource().isPlaying == false || audioCloud.cloudColor.Equals("yellow") == false)
+                //    {
+                //       // GameManager.instance.AudioManager().Set3dCloud(audioCloud, "yellow");
+                //    }
+                //    else 
+                //    {
+                //     //   GameManager.instance.AudioManager().Set3dCloud(audioCloud, "red");
+                //    }
+                //}
             }
 
             if (pathTaken.Length >= distanceToLeave) { pathTaken = pathTaken.Substring(1, pathTaken.Length - 1); }

@@ -18,6 +18,9 @@ public class AudioCloud : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        fadeTimer = -1;
+        if (fadeInTime == 0) { fadeInTime = 1; }
+
         if (followThis != null)
         {
             transform.position = new Vector3(followThis.position.x, transform.position.y, followThis.position.z);
@@ -72,6 +75,16 @@ public class AudioCloud : MonoBehaviour
         if (fadeTimer >= fadeInTime) { fadeTimer = -1; GetComponent<AudioSource>().volume = 1; }
     }
 
+    public void StartPlaying()
+    {
+
+        fadeTimer = 0;
+        source.volume = 0;
+        if (source != null)
+        {
+            source.Play();
+        }
+    }
 
     public void StopPlaying()
     {
@@ -96,52 +109,52 @@ public class AudioCloud : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (audioManager != null )
-        {
+        //if (audioManager != null )
+        //{
 
-            if (clip == null)
-            {
+        //    if (clip == null)
+        //    {
 
-                //whether the sound should be based on the cloud's location or not
-                if (areaBasedSound)
-                {
-                    //get an audio clip from the manager when the player first enters the cloud
-                    clip = audioManager.GetClip(cloudColor);
-                    fadeTimer = 0;
+        //        //whether the sound should be based on the cloud's location or not
+        //        if (areaBasedSound)
+        //        {
+        //            //get an audio clip from the manager when the player first enters the cloud
+        //            clip = audioManager.GetClip(cloudColor);
+        //            fadeTimer = 0;
 
-                    source.clip = clip;
-                    AudioSource().Play();
-                }
-                else
-                {
-                    audioManager.EnterCloud(cloudColor, clipByNumber);
+        //            source.clip = clip;
+        //            AudioSource().Play();
+        //        }
+        //        else
+        //        {
+        //            audioManager.EnterCloud(cloudColor, clipByNumber);
 
-                }
+        //        }
 
 
-            }
-            else 
-            {
-                if (areaBasedSound)
-                {
-                    if (AudioSource().isPlaying == false)
-                    {
-                        //get an audio clip from the manager when the player first enters the cloud
-                        fadeTimer = 0;
+        //    }
+        //    else 
+        //    {
+        //        if (areaBasedSound)
+        //        {
+        //            if (AudioSource().isPlaying == false)
+        //            {
+        //                //get an audio clip from the manager when the player first enters the cloud
+        //                fadeTimer = 0;
 
-                        AudioSource().Play();
-                    }
+        //                AudioSource().Play();
+        //            }
                    
-                }
-                else
-                {
-                    audioManager.EnterCloud(cloudColor, clipByNumber);
+        //        }
+        //        else
+        //        {
+        //            audioManager.EnterCloud(cloudColor, clipByNumber);
 
-                }
-            }
+        //        }
+        //    }
 
 
-        }
+        //}
     }
 
 }

@@ -24,7 +24,7 @@ public class Door : Item
     {
         if (gameManager == null) { gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); }
 
-        if (other.GetComponent<Player>() != null && other.GetComponent<Player>().state != PlayerState.acting && connectedArea != null)
+        if (other.GetComponent<Player>() != null  && connectedArea != null)
         {
             if (exit) 
             { 

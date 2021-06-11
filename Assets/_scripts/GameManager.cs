@@ -351,23 +351,26 @@ public class GameManager : MonoBehaviour
             {
                 //_interiorObj.GetComponent<LostWoods>().StartLostWoods();
 
-                EventInit().StartLostWoods(this);
+                //40 is the middle of the map TODO: set this to a variable when you defeine the map layout
+                EventInit().StartLostWoods(this, player.transform.position.z > 40) ;
 
             }
 
             return;
         }
 
-        actionTimer = 0.35f;
-        transitionTimer = 0.3f;
+        EventInit().MovePlayer(GetComponent<GameManager>(),_connectedArea.transform.position);
 
-        State(GameState.transitioning);
+        //actionTimer = 1.35f;
+        //transitionTimer = 1.3f;
 
-        player.state = PlayerState.acting;
+        //State(GameState.transitioning);
+
+        //player.State(PlayerState.acting);
 
        // TerrainManager().EnterBuilding(_interiorObj, _connectedArea);
 
-        pendingNewPosition = new Vector3(_connectedArea.transform.position.x, _connectedArea.transform.position.y, _connectedArea.transform.position.z);
+       // pendingNewPosition = new Vector3(_connectedArea.transform.position.x, _connectedArea.transform.position.y, _connectedArea.transform.position.z);
         //player.transform.position = new Vector3(_connectedArea.transform.position.x, _connectedArea.transform.position.y, _connectedArea.transform.position.z);
         //cameraControls.SetLocation(_connectedArea.transform.position);
 
@@ -379,7 +382,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            cameraControls.SetLocation(_connectedArea.transform.position);
+            //cameraControls.SetLocation(_connectedArea.transform.position);
 
         }
 
@@ -388,10 +391,10 @@ public class GameManager : MonoBehaviour
 
     public void EnterBuilding(GameObject _interiorObj, GameObject _connectedArea,string _camSetting="")
     {
-        actionTimer = 0.2f;
-        player.state = PlayerState.acting;
+        actionTimer = 1.2f;
+        player.State(PlayerState.acting);
 
-      //  TerrainManager().EnterBuilding(_interiorObj,_connectedArea);
+        //  TerrainManager().EnterBuilding(_interiorObj,_connectedArea);
 
         player.transform.position = new Vector3(_connectedArea.transform.position.x, -20, _connectedArea.transform.position.z);
 
@@ -632,7 +635,8 @@ public class GameManager : MonoBehaviour
         {
             acceptInput = true;
             dialogueRunner.GetComponent<Yarn.Unity.DialogueUI>().acceptsInput = true;
-           
+
+            player.State(PlayerState.playerControlled);
 
 
             if (activeObject != null)
