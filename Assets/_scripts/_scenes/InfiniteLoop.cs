@@ -4,20 +4,32 @@ using UnityEngine;
 
 public class InfiniteLoop : MonoBehaviour
 {
-    public float speed, treespeed;
+    public YarnProgram scriptToLoad;
+    public float speed, treespeed,sunspeed;
+    public Transform sun,physicsProps;
     public Transform bus,roadParent,reserve;
     public Transform road0,road1,road2,road3,road4;
 
+    public int intervalCount;
+    public float pushForce,timer, physicsInterval;
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (scriptToLoad != null)
+        {
+            GameManager.instance.dialogueRunner.Add(scriptToLoad);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         MoveRoad();
+
+        if (sun != null)
+        {
+            sun.Rotate(0, sunspeed * Time.deltaTime,0);
+        }
     }
 
     public void MoveRoad()
@@ -35,7 +47,33 @@ public class InfiniteLoop : MonoBehaviour
 
         }
 
+        timer += Time.deltaTime;
+        if (physicsProps != null && timer > physicsInterval)
+        {
+            intervalCount++;
 
+            timer = 0;
+            foreach (Transform el in physicsProps)
+            {
+                if (el.GetComponent<Rigidbody>() != null)
+                {
+                    el.GetComponent<Rigidbody>().AddTorque(Vector3.up * pushForce);
+                }
+            }
+            if (intervalCount >= 1)
+            {
+                intervalCount = 0;
+
+                string randoScript = "bus" + Random.Range(0, 10).ToString();
+                Debug.Log("randoScript: >> " + randoScript);
+                if (GameManager.instance.dialogueRunner.IsDialogueRunning == false)
+                { 
+                        GameManager.instance.dialogueRunner.StartDialogue(randoScript);
+
+                }
+            }
+
+        }
 
     }
 

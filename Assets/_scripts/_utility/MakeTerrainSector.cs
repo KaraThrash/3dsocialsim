@@ -212,92 +212,92 @@ public class MakeTerrainSector : MonoBehaviour
     public  void LoadMapFromBlueprint()
     {
 
-        if (Resources.Load<TextAsset>("MapSheet") == null)
-        {
+        //if (Resources.Load<TextAsset>("MapSheet") == null)
+        //{
 
-            Debug.Log("No MapSheet found");
+        //    Debug.Log("No MapSheet found");
 
   
-            return;
-        }
+        //    return;
+        //}
 
 
-        // string text = File.ReadAllText("./Resources/DialogueSpreadsheet.txt");
-        //Load a text file (Assets/Resources/....)
-        string text = Resources.Load<TextAsset>("MapSheet").ToString();
-        string[] strValues = text.Split('\n');
+        //// string text = File.ReadAllText("./Resources/DialogueSpreadsheet.txt");
+        ////Load a text file (Assets/Resources/....)
+        //string text = Resources.Load<TextAsset>("MapSheet").ToString();
+        //string[] strValues = text.Split('\n');
 
 
-        int count = 0;
-        while (count < strValues.Length)
-        {
-            string[] tempstring = strValues[count].Split(',');
-            //if this is the dialogue for the specified character add it to the master dictionary
-            //each entry should be a minimum of 4 elements: name, type, mood, body
-            if (tempstring.Length > 0)
-            {
-
-
-
-                for (int i = 0; i < tempstring.Length; i++)
-                {
-                    if (tempstring[i] != "c" && tempstring[i] != "v" && tempstring[i] != "h" && tempstring[i] != "w" && tempstring[i] != "g" && tempstring[i] != "s")
-                    { }
-                    else { 
-                        GameObject clone = Instantiate(square, new Vector3(squareParent.position.x + i, squareParent.position.y, squareParent.position.z - count), squareParent.rotation);
-                        clone.transform.parent = squareParent;
-                        //make sure no blank lines are mistakenly added due to text formatting 
-                        if (tempstring[i] == "g")
-                        {
-                            clone.GetComponent<MeshRenderer>().material = grassmat[(int)Random.Range(0, grassmat.Count)]; clone.GetComponent<TerrainSquare>().terrainStatus = "default";
-
-                        }
-                        else if (tempstring[i].Equals("w"))
-                        {
-                            clone.GetComponent<MeshRenderer>().material = watermat; clone.GetComponent<TerrainSquare>().terrainStatus = "water";
-
-                        }
-                        else if (tempstring[i].Equals("h"))
-                        {
-                            clone.GetComponent<MeshRenderer>().material = fencemat;
-                            clone.GetComponent<TerrainSquare>().terrainStatus = "fence";
-                            clone = Instantiate(hortfence, new Vector3(squareParent.position.x + i, squareParent.position.y, squareParent.position.z - count), squareParent.rotation);
-                            clone.transform.parent = objectParent;
-
-                        }
-                        else if (tempstring[i] == "v")
-                        {
-                            clone.GetComponent<MeshRenderer>().material = fencemat;
-                            clone.GetComponent<TerrainSquare>().terrainStatus = "fence";
-                            clone = Instantiate(vertfence, new Vector3(squareParent.position.x + i, squareParent.position.y, squareParent.position.z - count), squareParent.rotation);
-                            clone.transform.parent = objectParent;
-
-                        }
-                        else if (tempstring[i].Equals("c"))
-                        {
-                            clone.GetComponent<MeshRenderer>().material = fencemat;
-                            clone.GetComponent<TerrainSquare>().terrainStatus = "fence";
-                            clone = Instantiate(cornerfence, new Vector3(squareParent.position.x + i, squareParent.position.y, squareParent.position.z - count), squareParent.rotation);
-                            clone.transform.parent = objectParent;
-
-                        }
-                        else if (tempstring[i].Equals("s"))
-                        {
-                            clone.GetComponent<MeshRenderer>().material = roadmat;
-                            clone.GetComponent<TerrainSquare>().terrainStatus = "road";
-                        }
-                    }
-
-                }
-
-
-            }
+        //int count = 0;
+        //while (count < strValues.Length)
+        //{
+        //    string[] tempstring = strValues[count].Split(',');
+        //    //if this is the dialogue for the specified character add it to the master dictionary
+        //    //each entry should be a minimum of 4 elements: name, type, mood, body
+        //    if (tempstring.Length > 0)
+        //    {
 
 
 
-            count++;
+        //        for (int i = 0; i < tempstring.Length; i++)
+        //        {
+        //            if (tempstring[i] != "c" && tempstring[i] != "v" && tempstring[i] != "h" && tempstring[i] != "w" && tempstring[i] != "g" && tempstring[i] != "s")
+        //            { }
+        //            else { 
+        //                GameObject clone = Instantiate(square, new Vector3(squareParent.position.x + i, squareParent.position.y, squareParent.position.z - count), squareParent.rotation);
+        //                clone.transform.parent = squareParent;
+        //                //make sure no blank lines are mistakenly added due to text formatting 
+        //                if (tempstring[i] == "g")
+        //                {
+        //                    clone.GetComponent<MeshRenderer>().material = grassmat[(int)Random.Range(0, grassmat.Count)]; clone.GetComponent<TerrainSquare>().terrainStatus = "default";
 
-        }
+        //                }
+        //                else if (tempstring[i].Equals("w"))
+        //                {
+        //                    clone.GetComponent<MeshRenderer>().material = watermat; clone.GetComponent<TerrainSquare>().terrainStatus = "water";
+
+        //                }
+        //                else if (tempstring[i].Equals("h"))
+        //                {
+        //                    clone.GetComponent<MeshRenderer>().material = fencemat;
+        //                    clone.GetComponent<TerrainSquare>().terrainStatus = "fence";
+        //                    clone = Instantiate(hortfence, new Vector3(squareParent.position.x + i, squareParent.position.y, squareParent.position.z - count), squareParent.rotation);
+        //                    clone.transform.parent = objectParent;
+
+        //                }
+        //                else if (tempstring[i] == "v")
+        //                {
+        //                    clone.GetComponent<MeshRenderer>().material = fencemat;
+        //                    clone.GetComponent<TerrainSquare>().terrainStatus = "fence";
+        //                    clone = Instantiate(vertfence, new Vector3(squareParent.position.x + i, squareParent.position.y, squareParent.position.z - count), squareParent.rotation);
+        //                    clone.transform.parent = objectParent;
+
+        //                }
+        //                else if (tempstring[i].Equals("c"))
+        //                {
+        //                    clone.GetComponent<MeshRenderer>().material = fencemat;
+        //                    clone.GetComponent<TerrainSquare>().terrainStatus = "fence";
+        //                    clone = Instantiate(cornerfence, new Vector3(squareParent.position.x + i, squareParent.position.y, squareParent.position.z - count), squareParent.rotation);
+        //                    clone.transform.parent = objectParent;
+
+        //                }
+        //                else if (tempstring[i].Equals("s"))
+        //                {
+        //                    clone.GetComponent<MeshRenderer>().material = roadmat;
+        //                    clone.GetComponent<TerrainSquare>().terrainStatus = "road";
+        //                }
+        //            }
+
+        //        }
+
+
+        //    }
+
+
+
+        //    count++;
+
+        //}
 
 
     }

@@ -7,7 +7,7 @@ public static class InputControls
     public static bool gamePad;
     //controller buttons
     public static string hortAxis = "Horizontal", vertAxis = "Vertical", interactButton = "A", pickupButton = "Y", actionButton = "B", nextButton = "RB", previousButton = "LB";
-    public static string menuButton = "start";
+    public static string menuButton = "Start";
     //controller axis as buttons
     public static string dPadVertButton = "DpadVert",dPadHortButton = "DpadHort";
     public static bool dPadVertPressed,dPadHortPressed,vertPressed,hortPressed;

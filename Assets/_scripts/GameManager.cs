@@ -285,7 +285,7 @@ public class GameManager : MonoBehaviour
             if (terrainManager.Dig(_square))
             {
                 actionTimer = 0.2f;
-                player.state = PlayerState.acting;
+                //player.state = PlayerState.acting;
             }
 
         }
@@ -346,15 +346,16 @@ public class GameManager : MonoBehaviour
         else if (_type.Equals("lostwoods"))
         {
             cameraControls.SetCameraTrackingOffset("lostwoods");
-
+            cameraControls.EndCameraEffect("lostwoods");
             if (_interiorObj.GetComponent<LostWoods>() != null)
             {
                 //_interiorObj.GetComponent<LostWoods>().StartLostWoods();
 
                 //40 is the middle of the map TODO: set this to a variable when you defeine the map layout
-                EventInit().StartLostWoods(this, player.transform.position.z > 40) ;
+                EventInit().StartLostWoods(this, player.transform.position.z > 40);
 
             }
+            else {  }
 
             return;
         }
@@ -442,6 +443,8 @@ public class GameManager : MonoBehaviour
 
         player.inside = false;
 
+        cameraControls.EndCameraEffect("lostwoods");
+
         cameraControls.SetCameraTrackingOffset("high");
         cameraControls.SetLocation(player.transform.position);
     }
@@ -472,7 +475,7 @@ public class GameManager : MonoBehaviour
 
     public void StartConversation()
     {
-        cam.GetComponent<CameraControls>().ConversationToggle(true);
+       // cameraControls.ConversationToggle(true);
         
 
 
@@ -484,7 +487,7 @@ public class GameManager : MonoBehaviour
 
     public void EndConversation()
     {
-        cam.GetComponent<CameraControls>().ConversationToggle(false);
+        cameraControls.ConversationToggle(false);
        // chatbox.SetActive(false);
         inConversation = false;
         actionTimer = 0;
@@ -634,7 +637,7 @@ public class GameManager : MonoBehaviour
         if (State() == GameState.transitioning) 
         {
             acceptInput = true;
-            dialogueRunner.GetComponent<Yarn.Unity.DialogueUI>().acceptsInput = true;
+         //   dialogueRunner.GetComponent<DialogueUI>().acceptsInput = true;
 
             player.State(PlayerState.playerControlled);
 
@@ -661,7 +664,7 @@ public class GameManager : MonoBehaviour
         if (_state == GameState.transitioning) 
         { 
             acceptInput = false;
-              dialogueRunner.GetComponent<Yarn.Unity.DialogueUI>().acceptsInput = false;
+           //   dialogueRunner.GetComponent<DialogueUI>().acceptsInput = false;
         }
         
 

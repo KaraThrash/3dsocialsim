@@ -1,0 +1,128 @@
+﻿title: bus0
+tags: 
+
+---
+-> Go to town
+    <<LoadNewUnityScene YarnFunctions gamebuild>>
+
+-> Stay on Bus
+    <<PlayAnimation YarnFunctions wavehello BusLicon>>
+    Licon: Here's looking at you, kid.
+
+===
+
+title: bus1
+tags: 
+
+---
+-> Go to town
+    <<LoadNewUnityScene YarnFunctions gamebuild>>
+
+-> Stay on Bus
+    <<PlayAnimation YarnFunctions wavehello BusLicon>>
+    Licon:  You can't handle the truth!
+
+===
+
+title: bus2
+tags: 
+
+---
+-> Go to town
+    <<LoadNewUnityScene YarnFunctions gamebuild>>
+
+-> Stay on Bus
+    <<PlayAnimation YarnFunctions wavehello BusLicon>>
+    Licon: Just keep swimming.
+
+===
+title: bus3
+tags: 
+
+---
+-> Go to town
+    <<LoadNewUnityScene YarnFunctions gamebuild>>
+
+-> Stay on Bus
+    <<PlayAnimation YarnFunctions wavehello BusLicon>>
+    Licon: Today, I consider myself the luckiest fox on the face of the earth
+
+===
+
+
+title: bus4
+tags: 
+
+---
+-> Go to town
+    <<LoadNewUnityScene YarnFunctions gamebuild>>
+
+-> Stay on Bus
+    <<PlayAnimation YarnFunctions laugh BusLicon>>
+    <<AnimateMouth YarnFunctions happy 3 BusLicon>>
+    Licon: What we've got here is failure to communicate
+
+===
+title: bus5
+tags: 
+
+---
+-> Go to town
+    <<LoadNewUnityScene YarnFunctions gamebuild>>
+
+-> Stay on Bus
+    <<PlayAnimation YarnFunctions nervous BusLicon>>
+    <<AnimateMouth YarnFunctions sad 3 BusLicon>>
+    Licon: You don't understand! I coulda had class. I coulda been a contender. I could've been somebody, instead of a bum, which is what I am.
+
+===
+title: bus6
+tags: 
+
+---
+-> Go to town
+    <<LoadNewUnityScene YarnFunctions gamebuild>>
+
+-> Stay on Bus
+    <<PlayAnimation YarnFunctions nervous BusLicon>>
+    <<AnimateMouth YarnFunctions angry 3 BusLicon>>
+    Licon: Roads? Where we're going we don't need roads.
+
+===
+title: bus7
+tags: 
+
+---
+-> Go to town
+    <<LoadNewUnityScene YarnFunctions gamebuild>>
+
+-> Stay on Bus
+    <<PlayAnimation YarnFunctions dustingoff BusLicon>>
+    <<AnimateMouth YarnFunctions neutral 3 BusLicon>>
+    Licon: You talking to me?
+
+===
+title: bus8
+tags: 
+
+---
+-> Go to town
+    <<LoadNewUnityScene YarnFunctions gamebuild>>
+
+-> Stay on Bus
+    <<PlayAnimation YarnFunctions dustingoff BusLicon>>
+    Licon: I'm walking here! I'm walking here!
+
+===
+title: bus9
+tags: 
+
+---
+-> Go to town
+    <<LoadNewUnityScene YarnFunctions gamebuild>>
+
+-> Stay on Bus
+    <<PlayAnimation YarnFunctions wavehello BusLicon>>
+    Licon: You're gonna need a bigger boat
+
+===

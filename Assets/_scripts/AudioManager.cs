@@ -23,6 +23,60 @@ public class AudioManager : MonoBehaviour
 
 
     public List<AudioClip> green, yellow, red;
+    public List<AudioClip> stepsGrass,stepsStone,activeStepList;
+
+    private GroundTypes currentGround;
+    private int groundCount;
+
+
+    public void PlayFootStep(AudioSource _source, GroundTypes _groundType)
+    {
+
+
+        AudioClip clip = null; 
+
+      
+
+            groundCount = 0;
+
+            if (_groundType == GroundTypes.grass)
+            {
+                if (stepsGrass.Count > 0)
+                {
+                    if (groundCount >= stepsGrass.Count)
+                    { groundCount = 0; }
+                    clip = stepsGrass[groundCount];
+
+                }
+
+            }
+            else 
+            {
+                if (stepsStone.Count > 0)
+                {
+                    if (groundCount >= stepsStone.Count)
+                    { groundCount = 0; }
+                    clip = stepsStone[groundCount];
+
+                }
+
+
+            }
+        
+
+        groundCount++;
+
+
+
+        _source.clip = clip;
+        _source.Play();
+
+    }
+
+
+
+
+
 
     void Start()
     {

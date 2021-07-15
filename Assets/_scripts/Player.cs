@@ -1,14 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
-using Yarn.Unity;
+
 
 
 public class Player : MonoBehaviour
 {
+
     public GameManager gameManager;
+    public Animator anim;
+    public NavMeshAgent nav;
+    public AudioSource audioSource;
+
     public PlayerState state;
     public WorldLocation worldLocation;
     public string playerStateString;
@@ -38,6 +41,7 @@ public class Player : MonoBehaviour
 
 
     public WorldLocation WorldLocation(){ return worldLocation; }
+    public void WorldLocation(WorldLocation _location){  worldLocation = _location; }
 
 
 
@@ -174,8 +178,12 @@ public class Player : MonoBehaviour
     public void Movement()
     {
 
+
         if (InputControls.HorizontalAxis() != 0 || InputControls.VerticalAxis() != 0)
         {
+
+            SetAnimationBool(anim,"walk", true);
+
             //get the intended direction then rotate before moving
             moveDirection = Vector3.right * InputControls.HorizontalAxis();
             moveDirection = moveDirection + (Vector3.forward * InputControls.VerticalAxis());
@@ -186,15 +194,22 @@ public class Player : MonoBehaviour
 
 
 
-            MoveTo(moveDirection);
+          //  MoveTo(moveDirection);
+
+            SetNavDestination(Vector3.Lerp(GetNavDestination(),transform.position + moveDirection,Time.deltaTime * acceleration));
+            MoveNavmesh();
 
 
         }
         else
         {
-            rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
-            rb.angularVelocity = Vector3.zero;
+            SetAnimationBool(anim, "walk", false);
+            SetNavDestination(transform.position );
+
+          //  rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
+         //   rb.angularVelocity = Vector3.zero;
         }
+
 
 
     }
@@ -258,7 +273,7 @@ public class Player : MonoBehaviour
 
     
 
-    public void PickUp( )
+    public void PickUp()
     {
         Vector3 squarePos = new Vector3(Mathf.RoundToInt((transform.position + (transform.forward * 0.3f)).x), Mathf.FloorToInt(transform.position.y), Mathf.RoundToInt((transform.position + (transform.forward * 0.3f)).z));
 
@@ -707,6 +722,296 @@ public class Player : MonoBehaviour
 
     public bool IsInside() { return inside; }
     public Vector3 MoveDirection() { return moveDirection; }
+
+
+
+
+
+    public void PlayFootstep()
+    {
+        gameManager.AudioManager().PlayFootStep(audioSource,GroundTypes.grass);
+    }
+
+
+    public void MoveNavmesh(float _speed = 5,float _minagle=15)
+    {
+        if (nav == null) { return; }
+
+        float angle = Vector3.Angle(GetNavMeshSteeringTarget() - transform.position, transform.forward);
+
+        //if (angle > _minagle * 2)
+        //{
+        //    SetNavMeshSpeed(Mathf.Lerp(nav.speed, _speed * 0.1f, Time.deltaTime * acceleration));
+
+
+        //}
+        //else if (angle <= _minagle)
+        //{
+        //    SetNavMeshSpeed(Mathf.Lerp(nav.speed, _speed, Time.deltaTime * acceleration));
+
+
+        //}
+        //else
+        //{
+        //    SetNavMeshSpeed(Mathf.Lerp(nav.speed, _speed * 0.5f, Time.deltaTime * acceleration));
+        //}
+
+        SetNavMeshSpeed(Mathf.Lerp(nav.speed, _speed, Time.deltaTime * acceleration));
+
+
+    }
+
+
+
+    public void SetNav(bool _on)
+    {
+        if (nav == null)
+        {
+            nav = GetComponent<NavMeshAgent>();
+        }
+
+        if (nav != null )
+        {
+            nav.enabled = _on;
+
+        }
+    }
+
+    public void SetNavDestination(Vector3 dest)
+    {
+        if (nav == null)
+        {
+            nav = GetComponent<NavMeshAgent>();
+        }
+
+        if (nav != null && GetComponent<NavMeshAgent>().destination != dest && nav.enabled )
+        {
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(dest, out hit, 1f, NavMesh.AllAreas))
+            {
+                GetComponent<NavMeshAgent>().destination = dest;
+            }
+
+
+
+        }
+    }
+
+    public Vector3 GetNavDestination()
+    {
+        if (nav == null)
+        {
+            nav = GetComponent<NavMeshAgent>();
+        }
+
+        if (nav != null)
+        {
+            return GetComponent<NavMeshAgent>().destination;
+
+        }
+        return transform.position;
+    }
+
+    public void SetNavMeshSpeed(float _speed)
+    {
+        if (nav == null)
+        {
+            nav = GetComponent<NavMeshAgent>();
+        }
+
+        if (nav != null && nav.enabled && GetComponent<NavMeshAgent>().speed != _speed )
+        {
+            GetComponent<NavMeshAgent>().speed = _speed;
+
+        }
+    }
+
+
+    public void WarpNav(Vector3 _warpTo)
+    {
+        if (nav == null)
+        {
+            nav = GetComponent<NavMeshAgent>();
+        }
+
+        if (nav != null && nav.enabled )
+        {
+            GetComponent<NavMeshAgent>().Warp(_warpTo);
+
+
+        }
+    }
+
+    public void SetNavVelocity(Vector3 _newvel)
+    {
+        if (nav == null)
+        {
+            nav = GetComponent<NavMeshAgent>();
+        }
+
+        if (nav != null && nav.enabled )
+        {
+            GetComponent<NavMeshAgent>().velocity = _newvel;
+
+
+        }
+    }
+
+    public Vector3 GetNavVelocity()
+    {
+        if (nav == null)
+        {
+            nav = GetComponent<NavMeshAgent>();
+        }
+
+        if (nav != null && nav.enabled)
+        {
+            return nav.velocity;
+
+
+        }
+
+        return Vector3.zero;
+    }
+
+
+    public Vector3 GetNavMeshSteeringTarget()
+    {
+        if (nav == null)
+        {
+            nav = GetComponent<NavMeshAgent>();
+        }
+
+        if (nav != null && nav.enabled )
+        {
+            return GetComponent<NavMeshAgent>().steeringTarget;
+
+        }
+        //otherwise return forward
+        return transform.position + transform.forward;
+    }
+
+    public Vector3 GetNavNextPosition()
+    {
+        if (nav == null)
+        {
+            nav = GetComponent<NavMeshAgent>();
+        }
+
+        if (nav != null && nav.enabled )
+        {
+            return GetComponent<NavMeshAgent>().nextPosition;
+
+        }
+        //otherwise return forward
+        return transform.position + transform.forward;
+    }
+
+
+    public void StopAnimator(Animator animator)
+    {
+        if (animator == null) { return; }
+
+        animator.StopPlayback();
+
+    }
+
+
+    public void SetAnimationBool(Animator animator, string _animParameter, bool _animState)
+    {
+        if (animator == null ) { return; }
+
+        animator.SetBool(_animParameter, _animState);
+
+    }
+
+    public void SetAnimationFloat(Animator animator, string _animParameter, float _animState)
+    {
+        if (animator == null ) { return; }
+
+        animator.SetFloat(_animParameter, _animState);
+
+    }
+
+    public void SetAnimationParameter(Animator animator, string _animParameter, int _animState)
+    {
+        if (animator == null) { return; }
+
+        if (ContainsParam(animator, _animParameter))
+        { animator.SetInteger(_animParameter, _animState); }
+
+    }
+
+    public void SetAnimationParameter(Animator animator, string _animParameter, float _animState)
+    {
+        if (animator == null ) { return; }
+
+        if (ContainsParam(animator, _animParameter))
+        { animator.SetFloat(_animParameter, _animState); }
+
+    }
+
+    public void SetAnimationParameter(Animator animator, string _animParameter, bool _animState)
+    {
+        if (animator == null) { return; }
+
+        if (ContainsParam(animator, _animParameter))
+        { animator.SetBool(_animParameter, _animState); }
+
+    }
+
+
+
+    public float GetAnimationFloat(Animator animator, string _animParameter)
+    {
+        if (animator == null) { return 0; }
+
+        return animator.GetFloat(_animParameter);
+
+    }
+
+
+    public void PlayAnimation(Animator animator, string _animation, bool replay = false)
+    {
+        if (animator == null) { return; }
+
+        animator.Play(_animation);
+
+
+
+    }
+
+
+    public void EnableAnimator(Animator animator, bool _on)
+    {
+        if (animator == null) { animator = GetComponent<Animator>(); }
+
+        if (animator == null) { return; }
+
+        animator.enabled = _on;
+
+
+    }
+
+    public void SetAnimationTrigger(Animator animator, string _animation)
+    {
+        if (animator == null ) { return; }
+
+        animator.SetTrigger(_animation);
+
+ 
+
+    }
+
+    public bool ContainsParam(Animator _Anim, string _ParamName)
+    {
+        foreach (AnimatorControllerParameter param in _Anim.parameters)
+        {
+            if (param.name == _ParamName) return true;
+        }
+        return false;
+    }
+
 
 
 }

@@ -1,16 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
 
-public class SceneObject 
+public class SceneObject
 {
     public SceneObject() { }
     public SceneAction actionType;
 
-    public Vector3 startPos,targetPos;
+    public Vector3 startPos, targetPos;
 
-    public int linesOfDialogue,phase;
+    public int linesOfDialogue, phase;
     public float distanceIncrement;
     public float primarySpeed;
 
@@ -23,7 +22,7 @@ public static class SceneActions
 {
     public static Transform player;
     
-    public static float speed, rotSpeed, maxAngle;
+    public static float speed=1, rotSpeed=1, maxAngle;
 
     public static Item relevantItem;
 
@@ -98,7 +97,7 @@ public static class SceneActions
     }
 
 
-    public static void TrailPlayer(Transform _actor)
+    public static void TrailPlayer(Transform _actor,Transform _target,float _speed)
     {
       //  GetComponent<Renderer>().isVisible
      
@@ -106,27 +105,24 @@ public static class SceneActions
 
         if (OnCamera(_actor.position))
         {
-            RotateToFace(_actor,player);
+            RotateToFace(_actor, _target);
         }
         else 
         {
-            if (RotateToFace(_actor,player) < maxAngle)
+            if (RotateToFace(_actor, _target) < maxAngle)
             {
-                _actor.position = Vector3.MoveTowards(_actor.position, _actor.position + _actor.forward, speed * Time.deltaTime);
+                _actor.position = Vector3.MoveTowards(_actor.position, _actor.position + _actor.forward, _speed * Time.deltaTime);
             }
         }
     }
 
 
 
-    public static void TrailPlayer(Villager _villager,Transform _player)
+    public static void TrailPlayer(Villager _villager,Transform _player, float _speed)
     {
         Vector3 screenPoint = GameManager.instance.cam.GetComponent<Camera>().WorldToViewportPoint(_villager.GetNavMeshDestination());
 
-        if (OnCamera(_villager.transform.position))
-        {
 
-        }
 
             _villager.SetNavMeshDestination(_player.position);
 
@@ -136,14 +132,15 @@ public static class SceneActions
         screenPoint = GameManager.instance.cam.GetComponent<Camera>().WorldToViewportPoint(_villager.transform.position);
 
      
-            if (screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1)
+           // if (screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1)
+            if (OnCamera(_villager.transform.position))
             {
                 _villager.SetNavMeshSpeed(0);
                 _villager.SetAnimatorParameter("walking", false);
 
                 if (Quaternion.Angle(_villager.head.rotation, _villager.animatedHead.rotation) > 30)
                 {
-                    RotateToFace(_villager.transform, player);
+                    RotateToFace(_villager.transform, _player);
 
                 }
 

@@ -22,7 +22,9 @@ public class FocusZone : MonoBehaviour
 
             if (cam != null)
             {
-                cam.InFocusZone(new Vector3(transform.position.x - cam.player.transform.position.x, camOffset.y,camOffset.z),camAngle,((radiusToStartChanging - Vector3.Distance(cam.transform.position, transform.position)) / radiusToStartChanging));
+               // cam.focusing = true;
+              //  cam.InFocusZone(new Vector3(transform.position.x - cam.player.transform.position.x, camOffset.y,camOffset.z),camAngle,((radiusToStartChanging - Vector3.Distance(cam.transform.position, transform.position)) / radiusToStartChanging));
+                cam.InFocusZone(transform.position + new Vector3(0,2,(2 + Vector3.Distance(transform.position, cam.player.transform.position)) * -1),15,0.2f);
               
             }
         }
@@ -41,7 +43,8 @@ public class FocusZone : MonoBehaviour
 
             if (cam != null)
             {
-                cam.State(CameraState.outside);
+                cam.focusing = false;
+                //  cam.State(CameraState.outside);
 
             }
         }

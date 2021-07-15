@@ -19,6 +19,15 @@ public class YarnFunctions : MonoBehaviour
     /// </summary>
 
 
+    [YarnCommand("LoadNewUnityScene")]
+    public void LoadNewUnityScene(string _scene)
+    {
+        Debug.Log("Yarn LoadNewUnityScene");
+
+        Application.LoadLevel(_scene);
+
+    }
+
 
     [YarnCommand("EnableContinueButton")]
     public void EnableContinueButton()
@@ -249,7 +258,7 @@ public class YarnFunctions : MonoBehaviour
         Debug.Log("Yarn TeleportVillagerVector3");
 
         Villager villager = GameManager.instance.FindVillager(_villager);
-
+        if (villager == null) { return; }
         Vector3 tempvec = new Vector3(Int32.Parse(_x), villager.transform.position.y, Int32.Parse(_z) );
 
 
@@ -404,42 +413,3 @@ public class YarnFunctions : MonoBehaviour
 
 }
 
-public class CustomWaitCommand : MonoBehaviour
-{
-
-    // Drag and drop your Dialogue Runner into this variable.
-    public DialogueRunner dialogueRunner;
-
-    public void Awake()
-    {
-        dialogueRunner = FindObjectOfType<DialogueRunner>();
-        // Create a new command called 'custom_wait', which waits for one second.
-        dialogueRunner.AddCommandHandler(
-            "custom_wait",
-            CustomWait
-        );
-    }
-
-    // The method that gets called when '<<custom_wait>>' is run.
-    private void CustomWait(string[] parameters, System.Action onComplete)
-    {
-
-        // Start a coroutine that waits for one second:
-        StartCoroutine(DoWait(onComplete));
-
-        // Because this method takes a System.Action parameter, it's a blocking
-        // command. Yarn Spinner will wait until onComplete is called.
-    }
-
-    private IEnumerator DoWait(System.Action onComplete)
-    {
-
-        // Wait for 1 second
-        yield return new WaitForSeconds(1.0f);
-
-        // Call the completion handler
-        onComplete();
-
-        // Yarn Spinner will now continue running!
-    }
-}

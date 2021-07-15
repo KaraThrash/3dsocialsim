@@ -81,7 +81,7 @@ public class EventInit : MonoBehaviour
         gameManager.pendingNewPosition = new Vector3(_location.position.x, gameManager.GetPlayer().transform.position.y, _location.position.z) - Vector3.forward;
 
         //camera fade to black animation is 1 second to black and .1 before the black clears
-        gameManager.cameraControls.anim.speed = 3;
+        gameManager.cameraControls.anim.speed = 1;
 
         gameManager.cameraControls.anim.Play("CameraFadeToBlack");
 
@@ -101,7 +101,7 @@ public class EventInit : MonoBehaviour
         gameManager.pendingNewPosition = _location;
 
         //camera fade to black animation is 1 second to black and .1 before the black clears
-        gameManager.cameraControls.anim.speed = 3;
+        gameManager.cameraControls.anim.speed = 1;
 
         gameManager.cameraControls.anim.Play("CameraFadeToBlack");
 
@@ -125,7 +125,8 @@ public class EventInit : MonoBehaviour
 
         gameManager.State(GameState.transitioning);
 
-        gameManager.player.state = PlayerState.acting;
+        gameManager.player.State( PlayerState.acting);
+        gameManager.player.WorldLocation( WorldLocation.lostwoods);
 
         // TerrainManager().EnterBuilding(_interiorObj, _connectedArea);
 
@@ -137,7 +138,8 @@ public class EventInit : MonoBehaviour
         gameManager.cameraControls.anim.Play("CameraFadeToBlack");
 
 
-        gameManager.cameraControls.StartCameraEffect("lostwoods");
+        gameManager.cameraControls.State(CameraState.lostwoods);
+       // gameManager.cameraControls.StartCameraEffect("lostwoods");
 
 
 

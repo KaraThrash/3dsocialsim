@@ -4,18 +4,30 @@ using UnityEngine;
 
 public class CameraControls : MonoBehaviour
 {
+    
+
+    public CameraState cameraState;
+    public Camera cam;
+
+
     public Player player;
     public Transform otherTarget;
-    public CameraState cameraState;
+
     public float followSpeed, maxPlayerDistance, maxPlayerDistanceInside, cameraAngle,lowAngle = 45.0f, highAngle = 75.0f, conversationAngle = 25.0f,insideAngle=50.0f;
     public float focusAngle;
+    public float customAngle;
+
     public float defaultCamAdjustSpeed,defaultFollowSpeed=8,camAdjustSpeed = 5,followSpeedAdjustment=1; //followspeed adjustment for controlling how cloesly the camera follows
+
     public Vector3 camOffset,highCamOffset,lowCamOffSet,conversationOffset,insideOffset;
     public Vector3 focusOffset;
+    public Vector3 customOffset;
+
     public CameraEffect activeCameraEffect,lostwoodsEffect;
 
     public Animation fadetoblack;
     public Animator anim;
+    public bool focusing;
 
     public CameraState State() { return cameraState; }
 
@@ -25,6 +37,7 @@ public class CameraControls : MonoBehaviour
     {
         //new state is same as the old state
         if (State() == _state) { return; }
+
         if (State() == CameraState.focusing) 
         { 
             camAdjustSpeed = defaultCamAdjustSpeed;
@@ -32,6 +45,24 @@ public class CameraControls : MonoBehaviour
             camOffset = lowCamOffSet;
             cameraAngle = lowAngle;
         }
+        else if (State() == CameraState.lostwoods)
+        { EndCameraEffect("lostwoods"); }
+
+
+        if (_state == CameraState.lostwoods)
+        {
+            StartCameraEffect("lostwoods");
+        }
+        else if (_state == CameraState.basic)
+        {
+            followSpeed = defaultFollowSpeed;
+            camAdjustSpeed = defaultCamAdjustSpeed;
+
+            camOffset = lowCamOffSet;
+            cameraAngle = lowAngle;
+
+        }
+
 
     }
 
@@ -41,7 +72,14 @@ public class CameraControls : MonoBehaviour
 
     void Start()
     {
-        anim = GetComponent<Animator>();
+        if (anim == null)
+        {
+            if (GetComponent<Animator>() != null)
+            {
+                anim = GetComponent<Animator>();
+            }
+        }
+        
 
         camOffset = lowCamOffSet;
         cameraAngle = lowAngle;
@@ -52,42 +90,14 @@ public class CameraControls : MonoBehaviour
     {
         if (GameManager.instance.transitionTimer > 0) { return; }
 
-        if (State() != CameraState.focusing)
+        // if (State() != CameraState.focusing) { }
+
+        if (transform.position.y > 0 && lostwoodsEffect.GetComponent<LostWoodCameraEffect>().leaf0.gameObject.activeSelf)
         {
-            if (player.State() == PlayerState.inScene && otherTarget != null)
-            {
-                camAdjustSpeed = Mathf.Lerp(camAdjustSpeed, defaultCamAdjustSpeed, Time.deltaTime);
-                followSpeed = otherTarget.GetComponent<Villager>().GetNavmeshVelocity().magnitude;
-
-                //Track(otherTarget);
-                TrackTalking((player.transform.position + otherTarget.position) / 2);
-            }
-            if (player.State() == PlayerState.talking && otherTarget != null)
-            {
-                camAdjustSpeed = Mathf.Lerp(camAdjustSpeed, defaultCamAdjustSpeed, Time.deltaTime);
-                followSpeed = otherTarget.GetComponent<Villager>().GetNavmeshVelocity().magnitude;
-
-                TrackTalking(player.transform.position + player.transform.forward);
-            }
-            else
-            {
-                camAdjustSpeed = Mathf.Lerp(camAdjustSpeed, defaultCamAdjustSpeed, Time.deltaTime);
-                followSpeed = Mathf.Lerp(followSpeed, defaultFollowSpeed, Time.deltaTime);
-
-                Track(player.transform);
-            }
+            lostwoodsEffect.EndEffect();
         }
-        
 
-
-        if (player.IsInside())
-        {
-            TrackPlayerInside();
-        }
-        else 
-        {
-          //  Track(otherTarget);
-        }
+        Act();
 
 
         ManualAdjust();
@@ -95,9 +105,116 @@ public class CameraControls : MonoBehaviour
 
       
 
-        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
+        
 
     }
+
+
+    public void Act()
+    {
+        //basic, outside, low,high,inside,showoff,conversation,focusing,zoomIn, lostwoods,custom
+        if (cameraState == CameraState.basic) 
+        {
+            Track(player.transform.position);
+            cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
+        }
+        else if (cameraState == CameraState.outside)
+        {
+            Track(player.transform.position);
+            cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
+        }
+        else if (cameraState == CameraState.inside)
+        { 
+            TrackInside(player.transform.position);
+            cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
+        }
+        else if (cameraState == CameraState.showoff)
+        { }
+        else if (cameraState == CameraState.conversation)
+        {
+            
+            //look at the point between the player and the target, default to south of the player if the active object isnt set
+            Vector3 tempTrackPosition = player.transform.position - new Vector3(0, 0, 1);
+
+            if (GameManager.instance.activeObject != null)
+            {
+                tempTrackPosition = (player.transform.position + ((GameManager.instance.activeObject.position - player.transform.position) * 0.5f)) ;
+
+
+            }
+
+            Track(tempTrackPosition - new Vector3(0, 0, 1));
+            transform.LookAt(tempTrackPosition);
+            cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
+
+        }
+        else if (cameraState == CameraState.focusing)
+        { 
+
+              //todo: right now the 'infocuszone function handles this which is called by the ontriggerstay of the focus zone. change this to be handled by the camera
+        
+        }
+        else if (cameraState == CameraState.zoomIn)
+        { }
+        else if (cameraState == CameraState.lostwoods)
+        { }
+        else if (cameraState == CameraState.custom)
+        { }
+
+
+
+        //if (focusing == false)
+        //{
+        //    if (player.State() == PlayerState.inScene && otherTarget != null)
+        //    {
+        //        camAdjustSpeed = Mathf.Lerp(camAdjustSpeed, defaultCamAdjustSpeed, Time.deltaTime);
+        //        followSpeed = otherTarget.GetComponent<Villager>().GetNavmeshVelocity().magnitude;
+
+        //        //Track(otherTarget);
+        //        TrackTalking((player.transform.position + otherTarget.position) / 2);
+        //    }
+        //    if (player.State() == PlayerState.talking && otherTarget != null)
+        //    {
+        //        camAdjustSpeed = Mathf.Lerp(camAdjustSpeed, defaultCamAdjustSpeed, Time.deltaTime);
+        //        followSpeed = otherTarget.GetComponent<Villager>().GetNavmeshVelocity().magnitude;
+
+        //        TrackTalking(player.transform.position + player.transform.forward);
+        //    }
+        //    else
+        //    {
+        //        camAdjustSpeed = Mathf.Lerp(camAdjustSpeed, defaultCamAdjustSpeed, Time.deltaTime);
+        //        followSpeed = Mathf.Lerp(followSpeed, defaultFollowSpeed, Time.deltaTime);
+
+        //        Track(player.transform);
+        //    }
+        //    transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
+        //}
+
+
+
+        //if (player.IsInside())
+        //{
+        //    TrackPlayerInside();
+        //}
+        //else
+        //{
+        //    //  Track(otherTarget);
+        //}
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
 
     public void ManualAdjust()
     {
@@ -134,6 +251,39 @@ public class CameraControls : MonoBehaviour
 
         //}
     }
+
+
+
+    public void Track(Vector3 _target)
+    {
+        Vector3 _targetXYPos = camOffset + _target;
+
+        CameraEffect();
+
+        //so the camera doesnt jitte dont move if the target is only slightly off from center
+        if (Vector3.Distance(_target, transform.position) > maxPlayerDistance)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _target, Time.deltaTime * followSpeed * followSpeedAdjustment);
+            cam.transform.localPosition = Vector3.MoveTowards(cam.transform.localPosition, camOffset, Time.deltaTime * followSpeed * followSpeedAdjustment);
+        }
+    }
+
+    public void TrackInside(Vector3 _target)
+    {
+        Vector3 playerXYPos = camOffset + player.transform.position;
+
+        //more freedom of movement before the camera starts moving to center the focus
+        if (Vector3.Distance(_target, transform.position) > maxPlayerDistanceInside)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, _target, Time.deltaTime * followSpeed * followSpeedAdjustment);
+            cam.transform.localPosition = Vector3.MoveTowards(cam.transform.localPosition, camOffset, Time.deltaTime * followSpeed * followSpeedAdjustment);
+        }
+    }
+
+
+
+
+
 
     public void TrackTalking(Vector3 _target)
     {
@@ -175,6 +325,10 @@ public class CameraControls : MonoBehaviour
         }
     }
 
+
+
+
+
     public void CameraEffect()
     {
         if (activeCameraEffect != null && player.WorldLocation() == WorldLocation.lostwoods)
@@ -204,9 +358,9 @@ public class CameraControls : MonoBehaviour
 
     public void EndCameraEffect(string _effect)
     {
-        if (activeCameraEffect == null) { return; }
-
-        activeCameraEffect.EndEffect();
+       // if (activeCameraEffect == null) { return; }
+       
+        lostwoodsEffect.EndEffect();
     }
 
 
@@ -275,16 +429,25 @@ public class CameraControls : MonoBehaviour
     {
 
 
-        camAdjustSpeed = Mathf.Lerp(camAdjustSpeed,_speed, Time.deltaTime);
-        followSpeed = Mathf.Lerp(followSpeed, _speed, Time.deltaTime);
-        camOffset = _offset;
-        cameraAngle = _angle;
-        if (State() != CameraState.focusing)
+      //  camAdjustSpeed = Mathf.Lerp(camAdjustSpeed,_speed, Time.deltaTime);
+      //  followSpeed = Mathf.Lerp(followSpeed, _speed, Time.deltaTime);
+      //  camOffset = _offset;
+      //  cameraAngle = _angle;
+
+        Vector3 playerXYPos = _offset ;
+        if (Vector3.Distance(playerXYPos, transform.position) > maxPlayerDistanceInside)
         {
-            State(CameraState.focusing);
-           
-            camAdjustSpeed = 0;
-            followSpeed = 0;
+            transform.position = Vector3.MoveTowards(transform.position, playerXYPos, Time.deltaTime * _speed * followSpeedAdjustment);
+        }
+
+        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(_angle, 0, 0), Time.deltaTime * _speed);
+
+        if (focusing == false)
+        {
+            // State(CameraState.focusing);
+            focusing = true;
+           //  camAdjustSpeed = 0;
+           // followSpeed = 0;
 
         }
 

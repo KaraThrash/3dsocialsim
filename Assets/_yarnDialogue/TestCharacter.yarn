@@ -18,13 +18,12 @@ tags:
 <<VillagerHoldAnimationUntilOnScreen YarnFunctions Apollo3 laugh>>
 <<VillagerHoldAnimationUntilOnScreen YarnFunctions Apollo4 nervous>>
 <<VillagerHoldAnimationUntilOnScreen YarnFunctions Apollo5 dustingoff>>
-<<VillagerHoldAnimationUntilOnScreen YarnFunctions Apollo6 Licon Armature_Sitting_start>>
+<<VillagerHoldAnimationUntilOnScreen YarnFunctions Apollo6 Armature_Sitting_start>>
 
 <<TeleportVillagerVector3 YarnFunctions Starbuck 41 -22>>
 <<PlayAnimation YarnFunctions wavehello Starbuck>>
 Licon: Line 1.
 Licon: line B.
-Licon: It’s lovely during the day, but please stay out of it at night. We’ve had way too many cases of villagers getting lost, and Pollack won’t like having to run after you!
 ===
 
 

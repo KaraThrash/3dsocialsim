@@ -234,7 +234,11 @@ public class Villager : MonoBehaviour
     public void StoryAct()
     {
         if (ScriptedAction() == SceneAction.trailPlayer)
-        { SceneActions.TrailPlayer(transform); }
+        {
+           
+            SceneActions.TrailPlayer(GetComponent<Villager>(),GameManager.instance.player.transform,2); 
+        
+        }
         else if (ScriptedAction() == SceneAction.fliers) 
         { SceneActions.ReplaceNotice(this); }
         else if (ScriptedAction() == SceneAction.holdingAnimation)
