@@ -51,7 +51,7 @@ public class EventInit : MonoBehaviour
         _villager.ScriptedAction(SceneAction.leadPlayer);
         _villager.SetNavMeshDestination(_location);
 
-        gameManager.GetPlayer().SetState(PlayerState.inScene);
+        gameManager.GetPlayer().State(PlayerState.inScene);
 
         Vector3 playerTarget = (_villager.transform.position - gameManager.GetPlayer().transform.position);
         playerTarget = new Vector3(playerTarget.x, 0, playerTarget.z).normalized;

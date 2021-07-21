@@ -83,9 +83,12 @@ public class GameManager : MonoBehaviour
             {
                 transitionTimer = 0;
                 State(GameState.free);
+                
               //  cameraControls.SetLocation(player.transform.position);
             }
         }
+
+        GameStateSwitch();
 
         if (Input.GetKey(KeyCode.L))
         {
@@ -109,6 +112,22 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+    public void GameStateSwitch()
+    {
+
+        if (State() == GameState.free)
+        { }
+        else if (State() == GameState.transitioning) 
+        { }
+        else if (State() == GameState.scripted)
+        { }
+        else if (State() == GameState.talking)
+        { }
+    }
+
+
+
 
 
     public void EndScene()
@@ -669,6 +688,16 @@ public class GameManager : MonoBehaviour
         
 
     }
+
+
+
+
+
+
+
+
+
+
 
     public Button ContinueButton()
     {

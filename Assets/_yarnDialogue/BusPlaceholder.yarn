@@ -6,7 +6,7 @@ tags:
     <<LoadNewUnityScene YarnFunctions gamebuild>>
 
 -> Stay on Bus
-    <<PlayAnimation YarnFunctions wavehello BusLicon>>
+    <<PlayAnimation YarnFunctions BusLicon wavehello>>
     Licon: Here's looking at you, kid.
 
 ===
@@ -19,7 +19,7 @@ tags:
     <<LoadNewUnityScene YarnFunctions gamebuild>>
 
 -> Stay on Bus
-    <<PlayAnimation YarnFunctions wavehello BusLicon>>
+    <<PlayAnimation YarnFunctions BusLicon wavehello>>
     Licon:  You can't handle the truth!
 
 ===
@@ -32,7 +32,7 @@ tags:
     <<LoadNewUnityScene YarnFunctions gamebuild>>
 
 -> Stay on Bus
-    <<PlayAnimation YarnFunctions wavehello BusLicon>>
+    <<PlayAnimation YarnFunctions BusLicon wavehello>>
     Licon: Just keep swimming.
 
 ===
@@ -44,7 +44,7 @@ tags:
     <<LoadNewUnityScene YarnFunctions gamebuild>>
 
 -> Stay on Bus
-    <<PlayAnimation YarnFunctions wavehello BusLicon>>
+    <<PlayAnimation YarnFunctions BusLicon wavehello>>
     Licon: Today, I consider myself the luckiest fox on the face of the earth
 
 ===
@@ -58,8 +58,8 @@ tags:
     <<LoadNewUnityScene YarnFunctions gamebuild>>
 
 -> Stay on Bus
-    <<PlayAnimation YarnFunctions laugh BusLicon>>
-    <<AnimateMouth YarnFunctions happy 3 BusLicon>>
+    <<PlayAnimation YarnFunctions BusLicon laugh>>
+    <<AnimateMouth YarnFunctions BusLicon happy 3>>
     Licon: What we've got here is failure to communicate
 
 ===
@@ -71,8 +71,8 @@ tags:
     <<LoadNewUnityScene YarnFunctions gamebuild>>
 
 -> Stay on Bus
-    <<PlayAnimation YarnFunctions nervous BusLicon>>
-    <<AnimateMouth YarnFunctions sad 3 BusLicon>>
+    <<PlayAnimation YarnFunctions BusLicon nervous>>
+    <<AnimateMouth YarnFunctions BusLicon sad 3>>
     Licon: You don't understand! I coulda had class. I coulda been a contender. I could've been somebody, instead of a bum, which is what I am.
 
 ===
@@ -84,8 +84,8 @@ tags:
     <<LoadNewUnityScene YarnFunctions gamebuild>>
 
 -> Stay on Bus
-    <<PlayAnimation YarnFunctions nervous BusLicon>>
-    <<AnimateMouth YarnFunctions angry 3 BusLicon>>
+    <<PlayAnimation YarnFunctions BusLicon nervous>>
+    <<AnimateMouth YarnFunctions BusLicon angry 3>>
     Licon: Roads? Where we're going we don't need roads.
 
 ===
@@ -97,8 +97,8 @@ tags:
     <<LoadNewUnityScene YarnFunctions gamebuild>>
 
 -> Stay on Bus
-    <<PlayAnimation YarnFunctions dustingoff BusLicon>>
-    <<AnimateMouth YarnFunctions neutral 3 BusLicon>>
+    <<PlayAnimation YarnFunctions BusLicon dustingoff>>
+    <<AnimateMouth YarnFunctions BusLicon neutral 3>>
     Licon: You talking to me?
 
 ===
@@ -110,7 +110,7 @@ tags:
     <<LoadNewUnityScene YarnFunctions gamebuild>>
 
 -> Stay on Bus
-    <<PlayAnimation YarnFunctions dustingoff BusLicon>>
+    <<PlayAnimation YarnFunctions BusLicon dustingoff>>
     Licon: I'm walking here! I'm walking here!
 
 ===
@@ -122,7 +122,7 @@ tags:
     <<LoadNewUnityScene YarnFunctions gamebuild>>
 
 -> Stay on Bus
-    <<PlayAnimation YarnFunctions wavehello BusLicon>>
+    <<PlayAnimation YarnFunctions BusLicon wavehello>>
     Licon: You're gonna need a bigger boat
 
 ===

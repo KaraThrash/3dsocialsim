@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Yarn.Unity;
 
 /// <Yarn functions are laid out in this maner inside the yarn script>
@@ -24,7 +23,8 @@ public class YarnFunctions : MonoBehaviour
     {
         Debug.Log("Yarn LoadNewUnityScene");
 
-        Application.LoadLevel(_scene);
+     //   Application.LoadLevel(_scene);
+        SceneManager.LoadScene(_scene);
 
     }
 
@@ -359,7 +359,7 @@ public class YarnFunctions : MonoBehaviour
     }
 
     [YarnCommand("PlayAnimation")]
-    public void PlayAnimation(string _animation, string _who)
+    public void PlayAnimation(string _who,string _animation)
     {
         Debug.Log("_who and Yarn animations");
         Debug.Log(_animation);
@@ -377,7 +377,7 @@ public class YarnFunctions : MonoBehaviour
 
 
     [YarnCommand("AnimateMouth")]
-    public void AnimateMouth(string _pattern,string _length,  string _who)
+    public void AnimateMouth(string _who, string _pattern,string _length)
     {
         Debug.Log("Yabrn AnimateMouth");
 

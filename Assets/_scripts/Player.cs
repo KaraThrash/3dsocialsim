@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
 
     private int currentItem;
     private Vector3 moveDirection;
+
     private Rigidbody rb;
 
     public PlayerState State (){ return state; }
@@ -178,40 +179,80 @@ public class Player : MonoBehaviour
     public void Movement()
     {
 
+        moveDirection = Vector3.right * InputControls.HorizontalAxis();
+        moveDirection = moveDirection + (Vector3.forward * InputControls.VerticalAxis());
 
-        if (InputControls.HorizontalAxis() != 0 || InputControls.VerticalAxis() != 0)
+        Walk(moveDirection,walkSpeed);
+
+        //if (InputControls.HorizontalAxis() != 0 || InputControls.VerticalAxis() != 0)
+        //{
+
+            
+
+        //    SetAnimationBool(anim,"walk", true);
+
+        //    //get the intended direction then rotate before moving
+        //    moveDirection = Vector3.right * InputControls.HorizontalAxis();
+        //    moveDirection = moveDirection + (Vector3.forward * InputControls.VerticalAxis());
+
+        //    //rebalance the speed for the input, avoid the goldeneye diagonal speed multiplier while also remaining still with no input
+        //    if (moveDirection.magnitude > 1)
+        //    { moveDirection = (moveDirection).normalized; }
+
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), rotSpeed * Time.deltaTime);
+
+        //    // SetNavDestination(Vector3.Lerp(GetNavDestination(),transform.position + (moveDirection ),Time.deltaTime * acceleration));
+        //    SetNavDestination(transform.position + (moveDirection * walkSpeed));
+
+        //    MoveNavmesh();
+
+
+        //}
+        //else
+        //{
+        //    SetAnimationBool(anim, "walk", false);
+        //    SetNavDestination(transform.position );
+
+        //  //  rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
+        // //   rb.angularVelocity = Vector3.zero;
+        //}
+
+
+
+    }
+
+    public void Walk(Vector3 _dir,float _speed)
+    {
+        if (_dir.magnitude > 0)
         {
 
-            SetAnimationBool(anim,"walk", true);
 
-            //get the intended direction then rotate before moving
-            moveDirection = Vector3.right * InputControls.HorizontalAxis();
-            moveDirection = moveDirection + (Vector3.forward * InputControls.VerticalAxis());
+
+            SetAnimationBool(anim, "walk", true);
+
 
             //rebalance the speed for the input, avoid the goldeneye diagonal speed multiplier while also remaining still with no input
-            if (moveDirection.magnitude > 1)
-            { moveDirection = (moveDirection).normalized; }
+            if (_dir.magnitude > 1)
+            { moveDirection = (_dir).normalized; }
 
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), rotSpeed * Time.deltaTime);
 
+            // SetNavDestination(Vector3.Lerp(GetNavDestination(),transform.position + (moveDirection ),Time.deltaTime * acceleration));
+            SetNavDestination(transform.position + (moveDirection * _speed));
 
-          //  MoveTo(moveDirection);
-
-            SetNavDestination(Vector3.Lerp(GetNavDestination(),transform.position + moveDirection,Time.deltaTime * acceleration));
-            MoveNavmesh();
+            MoveNavmesh(_speed);
 
 
         }
         else
         {
+            moveDirection = _dir;
             SetAnimationBool(anim, "walk", false);
-            SetNavDestination(transform.position );
+            SetNavDestination(transform.position);
 
-          //  rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
-         //   rb.angularVelocity = Vector3.zero;
+            //  rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
+            //   rb.angularVelocity = Vector3.zero;
         }
-
-
-
     }
 
 
@@ -739,24 +780,25 @@ public class Player : MonoBehaviour
 
         float angle = Vector3.Angle(GetNavMeshSteeringTarget() - transform.position, transform.forward);
 
-        //if (angle > _minagle * 2)
-        //{
-        //    SetNavMeshSpeed(Mathf.Lerp(nav.speed, _speed * 0.1f, Time.deltaTime * acceleration));
+        if (angle > _minagle * 2)
+        {
+            SetNavMeshSpeed(0);
 
 
-        //}
-        //else if (angle <= _minagle)
-        //{
-        //    SetNavMeshSpeed(Mathf.Lerp(nav.speed, _speed, Time.deltaTime * acceleration));
+        }
+        else if (angle <= _minagle)
+        {
+            SetNavMeshSpeed(Mathf.Lerp(nav.speed, _speed, Time.deltaTime * acceleration));
 
 
-        //}
-        //else
-        //{
-        //    SetNavMeshSpeed(Mathf.Lerp(nav.speed, _speed * 0.5f, Time.deltaTime * acceleration));
-        //}
+        }
+        else
+        {
+            SetNavMeshSpeed(Mathf.Lerp(nav.speed, _speed * 0.5f, Time.deltaTime * acceleration));
+        }
 
-        SetNavMeshSpeed(Mathf.Lerp(nav.speed, _speed, Time.deltaTime * acceleration));
+        //SetNavMeshSpeed(Mathf.Lerp(nav.speed, _speed, Time.deltaTime * acceleration));
+     //   SetNavMeshSpeed(walkSpeed);
 
 
     }
@@ -790,6 +832,14 @@ public class Player : MonoBehaviour
             if (NavMesh.SamplePosition(dest, out hit, 1f, NavMesh.AllAreas))
             {
                 GetComponent<NavMeshAgent>().destination = dest;
+            }
+            else 
+            {
+                Debug.Log("Navmesh: No hit -- trying to find a closer target");
+
+                //if no hit, try to find one closer, but not infinitely
+                if (dest.magnitude > 0.2f)
+                { SetNavDestination(dest * 0.5f); }
             }
 
 

@@ -71,11 +71,11 @@ public static class SceneActions
 
          rotSpeed = 3;
       
-        _player.SetNavLeadObject((_actor.position - _actor.forward), _speed);
-        
+       // _player.SetNavLeadObject((_actor.position - _actor.forward), _speed);
 
+        _player.Walk((_actor.position - _actor.forward) - _player.transform.position, _speed);
 
-        _player.transform.LookAt(_actor);
+//        _player.transform.LookAt(_actor);
 
         _actor.GetComponent<Villager>().SetNavMeshSpeed(_speed);
         _actor.GetComponent<Villager>().SetNavMeshDestination(_location);

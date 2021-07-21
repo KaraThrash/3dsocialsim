@@ -94,7 +94,7 @@ public class SceneDirector : MonoBehaviour
         if (player != null)
         {
             player.EndNavLeadObject();
-            player.SetState(PlayerState.playerControlled);
+            player.State(PlayerState.playerControlled);
         }
 
         sceneActive = false;

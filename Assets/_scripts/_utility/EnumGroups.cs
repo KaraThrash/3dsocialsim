@@ -3,7 +3,7 @@
 
 using System;
 
-public enum GameState {free,transitioning,singleCamera,multiCamera }
+public enum GameState {free,transitioning,singleCamera,multiCamera,scripted,talking,interacting }
 public enum CameraState { basic, outside, low,high,inside,showoff,conversation,focusing,zoomIn, lostwoods,custom }
 
 public enum PlayerState { playerControlled, inMenu, talking, choosing, fishing, acting, showing, inScene }
@@ -16,6 +16,7 @@ public enum MapLocation { townhall,constructionSite, townSquare,playerHouse, voi
 
 public enum VillagerState { moving, idle, waiting, talking, activity }
 public enum VillagerStoryState { idle, inScene, inPrison, offScreen }
+
 public enum Mood { happy, sad, neutral, scared, angry, confused, tired }
 public enum MouthPattern { happy, sad, neutral, scared, angry, confused, tired,fast,slow }
 public enum GroundTypes { grass,wood,stone,leaves,snow,squish}
