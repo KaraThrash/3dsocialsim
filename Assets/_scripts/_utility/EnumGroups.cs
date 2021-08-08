@@ -14,12 +14,13 @@ public enum WorldLocation { overworldNorth,overWorldSouth, inside, lostwoods, bu
 //maplocation for orienteering
 public enum MapLocation { townhall,constructionSite, townSquare,playerHouse, voiceInWall, lostwoodsSouthEntrance,lostwoodsNorthEntrance,northRoadTurn, southRoadTurn, townEntrance, southeastRoadEnd }
 
+public enum Villagers { moving, idle, waiting, talking, activity }
 public enum VillagerState { moving, idle, waiting, talking, activity }
 public enum VillagerStoryState { idle, inScene, inPrison, offScreen }
 
 public enum Mood { happy, sad, neutral, scared, angry, confused, tired }
 public enum MouthPattern { happy, sad, neutral, scared, angry, confused, tired,fast,slow }
-public enum GroundTypes { grass,wood,stone,leaves,snow,squish}
+public enum GroundTypes { grass,wood,stone,dirt,leaves,snow,water,squish,other}
 
 public enum SceneAction { none,talk,leadPlayer, trailPlayer,watchPlayer,fliers,walkAndTalk,walkingToCheckpoint, holdingAnimation }
 
@@ -65,7 +66,17 @@ public static class EnumGroups
     }
 
 
+    public static MouthPattern MouthPatternFromString(string _pattern)
+    {
+        foreach (MouthPattern el in (MouthPattern[])Enum.GetValues(typeof(MouthPattern)))
+        {
+            if (el.ToString().Equals(_pattern))
+            { return el; }
+        }
 
+
+        return MouthPattern.neutral;
+    }
 
 
 

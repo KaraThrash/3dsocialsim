@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: m_bus_props
-  m_Shader: {fileID: -6465566751694194690, guid: 940d79357fd7a4f01a49e7247aeaa4da,
+  m_Shader: {fileID: -6465566751694194690, guid: 42dd6e598ba557845b30e6c302432f03,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -90,7 +90,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_534DD327: 1
+    - Vector1_534DD327: 0
+    - Vector1_6322A524: 0
+    - Vector1_86177972: 0
+    - Vector1_B680008E: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -113,12 +116,14 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_394A4422: {r: 0, g: 0, b: 0, a: 0}
-    - Color_49F14EFF: {r: 0, g: 0, b: 0, a: 0}
-    - Color_F52EE448: {r: 0, g: 0, b: 0, a: 0}
+    - Color_394A4422: {r: 1, g: 1, b: 1, a: 0}
+    - Color_49F14EFF: {r: 0.5188679, g: 0.5188679, b: 0.5188679, a: 0}
+    - Color_66F0BED7: {r: 0, g: 0, b: 0, a: 0}
+    - Color_941906B5: {r: 1, g: 1, b: 1, a: 0}
+    - Color_AC29EE9B: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 0}
+    - Color_F52EE448: {r: 1, g: 1, b: 1, a: 0}
     - Vector2_6A93A1CF: {r: 1, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     - _Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-  m_BuildTextureStacks: []

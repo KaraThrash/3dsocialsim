@@ -1,0 +1,75 @@
+
+title: bus9
+tags: 
+
+---
+<<Comment YarnFunctions this is meant to happen already on a black screen, I'm using FadeToBlack here>>
+
+<<TeleportVillager YarnFunctions testfunctionCharacter -5_1_-1>>
+<<FadeFromBlack YarnFunctions>>
+<<PlayAnimation YarnFunctions Licon Laugh>>
+Licon: Ho ho ho!
+
+<<Comment YarnFunctions needing a fade up from black here. The original concept for this scene was that it would be similar to the Animal Crossing scene with Rover, with a close up on Licon's face and us being unable to see Margo until she steps off the bus. Unsure if we're continuing with that.>>
+
+
+
+<<SetVillagerMood YarnFunctions Licon Happy>>
+Licon: You have just made the best decision of your life! Believe you me!
+<<PlayAnimation YarnFunctions Licon Question>>
+Licon: You must be bristling with enthusiasm. Are you not?
+
+-> I’m overjoyed, Licon. Completely.
+-> I’m excited, I think.
+
+<<PlayAnimation YarnFunctions Licon Thinking>>
+Licon: …Hmm. Well, if that’s how you do enthusiasm, I must accept it.
+<<PlayAnimation YarnFunctions Licon Nodding/Smiling>>
+Licon: We have a great deal of pride in our Happydale. I’m sure when you join us, you will feel just as happy!
+<<PlayAnimation YarnFunctions Licon Question>>
+Licon: Did you have to leave someone behind to move up with us?
+
+-> No one. I live alone.
+-> My family…
+
+Licon: I see, I see. That’s quite hard. Well, not to worry! Happydale will become your new family.
+Licon: We’re a small town, but we believe in dreams. Don’t you?
+<<PlayAnimation YarnFunctions Licon Snicker>>
+Licon: Wait, don’t answer that - I think I know what you’ll say.
+<<PlayAnimation YarnFunctions Licon Love>>
+Licon: But your dream IS coming true! Your own coffee shop! Can you believe it?
+
+-> It’s almost too good to be true.
+-> I appreciate it!
+
+<<PlayAnimation YarnFunctions Licon Joy>>
+Licon: Oh, don’t be so modest!
+Licon: I have an eye for talent. I know exactly the people who will thrive in Happydale. Not just anyone can fit in, you know.
+Licon: A town like ours - so small, but so full of nature - we must make sure our personalities all blend.
+Licon: You seem quite a ray of sunshine! I bet you it’ll only take a few days for you to feel at home.
+<<PlayAnimation YarnFunctions Licon Question>>
+Licon: What do you think? I’ll give you three days. Want to take me up on the bet?
+
+-> What’s in it for me?
+
+Licon: Hmm, good question. If you become a part of Happydale in three days… I’ll waive the fee for building the coffee shop!
+
+<<Comment YarnFunction Here I have Margo being surprised even though she technically isn't visible at the moment - we should be able to hear the SFX of surprise even if we don't see Margo's face. Optionally we can pivot the camera here to finally show Margo, if we like that as a reveal.>>
+<<PlayAnimation YarnFunctions Margo Shock>>
+
+Licon: Aha! Caught your attention, didn’t it? Millennials… they’re all the same…
+Licon: If you want to win the bet, you’ll have to get along with our residents! They’ll be glad to have you.
+<<PlayAnimation YarnFunctions Licon Joy>>
+Licon: But no one could be happier than me! Thank you for becoming our newest addition to Happydale!
+
+<<Comment YarnFucntion The bus shudders and starts to slow>>
+
+<<VillagerHoldAnimationUntilOnScreen YarnFunctions Licon Shock>>
+Licon: Oh! We’re here!
+<<PlayAnimation YarnFunctions Licon Joy>>
+Licon: It’s time for your first look at your forever home, Margo!
+
+<<FadeToBlack YarnFunctions>>
+
+===
+

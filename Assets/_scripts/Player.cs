@@ -10,7 +10,9 @@ public class Player : MonoBehaviour
     public GameManager gameManager;
     public Animator anim;
     public NavMeshAgent nav;
-    public AudioSource audioSource;
+    public AudioSource audioSource0;
+    public AudioSource audioSource1;
+    private bool  audioSourceToggle;
 
     public PlayerState state;
     public WorldLocation worldLocation;
@@ -242,7 +244,7 @@ public class Player : MonoBehaviour
 
             MoveNavmesh(_speed);
 
-
+           anim.speed =  GetNavVelocity().magnitude / walkSpeed;
         }
         else
         {
@@ -766,11 +768,23 @@ public class Player : MonoBehaviour
 
 
 
+    public AudioSource AudioSource()
+    {
+        audioSourceToggle = !audioSourceToggle;
 
+        if (audioSourceToggle)
+        {
+            return audioSource0;
+        }
+        else 
+        {
+            return audioSource1;
+        }
+    }
 
     public void PlayFootstep()
     {
-        gameManager.AudioManager().PlayFootStep(audioSource,GroundTypes.grass);
+        gameManager.AudioManager().PlayFootStep(transform, AudioSource());
     }
 
 
@@ -788,13 +802,15 @@ public class Player : MonoBehaviour
         }
         else if (angle <= _minagle)
         {
-            SetNavMeshSpeed(Mathf.Lerp(nav.speed, _speed, Time.deltaTime * acceleration));
+       //     SetNavMeshSpeed(Mathf.Lerp(nav.speed, _speed, Time.deltaTime * acceleration));
+            SetNavMeshSpeed( _speed);
 
 
         }
         else
         {
-            SetNavMeshSpeed(Mathf.Lerp(nav.speed, _speed * 0.5f, Time.deltaTime * acceleration));
+           // SetNavMeshSpeed(Mathf.Lerp(nav.speed, _speed * 0.5f, Time.deltaTime * acceleration));
+            SetNavMeshSpeed(_speed );
         }
 
         //SetNavMeshSpeed(Mathf.Lerp(nav.speed, _speed, Time.deltaTime * acceleration));

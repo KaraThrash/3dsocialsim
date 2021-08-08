@@ -6,7 +6,11 @@ tags:
     <<LoadNewUnityScene YarnFunctions gamebuild>>
 
 -> Stay on Bus
+    <<TeleportVillagerVector3 YarnFunctions testfunctionCharacter -5 -1>>
+    <<FadeFromBlack YarnFunctions .5>>
+    <<wait 1>>
     <<PlayAnimation YarnFunctions BusLicon wavehello>>
+    <<Sit YarnFunctions testfunctionCharacter>>
     Licon: Here's looking at you, kid.
 
 ===
@@ -20,6 +24,7 @@ tags:
 
 -> Stay on Bus
     <<PlayAnimation YarnFunctions BusLicon wavehello>>
+    <<Stand YarnFunctions testfunctionCharacter>>
     Licon:  You can't handle the truth!
 
 ===

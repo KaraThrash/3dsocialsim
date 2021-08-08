@@ -10,7 +10,7 @@ public class InfiniteLoop : MonoBehaviour
     public Transform bus,roadParent,reserve;
     public Transform road0,road1,road2,road3,road4;
 
-    public int intervalCount;
+    public int intervalCount,busLinesCount=10;
     public float pushForce,timer, physicsInterval;
     // Start is called before the first frame update
     void Start()
@@ -64,7 +64,7 @@ public class InfiniteLoop : MonoBehaviour
             {
                 intervalCount = 0;
 
-                string randoScript = "bus" + Random.Range(0, 10).ToString();
+                string randoScript = "bus" + Random.Range(0, busLinesCount).ToString();
                 Debug.Log("randoScript: >> " + randoScript);
                 if (GameManager.instance.dialogueRunner.IsDialogueRunning == false)
                 { 

@@ -18,9 +18,10 @@ public class SceneDirector : MonoBehaviour
 
     public List<MapLocation> locations;
 
-    public bool sceneActive = false;
+    public bool sceneActive = false,waitForCheckpoint = false;
 
     public SceneObject currentScene;
+    public Transform checkPointTransform;
 
 
     // Start is called before the first frame update
@@ -36,6 +37,13 @@ public class SceneDirector : MonoBehaviour
 
         if (sceneActive) 
         {
+
+            if (waitForCheckpoint) 
+            {
+                
+
+            }
+
             if (currentScene.actionType == SceneAction.walkAndTalk)
             {
               //  WalkAndTalk();
@@ -66,8 +74,8 @@ public class SceneDirector : MonoBehaviour
                 if (Vector3.Distance(checkPoint, primary.transform.position) > 1)
                 {
                     SceneActions.LeadPlayer(primary.transform, checkPoint, player, primary.GetNavMeshSpeed());
-                GameManager.instance.SetContinueButton(false);
-                return;
+                    GameManager.instance.SetContinueButton(false);
+                    return;
                 }
          
         }
@@ -96,7 +104,7 @@ public class SceneDirector : MonoBehaviour
             player.EndNavLeadObject();
             player.State(PlayerState.playerControlled);
         }
-
+        waitForCheckpoint = false;
         sceneActive = false;
         GameManager.instance.SetContinueButton(true);
 
@@ -188,11 +196,32 @@ public class SceneDirector : MonoBehaviour
 
 
 
+
+    public void SetCheckPointPosition(Vector3 _pos)
+    {
+        if (checkPointTransform != null)
+        {
+            checkPointTransform.position = _pos;
+            waitForCheckpoint = true;
+
+        }
+    }
+
+    public void SetCheckPointPosition(Quaternion _rot)
+    {
+        if (checkPointTransform != null)
+        {
+            checkPointTransform.rotation = _rot;
+
+        }
+    }
+
+
+
     public void InitScene(ScriptableScene _scene)
     {
 
-        primary = _scene.primary;
-        secondary = _scene.secondary;
+       
 
 
 

@@ -73,6 +73,22 @@ public class MouthController : MonoBehaviour
         
     }
 
+    public void SetMouth(Mood _mood)
+    {
+ 
+
+        //for setting the mouth to the mood when not talking
+        if (_mood == Mood.neutral)
+        { SetMouth(mouthRenderer.materials[0], closed); }
+        else if (_mood == Mood.sad)
+        { SetMouth(mouthRenderer.materials[0], sad); }
+        else if (_mood == Mood.angry)
+        { SetMouth(mouthRenderer.materials[0], angry); }
+        else if (_mood == Mood.happy)
+        { SetMouth(mouthRenderer.materials[0], open); }
+    }
+
+
     public void SetMouth(Material _head,Material _mouth)
     {
        

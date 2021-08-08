@@ -7,10 +7,11 @@ tags:
 
 ---
 <<DisableContinueButton YarnFunctions>>
-<<LeadPlayerAndTalk YarnFunctions lostwoodssouth testfunctionCharacter 1>>
 
+<<BlackOut YarnFunctions>>
 Licon: Line 1.
 <<EnableContinueButton YarnFunctions>>
 Licon: line B.
+<<LeadPlayerAndTalk YarnFunctions lostwoodssouth testfunctionCharacter 1>>
 <<EndScene YarnFunctions>>
 ===

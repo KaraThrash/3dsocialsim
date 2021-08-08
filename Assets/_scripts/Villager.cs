@@ -513,8 +513,8 @@ public class Villager : MonoBehaviour
 
 
 
-    public Mood CurrentMood() { return mood; }
-    public void CurrentMood(Mood _mood) { mood = _mood; }
+    public Mood CurrentMood() {  return mood; }
+    public void CurrentMood(Mood _mood) { mood = _mood; mouthAnimator.SetMouth(_mood); }
 
     public AudioClip Voice() { return voice; }
     public AudioClip Motif() { return motif; }

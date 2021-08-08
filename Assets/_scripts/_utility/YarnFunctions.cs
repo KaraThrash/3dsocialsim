@@ -62,14 +62,35 @@ public class YarnFunctions : MonoBehaviour
 
 
     [YarnCommand("FadeToBlack")]
-    public void FadeToBlack()
+    public void FadeToBlack(string _speed)
     {
         Debug.Log("Yarn FadeToBlack");
 
-        GameManager.instance.cameraControls.anim.speed = 1;
+        GameManager.instance.cameraControls.anim.speed = float.Parse(_speed);
+
+        GameManager.instance.cameraControls.anim.Play("CameraClearToBlack");
+    }
+
+    [YarnCommand("FadeFromBlack")]
+    public void FadeFromBlack(string _speed)
+    {
+        Debug.Log("Yarn FadeFromBlack");
+
+        GameManager.instance.cameraControls.anim.speed = float.Parse(_speed);
+
+        GameManager.instance.cameraControls.anim.Play("CameraBlackToClear");
+    }
+
+    [YarnCommand("BlackOut")]
+    public void BlackOut(string _speed)
+    {
+        Debug.Log("Yarn BlackOut");
+
+        GameManager.instance.cameraControls.anim.speed = float.Parse(_speed);
 
         GameManager.instance.cameraControls.anim.Play("CameraFadeToBlack");
     }
+
 
     [YarnCommand("EndScene")]
     public void EndScene()
@@ -248,6 +269,9 @@ public class YarnFunctions : MonoBehaviour
 
         Villager villager = GameManager.instance.FindVillager(_villager);
 
+
+        if (villager == null) { return; }
+
         villager.Teleport(GameManager.instance.LocationManager().FindLocation(_location));
 
     }
@@ -258,7 +282,9 @@ public class YarnFunctions : MonoBehaviour
         Debug.Log("Yarn TeleportVillagerVector3");
 
         Villager villager = GameManager.instance.FindVillager(_villager);
+
         if (villager == null) { return; }
+
         Vector3 tempvec = new Vector3(Int32.Parse(_x), villager.transform.position.y, Int32.Parse(_z) );
 
 
@@ -275,6 +301,8 @@ public class YarnFunctions : MonoBehaviour
 
         Villager villager = GameManager.instance.FindVillager(_villager);
 
+        if (villager == null) { return; }
+
         villager.CurrentMood(EnumGroups.MoodFromString(_mood));
 
     }
@@ -286,6 +314,8 @@ public class YarnFunctions : MonoBehaviour
 
         Villager villager = GameManager.instance.FindVillager(_villager);
 
+        if (villager == null) { return; }
+
         villager.State(EnumGroups.VillagerStateFromString(_state));
     }
 
@@ -295,6 +325,8 @@ public class YarnFunctions : MonoBehaviour
         Debug.Log("Yarn SetVillagerStoryState");
 
         Villager villager = GameManager.instance.FindVillager(_villager);
+
+        if (villager == null) { return; }
 
         villager.StoryState(EnumGroups.VillagerStoryStateFromString(_state));
 
@@ -306,6 +338,8 @@ public class YarnFunctions : MonoBehaviour
         Debug.Log("Yarn VillagerHoldAnimationUntilOnScreen");
 
         Villager villager = GameManager.instance.FindVillager(_villager);
+
+        if (villager == null) { return; }
 
         villager.StoryState(VillagerStoryState.inScene);
         villager.ScriptedAction(SceneAction.holdingAnimation);
@@ -375,6 +409,35 @@ public class YarnFunctions : MonoBehaviour
         //<<yarncommand Actor parameters>>
     }
 
+    //sit and stand toggle the 'sitting' boolean for the animation state to work with the mask for their legs
+    [YarnCommand("Sit")]
+    public void Sit(string _who)
+    {
+        Debug.Log("sit: " + _who);
+
+        Villager villager = GameManager.instance.FindVillager(_who);
+
+
+        if (villager == null) { return; }
+
+        villager.SetAnimatorParameter("sitting",true);
+
+    }
+
+    [YarnCommand("Stand")]
+    public void Stand(string _who)
+    {
+        Debug.Log("Stand: " + _who);
+
+        Villager villager = GameManager.instance.FindVillager(_who);
+
+
+        if (villager == null) { return; }
+
+        villager.SetAnimatorParameter("sitting", false);
+
+    }
+
 
     [YarnCommand("AnimateMouth")]
     public void AnimateMouth(string _who, string _pattern,string _length)
@@ -386,7 +449,7 @@ public class YarnFunctions : MonoBehaviour
 
         if (villager == null) { return; }
 
-        villager.AnimateMouth(EnumGroups.ConvertMouthPattern(_pattern), float.Parse(_length));
+        villager.AnimateMouth(EnumGroups.MouthPatternFromString(_pattern), float.Parse(_length));
 
         //<<yarntest Sally name>>
         //<<yarncommand Actor parameters>>

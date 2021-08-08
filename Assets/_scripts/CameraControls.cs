@@ -163,45 +163,6 @@ public class CameraControls : MonoBehaviour
 
 
 
-        //if (focusing == false)
-        //{
-        //    if (player.State() == PlayerState.inScene && otherTarget != null)
-        //    {
-        //        camAdjustSpeed = Mathf.Lerp(camAdjustSpeed, defaultCamAdjustSpeed, Time.deltaTime);
-        //        followSpeed = otherTarget.GetComponent<Villager>().GetNavmeshVelocity().magnitude;
-
-        //        //Track(otherTarget);
-        //        TrackTalking((player.transform.position + otherTarget.position) / 2);
-        //    }
-        //    if (player.State() == PlayerState.talking && otherTarget != null)
-        //    {
-        //        camAdjustSpeed = Mathf.Lerp(camAdjustSpeed, defaultCamAdjustSpeed, Time.deltaTime);
-        //        followSpeed = otherTarget.GetComponent<Villager>().GetNavmeshVelocity().magnitude;
-
-        //        TrackTalking(player.transform.position + player.transform.forward);
-        //    }
-        //    else
-        //    {
-        //        camAdjustSpeed = Mathf.Lerp(camAdjustSpeed, defaultCamAdjustSpeed, Time.deltaTime);
-        //        followSpeed = Mathf.Lerp(followSpeed, defaultFollowSpeed, Time.deltaTime);
-
-        //        Track(player.transform);
-        //    }
-        //    transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
-        //}
-
-
-
-        //if (player.IsInside())
-        //{
-        //    TrackPlayerInside();
-        //}
-        //else
-        //{
-        //    //  Track(otherTarget);
-        //}
-
-
 
 
     }
@@ -230,26 +191,7 @@ public class CameraControls : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Y)) { cameraAngle = conversationAngle; }
 
         if (Input.GetKeyDown(KeyCode.T)) { camOffset = conversationOffset; }
-        //if (InputControls.PickUpButton())
-        //{
 
-        //    if (camOffset == highCamOffset)
-        //    {
-        //        camOffset = lowCamOffSet;
-        //        cameraAngle = lowAngle;
-        //    }
-        //    else if (camOffset == lowCamOffSet)
-        //    {
-        //        camOffset = highCamOffset;
-        //        cameraAngle = highAngle;
-        //    }
-        //    else
-        //    {
-        //        camOffset = lowCamOffSet;
-        //        cameraAngle = lowAngle;
-        //    }
-
-        //}
     }
 
 
@@ -267,6 +209,7 @@ public class CameraControls : MonoBehaviour
             cam.transform.localPosition = Vector3.MoveTowards(cam.transform.localPosition, camOffset, Time.deltaTime * followSpeed * followSpeedAdjustment);
         }
     }
+
 
     public void TrackInside(Vector3 _target)
     {

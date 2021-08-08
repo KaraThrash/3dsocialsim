@@ -16,13 +16,13 @@ AvatarMask:
   - m_Path: Licon Armature/Lower body
     m_Weight: 1
   - m_Path: Licon Armature/Lower body/Leg1_L
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Licon Armature/Lower body/Leg1_L/Leg2_L
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Licon Armature/Lower body/Leg1_R
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Licon Armature/Lower body/Leg1_R/Leg2_R
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Licon Armature/Lower body/Tail1
     m_Weight: 1
   - m_Path: Licon Armature/Lower body/Tail1/Tail2
@@ -54,17 +54,17 @@ AvatarMask:
   - m_Path: Licon Armature/Lower body/Upper body/Head/Head.001
     m_Weight: 0
   - m_Path: Licon_Belt_Buckle
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Licon_Body
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Licon_Cabeza
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Licon_Ear
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Licon_Eye_L
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Licon_Eye_R
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Licon_Flor
     m_Weight: 1
   - m_Path: Licon_Hat_Base

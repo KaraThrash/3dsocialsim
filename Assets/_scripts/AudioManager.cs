@@ -23,46 +23,90 @@ public class AudioManager : MonoBehaviour
 
 
     public List<AudioClip> green, yellow, red;
-    public List<AudioClip> stepsGrass,stepsStone,activeStepList;
+    public List<AudioClip> stepsGrass,stepsStone, stepsDirt, activeStepList;
 
     private GroundTypes currentGround;
     private int groundCount;
 
+    public  float movementAngle; //0-360, to change the footfall sounds when changing directions
+    public  float degreeToChangeSound = 45.0f;
 
-    public void PlayFootStep(AudioSource _source, GroundTypes _groundType)
+    public  int step0, step1; //loop the sounds for movement in the same direction and same ground type
+
+
+
+    public void PlayFootStep(Transform _actor,AudioSource _source)
     {
 
 
-        AudioClip clip = null; 
+        AudioClip clip = null;
 
-      
+        //_source.clip = FootSound(_actor);
+        //_source.Play();
 
-            groundCount = 0;
+        // groundCount = 0;
 
-            if (_groundType == GroundTypes.grass)
+        int layerMask = 1 << 8;
+
+        RaycastHit hit;
+        // Does the ray intersect any objects excluding the player layer
+        if (Physics.Raycast(_actor.position + Vector3.up, Vector3.down, out hit, Mathf.Infinity, layerMask))
+        {
+            if (hit.transform.tag.Equals("dirt"))
+            { currentGround = GroundTypes.dirt; }
+            else if (hit.transform.tag.Equals("stone") || hit.transform.tag.Equals("rock"))
+            { currentGround = GroundTypes.stone; }
+              else if (hit.transform.tag.Equals("grass"))
+            { currentGround = GroundTypes.grass; }
+        }
+
+
+        if (currentGround == GroundTypes.grass)
+        {
+            if (stepsGrass.Count > 0)
             {
-                if (stepsGrass.Count > 0)
-                {
-                    if (groundCount >= stepsGrass.Count)
-                    { groundCount = 0; }
-                    clip = stepsGrass[groundCount];
-
-                }
+                if (groundCount >= stepsGrass.Count)
+                { groundCount = 0; }
+                clip = stepsGrass[groundCount];
 
             }
-            else 
+
+        }
+        else if (currentGround == GroundTypes.stone)
+        {
+            if (stepsGrass.Count > 0)
             {
-                if (stepsStone.Count > 0)
-                {
-                    if (groundCount >= stepsStone.Count)
-                    { groundCount = 0; }
-                    clip = stepsStone[groundCount];
-
-                }
-
+                if (groundCount >= stepsStone.Count)
+                { groundCount = 0; }
+                clip = stepsStone[groundCount];
 
             }
-        
+
+        }
+        else if (currentGround == GroundTypes.dirt)
+        {
+            if (stepsDirt.Count > 0)
+            {
+                if (groundCount >= stepsDirt.Count)
+                { groundCount = 0; }
+                clip = stepsDirt[groundCount];
+
+            }
+
+        }
+        else
+        {
+            if (stepsStone.Count > 0)
+            {
+                if (groundCount >= stepsStone.Count)
+                { groundCount = 0; }
+                clip = stepsStone[groundCount];
+
+            }
+
+
+        }
+
 
         groundCount++;
 
@@ -73,7 +117,71 @@ public class AudioManager : MonoBehaviour
 
     }
 
+    public  AudioClip FootSound(Transform _actor)
+    {
 
+        float angle = _actor.eulerAngles.y ;
+
+        GroundTypes ground = currentGround;
+
+        // This casts rays only against colliders in layer 8.
+        int layerMask = 1 << 8;
+
+        RaycastHit hit;
+        // Does the ray intersect any objects excluding the player layer
+        if (Physics.Raycast(_actor.position + Vector3.up, Vector3.down, out hit, Mathf.Infinity, layerMask))
+        {
+            if (hit.transform.tag.Equals("dirt"))
+            { ground = GroundTypes.dirt; }
+            else if (hit.transform.tag.Equals("stone") || hit.transform.tag.Equals("rock"))
+            { ground = GroundTypes.stone; }
+        }
+
+        if (currentGround != ground || Mathf.Abs(angle - movementAngle) > degreeToChangeSound)
+        {
+            currentGround = ground;
+
+            if (Mathf.Abs(angle - movementAngle) > degreeToChangeSound)
+            { movementAngle = angle; }
+
+            if (ground == GroundTypes.grass && stepsGrass != null && stepsGrass.Count > 1)
+            { SetFootPattern(stepsGrass); }
+            else if (ground == GroundTypes.stone && stepsStone != null && stepsStone.Count > 1)
+            { SetFootPattern(stepsStone);  }
+            else if (ground == GroundTypes.dirt && stepsDirt != null && stepsDirt.Count > 1)
+            { SetFootPattern(stepsDirt);  }
+        }
+
+        int hold = step0;
+        step0 = step1;
+        
+
+        if (ground == GroundTypes.grass && stepsGrass != null && stepsGrass.Count > hold)
+        {
+            step1 = (int)Random.Range(0, stepsGrass.Count);
+            return stepsGrass[hold];
+        }
+        else if (ground == GroundTypes.stone && stepsStone != null && stepsStone.Count > hold)
+        { step1 = (int)Random.Range(0, stepsStone.Count); return stepsStone[hold]; }
+        else if (ground == GroundTypes.dirt && stepsDirt != null && stepsDirt.Count > hold)
+        { step1 = (int)Random.Range(0, stepsDirt.Count); return stepsDirt[hold]; }
+
+
+        return null;
+    }
+
+
+    public  void SetFootPattern(List<AudioClip> _clips)
+    {
+        //when stepping on a new material type switch to the appropriate foot step sounds
+        step0 = (int)Random.Range(0, _clips.Count);
+        step1 = step0 + 1;
+
+        if (step1 > _clips.Count)
+        { step1 = 0; }
+
+
+    }
 
 
 

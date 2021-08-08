@@ -147,4 +147,16 @@ public class EventInit : MonoBehaviour
     }
 
 
+    public void LoadNewScene(string _scene)
+    {
+        ScriptableScene instance = Instantiate(Resources.Load(_scene, typeof(ScriptableScene))) as ScriptableScene;
+
+        if (instance != null)
+        { 
+            
+        }
+
+    }
+
+
 }
