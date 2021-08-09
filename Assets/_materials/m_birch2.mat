@@ -99,7 +99,7 @@ Material:
     - _ZWrite: 0
     m_Colors:
     - Color_394A4422: {r: 0.5, g: 0.5, b: 0.5, a: 0}
-    - Color_49F14EFF: {r: 0.8862745, g: 0.5137254, b: 0.34117648, a: 1}
+    - Color_49F14EFF: {r: 0.5283019, g: 0.28134388, b: 0.16696332, a: 1}
     - Color_F52EE448: {r: 1, g: 0.36117408, b: 0, a: 0}
     - Vector2_6A93A1CF: {r: 1, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 0.5358716, b: 0, a: 1}

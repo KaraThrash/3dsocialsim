@@ -88,7 +88,14 @@ public class GameManager : MonoBehaviour
             }
         }
 
+
+
         GameStateSwitch();
+
+        //for spawning sound clouds
+        AudioManager().TrackSilenceTime();
+
+
 
         if (Input.GetKey(KeyCode.L))
         {

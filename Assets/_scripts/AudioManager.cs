@@ -5,25 +5,28 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
 
-
-    public GameObject cloudPrefab3D,cloudPrefabWorld;
+    public bool checkForMusicClouds, checkForWindGusts;
     public Transform cloudParent,cloudAudioObject;
     public float masterVolumeModifier, mainVolumeModifier, cloudVolumeModifier; // 0<->1 sound setting for user volume controls
     public float fadeInTime;
 
     public AudioCloud cloudInWorldSource;
-    public AudioSource mainSource, cloudSource, worldEffectsSource; //for non diagetic sound effects
+    public AudioSource mainSource, cloudSource; //for non diagetic sound effects
+    public AudioSource  worldEffectsSourceA, worldEffectsSourceB; //for  diagetic sound effects
 
+    private bool worldSourceAlternate; //for toggling between the two world sources to not cut off a soundclip
     private float fadeTimer=-1;//multiply the cloud volume by this to have control over the main volume while also fading it in
 
     public float silenceTimer=-1;
     public float greenChance, yellowChance, redChance;
 
     public float intervalLength, intervalTimer, maxTimeWithoutCloud;
+    public float windGustRadius,windGustVolumn;
 
 
     public List<AudioClip> green, yellow, red;
-    public List<AudioClip> stepsGrass,stepsStone, stepsDirt, activeStepList;
+    public List<AudioClip> stepsGrass,stepsStone, stepsDirt;
+    public List<AudioClip> wind;
 
     private GroundTypes currentGround;
     private int groundCount;
@@ -35,162 +38,21 @@ public class AudioManager : MonoBehaviour
 
 
 
-    public void PlayFootStep(Transform _actor,AudioSource _source)
-    {
+    
 
-
-        AudioClip clip = null;
-
-        //_source.clip = FootSound(_actor);
-        //_source.Play();
-
-        // groundCount = 0;
-
-        int layerMask = 1 << 8;
-
-        RaycastHit hit;
-        // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(_actor.position + Vector3.up, Vector3.down, out hit, Mathf.Infinity, layerMask))
-        {
-            if (hit.transform.tag.Equals("dirt"))
-            { currentGround = GroundTypes.dirt; }
-            else if (hit.transform.tag.Equals("stone") || hit.transform.tag.Equals("rock"))
-            { currentGround = GroundTypes.stone; }
-              else if (hit.transform.tag.Equals("grass"))
-            { currentGround = GroundTypes.grass; }
-        }
-
-
-        if (currentGround == GroundTypes.grass)
-        {
-            if (stepsGrass.Count > 0)
-            {
-                if (groundCount >= stepsGrass.Count)
-                { groundCount = 0; }
-                clip = stepsGrass[groundCount];
-
-            }
-
-        }
-        else if (currentGround == GroundTypes.stone)
-        {
-            if (stepsGrass.Count > 0)
-            {
-                if (groundCount >= stepsStone.Count)
-                { groundCount = 0; }
-                clip = stepsStone[groundCount];
-
-            }
-
-        }
-        else if (currentGround == GroundTypes.dirt)
-        {
-            if (stepsDirt.Count > 0)
-            {
-                if (groundCount >= stepsDirt.Count)
-                { groundCount = 0; }
-                clip = stepsDirt[groundCount];
-
-            }
-
-        }
-        else
-        {
-            if (stepsStone.Count > 0)
-            {
-                if (groundCount >= stepsStone.Count)
-                { groundCount = 0; }
-                clip = stepsStone[groundCount];
-
-            }
-
-
-        }
-
-
-        groundCount++;
-
-
-
-        _source.clip = clip;
-        _source.Play();
-
-    }
-
-    public  AudioClip FootSound(Transform _actor)
-    {
-
-        float angle = _actor.eulerAngles.y ;
-
-        GroundTypes ground = currentGround;
-
-        // This casts rays only against colliders in layer 8.
-        int layerMask = 1 << 8;
-
-        RaycastHit hit;
-        // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(_actor.position + Vector3.up, Vector3.down, out hit, Mathf.Infinity, layerMask))
-        {
-            if (hit.transform.tag.Equals("dirt"))
-            { ground = GroundTypes.dirt; }
-            else if (hit.transform.tag.Equals("stone") || hit.transform.tag.Equals("rock"))
-            { ground = GroundTypes.stone; }
-        }
-
-        if (currentGround != ground || Mathf.Abs(angle - movementAngle) > degreeToChangeSound)
-        {
-            currentGround = ground;
-
-            if (Mathf.Abs(angle - movementAngle) > degreeToChangeSound)
-            { movementAngle = angle; }
-
-            if (ground == GroundTypes.grass && stepsGrass != null && stepsGrass.Count > 1)
-            { SetFootPattern(stepsGrass); }
-            else if (ground == GroundTypes.stone && stepsStone != null && stepsStone.Count > 1)
-            { SetFootPattern(stepsStone);  }
-            else if (ground == GroundTypes.dirt && stepsDirt != null && stepsDirt.Count > 1)
-            { SetFootPattern(stepsDirt);  }
-        }
-
-        int hold = step0;
-        step0 = step1;
-        
-
-        if (ground == GroundTypes.grass && stepsGrass != null && stepsGrass.Count > hold)
-        {
-            step1 = (int)Random.Range(0, stepsGrass.Count);
-            return stepsGrass[hold];
-        }
-        else if (ground == GroundTypes.stone && stepsStone != null && stepsStone.Count > hold)
-        { step1 = (int)Random.Range(0, stepsStone.Count); return stepsStone[hold]; }
-        else if (ground == GroundTypes.dirt && stepsDirt != null && stepsDirt.Count > hold)
-        { step1 = (int)Random.Range(0, stepsDirt.Count); return stepsDirt[hold]; }
-
-
-        return null;
-    }
-
-
-    public  void SetFootPattern(List<AudioClip> _clips)
-    {
-        //when stepping on a new material type switch to the appropriate foot step sounds
-        step0 = (int)Random.Range(0, _clips.Count);
-        step1 = step0 + 1;
-
-        if (step1 > _clips.Count)
-        { step1 = 0; }
-
-
-    }
+  
 
 
 
 
     void Start()
     {
-        maxTimeWithoutCloud = 120.0f;
-        intervalLength = 20.0f;
-        cloudInWorldSource.StopPlaying();
+     
+        if (cloudInWorldSource != null)
+        { 
+            cloudInWorldSource.StopPlaying();
+
+        }
 
     }
 
@@ -200,7 +62,7 @@ public class AudioManager : MonoBehaviour
         
       //  if (fadeTimer != -1) { FadeClip(); }
 
-        TrackSilenceTime();
+       // TrackSilenceTime();
 
     }
 
@@ -214,7 +76,11 @@ public class AudioManager : MonoBehaviour
 
             if (intervalTimer >= intervalLength)
             {
-                RollToSpawnCloud();
+                if (checkForMusicClouds && RollToSpawnCloud() == false && wind != null && wind.Count > 0)
+                {
+                    if (checkForWindGusts)
+                    { SpawnWindGust(); }
+                }
                 intervalTimer = 0;
             }
 
@@ -225,8 +91,15 @@ public class AudioManager : MonoBehaviour
 
     }
 
-    public void RollToSpawnCloud()
+    public void SpawnWindGust()
     {
+        PlayWorldEffect(wind[(int)Random.Range(0, wind.Count)], GameManager.instance.player.transform.position + new Vector3(Random.Range(-windGustRadius, windGustRadius), 0, Random.Range(-windGustRadius,windGustRadius)), windGustVolumn);
+    }
+
+    public bool RollToSpawnCloud()
+    {
+
+
         float rnd = Random.Range(-maxTimeWithoutCloud, silenceTimer);
         if (rnd >= 0)
         {
@@ -244,47 +117,68 @@ public class AudioManager : MonoBehaviour
 
 
             silenceTimer = 0;
+            return true;
         }
-
+        return false;
     }
 
 
 
 
 
-    public void SpawnCloud(Vector3 _pos, string _color, int _clip)
+    public AudioSource WorldEffectSource()
     {
-
-        GameObject clone = Instantiate(cloudPrefab3D, _pos, cloudPrefab3D.transform.rotation);
-        clone.GetComponent<AudioCloud>().SetType(_color,_clip);
-
-    }
-
-    public void SpawnCloud(Vector3 _pos, string _color)
-    {
-
-        GameObject clone = Instantiate(cloudPrefab3D, _pos, cloudPrefab3D.transform.rotation);
-
-        AudioClip newclip = GetClip(_color);
-
-        clone.GetComponent<AudioCloud>().SetType(newclip);
-
-
-
+        worldSourceAlternate = !worldSourceAlternate;
+        if (worldSourceAlternate)
+        {
+            return worldEffectsSourceB;
+        }
+        return worldEffectsSourceA;
     }
 
 
     public void PlayWorldEffect(AudioClip _clip)
     {
-        SetSourceClip(worldEffectsSource, _clip);
-        SetSourceVolume(worldEffectsSource, 1);
+        AudioSource source = WorldEffectSource();
+
+        SetSourceClip(source, _clip);
+        SetSourceVolume(source, 1);
 
         fadeTimer = -1;
-        worldEffectsSource.loop = true;
-        worldEffectsSource.Play();
-        worldEffectsSource.loop = false;
+        source.loop = true;
+        source.Play();
+        source.loop = false;
     }
 
+    public void PlayWorldEffect(AudioClip _clip,Vector3 _pos)
+    {
+        AudioSource source = WorldEffectSource();
+
+        SetSourceClip(source, _clip);
+        SetSourceVolume(source, 1);
+
+        fadeTimer = -1;
+        source.loop = true;
+        source.Play();
+        source.loop = false;
+
+        source.transform.position = _pos;
+    }
+
+    public void PlayWorldEffect(AudioClip _clip, Vector3 _pos,float _volumn)
+    {
+        AudioSource source = WorldEffectSource();
+
+        SetSourceClip(source, _clip);
+        SetSourceVolume(source, _volumn);
+
+        fadeTimer = -1;
+        source.loop = true;
+        source.Play();
+        source.loop = false;
+
+        source.transform.position = _pos;
+    }
 
     public void FadeClip()
     {
@@ -415,6 +309,91 @@ public class AudioManager : MonoBehaviour
 
         return clipToPlay;
     }
+
+
+
+    public void PlayFootStep(Transform _actor, AudioSource _source)
+    {
+
+
+        AudioClip clip = null;
+
+        int layerMask = 1 << 8;
+
+        RaycastHit hit;
+
+        // casting against the ground layer
+        if (Physics.Raycast(_actor.position + Vector3.up, Vector3.down, out hit, Mathf.Infinity, layerMask))
+        {
+            if (hit.transform.tag.Equals("dirt"))
+            { currentGround = GroundTypes.dirt; }
+            else if (hit.transform.tag.Equals("stone") || hit.transform.tag.Equals("rock"))
+            { currentGround = GroundTypes.stone; }
+            else if (hit.transform.tag.Equals("grass"))
+            { currentGround = GroundTypes.grass; }
+        }
+
+
+        if (currentGround == GroundTypes.grass)
+        {
+            if (stepsGrass.Count > 0)
+            {
+                if (groundCount >= stepsGrass.Count)
+                { groundCount = 0; }
+                clip = stepsGrass[groundCount];
+
+            }
+
+        }
+        else if (currentGround == GroundTypes.stone)
+        {
+            if (stepsGrass.Count > 0)
+            {
+                if (groundCount >= stepsStone.Count)
+                { groundCount = 0; }
+                clip = stepsStone[groundCount];
+
+            }
+
+        }
+        else if (currentGround == GroundTypes.dirt)
+        {
+            if (stepsDirt.Count > 0)
+            {
+                if (groundCount >= stepsDirt.Count)
+                { groundCount = 0; }
+                clip = stepsDirt[groundCount];
+
+            }
+
+        }
+        else
+        {
+            if (stepsStone.Count > 0)
+            {
+                if (groundCount >= stepsStone.Count)
+                { groundCount = 0; }
+                clip = stepsStone[groundCount];
+
+            }
+
+
+        }
+
+
+        groundCount++;
+
+
+
+        _source.clip = clip;
+        _source.Play();
+
+    }
+
+
+
+
+
 
 
 
