@@ -18,6 +18,7 @@ public class InfiniteLoop : MonoBehaviour
         if (scriptToLoad != null)
         {
             GameManager.instance.dialogueRunner.Add(scriptToLoad);
+            GameManager.instance.dialogueRunner.StartDialogue("bus9");
         }
     }
 
@@ -64,13 +65,13 @@ public class InfiniteLoop : MonoBehaviour
             {
                 intervalCount = 0;
 
-                string randoScript = "bus" + Random.Range(0, busLinesCount).ToString();
-                Debug.Log("randoScript: >> " + randoScript);
-                if (GameManager.instance.dialogueRunner.IsDialogueRunning == false)
-                { 
-                        GameManager.instance.dialogueRunner.StartDialogue(randoScript);
+                //string randoScript = "bus" + Random.Range(0, busLinesCount).ToString();
+                //Debug.Log("randoScript: >> " + randoScript);
+                //if (GameManager.instance.dialogueRunner.IsDialogueRunning == false)
+                //{ 
+                //        GameManager.instance.dialogueRunner.StartDialogue(randoScript);
 
-                }
+                //}
             }
 
         }

@@ -4,12 +4,11 @@ tags:
 
 ---
 <<Comment YarnFunctions this is meant to happen already on a black screen, I'm using FadeToBlack here>>
-
-<<TeleportVillager YarnFunctions testfunctionCharacter -5_1_-1>>
-<<FadeFromBlack YarnFunctions>>
-<<PlayAnimation YarnFunctions Licon Laugh>>
+<<TeleportVillagerVector3 YarnFunctions Licon -5 -1>>
+<<FadeFromBlack YarnFunctions 0.1>>
+<<wait 1>>
+<<PlayAnimation YarnFunctions Licon laugh>>
 Licon: Ho ho ho!
-
 <<Comment YarnFunctions needing a fade up from black here. The original concept for this scene was that it would be similar to the Animal Crossing scene with Rover, with a close up on Licon's face and us being unable to see Margo until she steps off the bus. Unsure if we're continuing with that.>>
 
 

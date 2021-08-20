@@ -40,7 +40,7 @@ public class Villager : MonoBehaviour
     private bool eyesOpen,toggleToResetRepeatedAction; //e.g. player animation when appearing on camera, and do that everything they appear on camera
 
     private Vector3 startPos;
-    private MouthController mouthAnimator;
+    public MouthController mouthAnimator;
 
 
 
@@ -121,7 +121,7 @@ public class Villager : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         nav = GetComponent<NavMeshAgent>();
-
+        mouthAnimator = GetComponent<MouthController>();
         ResetToStart();
 
         if (scriptToLoad != null)
@@ -168,7 +168,7 @@ public class Villager : MonoBehaviour
     {
         if (startPos != Vector3.zero)
         {
-            transform.position = startPos;
+           // transform.position = startPos;
             SetNavMeshDestination(transform.position);
 
         }
@@ -591,7 +591,7 @@ public class Villager : MonoBehaviour
     public void PlayAnimation(string _parameter)
     {
         if (anim != null)
-        { anim.Play(_parameter); }
+        { anim.Play(_parameter.ToLower()); }
     }
 
 

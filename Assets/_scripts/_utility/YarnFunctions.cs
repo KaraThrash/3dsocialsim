@@ -303,7 +303,7 @@ public class YarnFunctions : MonoBehaviour
 
         if (villager == null) { return; }
 
-        villager.CurrentMood(EnumGroups.MoodFromString(_mood));
+        villager.CurrentMood(EnumGroups.MoodFromString(_mood.ToLower()));
 
     }
 
@@ -380,28 +380,28 @@ public class YarnFunctions : MonoBehaviour
         //<<yarncommand Actor parameters>>
     }
 
-    [YarnCommand("PlayAnimation")]
-    public void PlayAnimation(string _animation)
-    {
-        Debug.Log("Yarn animations");
-        Debug.Log(_animation);
+    //[YarnCommand("PlayAnimation")]
+    //public void PlayAnimation(string _animation)
+    //{
+    //    Debug.Log("Yarn animations");
+    //    Debug.Log(_animation);
 
-        GameManager.instance.activeObject.GetComponent<Villager>().PlayAnimation(_animation);
+    //    GameManager.instance.activeObject.GetComponent<Villager>().PlayAnimation(_animation.ToLower());
 
-        //<<yarntest Sally name>>
-        //<<yarncommand Actor parameters>>
-    }
+    //    //<<yarntest Sally name>>
+    //    //<<yarncommand Actor parameters>>
+    //}
 
     [YarnCommand("PlayAnimation")]
     public void PlayAnimation(string _who,string _animation)
     {
         Debug.Log("_who and Yarn animations");
-        Debug.Log(_animation);
+        Debug.Log(_who + " " + _animation);
 
         Villager villager = GameManager.instance.FindVillager(_who);
 
 
-        if (villager == null) { return; }
+        if (villager == null) { Debug.Log("didnt find");  return; }
 
             villager.PlayAnimation(_animation);
 
