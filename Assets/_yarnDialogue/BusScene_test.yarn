@@ -15,7 +15,7 @@ Licon: Ho ho ho!
 
 <<SetVillagerMood YarnFunctions Licon Happy>>
 Licon: You have just made the best decision of your life! Believe you me!
-<<PlayAnimation YarnFunctions Licon Question>>
+<<PlayAnimation YarnFunctions Licon nervous>>
 Licon: You must be bristling with enthusiasm. Are you not?
 
 -> I’m overjoyed, Licon. Completely.

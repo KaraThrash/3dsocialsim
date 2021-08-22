@@ -15,11 +15,11 @@ public class InfiniteLoop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (scriptToLoad != null)
-        {
-            GameManager.instance.dialogueRunner.Add(scriptToLoad);
-            GameManager.instance.dialogueRunner.StartDialogue("bus9");
-        }
+        //if (scriptToLoad != null)
+        //{
+        //    GameManager.instance.dialogueRunner.Add(scriptToLoad);
+        //    GameManager.instance.dialogueRunner.StartDialogue("bus9");
+        //}
     }
 
     // Update is called once per frame

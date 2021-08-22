@@ -15,11 +15,56 @@ public class MouthController : MonoBehaviour
     public int count;
     public List<Material> mouths;
 
+    private Villager villager;
     // Start is called before the first frame update
     void Start()
     {
-        
+        villager = GetComponent<Villager>();
     }
+
+
+
+
+
+
+
+
+    public bool isNeutral;
+    public float blinkTimer;
+
+    //similar to blinking periodically set the mouth to their mood
+    public void IdleMouthTimer()
+    {
+        blinkTimer -= Time.deltaTime;
+
+        if (blinkTimer <= 0)
+        {
+            if (isNeutral)
+            {
+                isNeutral = false;
+                SetMouth(villager.CurrentMood());
+                
+
+                blinkTimer = UnityEngine.Random.Range(0.2f, 0.5f);
+
+            }
+            else
+            {
+                isNeutral = true;
+                SetMouth(Mood.neutral);
+
+                blinkTimer = UnityEngine.Random.Range(1.0f, 6.0f);
+            }
+
+
+
+        }
+
+
+    }
+
+
+
 
     // Update is called once per frame
     void Update()
@@ -45,7 +90,7 @@ public class MouthController : MonoBehaviour
 
                 SetMouth(mouthRenderer.materials[0], closed);
             }
-            else 
+            else
             {
                 if (intervalTimer <= 0)
                 {
@@ -54,8 +99,15 @@ public class MouthController : MonoBehaviour
                 }
             }
 
-           
 
+
+        }
+        else 
+        {
+            if (villager != null)
+            {
+                IdleMouthTimer();
+            }
         }
 
     }

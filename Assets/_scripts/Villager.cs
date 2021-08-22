@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Yarn.Unity;
-
+using UnityEngine.Animations.Rigging;
 
 
 public class Villager : MonoBehaviour
@@ -56,7 +56,7 @@ public class Villager : MonoBehaviour
     public SceneAction ScriptedAction() { return scriptedAction; }
 
 
-
+    public Rig rig;
     public YarnProgram scriptToLoad;
     private NavMeshAgent nav;
 
@@ -153,8 +153,10 @@ public class Villager : MonoBehaviour
         }
 
 
-        if (watchPlayer)
-        { WatchPlayer(); }
+
+        //watch player handles the toggle between using the rig to turn the head, and setting it back to use default animations
+        WatchPlayer();
+       
 
         if (leftEye != null)
         { BlinkTimer(); }
@@ -185,29 +187,59 @@ public class Villager : MonoBehaviour
 
     public void WatchPlayer()
     {
-        if (head == null || animatedHead == null) { return; }
-
-        Vector3 targetYCorrected = new Vector3(gameManager.player.transform.position.x, transform.position.y + 0.58f, gameManager.player.transform.position.z);
-        Quaternion targetRotation = Quaternion.LookRotation(targetYCorrected - head.position);
-
-        Quaternion newrot  = Quaternion.Slerp(head.rotation, targetRotation, rotSpeed * Time.deltaTime);
-
-        if (Quaternion.Angle(targetRotation, transform.rotation) < maxHeadAngle)
+        if (head == null || animatedHead == null)
         {
-
-
-            if (Quaternion.Angle(newrot, transform.rotation) < maxHeadAngle)
+            if (rig != null)
             {
+                rig.weight = 0;
 
-
-                head.rotation = newrot;
             }
+            return; 
+        }
+
+        if (watchPlayer)
+        {
+            if (rig != null)
+            {
+                rig.weight = Mathf.Lerp(rig.weight, 1, Time.deltaTime);
+
+            }
+            head.position = new Vector3(gameManager.player.transform.position.x, head.position.y, gameManager.player.transform.position.z);
+
         }
         else
         {
-            Quaternion.Slerp(head.rotation, animatedHead.rotation, rotSpeed * Time.deltaTime);
-        
+            if (rig != null)
+            {
+                rig.weight = Mathf.Lerp(rig.weight, 0, Time.deltaTime);
+
+            }
         }
+
+        //TODO: fix this to slowly turn, and to go back to normal when not watching
+        
+
+        //Vector3 targetYCorrected = new Vector3(gameManager.player.transform.position.x, head.position.y , gameManager.player.transform.position.z);
+        //Quaternion targetRotation = Quaternion.LookRotation(targetYCorrected - head.position);
+
+        //Quaternion newrot  = Quaternion.Slerp(head.rotation, targetRotation, rotSpeed * Time.deltaTime);
+
+        //if (Quaternion.Angle(targetRotation, transform.rotation) < maxHeadAngle + 1000)
+        //{
+
+
+        //    if (Quaternion.Angle(newrot, transform.rotation) <  maxHeadAngle + 1000)
+        //    {
+
+
+        //        head.rotation = newrot;
+        //    }
+        //}
+        //else
+        //{
+        //    Quaternion.Slerp(head.rotation, animatedHead.rotation, rotSpeed * Time.deltaTime);
+        
+        //}
 
     }
 
@@ -514,7 +546,8 @@ public class Villager : MonoBehaviour
 
 
     public Mood CurrentMood() {  return mood; }
-    public void CurrentMood(Mood _mood) { mood = _mood; mouthAnimator.SetMouth(_mood); }
+    public void CurrentMood(Mood _mood) { mood = _mood; }
+    public void SetMouth(Mood _mood) {  mouthAnimator.SetMouth(_mood); }
 
     public AudioClip Voice() { return voice; }
     public AudioClip Motif() { return motif; }
@@ -526,7 +559,7 @@ public class Villager : MonoBehaviour
     public void Teleport(Transform _location)
     {
         transform.position = _location.position;
-        WarpNavMesh(_location.position);
+      //  WarpNavMesh(_location.position);
     
     }
 
