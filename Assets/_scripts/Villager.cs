@@ -502,7 +502,7 @@ public class Villager : MonoBehaviour
     }
 
 
-    public void ThoughtBubble(Mood _mood,float _duration=1)
+    public void ThoughtBubble(Mood _mood,float _duration=2)
     {
         if (emoteBubble == null)
         { 
@@ -641,13 +641,23 @@ public class Villager : MonoBehaviour
         }
     }
 
-    public void SetNavMeshDestination(Vector3 dest)
+    public bool SetNavMeshDestination(Vector3 _dest)
     {
-        if (nav != null && nav.destination != dest )
+        //check that the destination is on the navmesh
+        if (nav != null )
         {
-            nav.destination = dest;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(_dest, out hit, 1f, NavMesh.AllAreas))
+            {
+                nav.SetDestination(hit.position);
+                return true;
+            }
+
 
         }
+
+        return false;
+
     }
 
     public Vector3 GetNavMeshDestination()

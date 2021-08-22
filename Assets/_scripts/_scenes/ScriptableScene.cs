@@ -12,6 +12,7 @@ public class ScriptableScene : MonoBehaviour
 
     //allow these scenes to have their own scripts to allow for them to be called from a character without having to load them with all the dialogue and direction
     public YarnProgram scriptToLoad;
+    public string dialogueName;
 
     //e.g. the bus: open the door, slow down, speed up etc.
     public Animator enviromentAnimator;
@@ -46,7 +47,7 @@ public class ScriptableScene : MonoBehaviour
     {
         if (scriptToLoad != null)
         {
-            GameManager.instance.dialogueRunner.StartDialogue("bus9");
+            GameManager.instance.dialogueRunner.StartDialogue(dialogueName);
         }
     }
 
@@ -96,6 +97,52 @@ public class ScriptableScene : MonoBehaviour
 
         stage++;
     }
+
+
+    public bool ContainsParam(Animator _Anim, string _ParamName)
+    {
+        foreach (AnimatorControllerParameter param in enviromentAnimator.parameters)
+        {
+            if (param.name == _ParamName) return true;
+        }
+        return false;
+    }
+
+    public void SetAnimatorParameter(string _parameter, bool _value)
+    {
+        if (enviromentAnimator== null || !ContainsParam(enviromentAnimator, _parameter))
+        { return; }
+
+        enviromentAnimator.SetBool(_parameter, _value);
+    }
+
+    public void SetAnimatorParameter(string _parameter, float _value)
+    {
+        if (enviromentAnimator== null || !ContainsParam(enviromentAnimator, _parameter))
+        { return; }
+
+
+        enviromentAnimator.SetFloat(_parameter, _value);
+    }
+
+    public void SetAnimatorParameter(string _parameter)
+    {
+        if (enviromentAnimator == null || !ContainsParam(enviromentAnimator, _parameter))
+        {
+            return;
+        }
+
+
+        enviromentAnimator.SetTrigger(_parameter);
+    }
+
+
+    public void PlayAnimation(string _parameter)
+    {
+        if (enviromentAnimator!= null)
+        { enviromentAnimator.Play(_parameter.ToLower()); }
+    }
+
 
 
 }

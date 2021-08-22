@@ -49,16 +49,18 @@ public class InfiniteLoop : MonoBehaviour
         }
 
         timer += Time.deltaTime;
-        if (physicsProps != null && timer > physicsInterval)
+        if (physicsProps != null && timer > physicsInterval && speed > 0)
         {
             intervalCount++;
 
             timer = 0;
+            pushForce = -pushForce;
+
             foreach (Transform el in physicsProps)
             {
                 if (el.GetComponent<Rigidbody>() != null)
                 {
-                    el.GetComponent<Rigidbody>().AddTorque(Vector3.up * pushForce);
+                    el.GetComponent<Rigidbody>().AddTorque(Vector3.up * pushForce * speed);
                 }
             }
             if (intervalCount >= 1)

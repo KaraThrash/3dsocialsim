@@ -292,7 +292,18 @@ public class YarnFunctions : MonoBehaviour
 
     }
 
+    [YarnCommand("VillagerThought")]
+    public void VillagerThought(string _villager, string _thought)
+    {
+        Debug.Log("Yarn SetVillagerMood");
 
+        Villager villager = GameManager.instance.FindVillager(_villager);
+
+        if (villager == null) { return; }
+
+        villager.ThoughtBubble(EnumGroups.MoodFromString(_thought.ToLower()),2);
+
+    }
 
     [YarnCommand("SetVillagerMood")]
     public void SetVillagerMood(string _villager, string _mood)
