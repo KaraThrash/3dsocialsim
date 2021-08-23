@@ -13,8 +13,9 @@ public class AudioManager : MonoBehaviour
     public AudioCloud cloudInWorldSource;
     public AudioSource mainSource, cloudSource; //for non diagetic sound effects
     public AudioSource  worldEffectsSourceA, worldEffectsSourceB; //for  diagetic sound effects
+    public AudioSource  effectsSourceA, effectsSourceB; //for NON diagetic sound effects
 
-    private bool worldSourceAlternate; //for toggling between the two world sources to not cut off a soundclip
+    private bool worldSourceAlternate, effectSourceAlternate; //for toggling between the two world sources to not cut off a soundclip
     private float fadeTimer=-1;//multiply the cloud volume by this to have control over the main volume while also fading it in
 
     public float silenceTimer=-1;
@@ -65,6 +66,35 @@ public class AudioManager : MonoBehaviour
        // TrackSilenceTime();
 
     }
+
+   
+
+    //to catch questions. alert and other elements that arent 'moods'
+    public AudioClip GetSoundFX(string _clip)
+    {
+        string clipToLoad = "soundfx/";
+
+        clipToLoad += _clip;
+
+
+        return Resources.Load<AudioClip>(clipToLoad);
+
+    }
+
+    public void PlaySoundEffect(string _clip)
+    {
+        AudioSource source = EffectSource();
+
+        source.clip = GetSoundFX(_clip);
+        source.Play();
+
+    }
+
+
+
+
+
+
 
     public void TrackSilenceTime()
     {
@@ -124,7 +154,15 @@ public class AudioManager : MonoBehaviour
 
 
 
-
+    public AudioSource EffectSource()
+    {
+        effectSourceAlternate = !effectSourceAlternate;
+        if (effectSourceAlternate)
+        {
+            return effectsSourceB;
+        }
+        return effectsSourceA;
+    }
 
     public AudioSource WorldEffectSource()
     {

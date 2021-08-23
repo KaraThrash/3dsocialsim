@@ -8,8 +8,11 @@ public class BusScene : ScriptableScene
 
     public float rotSpeed;
 
+    public Transform emoteBubble;
+
     public override void Init()
     {
+        GameManager.instance.activeScene = this;
         PlaceVillagers();
 
 
@@ -97,5 +100,15 @@ public class BusScene : ScriptableScene
         stage++;
     }
 
+
+
+    public override void SceneSpecificAction()
+    {
+        if (emoteBubble != null)
+        {
+            emoteBubble.gameObject.SetActive(true);
+        }
+       
+    }
 
 }

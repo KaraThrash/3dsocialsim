@@ -46,6 +46,26 @@ public class YarnFunctions : MonoBehaviour
         GameManager.instance.SetContinueButton(false);
     }
 
+    [YarnCommand("AdvanceSceneAnimator")]
+    public void AdvanceSceneAnimator()
+    {
+        Debug.Log("Yarn AdvanceSceneAnimator");
+
+        //if there is an active scene and it has an animator, set its trigger to advance
+        GameManager.instance.AdvanceSceneAnimator();
+    }
+
+
+
+    [YarnCommand("PlaySoundEffect")]
+    public void PlaySoundEffect(string _clip)
+    {
+        Debug.Log("Yarn PlaySoundEffect");
+
+        //if the clip is in resources, load and play it
+        GameManager.instance.PlaySoundEffect(_clip);
+    }
+
 
 
     /// <summary>
@@ -68,7 +88,7 @@ public class YarnFunctions : MonoBehaviour
 
         GameManager.instance.cameraControls.anim.speed = float.Parse(_speed);
 
-        GameManager.instance.cameraControls.anim.Play("CameraClearToBlack");
+        GameManager.instance.cameraControls.anim.Play("CameraClearToBlackAndStay");
     }
 
     [YarnCommand("FadeFromBlack")]
@@ -109,6 +129,23 @@ public class YarnFunctions : MonoBehaviour
     /// end Transitions
     /// </summary>
 
+
+
+
+
+
+    [YarnCommand("SceneSpecificAction")]
+    public void SceneSpecificAction()
+    {
+        Debug.Log("Yarn SceneSpecificAction");
+
+        //set camera angle
+        //lock player movement
+        //have player face speaker
+
+        GameManager.instance.SceneSpecificAction();
+
+    }
 
 
 
@@ -374,8 +411,6 @@ public class YarnFunctions : MonoBehaviour
 
 
 
-
-
     /// <summary>
     /// Animations
     /// </summary>
@@ -419,6 +454,27 @@ public class YarnFunctions : MonoBehaviour
         //<<yarntest Sally name>>
         //<<yarncommand Actor parameters>>
     }
+
+    [YarnCommand("ReleaseHeadRig")]
+    public void ReleaseHeadRig(string _who)
+    {
+        Debug.Log("ReleaseHeadRig");
+
+        Villager villager = GameManager.instance.FindVillager(_who);
+
+
+        if (villager == null) { Debug.Log("didnt find"); return; }
+
+        if (villager.rig != null)
+        {
+            villager.rig.weight = 0;
+        }
+
+        //<<yarntest Sally name>>
+        //<<yarncommand Actor parameters>>
+    }
+
+
 
     //sit and stand toggle the 'sitting' boolean for the animation state to work with the mask for their legs
     [YarnCommand("Sit")]

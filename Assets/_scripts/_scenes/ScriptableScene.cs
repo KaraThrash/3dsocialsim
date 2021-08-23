@@ -98,6 +98,11 @@ public class ScriptableScene : MonoBehaviour
         stage++;
     }
 
+    public virtual void SceneSpecificAction()
+    { 
+    
+    }
+
 
     public bool ContainsParam(Animator _Anim, string _ParamName)
     {

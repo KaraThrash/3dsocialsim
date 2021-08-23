@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     public LocationManager locationManager;
     public SceneDirector sceneDirector;
 
+    public ScriptableScene activeScene;
 
 
     public GameObject chatbox,showCameraItem;
@@ -136,11 +137,35 @@ public class GameManager : MonoBehaviour
 
 
 
+    public void AdvanceSceneAnimator()
+    {
+        //for calling from yarn to advance the scene aniamtor
+        if (activeScene != null)
+        {
+            activeScene.SetAnimatorParameter("advance");
+        }
+    }
+
+    public void SceneSpecificAction()
+    {
+        //for calling from yarn to advance the scene aniamtor
+        if (activeScene != null)
+        {
+            activeScene.SceneSpecificAction();
+        }
+    }
 
     public void EndScene()
     {
         SceneDirector().EndScene();
     }
+
+
+    public void PlaySoundEffect(string _clip)
+    {
+        AudioManager().PlaySoundEffect(_clip);
+    }
+
 
     public void MovePlayerAndSpeaker(string _location)
     {

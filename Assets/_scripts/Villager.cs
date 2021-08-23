@@ -514,11 +514,6 @@ public class Villager : MonoBehaviour
         emoteBubble.gameObject.SetActive(true);
         emoteBubble.SetMaterial(EmotionImages.GetEmotion(_mood), _duration);
 
-        //if (_thought.Equals("happy")) { }
-        //else if (_thought.Equals("angry")) { emoteBubble.SetMaterial(EmotionImages.GetEmotion(mood),_duration) ; }
-        //else if (_thought.Equals("tired")) { }
-
-        
 
 
     }
