@@ -17,33 +17,52 @@ public class Door : Item
     {
         gameManager = _gameManager;
 
-        gameManager.EnterArea(interiorObj,connectedArea, _camSetting);
+        if (exit)
+        {
+            gameManager.ExitArea(interiorObj, connectedArea, _camSetting);
+
+        }
+        else
+        {
+            gameManager.EnterArea(interiorObj, connectedArea, _camSetting);
+        }
     }
 
     public void OnTriggerEnter(Collider other)
     {
         if (gameManager == null) { gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); }
 
-        if (other.GetComponent<Player>() != null  && connectedArea != null)
+        if (other.GetComponent<Player>() != null && connectedArea != null)
         {
-            if (exit) 
-            { 
-                gameManager.LeaveBuilding();
+
+            if (exit)
+            {
+                gameManager.ExitArea(interiorObj, connectedArea, _camSetting);
+
             }
             else 
             {
-                if (interiorObj != null)
-                {
-                    gameManager.EnterArea(interiorObj, connectedArea, _camSetting);
-
-                }
-                else
-                {
-                    gameManager.EnterRoom(connectedArea);
-                }
-
+                gameManager.EnterArea(interiorObj, connectedArea, _camSetting);
             }
-            
+
+            //if (exit)
+            //{
+            //    gameManager.LeaveBuilding();
+            //}
+            //else
+            //{
+            //    if (interiorObj != null)
+            //    {
+            //        gameManager.EnterArea(interiorObj, connectedArea, _camSetting);
+
+            //    }
+            //    else
+            //    {
+            //        gameManager.EnterRoom(connectedArea);
+            //    }
+
+            //}
+
         }
     }
 

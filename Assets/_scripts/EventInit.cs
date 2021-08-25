@@ -65,6 +65,46 @@ public class EventInit : MonoBehaviour
 
 
 
+    public void EnterBuilding(GameManager gameManager, Transform _location)
+    {
+
+        gameManager.actionTimer = 2.1f;
+        gameManager.transitionTimer = 1.1f;
+
+
+        gameManager.State(GameState.transitioning);
+
+        gameManager.player.State(PlayerState.acting);
+
+        gameManager.pendingNewPosition = _location.position;
+        gameManager.player.WorldLocation(WorldLocation.inside);
+        //camera fade to black animation is 1 second to black and .1 before the black clears
+        gameManager.cameraControls.anim.speed = 1;
+
+        gameManager.cameraControls.anim.Play("CameraClearToBlack");
+
+    }
+
+
+    public void ExitBuilding(GameManager gameManager, Transform _location)
+    {
+
+        gameManager.actionTimer = 2.1f;
+        gameManager.transitionTimer = 1.1f;
+
+
+        gameManager.State(GameState.transitioning);
+
+        gameManager.player.State(PlayerState.acting);
+
+        gameManager.pendingNewPosition = _location.position;
+        gameManager.player.WorldLocation(WorldLocation.overWorldSouth);
+        //camera fade to black animation is 1 second to black and .1 before the black clears
+        gameManager.cameraControls.anim.speed = 1;
+
+        gameManager.cameraControls.anim.Play("CameraClearToBlack");
+
+    }
 
 
     public void MovePlayer(GameManager gameManager,Transform _location)
@@ -83,7 +123,7 @@ public class EventInit : MonoBehaviour
         //camera fade to black animation is 1 second to black and .1 before the black clears
         gameManager.cameraControls.anim.speed = 1;
 
-        gameManager.cameraControls.anim.Play("CameraFadeToBlack");
+        gameManager.cameraControls.anim.Play("CameraClearToBlack");
 
     }
 
@@ -103,7 +143,7 @@ public class EventInit : MonoBehaviour
         //camera fade to black animation is 1 second to black and .1 before the black clears
         gameManager.cameraControls.anim.speed = 1;
 
-        gameManager.cameraControls.anim.Play("CameraFadeToBlack");
+        gameManager.cameraControls.anim.Play("CameraClearToBlack");
 
     }
 
@@ -135,7 +175,7 @@ public class EventInit : MonoBehaviour
         //camera fade to black animation is 1 second to black and .1 before the black clears
         gameManager.cameraControls.anim.speed = 1;
 
-        gameManager.cameraControls.anim.Play("CameraFadeToBlack");
+        gameManager.cameraControls.anim.Play("CameraClearToBlack");
 
 
         gameManager.cameraControls.State(CameraState.lostwoods);

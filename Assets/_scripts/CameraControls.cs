@@ -118,7 +118,7 @@ public class CameraControls : MonoBehaviour
             Track(player.transform.position);
             cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
         }
-        else if (cameraState == CameraState.outside)
+        else if (cameraState == CameraState.outside || cameraState == CameraState.lostwoods)
         {
             Track(player.transform.position);
             cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
@@ -156,8 +156,7 @@ public class CameraControls : MonoBehaviour
         }
         else if (cameraState == CameraState.zoomIn)
         { }
-        else if (cameraState == CameraState.lostwoods)
-        { }
+
         else if (cameraState == CameraState.custom)
         { }
 

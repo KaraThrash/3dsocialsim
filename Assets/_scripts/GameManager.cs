@@ -411,7 +411,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        EventInit().MovePlayer(GetComponent<GameManager>(),_connectedArea.transform.position);
+        EventInit().EnterBuilding(GetComponent<GameManager>(),_connectedArea.transform);
 
         //actionTimer = 1.35f;
         //transitionTimer = 1.3f;
@@ -440,11 +440,45 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void ExitArea(GameObject _interiorObj, GameObject _connectedArea, string _type = "")
+    {
+
+
+        if (_type.Equals("building"))
+        {
+            cameraControls.SetCameraTrackingOffset("low");
+            player.inside = false;
+
+        }
+        else if (_type.Equals("lostwoods"))
+        {
+            cameraControls.SetCameraTrackingOffset("lostwoods");
+            cameraControls.EndCameraEffect("lostwoods");
+            if (_interiorObj.GetComponent<LostWoods>() != null)
+            {
+                //_interiorObj.GetComponent<LostWoods>().StartLostWoods();
+
+                //40 is the middle of the map TODO: set this to a variable when you defeine the map layout
+                EventInit().StartLostWoods(this, player.transform.position.z > 40);
+
+            }
+            else { }
+
+            return;
+        }
+
+        EventInit().ExitBuilding(GetComponent<GameManager>(), _connectedArea.transform);
+
+
+
+    }
+
+
 
     public void EnterBuilding(GameObject _interiorObj, GameObject _connectedArea,string _camSetting="")
     {
         actionTimer = 1.2f;
-        player.State(PlayerState.acting);
+       // player.State(PlayerState.acting);
 
         //  TerrainManager().EnterBuilding(_interiorObj,_connectedArea);
 
@@ -457,17 +491,21 @@ public class GameManager : MonoBehaviour
             player.inside = true;
 
         }
-        else 
+        else if (_camSetting.Equals("lostwoods"))
         {
-
-         cameraControls.SetCameraTrackingOffset(_camSetting);
-
+            cameraControls.SetCameraTrackingOffset("lostwoods");
+            cameraControls.EndCameraEffect("lostwoods");
             if (_interiorObj.GetComponent<LostWoods>() != null)
             {
-                _interiorObj.GetComponent<LostWoods>().StartLostWoods();
+                //_interiorObj.GetComponent<LostWoods>().StartLostWoods();
+
+                //40 is the middle of the map TODO: set this to a variable when you defeine the map layout
+                EventInit().StartLostWoods(this, player.transform.position.z > 40);
+
             }
+            else { }
 
-
+            return;
         }
 
 
@@ -487,7 +525,7 @@ public class GameManager : MonoBehaviour
     public void LeaveBuilding()
     {
         actionTimer = 0.2f;
-        player.state = PlayerState.acting;
+     //   player.state = PlayerState.acting;
 
         TerrainManager().LeaveBuilding();
         player.transform.position = new Vector3(player.transform.position.x, 0, player.transform.position.z);
@@ -503,7 +541,7 @@ public class GameManager : MonoBehaviour
     public void EnterRoom(GameObject _connectedArea)
     {
         actionTimer = 0.1f;
-        player.state = PlayerState.acting;
+       //player.state = PlayerState.acting;
 
         TerrainManager().RoomChange(_connectedArea);
 
@@ -579,7 +617,7 @@ public class GameManager : MonoBehaviour
         //music clouds
         //villager locations
         //reset fruit, bugs, fish?
-        TimeManager().SetSunAngle(new Vector3(TimeManager().GetDay() * -15,0,171));
+       // TimeManager().SetSunAngle(new Vector3(TimeManager().GetDay() * -15,0,171));
 
 
         foreach (Transform el in villagerParent)
@@ -690,7 +728,6 @@ public class GameManager : MonoBehaviour
             acceptInput = true;
          //   dialogueRunner.GetComponent<DialogueUI>().acceptsInput = true;
 
-            player.State(PlayerState.playerControlled);
 
 
             if (activeObject != null)
@@ -708,6 +745,9 @@ public class GameManager : MonoBehaviour
             player.SetVelocities(Vector3.zero,Vector3.zero);
 
             cameraControls.SetLocation(player.transform.position);
+
+            player.State(PlayerState.playerControlled);
+
 
             return;
         }

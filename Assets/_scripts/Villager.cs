@@ -187,7 +187,7 @@ public class Villager : MonoBehaviour
 
     public void WatchPlayer()
     {
-        if (head == null || animatedHead == null)
+        if (head == null || animatedHead == null || GameManager.instance.player == null)
         {
             if (rig != null)
             {
@@ -204,7 +204,9 @@ public class Villager : MonoBehaviour
                 rig.weight = Mathf.Lerp(rig.weight, 1, Time.deltaTime);
 
             }
-            head.position = new Vector3(gameManager.player.transform.position.x, head.position.y, gameManager.player.transform.position.z);
+
+           
+            head.position = Vector3.MoveTowards(head.position,new Vector3(GameManager.instance.player.transform.position.x, animatedHead.position.y, GameManager.instance.player.transform.position.z), 5 * Time.deltaTime);
 
         }
         else
@@ -212,6 +214,7 @@ public class Villager : MonoBehaviour
             if (rig != null)
             {
                 rig.weight = Mathf.Lerp(rig.weight, 0, Time.deltaTime);
+                head.position = Vector3.MoveTowards(head.position, animatedHead.position + transform.forward,5 * Time.deltaTime);
 
             }
         }
@@ -482,6 +485,7 @@ public class Villager : MonoBehaviour
     public void OnStoryStateChange(VillagerStoryState _oldState, VillagerStoryState _state)
     {
         toggleToResetRepeatedAction = false;
+
         if (_state == VillagerStoryState.inScene)
         {  }
         else if (_state == VillagerStoryState.idle)

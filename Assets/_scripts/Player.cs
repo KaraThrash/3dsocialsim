@@ -110,10 +110,6 @@ public class Player : MonoBehaviour
     }
 
 
-    public void SetState(PlayerState _state)
-    {
-        state = _state;
-    }
 
 
     public void PlayerStates()
@@ -232,6 +228,7 @@ public class Player : MonoBehaviour
 
             SetAnimationBool(anim, "walk", true);
 
+            moveDirection = _dir; 
 
             //rebalance the speed for the input, avoid the goldeneye diagonal speed multiplier while also remaining still with no input
             if (_dir.magnitude > 1)
@@ -239,18 +236,53 @@ public class Player : MonoBehaviour
 
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), rotSpeed * Time.deltaTime);
 
+            //  rb.velocity = Vector3.Lerp(rb.velocity, moveDirection * _speed, Time.deltaTime * acceleration);
+
+            float angle = Vector3.Angle(moveDirection , transform.forward);
+
+            if (angle < turnAngle)
+            {
+                    RaycastHit hit;
+                    if (!Physics.SphereCast(transform.position + new Vector3(0,0.5f,0), 0.2f,transform.forward, out hit, 0.2f))
+                    {
+                        rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * _speed, Time.deltaTime * acceleration);
+
+                    }
+                rb.angularVelocity = Vector3.zero;
+
+
+            }
+            else 
+            {
+                rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
+            }
+           
+
             // SetNavDestination(Vector3.Lerp(GetNavDestination(),transform.position + (moveDirection ),Time.deltaTime * acceleration));
-            SetNavDestination(transform.position + (moveDirection * _speed));
+           // SetNavDestination(transform.position + (moveDirection * nav.speed));
 
-            MoveNavmesh(_speed);
+           // MoveNavmesh(_speed);
 
-           anim.speed =  GetNavVelocity().magnitude / walkSpeed;
+           //anim.speed =  GetNavVelocity().magnitude / walkSpeed;
+           anim.speed =  rb.velocity.magnitude / walkSpeed;
         }
         else
         {
-            moveDirection = _dir;
             SetAnimationBool(anim, "walk", false);
-            SetNavDestination(transform.position);
+            if (rb.velocity.magnitude > 0)
+            {
+                rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
+
+                if (rb.velocity.magnitude <= 0.05f)
+                {
+                    SetNavMeshSpeed(0);
+                   // moveDirection = _dir;
+                    
+                    SetNavDestination(transform.position);
+                }
+            }
+
+            
 
             //  rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
             //   rb.angularVelocity = Vector3.zero;
@@ -280,13 +312,24 @@ public class Player : MonoBehaviour
 
     public void TeleportPlayer(Vector3 _pos) 
     {
+        transform.position = _pos;
+
         if (navLeadObject != null && transform.parent != null && transform.parent == navLeadObject.transform)
         {
             navLeadObject.GetComponent<NavMeshAgent>().Warp(_pos);
         }
         else 
         {
-            transform.position = _pos;
+            if (nav != null && nav.enabled == true)
+            {
+                WarpNav(_pos);
+            }
+            else 
+            {
+                
+
+            }
+
         }
 
     }
@@ -796,7 +839,7 @@ public class Player : MonoBehaviour
 
         if (angle > _minagle * 2)
         {
-            SetNavMeshSpeed(0);
+            SetNavMeshSpeed(1);
 
 
         }
@@ -842,7 +885,8 @@ public class Player : MonoBehaviour
             nav = GetComponent<NavMeshAgent>();
         }
 
-        if (nav != null && GetComponent<NavMeshAgent>().destination != dest && nav.enabled )
+        //&& GetComponent<NavMeshAgent>().destination != dest && nav.enabled
+        if (nav != null && nav.enabled)
         {
             NavMeshHit hit;
             if (NavMesh.SamplePosition(dest, out hit, 1f, NavMesh.AllAreas))
@@ -854,7 +898,7 @@ public class Player : MonoBehaviour
                 Debug.Log("Navmesh: No hit -- trying to find a closer target");
 
                 //if no hit, try to find one closer, but not infinitely
-                if (dest.magnitude > 0.2f)
+                if (dest.magnitude > 0.02f)
                 { SetNavDestination(dest * 0.5f); }
             }
 

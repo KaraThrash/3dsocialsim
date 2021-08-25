@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 673308092244453679}
   - component: {fileID: 8785441374018909924}
   - component: {fileID: 4817417940741114034}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: willow_stump.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b4d6add8f3f93c04494d871f33aaa659, type: 2}
+  - {fileID: 2100000, guid: 74a6516b1a7953c4db87e9480b02f457, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 3341121108426599534}
   - component: {fileID: 6675104735504153437}
   - component: {fileID: 6127662403510743989}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: willow_trunk.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,7 +247,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b4d6add8f3f93c04494d871f33aaa659, type: 2}
+  - {fileID: 2100000, guid: 74a6516b1a7953c4db87e9480b02f457, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -402,6 +402,7 @@ MonoBehaviour:
   usable: 1
   placable: 0
   holdable: 0
+  buryable: 0
   stackSize: 1
   maxStackSize: 1
   footprintWidth: -1

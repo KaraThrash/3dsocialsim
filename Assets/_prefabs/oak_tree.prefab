@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 4530250238819071610}
   - component: {fileID: 2186457373403340073}
   - component: {fileID: 7727030879527829681}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: oak_trunk.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,6 +328,7 @@ MonoBehaviour:
   usable: 1
   placable: 0
   holdable: 0
+  buryable: 0
   stackSize: 1
   maxStackSize: 1
   footprintWidth: -1
@@ -615,7 +616,7 @@ GameObject:
   - component: {fileID: 6229857159693000672}
   - component: {fileID: 2081510633314218528}
   - component: {fileID: 439580217334151279}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: oak_stump.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
