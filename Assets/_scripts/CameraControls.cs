@@ -200,12 +200,12 @@ public class CameraControls : MonoBehaviour
         Vector3 _targetXYPos = camOffset + _target;
 
         CameraEffect();
+        cam.transform.localPosition = Vector3.MoveTowards(cam.transform.localPosition, camOffset, Time.deltaTime * followSpeed * followSpeedAdjustment);
 
         //so the camera doesnt jitte dont move if the target is only slightly off from center
         if (Vector3.Distance(_target, transform.position) > maxPlayerDistance)
         {
             transform.position = Vector3.MoveTowards(transform.position, _target, Time.deltaTime * followSpeed * followSpeedAdjustment);
-            cam.transform.localPosition = Vector3.MoveTowards(cam.transform.localPosition, camOffset, Time.deltaTime * followSpeed * followSpeedAdjustment);
         }
     }
 
@@ -366,6 +366,14 @@ public class CameraControls : MonoBehaviour
         }
 
     }
+
+    public void SetCameraTrackingOffset(float _angle, float _xOffset, float _yOffset, float _zOffset)
+    {
+        cameraAngle = _angle;
+        camOffset = new Vector3(_xOffset, _yOffset, _zOffset);
+
+    }
+
 
     public void InFocusZone(Vector3 _offset,float _angle,float _speed)
     {

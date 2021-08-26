@@ -3,9 +3,12 @@ tags:
 
 ---
 <<AnimateMouth YarnFunctions happy 5 TestCharacter4>>
+<<FootstepVolumnModifier YarnFunctions 0.5>>
+<<CameraConversation YarnFunctions>>
 Licon: Welcome, welcome, welcome!
-<<LeadPlayerAndTalkRunning YarnFunctions southeastroadend TestCharacter4 1 2>>
 Licon: This is the beautiful town of Happydale! See our beautiful trees, our luscious fruits, our thriving fish…
+<<CameraSetOffset YarnFunctions 40 0 3 -5>>
+<<LeadPlayerAndTalkRunning YarnFunctions southeastroadend TestCharacter4 1 2>>
 Licon: Happydale is my pride and joy. Happydale is what gives me life! It’s my reason for breathing!
 Margo: Oh, wow, this guy is a loooot. I hope he’ll shut up soon…
 Licon: Each and every one of our residents pours our soul into Happydale. It’s the efforts of all of us that makes it what it is.
@@ -40,7 +43,7 @@ Licon: And over here…
 <<SetConversationTargetLocation YarnFunctions constructionSite>>
 <<Comment YarnFunctions They run to the cafe>>
 Licon: This is where we’ll be building your cafe!
-<<Playanimation YarnFunctions LiconFlourish>>
+<<Playanimation YarnFunctions Licon Flourish>>
 Licon: What do you think?
 <<EnableContinueButton YarnFunctions>>
 <<EndScene YarnFunctions>>
@@ -59,7 +62,7 @@ Licon: Now, then. I think it would be helpful for you to go around and meet all 
 Licon: I, unfortunately, am very busy at the moment, or I would introduce you myself! No matter.
 Licon: Go give everyone a big hello. Make friends! Make connections! Explore!
 Licon: There’s so much to love about Happydale!
-<<PlayAnimation YarnFunctions dustingoff>>
+<<PlayAnimation YarnFunctions Licon dustingoff>>
 Licon: Remember - you have three days to win our bet!
 Licon: I’ll see you later!
 <<EndScene YarnFunctions>>

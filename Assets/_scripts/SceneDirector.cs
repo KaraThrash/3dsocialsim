@@ -101,9 +101,12 @@ public class SceneDirector : MonoBehaviour
         }
         if (player != null)
         {
+
             player.EndNavLeadObject();
             player.State(PlayerState.playerControlled);
         }
+
+
         waitForCheckpoint = false;
         sceneActive = false;
         GameManager.instance.SetContinueButton(true);

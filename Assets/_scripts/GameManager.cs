@@ -72,6 +72,11 @@ public class GameManager : MonoBehaviour
             if (actionTimer <= 0 && actionTimer != -1)
             { 
                 actionTimer = 0;
+                if (player.State() == PlayerState.showing)
+                {
+                    cameraControls.ConversationToggle(false);
+                    player.State( PlayerState.playerControlled);
+                }
                 //PlayerStateTransition();
             }
         }
@@ -92,6 +97,7 @@ public class GameManager : MonoBehaviour
 
 
         GameStateSwitch();
+
 
         //for spawning sound clouds
         AudioManager().TrackSilenceTime();
@@ -261,22 +267,7 @@ public class GameManager : MonoBehaviour
   
 
 
-    public void PlayerStateTransition()
-    {
-        if (player.state == PlayerState.showing && activeObject != null)
-        {
-            cameraControls.ConversationToggle(false);
-            //if the player is showing the item to camera it means there is room for it
-            if (player.inventory.TryToAddItemToPockets(activeObject.GetComponent<Item>()))
-            {
-                player.inventory.PutItemInPocket(activeObject.GetComponent<Item>());
-                activeObject.gameObject.SetActive(false);
-            }
 
-        }
-        
-        player.state = PlayerState.playerControlled;
-    }
 
 
 
@@ -725,8 +716,9 @@ public class GameManager : MonoBehaviour
 
         if (State() == GameState.transitioning) 
         {
-            acceptInput = true;
-         //   dialogueRunner.GetComponent<DialogueUI>().acceptsInput = true;
+
+         
+
 
 
 
@@ -746,8 +738,15 @@ public class GameManager : MonoBehaviour
 
             cameraControls.SetLocation(player.transform.position);
 
-            player.State(PlayerState.playerControlled);
 
+            if (SceneDirector().sceneActive == false)
+            {
+                acceptInput = true;
+                //   dialogueRunner.GetComponent<DialogueUI>().acceptsInput = true;
+
+                player.State(PlayerState.playerControlled);
+
+            }
 
             return;
         }

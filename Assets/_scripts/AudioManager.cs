@@ -7,7 +7,7 @@ public class AudioManager : MonoBehaviour
 
     public bool checkForMusicClouds, checkForWindGusts;
     public Transform cloudParent,cloudAudioObject;
-    public float masterVolumeModifier, mainVolumeModifier, cloudVolumeModifier; // 0<->1 sound setting for user volume controls
+    public float masterVolumeModifier, mainVolumeModifier, cloudVolumeModifier,footstepModifier; // 0<->1 sound setting for user volume controls
     public float fadeInTime;
 
     public AudioCloud cloudInWorldSource;
@@ -423,6 +423,7 @@ public class AudioManager : MonoBehaviour
 
 
 
+        _source.volume = 1 * footstepModifier;
         _source.clip = clip;
         _source.Play();
 

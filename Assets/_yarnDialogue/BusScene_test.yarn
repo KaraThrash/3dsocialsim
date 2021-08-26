@@ -83,6 +83,6 @@ Licon: It’s time for your first look at your forever home, Margo!
 <<FadeToBlack YarnFunctions 1>>
 <<wait 1>>
 <<wait 1>>
-<<LoadNewUnityScene YarnFunctions gamebuild>>
+<<LoadNewUnityScene YarnFunctions aug26_game>>
 ===
 

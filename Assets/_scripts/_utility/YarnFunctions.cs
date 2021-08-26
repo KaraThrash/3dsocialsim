@@ -131,6 +131,84 @@ public class YarnFunctions : MonoBehaviour
 
 
 
+    /// <summary>
+    /// audio controls
+    /// </summary>
+
+    [YarnCommand("FootstepVolumnModifier")]
+    public void FootstepVolumnModifier(string _volumnMod)
+    {
+        Debug.Log("Yarn FootstepVolumnModifier");
+
+
+        GameManager.instance.AudioManager().footstepModifier = float.Parse(_volumnMod);
+
+    }
+
+
+    /// <summary>
+    /// end audio controls
+    /// </summary>
+
+
+    /// <summary>
+    /// Camera controls
+    /// </summary>
+
+    [YarnCommand("CameraConversation")]
+    public void CameraConversation()
+    {
+        Debug.Log("Yarn CameraConversation");
+
+
+        GameManager.instance.cameraControls.State(CameraState.conversation);
+
+    }
+
+    [YarnCommand("CameraLow")]
+    public void CameraLow()
+    {
+        Debug.Log("Yarn CameraLow");
+
+
+        GameManager.instance.cameraControls.SetCameraTrackingOffset("low");
+
+    }
+
+    [YarnCommand("CameraSetOffset")]
+    public void CameraSetOffset(string _angle, string _xOffset, string _yOffset, string _zOffset)
+    {
+        Debug.Log("Yarn CameraSetOffset");
+
+
+        GameManager.instance.cameraControls.SetCameraTrackingOffset(float.Parse(_angle), float.Parse(_xOffset), float.Parse(_yOffset), float.Parse(_zOffset));
+
+    }
+    
+
+    [YarnCommand("CameraHigh")]
+    public void CameraHigh()
+    {
+        Debug.Log("Yarn CameraHigh");
+
+
+        GameManager.instance.cameraControls.SetCameraTrackingOffset("high");
+
+    }
+
+    [YarnCommand("CameraOutside")]
+    public void CameraOutside()
+    {
+        Debug.Log("Yarn CameraOutside");
+
+
+        GameManager.instance.cameraControls.State(CameraState.outside);
+
+    }
+
+    /// <summary>
+    /// end Camera controls
+    /// </summary>
 
 
 

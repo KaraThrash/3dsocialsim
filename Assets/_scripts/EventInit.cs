@@ -32,7 +32,7 @@ public class EventInit : MonoBehaviour
     public void LeadPlayer(GameManager gameManager, Villager _villager,Vector3 _location,int _linesOfDialogue,float _speed=1)
     {
 
-        gameManager.cameraControls.SetCameraTrackingOffset("high");
+       // gameManager.cameraControls.SetCameraTrackingOffset("high");
         //gameManager.ContinueButton().GetComponent<Image>().enabled = false;
         //gameManager.ContinueButton().transform.GetChild(0).GetComponent<Text>().enabled = false;
         //gameManager.ContinueButton().interactable = false;

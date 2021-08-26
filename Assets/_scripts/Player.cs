@@ -37,8 +37,31 @@ public class Player : MonoBehaviour
 
     public void OnStateChange(PlayerState _state)
     {
+        Debug.Log("new player state: " + _state);
+
+
         //new state is same as the old state
         if (State() == _state) { return; }
+        if (State() == PlayerState.showing)
+        {
+           
+            if (GameManager.instance.activeObject != null)
+            {
+                //if the player is showing the item to camera it means there is room for it
+                if (inventory.TryToAddItemToPockets(GameManager.instance.activeObject.GetComponent<Item>()))
+                {
+                    inventory.PutItemInPocket(GameManager.instance.activeObject.GetComponent<Item>());
+                }
+                GameManager.instance.activeObject.gameObject.SetActive(false);
+
+            }
+
+
+        }
+
+
+        if (_state == PlayerState.talking) { SetAnimationBool(anim, "walk", false); }
+        else if (_state == PlayerState.inScene) { SetAnimationBool(anim, "walk", false); }
 
     }
 
@@ -136,11 +159,28 @@ public class Player : MonoBehaviour
         }
         else if (state == PlayerState.inScene)
         {
-
+            
             
 
         }
         // else { SetVelocities(Vector3.zero, Vector3.zero); }
+
+        if (nav != null && nav.enabled)
+        {
+            if (nav.velocity.magnitude > 0.1f)
+            {
+                SetAnimationBool(anim, "walk", true);
+            }
+            else { SetAnimationBool(anim, "walk", false); }
+        }
+        else 
+        {
+            if (rb.velocity.magnitude > 0.1f)
+            {
+                SetAnimationBool(anim, "walk", true);
+            }
+            else { SetAnimationBool(anim, "walk", false); }
+        }
 
     }
 
@@ -314,23 +354,17 @@ public class Player : MonoBehaviour
     {
         transform.position = _pos;
 
-        if (navLeadObject != null && transform.parent != null && transform.parent == navLeadObject.transform)
+
+        if (nav != null && nav.enabled == true)
         {
-            navLeadObject.GetComponent<NavMeshAgent>().Warp(_pos);
+            WarpNav(_pos);
         }
         else 
         {
-            if (nav != null && nav.enabled == true)
-            {
-                WarpNav(_pos);
-            }
-            else 
-            {
                 
 
-            }
-
         }
+
 
     }
 
@@ -760,34 +794,31 @@ public class Player : MonoBehaviour
 
     public void SetNavLeadObject(Vector3 _dest,float _speed)
     {
-        if (navLeadObject == null) { return; }
+        if (nav == null) { return; }
 
-        if (navLeadObject.transform.parent != null)
+        if (nav.enabled == false)
         {
-            navLeadObject.transform.position = transform.position;
-            navLeadObject.transform.parent = null;
-            transform.parent = navLeadObject.transform;
-            navLeadObject.GetComponent<NavMeshAgent>().enabled = true;
-            navLeadObject.GetComponent<NavMeshAgent>().Warp(transform.position);
+            nav.enabled = true;
+            nav.Warp(transform.position);
             SetKinematic(true);
         }
 
-        navLeadObject.GetComponent<NavMeshAgent>().SetDestination(_dest);
-        navLeadObject.GetComponent<NavMeshAgent>().speed = _speed;
+        
+        
+
+        SetNavDestination(_dest);
+        SetNavMeshSpeed(_speed);
 
     }
 
     public void EndNavLeadObject()
     {
-        if (navLeadObject == null) { return; }
 
-        if (navLeadObject.transform.parent == null)
+        if (nav == null) { return; }
+
+        if (nav.enabled == true)
         {
-            navLeadObject.GetComponent<NavMeshAgent>().enabled = false;
-            transform.parent = null;
-            navLeadObject.transform.position = transform.position;
-            navLeadObject.transform.parent = transform;
-            
+            nav.enabled = false;
             SetKinematic(false);
         }
 

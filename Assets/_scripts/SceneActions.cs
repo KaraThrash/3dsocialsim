@@ -70,10 +70,20 @@ public static class SceneActions
         
 
          rotSpeed = 3;
+
+        if (_player.nav != null )
+        {
+            if ( _player.nav.enabled == false)
+            { _player.nav.enabled = true; }
+
+
+            _player.SetNavDestination(_actor.transform.position +  (_actor.transform.position - _location).normalized);
+            _player.SetNavMeshSpeed(_speed);
+        }
       
        // _player.SetNavLeadObject((_actor.position - _actor.forward), _speed);
 
-        _player.Walk((_actor.position - _actor.forward) - _player.transform.position, _speed);
+      //  _player.Walk((_actor.position - _actor.forward) - _player.transform.position, _speed);
 
 //        _player.transform.LookAt(_actor);
 
