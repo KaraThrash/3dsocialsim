@@ -276,8 +276,12 @@ public class GameManager : MonoBehaviour
     {
         //if toggling the menu on set the state to inmenu, otherwise give control back to the player
         if (UiManager().OpenMenu(_menu))
-        { player.State(PlayerState.inMenu); }
-        else { player.State(PlayerState.playerControlled); }
+        {
+            player.State(PlayerState.inMenu);
+        }
+        else { 
+            player.State(PlayerState.playerControlled);
+        }
     }
 
     public void BonkVillager(Villager _villager)

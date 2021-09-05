@@ -205,10 +205,10 @@ public class Player : MonoBehaviour
 
     public void InMenuControls()
     {
-        if (InputControls.HortAsButton()) { gameManager.UiManager().MoveCursor((int)Mathf.Sign(InputControls.HorizontalAxis())); }
-        else if (InputControls.VertAsButton()) { gameManager.UiManager().MoveCursor(-10 * (int)Mathf.Sign(InputControls.VerticalAxis())); }
-        else if (InputControls.DpadVertAsButton()) { gameManager.UiManager().MoveCursor(-10 * (int)Mathf.Sign(InputControls.DpadVert())); }
-        else if (InputControls.DpadHortAsButton()) { gameManager.UiManager().MoveCursor( (int)Mathf.Sign(InputControls.DpadHort())); }
+        if (InputControls.HortAsButton()) { gameManager.UiManager().MoveCursor((int)Mathf.Sign(InputControls.HorizontalAxis()),0); }
+        else if (InputControls.VertAsButton()) { gameManager.UiManager().MoveCursor(0,-1 * (int)Mathf.Sign(InputControls.VerticalAxis())); }
+        else if (InputControls.DpadVertAsButton()) { gameManager.UiManager().MoveCursor(0,-1 * (int)Mathf.Sign(InputControls.DpadVert())); }
+        else if (InputControls.DpadHortAsButton()) { gameManager.UiManager().MoveCursor( (int)Mathf.Sign(InputControls.DpadHort()), 0); }
         else { InputControls.TrackAxisButtons(); }
     }
 

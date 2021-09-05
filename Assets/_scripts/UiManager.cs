@@ -22,9 +22,9 @@ public class UiManager : MonoBehaviour
         
     }
 
-    public void MoveCursor(int _dir)
+    public void MoveCursor(int _xdir,int _ydir)
     {
-        activeMenu.MoveCursor(_dir);
+        activeMenu.MoveCursor(_xdir,_ydir);
 
     }
 
@@ -68,7 +68,7 @@ public class UiManager : MonoBehaviour
                 else 
                 {
                     //disable the previous menu
-                 activeMenu.gameObject.SetActive(false);
+                    activeMenu.gameObject.SetActive(false);
 
                 }
             }

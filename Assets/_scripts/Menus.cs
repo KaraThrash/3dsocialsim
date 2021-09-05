@@ -15,7 +15,7 @@ public class Menus : MonoBehaviour
         SetCursorActive(selectionHighlight, false);
 
         cursorTarget = 0;
-        MoveCursor(0);
+        MoveCursor(0,0);
     }
 
     void Update()
@@ -23,7 +23,7 @@ public class Menus : MonoBehaviour
         
     }
 
-    public void Init()
+    public virtual void Init()
     {
         //disable the highlight, reset the cursor location
         SetCursorActive(cursor,true);
@@ -33,10 +33,10 @@ public class Menus : MonoBehaviour
        // MoveCursor(0);
     }
 
-    public void MoveCursor(int _dir)
+    public virtual void MoveCursor(int _xdir, int _ydir)
     {
         //wrap around the top row to the bottom row, wrap off the side left to right ascending by count
-        cursorTarget += _dir;
+        cursorTarget += (_xdir + (_ydir * 10) );
         if (cursorTarget >= selectibleElementsParent.childCount)
         { cursorTarget = cursorTarget % selectibleElementsParent.childCount; }
         if (cursorTarget < 0)
@@ -48,12 +48,12 @@ public class Menus : MonoBehaviour
 
 
 
-    public void SetCursorLocation(Transform _cursor, Vector3 _pos)
+    public virtual void SetCursorLocation(Transform _cursor, Vector3 _pos)
     {
         _cursor.position = _pos;
     }
 
-    public void SetCursorActive(Transform _cursor, bool _enabled)
+    public virtual void SetCursorActive(Transform _cursor, bool _enabled)
     {
         _cursor.gameObject.SetActive(_enabled);
     }
