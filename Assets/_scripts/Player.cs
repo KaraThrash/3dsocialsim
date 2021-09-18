@@ -115,16 +115,7 @@ public class Player : MonoBehaviour
 
       
 
-        if (InputControls.PickUpButton())
-        { 
-            PickUp(); 
-        }
-
-        if (InputControls.NextButton())
-        { NextItem(1); }
-
-        if (InputControls.PreviousButton())
-        { NextItem(-1); }
+      
 
 
         if (InputControls.MenuButton())
@@ -139,7 +130,20 @@ public class Player : MonoBehaviour
     {
         if (state == PlayerState.playerControlled)
         {
+            if (InputControls.PickUpButton())
+            {
+                PickUp();
+            }
+
+            if (InputControls.NextButton())
+            { NextItem(1); }
+
+            if (InputControls.PreviousButton())
+            { NextItem(-1); }
+
             PlayerControlled();
+
+
         }
         else if (state == PlayerState.talking)
         {
@@ -147,8 +151,20 @@ public class Player : MonoBehaviour
         }
         else if (state == PlayerState.fishing)
         {
-            LookAtAction(gameManager.GetActiveObject(),rotSpeed);
+           
+           
             SetVelocities(Vector3.zero, Vector3.zero);
+
+
+            if (InputControls.InteractButton())
+            {
+                if (heldItem != null)
+                {
+                    heldItem.GetComponent<Item>().ResetSubItemPos();
+                }
+                State(PlayerState.playerControlled);
+            }
+
         }
         else if (state == PlayerState.inMenu)
         {
@@ -187,9 +203,13 @@ public class Player : MonoBehaviour
 
     public void PlayerControlled()
     {
+
+
         if (InputControls.InteractButton())
         { Interact(); }
+
         Movement();
+
 
     }
 
@@ -221,41 +241,6 @@ public class Player : MonoBehaviour
         moveDirection = moveDirection + (Vector3.forward * InputControls.VerticalAxis());
 
         Walk(moveDirection,walkSpeed);
-
-        //if (InputControls.HorizontalAxis() != 0 || InputControls.VerticalAxis() != 0)
-        //{
-
-            
-
-        //    SetAnimationBool(anim,"walk", true);
-
-        //    //get the intended direction then rotate before moving
-        //    moveDirection = Vector3.right * InputControls.HorizontalAxis();
-        //    moveDirection = moveDirection + (Vector3.forward * InputControls.VerticalAxis());
-
-        //    //rebalance the speed for the input, avoid the goldeneye diagonal speed multiplier while also remaining still with no input
-        //    if (moveDirection.magnitude > 1)
-        //    { moveDirection = (moveDirection).normalized; }
-
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), rotSpeed * Time.deltaTime);
-
-        //    // SetNavDestination(Vector3.Lerp(GetNavDestination(),transform.position + (moveDirection ),Time.deltaTime * acceleration));
-        //    SetNavDestination(transform.position + (moveDirection * walkSpeed));
-
-        //    MoveNavmesh();
-
-
-        //}
-        //else
-        //{
-        //    SetAnimationBool(anim, "walk", false);
-        //    SetNavDestination(transform.position );
-
-        //  //  rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
-        // //   rb.angularVelocity = Vector3.zero;
-        //}
-
-
 
     }
 
@@ -457,7 +442,7 @@ public class Player : MonoBehaviour
 
         RaycastHit hit;
        // if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f), 0.2f, transform.TransformDirection(Vector3.forward), out hit, 0.3f))
-        if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.05f, transform.TransformDirection((Vector3.down + Vector3.forward + Vector3.forward).normalized), out hit, 1.5f))
+        if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.05f, transform.TransformDirection((Vector3.down + Vector3.forward + Vector3.forward).normalized), out hit, 3.5f))
         {
            
             if (hit.transform.GetComponent<Villager>() != null)
@@ -586,46 +571,49 @@ public class Player : MonoBehaviour
 
     public void UseTool(Item _item)
     {
-        Vector3 squarePos = PositionRounded(transform.forward * 0.2f);
+        //Vector3 squarePos = PositionRounded(transform.forward * 0.2f);
 
-        //TODO: more precise calculation of which square to interact in
-        // standing in the middle of a square should target the next square, standing on the edge facing inward should target that square
+        ////TODO: more precise calculation of which square to interact in
+        //// standing in the middle of a square should target the next square, standing on the edge facing inward should target that square
 
-        if (heldItem == null || heldItem.GetComponent<Item>() == null) { return; }
-        // Item heldItem = inventory.GetFromPockets(currentItem);
-        if (heldItem != null)
-        {
+        //if (heldItem == null || heldItem.GetComponent<Item>() == null) { return; }
+        //// Item heldItem = inventory.GetFromPockets(currentItem);
+        //if (heldItem != null)
+        //{
 
-            if (heldItem.GetComponent<Item>().itemName.Equals("shovel"))
-            {
-                gameManager.InteractWithGround(squarePos, "dig");
-            }
-            else if (_item.GetComponent<Tree>() != null && heldItem.GetComponent<Item>().itemName.Equals("axe"))
-            {
+        //    if (heldItem.GetComponent<Item>().itemName.Equals("shovel"))
+        //    {
+        //        gameManager.InteractWithGround(squarePos, "dig");
+        //    }
+        //    else if (_item.GetComponent<Tree>() != null && heldItem.GetComponent<Item>().itemName.Equals("axe"))
+        //    {
 
-                _item.GetComponent<Tree>().Chop();
-            }
-            else if (heldItem.GetComponent<Item>().itemName.Equals("fishingRod"))
-            {
-                gameManager.InteractWithGround(transform.position + (transform.forward * 1.6f), "fish", heldItem.GetComponent<Item>().subItem);
-            }
-            else if (heldItem.GetComponent<Item>().itemName.Equals("net"))
-            {
-                gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "net");
-            }
-            // to be able to bury an item
-            else if (heldItem.GetComponent<Item>().buryable)
-            {
-                gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "net");
-            }
+        //        _item.GetComponent<Tree>().Chop();
+        //    }
+        //    else if (heldItem.GetComponent<Item>().itemName.Equals("fishingRod"))
+        //    {
+        //        heldItem.GetComponent<Item>().Use();
+        //        gameManager.InteractWithGround(transform.position + (transform.forward * 1.6f), "fish", heldItem.GetComponent<Item>().subItem);
+
+        //        heldItem.GetComponent<Item>().subItem.transform.position = new Vector3(hit.x, transform.position.y + 0.5f, _pos.z) + (_bob.transform.parent.forward * 0.5f);
+        //    }
+        //    else if (heldItem.GetComponent<Item>().itemName.Equals("net"))
+        //    {
+        //        gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "net");
+        //    }
+        //    // to be able to bury an item
+        //    else if (heldItem.GetComponent<Item>().buryable)
+        //    {
+        //        gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "net");
+        //    }
 
 
 
 
 
-        }
+        //}
 
-        Debug.Log("PerformAction");
+        //Debug.Log("PerformAction");
 
     }
 
@@ -658,7 +646,12 @@ public class Player : MonoBehaviour
             }
             else if (heldItem.GetComponent<Item>().itemName.Equals("fishingRod"))
             {
-                gameManager.InteractWithGround(transform.position + (transform.forward * 1.6f), "fish", heldItem.GetComponent<Item>().subItem);
+               if(heldItem.GetComponent<Item>().Use(_hit))
+               {
+                    State(PlayerState.fishing);
+               }
+
+                //gameManager.InteractWithGround(transform.position + (transform.forward * 1.6f), "fish", heldItem.GetComponent<Item>().subItem);
             }
             else if (heldItem.GetComponent<Item>().itemName.Equals("net"))
             {

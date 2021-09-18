@@ -25,6 +25,8 @@ public enum GroundTypes { grass,wood,stone,dirt,leaves,snow,water,squish,other}
 public enum SceneAction { none,talk,leadPlayer, trailPlayer,watchPlayer,fliers,walkAndTalk,walkingToCheckpoint, holdingAnimation }
 
 
+
+
 public static class EnumGroups 
 {
 

@@ -8,6 +8,7 @@ public class Item : MonoBehaviour
     public string itemName,toolUsable; //what tool can be used on this item if any [axe on trees, shovel on holes]
     public Sprite icon;
     public bool usable, placable, holdable,buryable;
+    public bool on;
     public int stackSize = 1, maxStackSize = 1,footprintWidth=-1,footprintDepth=-1;
     
     public GameObject subItem; //fishing bob type items
@@ -35,12 +36,21 @@ public class Item : MonoBehaviour
 
     void Update()
     {
-        
+        if (on)
+        {
+            IsOn();
+        }
+    }
+
+    public virtual void IsOn()
+    { 
+    
     }
 
     public void ResetSubItemPos()
     {
         subItem.transform.localPosition = subItemStartPos;
+        on = false;
     }
 
 
@@ -50,6 +60,20 @@ public class Item : MonoBehaviour
         if (notice != null && notice.activeSelf) {  }
     
     }
+
+    public virtual bool Use()
+    {
+
+        return true;
+    }
+
+    public virtual bool Use(RaycastHit _hit)
+    {
+
+        return true;
+    }
+
+
     public virtual void Interact(GameManager gameManager) {  }
 
     public virtual void Dig()
