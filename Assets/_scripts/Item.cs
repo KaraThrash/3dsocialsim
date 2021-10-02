@@ -73,6 +73,11 @@ public class Item : MonoBehaviour
         return true;
     }
 
+    public virtual bool Use(Player _user)
+    {
+
+        return true;
+    }
 
     public virtual void Interact(GameManager gameManager) {  }
 

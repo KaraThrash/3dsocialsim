@@ -10,10 +10,23 @@ public class UiManager : MonoBehaviour
     public Transform inventorySlots;
     public Image emptySlotIcon;
     public Sprite emptyslot;
+
+    public WorldUi worldUiPrefab;
+
+    private List<WorldUi> worldUiPool;
+
     // Start is called before the first frame update
     void Start()
     {
         
+    }
+
+    private void OnDisable()
+    {
+        if (worldUiPool != null)
+        {
+            worldUiPool.Clear();
+        }
     }
 
     // Update is called once per frame
@@ -21,6 +34,35 @@ public class UiManager : MonoBehaviour
     {
         
     }
+
+    public WorldUi GetWorldUi()
+    {
+        if (worldUiPool == null)
+        {
+            worldUiPool = new List<WorldUi>();
+
+        }
+
+        foreach (WorldUi el in worldUiPool)
+        { 
+            if (el.Available()) { return el; }
+        }
+
+        WorldUi newUi = Instantiate(worldUiPrefab, transform.position, transform.rotation);
+        worldUiPool.Add(newUi);
+        return newUi;
+    }
+
+    public void PlaceWorldText(string _text,Vector3 _position, float _lifeTime = 1)
+    {
+        WorldUi newUi = GetWorldUi();
+        newUi.transform.position = _position;
+        newUi.SetText(_text,_lifeTime);
+
+    }
+
+
+
 
     public void MoveCursor(int _xdir,int _ydir)
     {

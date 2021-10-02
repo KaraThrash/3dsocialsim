@@ -8,6 +8,5 @@ public class Bug : Item
     public override void Catch()
     {
         GameManager.instance.CatchBug(this);
-
     }
 }

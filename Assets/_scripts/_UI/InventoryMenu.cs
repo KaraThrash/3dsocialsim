@@ -34,12 +34,16 @@ public class InventoryMenu : Menus
         cursorTarget += _ydir;
 
         if (cursorTarget >= itemsPerPage)
-        { cursorTarget = 0; currentPage++; }
-        if (cursorTarget < 0)
-        { cursorTarget = itemsPerPage - 1; currentPage--; }
+        { 
+            cursorTarget = 0; currentPage++;
+        }
+        else if (cursorTarget < 0)
+        {
+            cursorTarget = itemsPerPage - 1; currentPage--; 
+        }
 
 
-        currentPage += _xdir;
+       // currentPage += _xdir;
 
         if (currentPage < 0 && selectibleElementsParent.childCount > 0)
         { currentPage = ((inventory.Count ) / itemsPerPage) ; }

@@ -1,0 +1,14 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "MapnodeItemList")]
+public class LocationItems : ScriptableObject
+{
+    public Item fish, rareFish;
+
+    public Item grub, rareGrub;
+
+
+
+}

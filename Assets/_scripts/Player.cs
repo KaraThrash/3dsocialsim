@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     public Inventory inventory;
     public WorldUi placeholderActionText;
 
+
+    private Item pocketPendingItem;
     private int currentItem;
     private Vector3 moveDirection;
 
@@ -45,17 +47,24 @@ public class Player : MonoBehaviour
         if (State() == PlayerState.showing)
         {
            
-            if (GameManager.instance.activeObject != null)
+            if (pocketPendingItem != null)
             {
                 //if the player is showing the item to camera it means there is room for it
-                if (inventory.TryToAddItemToPockets(GameManager.instance.activeObject.GetComponent<Item>()))
+                if (inventory.TryToAddItemToPockets(pocketPendingItem))
                 {
-                    inventory.PutItemInPocket(GameManager.instance.activeObject.GetComponent<Item>());
+                    inventory.PutItemInPocket(pocketPendingItem);
                 }
-                GameManager.instance.activeObject.gameObject.SetActive(false);
+
+                if (pocketPendingItem.stackSize == 0)
+                { Destroy(pocketPendingItem.gameObject); }
+                else 
+                {
+                    pocketPendingItem.gameObject.SetActive(false);
+
+                }
 
             }
-
+            SetPendingItem( null);
 
         }
 
@@ -93,7 +102,9 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-      
+
+        PlayAnimation(anim,"start_fish");
+
         SetText("game start");
         rb = GetComponent<Rigidbody>();
     }
@@ -151,19 +162,9 @@ public class Player : MonoBehaviour
         }
         else if (state == PlayerState.fishing)
         {
+            Fishing();
            
            
-            SetVelocities(Vector3.zero, Vector3.zero);
-
-
-            if (InputControls.InteractButton())
-            {
-                if (heldItem != null)
-                {
-                    heldItem.GetComponent<Item>().ResetSubItemPos();
-                }
-                State(PlayerState.playerControlled);
-            }
 
         }
         else if (state == PlayerState.inMenu)
@@ -206,7 +207,19 @@ public class Player : MonoBehaviour
 
 
         if (InputControls.InteractButton())
-        { Interact(); }
+        {
+            Interact();
+
+            //if (heldItem == null || heldItem.GetComponent<Item>().usable == false)
+            //{
+            //}
+            //else 
+            //{
+                
+            //}
+            
+        
+        }
 
         Movement();
 
@@ -352,14 +365,6 @@ public class Player : MonoBehaviour
 
 
     }
-
-
-
-
-
-
-
-
 
 
 
@@ -569,63 +574,12 @@ public class Player : MonoBehaviour
     }
 
 
-    public void UseTool(Item _item)
-    {
-        //Vector3 squarePos = PositionRounded(transform.forward * 0.2f);
-
-        ////TODO: more precise calculation of which square to interact in
-        //// standing in the middle of a square should target the next square, standing on the edge facing inward should target that square
-
-        //if (heldItem == null || heldItem.GetComponent<Item>() == null) { return; }
-        //// Item heldItem = inventory.GetFromPockets(currentItem);
-        //if (heldItem != null)
-        //{
-
-        //    if (heldItem.GetComponent<Item>().itemName.Equals("shovel"))
-        //    {
-        //        gameManager.InteractWithGround(squarePos, "dig");
-        //    }
-        //    else if (_item.GetComponent<Tree>() != null && heldItem.GetComponent<Item>().itemName.Equals("axe"))
-        //    {
-
-        //        _item.GetComponent<Tree>().Chop();
-        //    }
-        //    else if (heldItem.GetComponent<Item>().itemName.Equals("fishingRod"))
-        //    {
-        //        heldItem.GetComponent<Item>().Use();
-        //        gameManager.InteractWithGround(transform.position + (transform.forward * 1.6f), "fish", heldItem.GetComponent<Item>().subItem);
-
-        //        heldItem.GetComponent<Item>().subItem.transform.position = new Vector3(hit.x, transform.position.y + 0.5f, _pos.z) + (_bob.transform.parent.forward * 0.5f);
-        //    }
-        //    else if (heldItem.GetComponent<Item>().itemName.Equals("net"))
-        //    {
-        //        gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "net");
-        //    }
-        //    // to be able to bury an item
-        //    else if (heldItem.GetComponent<Item>().buryable)
-        //    {
-        //        gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "net");
-        //    }
-
-
-
-
-
-        //}
-
-        //Debug.Log("PerformAction");
-
-    }
-
 
 
 
     public void UseTool(RaycastHit _hit)
     {
-        Vector3 squarePos = PositionRounded(transform.forward * 0.2f);
-
-        //TODO: more precise calculation of which square to interact in
-        // standing in the middle of a square should target the next square, standing on the edge facing inward should target that square
+       
 
         if (heldItem == null || heldItem.GetComponent<Item>() == null) { return; }
         // Item heldItem = inventory.GetFromPockets(currentItem);
@@ -642,14 +596,25 @@ public class Player : MonoBehaviour
             else if ( heldItem.GetComponent<Item>().itemName.Equals("axe"))
             {
 
-                gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "chop");
+                heldItem.GetComponent<Item>().Use(this);
+
+
             }
             else if (heldItem.GetComponent<Item>().itemName.Equals("fishingRod"))
             {
-               if(heldItem.GetComponent<Item>().Use(_hit))
-               {
+               
+
+                if (heldItem.GetComponent<Item>().Use(_hit))
+                {
+                    SetAnimationParameter(anim, "fail", false);
                     State(PlayerState.fishing);
-               }
+                }
+                else 
+                {
+                    SetAnimationParameter(anim,"fail",true);
+                }
+
+                PlayAnimation(anim, "start_fish");
 
                 //gameManager.InteractWithGround(transform.position + (transform.forward * 1.6f), "fish", heldItem.GetComponent<Item>().subItem);
             }
@@ -695,9 +660,53 @@ public class Player : MonoBehaviour
     }
 
 
+    public void Fishing()
+    {
+        SetVelocities(Vector3.zero, Vector3.zero);
 
 
+        if (InputControls.InteractButton())
+        {
+            if (heldItem != null)
+            {
+               
+            }
 
+            EndFish();
+
+
+        }
+
+
+    }
+
+    public void EndFish()
+    {
+        //TODO: difference between bugs and fish -> catchbug adds to the inventory but its a spawned item not the prefab
+
+        if (heldItem != null)
+        {
+            if (heldItem.GetComponent<FishingRod>() != null)
+            {
+
+                Item caughtFish = GameManager.instance.ItemManager().CatchFish(transform.position, heldItem.GetComponent<FishingRod>().currentFishChange);
+
+                if (caughtFish != null)
+                {
+                    Item showFish = Instantiate(caughtFish, transform.position, transform.rotation);
+
+                    GameManager.instance.CatchBug(showFish);
+                }
+                else { State(PlayerState.playerControlled); }
+
+            }
+
+            heldItem.GetComponent<Item>().ResetSubItemPos();
+        }
+        
+       // CatchBug();
+       // State(PlayerState.playerControlled);
+    }
 
 
 
@@ -777,6 +786,11 @@ public class Player : MonoBehaviour
     }
 
 
+
+    public void SetPendingItem(Item _item)
+    {
+        pocketPendingItem = _item;
+    }
 
     public void SetVelocities(Vector3 vel, Vector3 angularVel)
     {
@@ -1059,13 +1073,7 @@ public class Player : MonoBehaviour
 
     }
 
-    public void SetAnimationFloat(Animator animator, string _animParameter, float _animState)
-    {
-        if (animator == null ) { return; }
 
-        animator.SetFloat(_animParameter, _animState);
-
-    }
 
     public void SetAnimationParameter(Animator animator, string _animParameter, int _animState)
     {
@@ -1137,9 +1145,9 @@ public class Player : MonoBehaviour
 
     }
 
-    public bool ContainsParam(Animator _Anim, string _ParamName)
+    public bool ContainsParam(Animator _anim, string _ParamName)
     {
-        foreach (AnimatorControllerParameter param in _Anim.parameters)
+        foreach (AnimatorControllerParameter param in _anim.parameters)
         {
             if (param.name == _ParamName) return true;
         }

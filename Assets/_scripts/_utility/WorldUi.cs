@@ -68,4 +68,10 @@ public class WorldUi : MonoBehaviour
 
     }
 
+    public bool Available()
+    {
+        //if the timer is -1 the text is blank and can be re used
+        return timer == -1;
+    }
+
 }

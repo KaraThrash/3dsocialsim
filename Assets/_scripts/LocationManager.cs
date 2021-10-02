@@ -100,5 +100,29 @@ public class LocationManager : MonoBehaviour
     }
 
 
+    public MapNode FindClosestMapNode(Vector3 _location)
+    {
+        MapNode[] nodes = FindObjectsOfType<MapNode>();
+
+      
+
+        if (nodes != null && nodes.Length > 0)
+        {
+            MapNode closestNode = nodes[0];
+
+
+            foreach (MapNode el in nodes)
+            {
+                if (Vector3.Distance(el.transform.position, _location) < Vector3.Distance(closestNode.transform.position, _location))
+                {
+                    closestNode = el;
+                }
+            }
+            return closestNode;
+        }
+  
+        return null;
+    }
+
 
 }

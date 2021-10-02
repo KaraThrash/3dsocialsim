@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public UiManager uiManager;
     public AudioManager audioManager;
     public CameraControls cameraControls;
+    public ItemManager itemManager;
     public LocationManager locationManager;
     public SceneDirector sceneDirector;
 
@@ -54,8 +55,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         
-        print(ContinueButton());
-
         UnlockPlayerMovement(true);
 
         StartDay();
@@ -375,7 +374,11 @@ public class GameManager : MonoBehaviour
 
         player.State(PlayerState.showing);
         player.HoldToCamera(activeObject.GetChild(0));
+        player.SetPendingItem(activeObject.GetComponent<Item>());
     }
+
+
+
 
 
 
@@ -633,6 +636,7 @@ public class GameManager : MonoBehaviour
     public Player GetPlayer()
     { return player; }
 
+
     //for cam/player focus when interacting
     public Transform GetActiveObject()
     {
@@ -677,13 +681,20 @@ public class GameManager : MonoBehaviour
     public LocationManager LocationManager()
     {
 
-        if (eventInit == null)
+        if (locationManager == null)
         { locationManager = GameObject.Find("LocationManager").GetComponent<LocationManager>(); }
 
         return locationManager;
     }
 
+    public ItemManager ItemManager()
+    {
 
+        if (itemManager == null)
+        { itemManager = FindObjectOfType<ItemManager>(); }
+
+        return itemManager;
+    }
 
     public bool DialogueIsRunning()
     {
@@ -811,6 +822,7 @@ public class GameManager : MonoBehaviour
             if (el.GetComponent<Villager>() != null && el.GetComponent<Villager>().npcName.Equals(_name))
             { return el.GetComponent<Villager>(); }
         }
+
 
         return null;
     }

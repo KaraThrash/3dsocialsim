@@ -93,13 +93,17 @@ public class Inventory : MonoBehaviour
         {
             foreach (Item el in itemsInPockets)
             {
-                if (el != null && el.name.Equals(_item.name) && _item.maxStackSize == _item.stackSize)
+                if (el != null && el.itemName.Equals(_item.itemName) && _item.maxStackSize > _item.stackSize)
                 {
                     while (el.maxStackSize > el.stackSize )
                     {
                         el.stackSize++;
                         _item.stackSize--;
-                        if (_item.stackSize == 0) { SetIconsInInventoryScreen(); return false; }
+                        if (_item.stackSize == 0) { 
+                            SetIconsInInventoryScreen();
+
+                            return false;
+                        }
                     }
                 }
             }
@@ -120,7 +124,7 @@ public class Inventory : MonoBehaviour
     {
         //replace a null space with an item
         int count = 0;
-        while (count < pocketSize)
+        while (itemsInPockets.Count > count && count < pocketSize)
         {
             if (itemsInPockets[count] == null)
             {
@@ -133,6 +137,7 @@ public class Inventory : MonoBehaviour
             count++;
           
         }
+        itemsInPockets.Add(_item);
     }
 
 
