@@ -54,32 +54,41 @@ public class Item : MonoBehaviour
     }
 
 
-    public virtual void Interact( )
-    {
-
-        if (notice != null && notice.activeSelf) {  }
-    
-    }
+ 
 
     public virtual bool Use()
     {
 
-        return true;
+        return false;
     }
 
     public virtual bool Use(RaycastHit _hit)
     {
 
-        return true;
+        return false;
     }
 
     public virtual bool Use(Player _user)
     {
 
-        return true;
+        return false;
     }
 
-    public virtual void Interact(GameManager gameManager) {  }
+
+    public virtual bool Use(Player _user, RaycastHit _hit)
+    {
+
+        return false;
+    }
+
+    public virtual bool Interact(GameManager gameManager) { return false; }
+    public virtual bool Interact(Player _player) { return false; }
+    public virtual bool Interact()
+    {
+
+        if (notice != null && notice.activeSelf) { }
+        return false;
+    }
 
     public virtual void Dig()
     {
@@ -87,11 +96,24 @@ public class Item : MonoBehaviour
        //note: cant dig here animation should be the default
     }
 
-    public virtual void Catch()
+    public virtual bool Catch()
     {
-
+        return false;
 
     }
+
+    public virtual bool Catch(Item _item)
+    {
+
+        return false;
+    }
+
+    public virtual bool TryCatch()
+    {
+
+        return false;
+    }
+
 
     public virtual void HangNotice() 
     {

@@ -6,9 +6,5 @@ public class Poster : Item
 {
 
 
-    public override void Interact()
-    {
-        
-    }
 
 }

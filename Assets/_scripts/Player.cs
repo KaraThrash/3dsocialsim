@@ -71,6 +71,11 @@ public class Player : MonoBehaviour
 
         if (_state == PlayerState.talking) { SetAnimationBool(anim, "walk", false); }
         else if (_state == PlayerState.inScene) { SetAnimationBool(anim, "walk", false); }
+        else if (_state == PlayerState.fishing) { 
+            SetAnimationBool(anim, "walk", false); 
+            PlayAnimation(Animator(), "start_fish"); 
+        }
+
 
     }
 
@@ -445,63 +450,91 @@ public class Player : MonoBehaviour
 
        // Vector3 fwd = (transform.position + (Vector3.up * 0.5f)) - (transform.position + (transform.forward * 0.5f));
 
-        RaycastHit hit;
+       
        // if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f), 0.2f, transform.TransformDirection(Vector3.forward), out hit, 0.3f))
-        if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.05f, transform.TransformDirection((Vector3.down + Vector3.forward + Vector3.forward).normalized), out hit, 3.5f))
-        {
+       
            
-            if (hit.transform.GetComponent<Villager>() != null)
+            if (InteractWithVillager())
             {
-                InteractWithVillager(hit.transform.GetComponent<Villager>());
+            Debug.Log("1");
+
+        }
+            else if (heldItem != null && heldItem.GetComponent<Item>() != null)
+            {
+            Debug.Log("2");
+
+            if (heldItem.GetComponent<Item>().TryCatch())
+                {
+                Debug.Log("3");
+
+                return;
+                }
+                else 
+                {
+                    heldItem.GetComponent<Item>().Use(this);
+                Debug.Log("4");
+            }
+
 
             }
-            else if (hit.transform.GetComponent<Item>() != null )
-            {
-                InteractWithItem(hit.transform.GetComponent<Item>());
-            }
-            else if (hit.transform.GetComponent<Tree>() != null)
-            {
-                InteractWithItem(hit.transform.GetComponent<Tree>());
-            }
-
-
             else
-            {
-                //if no one to talk to and not standing in front of a tree/hole/board etc check hands for tools
-                UseTool(hit);
-            }
-            
-        }
-        else 
         {
-            //if no one to talk to check hands for tools
-       //     UseTool();
+            Debug.Log("5");
+            RaycastHit hit;
 
+                if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.05f, transform.TransformDirection((Vector3.down + Vector3.forward + Vector3.forward).normalized), out hit, 3.5f))
+                {
+                    if (hit.transform.GetComponent<Item>() != null && hit.transform.GetComponent<Item>().Interact(this))
+                    {
+                    Debug.Log("6");
+                }
+                    
+
+                }
+            Debug.Log("7");
 
         }
+        Debug.Log("8");
+        //if no one to talk to check hands for tools
+        //     UseTool();
+
+
+
 
     }
 
-    public void InteractWithVillager(Villager _villager)
+    public bool InteractWithVillager()
     {
 
-        if (heldItem != null && heldItem.GetComponent<Item>().itemName.Equals("net"))
+
+        RaycastHit hit;
+
+        Vector3 dir = Vector3.down + (Vector3.forward * 3);
+
+        if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.05f, transform.TransformDirection(dir.normalized), out hit, 3.5f))
         {
-            gameManager.BonkVillager(_villager);
+
+            if (hit.transform.GetComponent<Villager>() != null)
+            {
+
+                if (heldItem != null && heldItem.GetComponent<Net>())
+                {
+                    gameManager.BonkVillager(hit.transform.GetComponent<Villager>());
+                    
+                }
+                else
+                {
+                    gameManager.InteractWithVillager(hit.transform.GetComponent<Villager>());
+
+                }
+
+                return true;
+            }
+        
+
         }
-      //  else if()
-      //  {
-      //TODO
-           //story relevant interation, framing, etc
 
-      //  }
-        else
-        {
-            gameManager.InteractWithVillager(_villager);
-
-
-        }
-
+        return false;
     }
    
 
@@ -541,7 +574,13 @@ public class Player : MonoBehaviour
             }
             else if (heldItem.GetComponent<Item>().itemName.Equals("net"))
             {
-                _item.Catch();
+                //the item checks if it gets caught e.g. if the item is a butterfly and the held item is the net
+                if (_item.Catch(heldItem.GetComponent<Item>()))
+                {
+                    GetItem(_item);
+                }
+                
+              //  _item.Catch();
 
 
 
@@ -585,6 +624,7 @@ public class Player : MonoBehaviour
         // Item heldItem = inventory.GetFromPockets(currentItem);
         if (heldItem != null  )
         {
+            bool itemUsed = heldItem.GetComponent<Item>().Use(this, _hit);
 
             if (heldItem.GetComponent<Item>().itemName.Equals("shovel"))
             {
@@ -596,7 +636,7 @@ public class Player : MonoBehaviour
             else if ( heldItem.GetComponent<Item>().itemName.Equals("axe"))
             {
 
-                heldItem.GetComponent<Item>().Use(this);
+                heldItem.GetComponent<Item>().Use(this, _hit);
 
 
             }
@@ -693,9 +733,10 @@ public class Player : MonoBehaviour
 
                 if (caughtFish != null)
                 {
-                    Item showFish = Instantiate(caughtFish, transform.position, transform.rotation);
 
-                    GameManager.instance.CatchBug(showFish);
+                    Item showFish = Instantiate(caughtFish, transform.position, transform.rotation);
+                    GetItem(showFish);
+
                 }
                 else { State(PlayerState.playerControlled); }
 
@@ -708,7 +749,12 @@ public class Player : MonoBehaviour
        // State(PlayerState.playerControlled);
     }
 
+    public void GetItem(Item _item)
+    {
+        
 
+        GameManager.instance.CatchBug(_item);
+    }
 
 
 
@@ -1055,6 +1101,11 @@ public class Player : MonoBehaviour
         return transform.position + transform.forward;
     }
 
+    public Animator Animator( )
+    {
+        return anim;
+
+    }
 
     public void StopAnimator(Animator animator)
     {

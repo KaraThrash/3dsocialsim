@@ -13,7 +13,7 @@ public class Door : Item
     public bool exit;
     public string _camSetting;
 
-    public override void Interact(GameManager _gameManager) 
+    public override bool Interact(GameManager _gameManager) 
     {
         gameManager = _gameManager;
 
@@ -26,6 +26,8 @@ public class Door : Item
         {
             gameManager.EnterArea(interiorObj, connectedArea, _camSetting);
         }
+
+        return true;
     }
 
     public void OnTriggerEnter(Collider other)

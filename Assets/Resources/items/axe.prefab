@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8276304329838602485}
-  - component: {fileID: 8276304329838602486}
+  - component: {fileID: 1228226035024112133}
   m_Layer: 0
   m_Name: axe
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8276304329838602486
+--- !u!114 &1228226035024112133
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,17 +42,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 8276304329838602484}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e6319ef560e86645afa5b2415868462, type: 3}
+  m_Script: {fileID: 11500000, guid: 9bd2d9fe665ac014bb1957aaf4540ec7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: axe
+  toolUsable: 
   icon: {fileID: 693133174918219594, guid: fb4c7c0c40bd66e43bbdce2e3a227c18, type: 3}
   usable: 1
   placable: 0
   holdable: 0
+  buryable: 0
+  on: 0
   stackSize: 1
   maxStackSize: 1
+  footprintWidth: -1
+  footprintDepth: -1
   subItem: {fileID: 0}
+  notice: {fileID: 0}
 --- !u!1 &8276304330344809976
 GameObject:
   m_ObjectHideFlags: 0

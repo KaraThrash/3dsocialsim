@@ -16,20 +16,63 @@ public class FishingRod : Item
 
     private Vector3 startPos, varience = new Vector3(0,0.1f,0);
 
-    public override bool Use(RaycastHit _hit)
+    private float minRange = 0.5f, MaxRange = 3.5f,incrementToCheck = 0.5f;
+
+    public bool FindWater(float _rng)
     {
-        if (_hit.transform.tag.Equals("water"))
+        if (_rng >= MaxRange)
         {
-            //subItem.transform.position = new Vector3(_hit.point.x, _hit.transform.position.y, _hit.point.z);
-            subItem.transform.position = _hit.point;
-            startPos = _hit.point;
+            return false;
+        }
+        else
+        {
+            RaycastHit hit;
+
+            if (Physics.Raycast(transform.position + Vector3.up + (transform.forward * _rng), Vector3.down, out hit, 3.5f))
+            {
+                Debug.Log(hit.point.ToString());
+
+                if (hit.transform.tag.Equals("water"))
+                {
+                    subItem.transform.position = hit.point;
+                    startPos = hit.point;
+                    return true;
+                }
+            }
+
+            return FindWater(_rng + incrementToCheck);
+
+
+        }
+        
+  
+    }
+
+    public override bool Use(Player _player)
+    {
+        //recursively check to the max distance for water, if any is found it places the bob at the point and returns true
+        if (FindWater(0))
+        {
             on = true;
             currentFishChange = Random.Range(0, startPercentRange);
             CheckForFish();
 
+
+            _player.SetAnimationParameter(_player.Animator(), "fail", false);
+            _player.State(PlayerState.fishing);
+
+
+
+            _player.PlayAnimation(_player.Animator(), "start_fish");
+
             return true;
+
         }
-        
+        else
+        {
+            _player.SetAnimationParameter(_player.Animator(), "fail", true);
+        }
+
 
         return false;
     }

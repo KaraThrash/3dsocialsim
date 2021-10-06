@@ -30,6 +30,25 @@ public class Tree : Item
         Destroy(this.gameObject);
     }
 
+    public override bool Interact(Player _player)
+    {
+        if (trunk.activeSelf && notice != null)
+        {
+            if (notice.activeSelf)
+            {
+                notice.SetActive(false);
+            }
+            else 
+            {
+                notice.SetActive(true);
+            }
+            
+
+        }
+
+        return true;
+    }
+
     public override void HangNotice()
     {
         if (trunk.activeSelf &&  notice != null)

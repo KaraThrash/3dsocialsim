@@ -104,8 +104,6 @@ public class LocationManager : MonoBehaviour
     {
         MapNode[] nodes = FindObjectsOfType<MapNode>();
 
-      
-
         if (nodes != null && nodes.Length > 0)
         {
             MapNode closestNode = nodes[0];

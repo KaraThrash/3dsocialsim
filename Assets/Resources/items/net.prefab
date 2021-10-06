@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1428431386082043980}
-  - component: {fileID: 1428431386082043981}
+  - component: {fileID: -3413166992012535714}
   m_Layer: 0
   m_Name: net
   m_TagString: Untagged
@@ -34,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1428431386082043981
+--- !u!114 &-3413166992012535714
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,17 +43,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1428431386082043983}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e6319ef560e86645afa5b2415868462, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d727a5d6422bc74bbb74208927c29be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: net
+  toolUsable: 
   icon: {fileID: 4771015833597604888, guid: fb4c7c0c40bd66e43bbdce2e3a227c18, type: 3}
   usable: 1
   placable: 0
   holdable: 0
+  buryable: 0
+  on: 0
   stackSize: 1
   maxStackSize: 1
+  footprintWidth: -1
+  footprintDepth: -1
   subItem: {fileID: 0}
+  notice: {fileID: 0}
 --- !u!1 &1428431386105244673
 GameObject:
   m_ObjectHideFlags: 0

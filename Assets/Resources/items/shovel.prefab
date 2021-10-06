@@ -167,7 +167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4101456123711111930}
-  - component: {fileID: 4101456123711111931}
+  - component: {fileID: 6840072601517482919}
   m_Layer: 0
   m_Name: shovel
   m_TagString: Untagged
@@ -192,7 +192,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 42.166, y: 158.89201, z: 128.09401}
---- !u!114 &4101456123711111931
+--- !u!114 &6840072601517482919
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -201,17 +201,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 4101456123711111929}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e6319ef560e86645afa5b2415868462, type: 3}
+  m_Script: {fileID: 11500000, guid: d2394090d9fdd714db312c85b4f47259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: shovel
+  toolUsable: 
   icon: {fileID: -2306704065359154727, guid: fb4c7c0c40bd66e43bbdce2e3a227c18, type: 3}
   usable: 1
   placable: 0
   holdable: 0
+  buryable: 0
+  on: 0
   stackSize: 1
   maxStackSize: 1
+  footprintWidth: -1
+  footprintDepth: -1
   subItem: {fileID: 0}
+  notice: {fileID: 0}
 --- !u!1 &4101456124939299852
 GameObject:
   m_ObjectHideFlags: 0
