@@ -109,12 +109,12 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_394A4422: {r: 1, g: 1, b: 1, a: 1}
-    - Color_49F14EFF: {r: 0.41509432, g: 0.41313633, b: 0.41313633, a: 0}
+    - Color_49F14EFF: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 0}
     - Color_66F0BED7: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 0}
     - Color_941906B5: {r: 1, g: 1, b: 1, a: 0}
     - Color_AC29EE9B: {r: 1, g: 1, b: 1, a: 0}
     - Color_F52EE448: {r: 0, g: 0, b: 0, a: 0}
-    - Vector2_6A93A1CF: {r: 1, g: 1, b: 0, a: 0}
+    - Vector2_6A93A1CF: {r: 2, g: 2, b: 0, a: 0}
     - _BaseColor: {r: 0.5471698, g: 0.31478545, b: 0.10582057, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

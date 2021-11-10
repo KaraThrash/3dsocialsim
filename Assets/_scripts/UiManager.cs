@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UiManager : MonoBehaviour
 {
     public GameObject chatBox, pauseMenu;
-    public Menus activeMenu,inventory;
+    public Menus activeMenu,inventory,radial;
     public Transform inventorySlots;
     public Image emptySlotIcon;
     public Sprite emptyslot;
@@ -34,6 +34,9 @@ public class UiManager : MonoBehaviour
     {
         
     }
+
+    
+
 
     public WorldUi GetWorldUi()
     {
@@ -64,6 +67,17 @@ public class UiManager : MonoBehaviour
 
 
 
+    public Item GetSelection()
+    {
+        if (activeMenu != null)
+        {
+            return activeMenu.GetSelection();
+        }
+        return null;
+    }
+
+
+
     public void MoveCursor(int _xdir,int _ydir)
     {
         activeMenu.MoveCursor(_xdir,_ydir);
@@ -71,33 +85,10 @@ public class UiManager : MonoBehaviour
     }
 
 
-    public void OpenMenu(string _menu,bool _open)
+
+    public bool OpenMenu(Menu _menu)
     {
-        if (_menu.Equals("inventory")) 
-        {
-            //NOTE: swapping inventory items should be a part of the menu, but can wait as a QoL element
-
-            //disable any other open menu and enable the inventory
-            activeMenu.gameObject.SetActive(false);
-            inventory.gameObject.SetActive(_open);
-            //reset the inventory to neutral
-            inventory.Init();
-            activeMenu = inventory;
-
-
-
-        }
-        else if (_menu.Equals("pause")) 
-        {
-        
-        }
-
-        
-    }
-
-    public bool OpenMenu(string _menu)
-    {
-        if (_menu.Equals("inventory"))
+        if (_menu == Menu.inventory)
         {
             if (activeMenu != null)
             {
@@ -123,9 +114,29 @@ public class UiManager : MonoBehaviour
             
 
         }
-        else if (_menu.Equals("pause"))
+        else if (_menu == Menu.radial)
         {
+            if (activeMenu != null)
+            {
+                if (activeMenu == radial)
+                {
+                    activeMenu.gameObject.SetActive(false);
+                    activeMenu = null;
+                    return false;
+                }
+                else
+                {
+                    //disable the previous menu
+                    activeMenu.gameObject.SetActive(false);
 
+                }
+            }
+
+            radial.gameObject.SetActive(true);
+            //reset the inventory to neutral
+            radial.Init();
+            activeMenu = radial;
+            return true;
         }
 
 

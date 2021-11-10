@@ -367,8 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: fishingRod
-  toolUsable: 
-  icon: {fileID: 7992984358598475588, guid: fb4c7c0c40bd66e43bbdce2e3a227c18, type: 3}
+  icon: {fileID: 21300000, guid: 8729968757369a04284636a7d6fcf52e, type: 3}
   usable: 1
   placable: 0
   holdable: 0
@@ -380,6 +379,11 @@ MonoBehaviour:
   footprintDepth: -1
   subItem: {fileID: 2260004832396431360}
   notice: {fileID: 0}
+  conditionalEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  cycle: 2
+  currentFishChange: 0
 --- !u!1 &2260004832816044605
 GameObject:
   m_ObjectHideFlags: 0

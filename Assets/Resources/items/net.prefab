@@ -47,8 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: net
-  toolUsable: 
-  icon: {fileID: 4771015833597604888, guid: fb4c7c0c40bd66e43bbdce2e3a227c18, type: 3}
+  icon: {fileID: 21300000, guid: 509ffdc8203a39a4aa3b14b36b44258f, type: 3}
   usable: 1
   placable: 0
   holdable: 0
@@ -60,6 +59,9 @@ MonoBehaviour:
   footprintDepth: -1
   subItem: {fileID: 0}
   notice: {fileID: 0}
+  conditionalEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1428431386105244673
 GameObject:
   m_ObjectHideFlags: 0

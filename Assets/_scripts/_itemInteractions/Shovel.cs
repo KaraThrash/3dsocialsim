@@ -7,31 +7,40 @@ public class Shovel : Item
 
     private float catchPercent = 45;
 
-    public override bool Use(Player _player,RaycastHit _hit)
+    public override bool Use(Player _player)
     {
 
-        if (_hit.transform.tag.Equals("grass"))
-        {
-            CheckGrubs();
 
-            return true;
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward, 1);
+
+
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.GetComponent<Item>() != null && hitCollider.GetComponent<Item>().Interact(this))
+            {
+                return true;
+            }
         }
-        else if (_hit.transform.GetComponent<Hole>() != null)
-        {
-         
 
-            return true;
-        }
-        else if (_hit.transform.GetComponent<Tree>() != null && _hit.transform.GetComponent<Tree>().JustStump())
-        {
-           
+        // open holes in the ground and tree stumps would return true and break out, otherwise dig a new hole
 
-            return true;
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position + Vector3.up + transform.forward , Vector3.down, out hit, 3.5f))
+        {
+            Debug.Log(hit.point.ToString());
+
+            if (hit.transform.tag.Equals("grass") || hit.transform.tag.Equals("dirt"))
+            {
+                GameManager.instance.InteractWithGround(hit.point, "dig");
+                return true;
+            }
         }
 
         return false;
-
     }
+
+
 
     public bool CheckGrubs()
     {

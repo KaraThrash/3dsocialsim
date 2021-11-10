@@ -21,6 +21,7 @@ public enum VillagerStoryState { idle, inScene, inPrison, offScreen }
 public enum Mood { happy, sad, neutral, scared, angry, confused, tired }
 public enum MouthPattern { happy, sad, neutral, scared, angry, confused, tired,fast,slow }
 public enum GroundTypes { grass,wood,stone,dirt,leaves,snow,water,squish,other}
+public enum Menu { inventory,radial,tool,usable,system,pause}
 
 
 public enum SceneAction { none,talk,leadPlayer, trailPlayer,watchPlayer,fliers,walkAndTalk,walkingToCheckpoint, holdingAnimation }

@@ -6,7 +6,7 @@ public static class InputControls
 {
     public static bool gamePad;
     //controller buttons
-    public static string hortAxis = "Horizontal", vertAxis = "Vertical", interactButton = "A", pickupButton = "Y", actionButton = "B", nextButton = "RB", previousButton = "LB";
+    public static string hortAxis = "ControllerHorizontal", vertAxis = "ControllerVertical", interactButton = "A", pickupButton = "Y", actionButton = "B", nextButton = "RB", previousButton = "LB";
     public static string menuButton = "Start";
     //controller axis as buttons
     public static string dPadVertButton = "DpadVert",dPadHortButton = "DpadHort";
@@ -15,7 +15,7 @@ public static class InputControls
     public static KeyCode interactKey = KeyCode.Space, pickupKey = KeyCode.LeftControl, actionKey = KeyCode.RightControl, nextKey = KeyCode.E, previousKey = KeyCode.Q, dPadDownKey = KeyCode.DownArrow;
     public static KeyCode menuKey = KeyCode.Return;
 
-    private static float deadtime = 0.2f, deadClock; //holding an axis while using as a button
+    private static float deadtime = 0.5f, deadClock; //holding an axis while using as a button
 
 
 
@@ -56,7 +56,7 @@ public static class InputControls
      static void Update()
     {
 
-        TrackAxisButtons();
+        //TrackAxisButtons();
 
 
         if (gamePad == false)
@@ -148,6 +148,7 @@ public static class InputControls
     {
         if (dPadHortPressed == false && (Input.GetAxis(dPadHortButton) != 0))
         {
+            deadClock = deadtime;
             dPadHortPressed = true;
             return true;
         }
@@ -169,7 +170,7 @@ public static class InputControls
 
     public static bool VertAsButton()
     {
-        if (vertPressed == false && Input.GetAxis(vertAxis) != 0)
+        if (vertPressed == false && Mathf.Abs(Input.GetAxis(vertAxis)) == 1)
         {
             deadClock = deadtime;
             vertPressed = true;
@@ -180,7 +181,7 @@ public static class InputControls
 
     public static bool HortAsButton()
     {
-        if (hortPressed == false && (Input.GetAxis(hortAxis) != 0))
+        if (hortPressed == false && Mathf.Abs(Input.GetAxis(hortAxis)) == 1)
         {
             deadClock = deadtime;
             hortPressed = true;

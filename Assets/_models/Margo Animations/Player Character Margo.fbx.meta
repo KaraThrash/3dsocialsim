@@ -1,0 +1,157 @@
+fileFormatVersion: 2
+guid: 64e90bded69c1064faf67c1f77349e06
+ModelImporter:
+  serializedVersion: 19301
+  internalIDToNameTable:
+  - first:
+      74: 7930566718376146537
+    second: Base
+  - first:
+      74: 1541600664014198081
+    second: Armature.001|Base
+  - first:
+      74: 2977680717375236165
+    second: Armature.001|Grab something
+  - first:
+      74: -1073105439402371683
+    second: Armature.001|Headphones OFF
+  - first:
+      74: 6935991182705200887
+    second: Armature.001|Headphones ON
+  - first:
+      74: 4699274299699868179
+    second: Armature.001|Idle
+  - first:
+      74: 9143213383934431138
+    second: Armature.001|Jump in fear
+  - first:
+      74: -8473263147605085618
+    second: Armature.001|Lay on the bed
+  - first:
+      74: -5080234425153237315
+    second: Armature.001|Put in pocket
+  - first:
+      74: -2969036542940970518
+    second: Armature.001|Run
+  - first:
+      74: -201148833834848977
+    second: Armature.001|Scared Idle
+  - first:
+      74: -705429549926089898
+    second: Armature.001|Scared run
+  - first:
+      74: 6918810373743325025
+    second: Armature.001|Scared Walk
+  - first:
+      74: -371088798160956549
+    second: Armature.001|Shrug
+  - first:
+      74: 945926077460792579
+    second: Armature.001|Sit on Bed
+  - first:
+      74: 7527065848275442477
+    second: Armature.001|Sitting on Ground
+  - first:
+      74: 6185779413213151018
+    second: Armature.001|Step back, surprised
+  - first:
+      74: -448239265334008587
+    second: Armature.001|Walk
+  - first:
+      74: 82741213131101423
+    second: Armature.001|Wave Hello
+  - first:
+      74: -1675276810776900932
+    second: Armature.001|Yawn
+  externalObjects: {}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -65,6 +65,7 @@ public class Villager : MonoBehaviour
 
     public void BlinkTimer()
     {
+ 
         blinkTimer -= Time.deltaTime;
 
         if (blinkTimer <= 0)
@@ -128,6 +129,7 @@ public class Villager : MonoBehaviour
         {
             DialogueRunner dialogueRunner = FindObjectOfType<Yarn.Unity.DialogueRunner>();
             dialogueRunner.Add(scriptToLoad);
+     
         }
 
         if (head != null && animatedHead != null)

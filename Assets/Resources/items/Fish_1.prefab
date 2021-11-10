@@ -427,19 +427,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: rarefish
-  toolUsable: 
-  icon: {fileID: 1847730513765195206, guid: fb4c7c0c40bd66e43bbdce2e3a227c18, type: 3}
+  icon: {fileID: 21300000, guid: bd3c6c903500ae2469d53cf38a7243a2, type: 3}
   usable: 0
   placable: 0
   holdable: 1
   buryable: 0
   on: 0
-  stackSize: 1
+  stackSize: 3
   maxStackSize: 12
   footprintWidth: -1
   footprintDepth: -1
   subItem: {fileID: 0}
   notice: {fileID: 0}
+  conditionalEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!136 &1226721369736449524
 CapsuleCollider:
   m_ObjectHideFlags: 0

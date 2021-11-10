@@ -46,8 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: axe
-  toolUsable: 
-  icon: {fileID: 693133174918219594, guid: fb4c7c0c40bd66e43bbdce2e3a227c18, type: 3}
+  icon: {fileID: 21300000, guid: e8d94c09123cea74ba47424ce3fcf378, type: 3}
   usable: 1
   placable: 0
   holdable: 0
@@ -59,6 +58,9 @@ MonoBehaviour:
   footprintDepth: -1
   subItem: {fileID: 0}
   notice: {fileID: 0}
+  conditionalEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8276304330344809976
 GameObject:
   m_ObjectHideFlags: 0

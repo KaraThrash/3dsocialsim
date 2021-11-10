@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
+
 
 public class Item : MonoBehaviour
 {
-    public string itemName,toolUsable; //what tool can be used on this item if any [axe on trees, shovel on holes]
+    public string itemName; 
     public Sprite icon;
     public bool usable, placable, holdable,buryable;
     public bool on;
@@ -17,9 +19,12 @@ public class Item : MonoBehaviour
     private Vector3 subItemStartPos;
 
 
+    public UnityEvent conditionalEvent;
+    
 
     void OnEnable()
     {
+
         //for items that have a secondary component to them
         if (subItem != null)
         { 
@@ -83,6 +88,8 @@ public class Item : MonoBehaviour
 
     public virtual bool Interact(GameManager gameManager) { return false; }
     public virtual bool Interact(Player _player) { return false; }
+    public virtual bool Interact(Villager _villager) { return false; }
+    public virtual bool Interact(Item _item) { return false; }
     public virtual bool Interact()
     {
 
@@ -137,5 +144,5 @@ public class Item : MonoBehaviour
             return false;
     }
 
-
+  
 }

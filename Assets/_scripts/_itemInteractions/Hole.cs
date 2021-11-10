@@ -13,12 +13,37 @@ public class Hole : Item
 
     // Start is called before the first frame update
 
+
+    public override bool Interact(Item _item)
+    {
+
+        if (_item.GetComponent<Shovel>() )
+        {
+            //just cover the hole
+            Bury(null);
+        }
+        else 
+        {
+            Bury(_item);
+        }
+
+
+        return true;
+    }
+
+
+
+
+
+
+
+
     public Item GetItem() { return buriedItem; }
 
     public void Bury(Item _item) 
     {
-        if (open) 
-        {
+      //  if (open) 
+      //  {
             if (_item == null)
             {
                 Destroy(this.gameObject);
@@ -36,7 +61,7 @@ public class Hole : Item
             }
            
 
-        }
+       // }
     }
 
     public void Dig(Item _item)

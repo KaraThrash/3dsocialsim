@@ -6,7 +6,7 @@ public class InventoryMenu : Menus
 {
     public int currentPage, itemsPerPage;
     private List<Item> inventory;
-
+   
 
     private void OnEnable()
     {
@@ -15,7 +15,6 @@ public class InventoryMenu : Menus
     public override void Init()
     {
         //disable the highlight, reset the cursor location
-  
 
         SetCursorActive(cursor, true);
         SetCursorActive(selectionHighlight, false);
@@ -41,7 +40,6 @@ public class InventoryMenu : Menus
         {
             cursorTarget = itemsPerPage - 1; currentPage--; 
         }
-
 
        // currentPage += _xdir;
 

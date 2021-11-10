@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         
+
+
         UnlockPlayerMovement(true);
 
         StartDay();
@@ -263,15 +265,9 @@ public class GameManager : MonoBehaviour
         EventInit().HavePlayerFollow(GetComponent<GameManager>(), FindVillager(_villagerName), LocationManager().FindLocation(_location).position);
 
     }
-  
 
 
-
-
-
-
-
-    public void ToggleMenu(string _menu)
+    public void ToggleMenu(Menu _menu)
     {
         //if toggling the menu on set the state to inmenu, otherwise give control back to the player
         if (UiManager().OpenMenu(_menu))
@@ -282,6 +278,23 @@ public class GameManager : MonoBehaviour
             player.State(PlayerState.playerControlled);
         }
     }
+
+
+    public void OnDialogueStart()
+    {
+
+    }
+
+    public void OnDialogueEnd()
+    {
+        actionTimer = 0.2f;
+        Time.timeScale = 1;
+    }
+
+
+
+
+
 
     public void BonkVillager(Villager _villager)
     {
@@ -325,6 +338,8 @@ public class GameManager : MonoBehaviour
 
     public void InteractWithGround(Vector3 _square, string _interaction,GameObject _contextItem=null)
     {
+        _square = new Vector3(_square.x, Mathf.Round(_square.y), _square.z);
+
         if (_interaction == "dig")
         {
             if (terrainManager.Dig(_square))
@@ -334,33 +349,7 @@ public class GameManager : MonoBehaviour
             }
 
         }
-       else if (_interaction == "chop")
-        {
-            if (terrainManager.Chop(_square))
-            {
-                actionTimer = 0.2f;
-                UnlockPlayerMovement(false);
-            }
-        }
-        else if (_interaction.Equals("fish") )
-        {
-            if (terrainManager.Fish(_square, _contextItem))
-            {
-                actionTimer = -1;
-                UnlockPlayerMovement(false);
-            }
-        }
-        else if (_interaction.Equals("net"))
-        {
-            GameObject _obj = terrainManager.Catch(_square);
-            if (_obj != null)
-            {
-               
-
-               
-
-            }
-        }
+      
 
     }
 
@@ -368,13 +357,26 @@ public class GameManager : MonoBehaviour
     {
         activeObject = _bug.transform;
 
-        actionTimer = 2;
-
         cameraControls.ConversationToggle(true);
 
         player.State(PlayerState.showing);
-        player.HoldToCamera(activeObject.GetChild(0));
-        player.SetPendingItem(activeObject.GetComponent<Item>());
+        player.HoldToCamera(_bug.subItem);
+        player.SetPendingItem(_bug);
+
+        if (dialogueRunner.NodeExists(_bug.itemName) )
+        {
+            //the background shouldnt remain active while getting an item
+            Time.timeScale = 0;
+            dialogueRunner.StartDialogue(_bug.itemName);
+        }
+        else 
+        {
+            actionTimer = 2;
+
+        }
+
+
+        
     }
 
 
@@ -569,7 +571,7 @@ public class GameManager : MonoBehaviour
         //chatbox.SetActive(true);
         inConversation = true;
         actionTimer = -1;
-        player.state = PlayerState.talking;
+        player.State(PlayerState.talking);
     }
 
     public void EndConversation()
@@ -578,7 +580,7 @@ public class GameManager : MonoBehaviour
        // chatbox.SetActive(false);
         inConversation = false;
         actionTimer = 0;
-        player.state = PlayerState.playerControlled;
+        player.State(PlayerState.playerControlled);
 
         if (activeObject != null && activeObject.GetComponent<Villager>() != null)
         { activeObject.GetComponent<Villager>().State(VillagerState.idle); }

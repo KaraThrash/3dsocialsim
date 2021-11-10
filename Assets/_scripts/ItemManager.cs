@@ -9,11 +9,17 @@ public class ItemManager : MonoBehaviour
     //for when there isnt a node found fall back to the default
     public Item genericFish, genericGrub;
 
+    public YarnProgram dialogue; //the flavor text for catching bugs/fish
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (dialogue != null)
+        {
+            GameManager.instance.dialogueRunner.Add(dialogue);
+        }
+
+
     }
 
     // Update is called once per frame
@@ -77,5 +83,6 @@ public class ItemManager : MonoBehaviour
         return node.ItemList().rareGrub;
     }
 
-
+    public YarnProgram GetDialogue()
+    { return dialogue; }
 }

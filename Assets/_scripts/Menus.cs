@@ -8,14 +8,14 @@ public class Menus : MonoBehaviour
     public Transform cursor, selectionHighlight;
     public Transform selectibleElementsParent;
 
+    private Animator anim;
+    private string animatorTrigger = "advance";
     void Start()
     {
-        //disable the highlight, reset the cursor location
-        SetCursorActive(cursor, true);
-        SetCursorActive(selectionHighlight, false);
+        anim = GetComponent<Animator>();
 
-        cursorTarget = 0;
-        MoveCursor(0,0);
+        //disable the highlight, reset the cursor location
+        Init();
     }
 
     void Update()
@@ -29,8 +29,17 @@ public class Menus : MonoBehaviour
         SetCursorActive(cursor,true);
         SetCursorActive(selectionHighlight, false);
 
-       // cursorTarget = 0;
-       // MoveCursor(0);
+        MoveCursor(0, 0);
+    }
+
+    public virtual Item GetSelection()
+    {
+
+        return null;
+    }
+    public virtual void SlotButtonPressed(InventorySlotUI _slot)
+    {
+       
     }
 
     public virtual void MoveCursor(int _xdir, int _ydir)
@@ -57,6 +66,17 @@ public class Menus : MonoBehaviour
     {
         _cursor.gameObject.SetActive(_enabled);
     }
+
+
+    public void MenuAnimation()
+    {
+        if (anim == null)
+        { anim = GetComponent<Animator>(); }
+
+        if (anim != null)
+        { anim.SetTrigger(animatorTrigger); }
+    }
+
 
 
 }

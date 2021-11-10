@@ -1,8 +1,7 @@
 ﻿
 using UnityEngine;
 using UnityEngine.AI;
-
-
+using UnityEngine.Animations.Rigging;
 
 public class Player : MonoBehaviour
 {
@@ -27,7 +26,19 @@ public class Player : MonoBehaviour
     public WorldUi placeholderActionText;
 
 
-    private Item pocketPendingItem;
+    public Transform head, animatedHead;
+    public bool focusRig;
+    public Rig rig;
+
+    private bool eyesOpen, toggleToResetRepeatedAction; //e.g. player animation when appearing on camera, and do that everything they appear on camera
+    public float blinkTimer;
+    public SkinnedMeshRenderer leftEye, rightEye;
+    public Material closedEye, openEye;
+
+    public MouthController mouthAnimator;
+
+
+    public Item pocketPendingItem;
     private int currentItem;
     private Vector3 moveDirection;
 
@@ -109,7 +120,7 @@ public class Player : MonoBehaviour
     {
 
         PlayAnimation(anim,"start_fish");
-
+        mouthAnimator = GetComponent<MouthController>();
         SetText("game start");
         rb = GetComponent<Rigidbody>();
     }
@@ -129,13 +140,14 @@ public class Player : MonoBehaviour
         
         PlayerStates();
 
-      
 
-      
+
+        if (leftEye != null)
+        { BlinkTimer(); }
 
 
         if (InputControls.MenuButton())
-        { gameManager.ToggleMenu("inventory"); }
+        { gameManager.ToggleMenu(Menu.radial); }
 
     }
 
@@ -192,18 +204,29 @@ public class Player : MonoBehaviour
             if (nav.velocity.magnitude > 0.1f)
             {
                 SetAnimationBool(anim, "walk", true);
+                SetAnimationParameter(anim, "speed", rb.velocity.magnitude * 0.5f);
+                anim.speed = Mathf.Clamp(rb.velocity.magnitude * 0.7f, 0.5f, walkSpeed);
             }
-            else { SetAnimationBool(anim, "walk", false); }
+            else {
+                anim.speed = 1;
+                SetAnimationBool(anim, "walk", false);
+            }
         }
         else 
         {
             if (rb.velocity.magnitude > 0.1f)
             {
                 SetAnimationBool(anim, "walk", true);
+                SetAnimationParameter(anim,"speed", rb.velocity.magnitude * 0.5f);
+                anim.speed = Mathf.Clamp(rb.velocity.magnitude * 0.5f, 0.5f, walkSpeed);
             }
-            else { SetAnimationBool(anim, "walk", false); }
+            else {
+                anim.speed = 1;
+                SetAnimationBool(anim, "walk", false);
+            }
         }
 
+        
     }
 
 
@@ -244,10 +267,18 @@ public class Player : MonoBehaviour
     public void InMenuControls()
     {
         if (InputControls.HortAsButton()) { gameManager.UiManager().MoveCursor((int)Mathf.Sign(InputControls.HorizontalAxis()),0); }
-        else if (InputControls.VertAsButton()) { gameManager.UiManager().MoveCursor(0,-1 * (int)Mathf.Sign(InputControls.VerticalAxis())); }
-        else if (InputControls.DpadVertAsButton()) { gameManager.UiManager().MoveCursor(0,-1 * (int)Mathf.Sign(InputControls.DpadVert())); }
-        else if (InputControls.DpadHortAsButton()) { gameManager.UiManager().MoveCursor( (int)Mathf.Sign(InputControls.DpadHort()), 0); }
-        else { InputControls.TrackAxisButtons(); }
+
+        else if(InputControls.VertAsButton()) { gameManager.UiManager().MoveCursor(0,-1 * (int)Mathf.Sign(InputControls.VerticalAxis())); }
+
+        else if(InputControls.DpadVertAsButton()) { gameManager.UiManager().MoveCursor(0,-1 * (int)Mathf.Sign(InputControls.DpadVert())); }
+
+        else if(InputControls.NextButton()) { gameManager.UiManager().MoveCursor(0, 1); }
+        else if(InputControls.PreviousButton()) { gameManager.UiManager().MoveCursor(0, -1); }
+
+        else if(InputControls.DpadHortAsButton()) { gameManager.UiManager().MoveCursor( (int)Mathf.Sign(InputControls.DpadHort()), 0); }
+        else {  }
+
+        InputControls.TrackAxisButtons();
     }
 
 
@@ -258,7 +289,7 @@ public class Player : MonoBehaviour
         moveDirection = Vector3.right * InputControls.HorizontalAxis();
         moveDirection = moveDirection + (Vector3.forward * InputControls.VerticalAxis());
 
-        Walk(moveDirection,walkSpeed);
+        Walk(moveDirection,walkSpeed );
 
     }
 
@@ -288,7 +319,7 @@ public class Player : MonoBehaviour
                     RaycastHit hit;
                     if (!Physics.SphereCast(transform.position + new Vector3(0,0.5f,0), 0.2f,transform.forward, out hit, 0.2f))
                     {
-                        rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * _speed, Time.deltaTime * acceleration);
+                        rb.velocity = Vector3.Lerp(rb.velocity, moveDirection * _speed, Time.deltaTime * acceleration);
 
                     }
                 rb.angularVelocity = Vector3.zero;
@@ -454,30 +485,30 @@ public class Player : MonoBehaviour
        // if (Physics.SphereCast(transform.position + (Vector3.up * 0.5f), 0.2f, transform.TransformDirection(Vector3.forward), out hit, 0.3f))
        
            
-            if (InteractWithVillager())
-            {
+        if (InteractWithVillager())
+        {
             Debug.Log("1");
 
         }
-            else if (heldItem != null && heldItem.GetComponent<Item>() != null)
-            {
+        else if (heldItem != null && heldItem.GetComponent<Item>() != null)
+        {
             Debug.Log("2");
 
             if (heldItem.GetComponent<Item>().TryCatch())
-                {
+            {
                 Debug.Log("3");
 
                 return;
-                }
-                else 
-                {
+            }
+            else 
+            {
                     heldItem.GetComponent<Item>().Use(this);
                 Debug.Log("4");
             }
 
 
-            }
-            else
+        }
+        else
         {
             Debug.Log("5");
             RaycastHit hit;
@@ -486,8 +517,8 @@ public class Player : MonoBehaviour
                 {
                     if (hit.transform.GetComponent<Item>() != null && hit.transform.GetComponent<Item>().Interact(this))
                     {
-                    Debug.Log("6");
-                }
+                        Debug.Log("6");
+                    }
                     
 
                 }
@@ -509,9 +540,9 @@ public class Player : MonoBehaviour
 
         RaycastHit hit;
 
-        Vector3 dir = Vector3.down + (Vector3.forward * 3);
+        Vector3 dir = Vector3.down + (Vector3.forward * 3);//transform.TransformDirection(dir.normalized)
 
-        if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.05f, transform.TransformDirection(dir.normalized), out hit, 3.5f))
+        if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.05f, transform.forward, out hit, 3.5f))
         {
 
             if (hit.transform.GetComponent<Villager>() != null)
@@ -537,167 +568,6 @@ public class Player : MonoBehaviour
         return false;
     }
    
-
-    public void InteractWithItem(Item _item)
-    {
-
-        if (heldItem != null)
-        {
-
-            if (heldItem.GetComponent<Item>().itemName.Equals("axe") && _item.GetComponent<Tree>() != null && !_item.GetComponent<Tree>().JustStump())
-            {
-                Debug.Log("chop");
-                _item.GetComponent<Tree>().Chop();
-            }
-            else if (heldItem.GetComponent<Item>().itemName.Equals("shovel") )
-            {
-                _item.Dig();
-
-                if (_item.GetComponent<Hole>() != null)
-                {
-                    if (_item.GetComponent<Hole>().open)
-                    {
-                        _item.GetComponent<Hole>().Bury(null);
-                    }
-                    else if (_item.GetComponent<Hole>().GetItem() != null)
-                    {
-                        _item.GetComponent<Hole>().Bury(null);
-                    }
-                }
-                else if (_item.GetComponent<Tree>() != null && _item.GetComponent<Tree>().JustStump())
-                { 
-                
-                }
-
-
-
-            }
-            else if (heldItem.GetComponent<Item>().itemName.Equals("net"))
-            {
-                //the item checks if it gets caught e.g. if the item is a butterfly and the held item is the net
-                if (_item.Catch(heldItem.GetComponent<Item>()))
-                {
-                    GetItem(_item);
-                }
-                
-              //  _item.Catch();
-
-
-
-
-            }
-
-            //if (heldItem.GetComponent<Item>().usable && _item.toolUsable.Equals(heldItem.GetComponent<Item>().itemName))
-            //{
-            //    //dig hole with shovel, chop tree with axe
-            //    UseTool(_item);
-            //}
-            //todo: bury held item
-        }
-        else if (_item.usable == true)
-        {
-            //if not holding an item try to interact
-
-            if (transform.position.z < _item.transform.position.z && _item.CheckForNotice())
-            { _item.TakedownNotice(); }
-            else 
-            {
-                _item.Interact(gameManager);
-            }
-
-            //iteract with item[door mail box faucet etc]
-            
-
-        }
-
-    }
-
-
-
-
-
-    public void UseTool(RaycastHit _hit)
-    {
-       
-
-        if (heldItem == null || heldItem.GetComponent<Item>() == null) { return; }
-        // Item heldItem = inventory.GetFromPockets(currentItem);
-        if (heldItem != null  )
-        {
-            bool itemUsed = heldItem.GetComponent<Item>().Use(this, _hit);
-
-            if (heldItem.GetComponent<Item>().itemName.Equals("shovel"))
-            {
-                gameManager.TerrainManager().Dig(this, _hit);
-
-               // Dig();
-                //gameManager.InteractWithGround(squarePos, "dig");
-            }
-            else if ( heldItem.GetComponent<Item>().itemName.Equals("axe"))
-            {
-
-                heldItem.GetComponent<Item>().Use(this, _hit);
-
-
-            }
-            else if (heldItem.GetComponent<Item>().itemName.Equals("fishingRod"))
-            {
-               
-
-                if (heldItem.GetComponent<Item>().Use(_hit))
-                {
-                    SetAnimationParameter(anim, "fail", false);
-                    State(PlayerState.fishing);
-                }
-                else 
-                {
-                    SetAnimationParameter(anim,"fail",true);
-                }
-
-                PlayAnimation(anim, "start_fish");
-
-                //gameManager.InteractWithGround(transform.position + (transform.forward * 1.6f), "fish", heldItem.GetComponent<Item>().subItem);
-            }
-            else if (heldItem.GetComponent<Item>().itemName.Equals("net"))
-            {
-                gameManager.InteractWithGround(transform.position + (transform.forward * 0.6f), "net");
-            }
-        }
-
-        Debug.Log("PerformAction");
-
-    }
-
-
-
-    public void Dig()
-    {
-        RaycastHit hit;
-
-        if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.1f, transform.TransformDirection(Vector3.forward), out hit, 0.3f)) 
-        {
-            if (hit.transform.tag == "grass")
-            { 
-            
-            }
-            else if (hit.transform.GetComponent<Hole>() != null )
-            {
-                //stumps
-                //grubs
-                //fossiles and rocks?
-
-            }
-            else if (hit.transform.GetComponent<Tree>() != null && hit.transform.GetComponent<Tree>().JustStump())
-            {
-                //stumps
-               
-
-            }
-
-        }
-
-
-    }
 
 
     public void Fishing()
@@ -831,6 +701,29 @@ public class Player : MonoBehaviour
 
     }
 
+    public void SetHeldItem(Item _item)
+    {
+
+        //TODO: keep the loaded items/pocket items in a way that is more efficent
+        if (heldItem != null) { Destroy(heldItem); }
+
+        if (_item != null && _item.usable == true)
+        {
+            //swap the current item for the new one
+            //  Debug.Log("LoadingItem: " + (tempItem.itemName));
+            string itempath = "items/" + (_item.itemName);
+            GameObject newheldItem = _item.gameObject;
+            newheldItem = Instantiate(newheldItem, InHands.position, InHands.rotation);
+            newheldItem.transform.parent = InHands.transform;
+
+            
+
+            heldItem = newheldItem;
+
+        }
+
+    }
+
 
 
     public void SetPendingItem(Item _item)
@@ -913,6 +806,123 @@ public class Player : MonoBehaviour
     {
         gameManager.AudioManager().PlayFootStep(transform, AudioSource());
     }
+
+
+
+    public void ControlHeadFocus()
+    {
+        if (head == null || animatedHead == null || GameManager.instance.player == null)
+        {
+            if (rig != null)
+            {
+                rig.weight = 0;
+
+            }
+            return;
+        }
+
+        if (focusRig)
+        {
+            if (rig != null)
+            {
+                rig.weight = Mathf.Lerp(rig.weight, 1, Time.deltaTime);
+
+            }
+
+
+            head.position = Vector3.MoveTowards(head.position, new Vector3(GameManager.instance.player.transform.position.x, animatedHead.position.y, GameManager.instance.player.transform.position.z), 5 * Time.deltaTime);
+
+        }
+        else
+        {
+            if (rig != null)
+            {
+                rig.weight = Mathf.Lerp(rig.weight, 0, Time.deltaTime);
+                head.position = Vector3.MoveTowards(head.position, animatedHead.position + transform.forward, 5 * Time.deltaTime);
+
+            }
+        }
+
+
+
+    }
+
+
+
+
+
+
+    public void AnimateMouth(MouthPattern _pattern, float _length)
+    {
+        if (mouthAnimator == null)
+        { mouthAnimator = GetComponent<MouthController>(); }
+
+        if (mouthAnimator != null)
+        {
+            mouthAnimator.SetMouthPattern(_pattern, _length);
+        }
+    }
+
+
+
+    public void SetMouth(Mood _mood) { mouthAnimator.SetMouth(_mood); }
+
+
+    public void BlinkTimer()
+    {
+
+        blinkTimer -= Time.deltaTime;
+
+        if (blinkTimer <= 0)
+        {
+            if (eyesOpen)
+            {
+                eyesOpen = false;
+                if (leftEye.materials.Length > 1)
+                {
+                    Material[] mats = new Material[2];
+
+                    mats[0] = closedEye;
+                    mats[1] = closedEye;
+                    leftEye.materials = mats;
+                    rightEye.materials = mats;
+                }
+                else
+                {
+                    leftEye.material = closedEye;
+                    rightEye.material = closedEye;
+                }
+
+                blinkTimer = UnityEngine.Random.Range(0.01f, 0.5f);
+
+            }
+            else
+            {
+                eyesOpen = true;
+                if (leftEye.materials.Length > 1)
+                {
+                    Material[] mats = new Material[2];
+
+                    mats[0] = openEye;
+                    mats[1] = openEye;
+                    leftEye.materials = mats;
+                    rightEye.materials = mats;
+                }
+                else
+                {
+                    leftEye.material = openEye;
+                    rightEye.material = openEye;
+                }
+                blinkTimer = UnityEngine.Random.Range(1.0f, 6.0f);
+            }
+
+
+
+        }
+
+
+    }
+
 
 
     public void MoveNavmesh(float _speed = 5,float _minagle=15)

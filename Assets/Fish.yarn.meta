@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: c4a12cb8af1f75644a7fb42c687e4031
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 94073015eacc34c1d8fc6786e43d60ca, type: 3}
+  baseLanguageID: en-US
+  stringIDs:
+  - Fish-fish-0
+  - Fish-rarefish-1
+  - Fish-grub-2
+  - Fish-raregrub-3
+  - Fish-butterfly-4
+  compilationStatus: 1
+  isSuccesfullyCompiled: 1
+  compilationErrorMessage: 
+  baseLanguage: {fileID: 7128917941130120860, guid: c4a12cb8af1f75644a7fb42c687e4031,
+    type: 3}
+  localizations: []
