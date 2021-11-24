@@ -67,7 +67,9 @@ public class Player : MonoBehaviour
                 }
 
                 if (pocketPendingItem.stackSize == 0)
-                { Destroy(pocketPendingItem.gameObject); }
+                {
+                    Destroy(pocketPendingItem.gameObject);
+                }
                 else 
                 {
                     pocketPendingItem.gameObject.SetActive(false);
@@ -120,9 +122,17 @@ public class Player : MonoBehaviour
     {
 
         PlayAnimation(anim,"start_fish");
-        mouthAnimator = GetComponent<MouthController>();
         SetText("game start");
+
+        mouthAnimator = GetComponent<MouthController>();
         rb = GetComponent<Rigidbody>();
+        foreach (Item el in inventory.itemsInStorage)
+        {
+            GameObject newitem = Instantiate(el.gameObject,Vector3.zero,transform.rotation);
+            inventory.itemsInPockets.Add(newitem.GetComponent<Item>());
+            newitem.SetActive(false);
+        }
+
     }
 
   
@@ -135,6 +145,7 @@ public class Player : MonoBehaviour
         {
             //return;
         }
+
         //for debug porpoises
         playerStateString = state.ToString();
         
@@ -204,8 +215,8 @@ public class Player : MonoBehaviour
             if (nav.velocity.magnitude > 0.1f)
             {
                 SetAnimationBool(anim, "walk", true);
-                SetAnimationParameter(anim, "speed", rb.velocity.magnitude * 0.5f);
-                anim.speed = Mathf.Clamp(rb.velocity.magnitude * 0.7f, 0.5f, walkSpeed);
+                SetAnimationParameter(anim, "speed", nav.velocity.magnitude * 0.5f);
+                anim.speed = Mathf.Clamp(nav.velocity.magnitude * 0.7f, 0.5f, walkSpeed);
             }
             else {
                 anim.speed = 1;
@@ -349,10 +360,11 @@ public class Player : MonoBehaviour
 
                 if (rb.velocity.magnitude <= 0.05f)
                 {
-                    SetNavMeshSpeed(0);
-                   // moveDirection = _dir;
-                    
-                    SetNavDestination(transform.position);
+                    rb.velocity = Vector3.zero;
+                    //SetNavMeshSpeed(0);
+                    // moveDirection = _dir;
+
+                    //  SetNavDestination(transform.position);
                 }
             }
 
@@ -414,10 +426,19 @@ public class Player : MonoBehaviour
     }
 
 
-  
 
 
-    
+    public bool HasItem(ItemClass _item)
+    {
+        //in case there are narrative items, system items, or other conditional checks we might need the 'check if in iventory is called here
+        foreach (Item el in inventory.itemsInPockets)
+        {
+            if (el.itemClass == _item) { return true; }
+        }
+
+        return false;
+    }
+
 
     public void PickUp()
     {
@@ -487,45 +508,37 @@ public class Player : MonoBehaviour
            
         if (InteractWithVillager())
         {
-            Debug.Log("1");
 
         }
-        else if (heldItem != null && heldItem.GetComponent<Item>() != null)
+        else if (heldItem != null && heldItem.activeSelf && heldItem.GetComponent<Item>() != null)
         {
-            Debug.Log("2");
 
             if (heldItem.GetComponent<Item>().TryCatch())
             {
-                Debug.Log("3");
 
                 return;
             }
             else 
             {
                     heldItem.GetComponent<Item>().Use(this);
-                Debug.Log("4");
             }
 
 
         }
         else
         {
-            Debug.Log("5");
             RaycastHit hit;
 
                 if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.05f, transform.TransformDirection((Vector3.down + Vector3.forward + Vector3.forward).normalized), out hit, 3.5f))
                 {
                     if (hit.transform.GetComponent<Item>() != null && hit.transform.GetComponent<Item>().Interact(this))
                     {
-                        Debug.Log("6");
                     }
                     
 
                 }
-            Debug.Log("7");
 
         }
-        Debug.Log("8");
         //if no one to talk to check hands for tools
         //     UseTool();
 
@@ -598,7 +611,7 @@ public class Player : MonoBehaviour
         {
             if (heldItem.GetComponent<FishingRod>() != null)
             {
-
+                SetAnimationTrigger(Animator(), "stop_action");
                 Item caughtFish = GameManager.instance.ItemManager().CatchFish(transform.position, heldItem.GetComponent<FishingRod>().currentFishChange);
 
                 if (caughtFish != null)
@@ -608,11 +621,16 @@ public class Player : MonoBehaviour
                     GetItem(showFish);
 
                 }
-                else { State(PlayerState.playerControlled); }
+                else 
+                {
+                   
+                    State(PlayerState.playerControlled);
+                }
 
             }
 
-            heldItem.GetComponent<Item>().ResetSubItemPos();
+            heldItem.GetComponent<Item>().SetSubItem(null);
+            heldItem.GetComponent<Item>().ResetsubObjectPos();
         }
         
        // CatchBug();
@@ -667,10 +685,29 @@ public class Player : MonoBehaviour
 
         //if at the end of the inventory in either direction dont loop over until the player toggles again
         //this will prevent an infinite loop and allow the player to cycle through everything and back to empty hands
-        if (currentItem < 0) { currentItem = inventory.PocketItemsCount() ; Destroy(heldItem); return; }
-        if (currentItem >= inventory.PocketItemsCount()) { currentItem = -1; Destroy(heldItem); return; }
+        if (currentItem < 0) { 
+            currentItem = inventory.PocketItemsCount();
+            if(heldItem != null)
+            {
+                heldItem.GetComponent<Item>().SetSubItem(null);
+                heldItem.SetActive(false);
+            }
 
-       // Debug.Log("changing item: " );
+            return;
+        }
+        if (currentItem >= inventory.PocketItemsCount()) 
+        { 
+            currentItem = -1; 
+
+            if (heldItem != null) 
+            {
+                heldItem.GetComponent<Item>().SetSubItem(null);
+                heldItem.SetActive(false);
+            }
+
+            return; 
+        }
+
         Item tempItem = new Item();
         tempItem = inventory.GetFromPockets(currentItem);
         //if (tempItem == null) { return; }
@@ -681,14 +718,23 @@ public class Player : MonoBehaviour
           //  Debug.Log("LoadingItem: " + (tempItem.itemName));
             string itempath = "items/" + (tempItem.itemName);
             GameObject newheldItem = inventory.GetFromPockets(currentItem).gameObject;
+
             newheldItem = Instantiate(newheldItem, InHands.position, InHands.rotation);
             newheldItem.transform.parent = InHands.transform;
 
+            newheldItem.transform.position = InHands.transform.position;
+            newheldItem.transform.rotation = InHands.transform.rotation;
+
             //TODO: keep the loaded items/pocket items in a way that is more efficent
-            if (heldItem != null) { Destroy(heldItem); }
+            if (heldItem != null)
+            {
+                heldItem.SetActive(false);
+                heldItem.transform.parent = null;
+                //Destroy(heldItem); 
+            }
             
             heldItem = newheldItem;
-
+            heldItem.SetActive(true);
         }
         else 
         {
@@ -705,21 +751,40 @@ public class Player : MonoBehaviour
     {
 
         //TODO: keep the loaded items/pocket items in a way that is more efficent
-        if (heldItem != null) { Destroy(heldItem); }
-
-        if (_item != null && _item.usable == true)
+        if (heldItem != null) 
         {
+            //Destroy(heldItem);
+            heldItem.SetActive(false);
+            heldItem.transform.parent = null;
+        }
+
+        //check if the item can be put into the players hands, or if there is
+        // a context based interaction: e.g. if using a grub check for the fishing rod
+
+        if (_item != null )
+        {
+
+            //TODO: check if its already loaded before going to the resource menu
+
             //swap the current item for the new one
             //  Debug.Log("LoadingItem: " + (tempItem.itemName));
+
             string itempath = "items/" + (_item.itemName);
-            GameObject newheldItem = _item.gameObject;
-            newheldItem = Instantiate(newheldItem, InHands.position, InHands.rotation);
-            newheldItem.transform.parent = InHands.transform;
+            Item newheldItem = _item.Hold(this);
 
-            
+            if (newheldItem == null)
+            {
+                heldItem = null;
+                return;
+            }
 
-            heldItem = newheldItem;
+            heldItem = newheldItem.gameObject;
 
+
+            heldItem.transform.parent = InHands.transform;
+            heldItem.transform.position = InHands.transform.position;
+            heldItem.transform.rotation = InHands.transform.rotation;
+            heldItem.SetActive(true);
         }
 
     }
@@ -922,7 +987,30 @@ public class Player : MonoBehaviour
 
 
     }
+    public void RollEyes()
+    {
+        //timer += Time.deltaTime;
+        //if (timer >= rolltime)
+        //{
+        //    timer = 0;
+        //    if (count >= eyesLeft.Count)
+        //    {
+        //        count = 0;
+        //    }
 
+
+
+        //    mats = new Material[1];
+
+        //    //   obj1.GetComponent<SkinnedMeshRenderer>().material = leftEyeMaterial;
+        //    leftEyeMaterial.SetTexture("Texture2D_72426835", eyesLeft[count]);
+        //    rightEyeMaterial.SetTexture("Texture2D_72426835", eyesRight[count]);
+
+
+        //    count++;
+        //}
+
+    }
 
 
     public void MoveNavmesh(float _speed = 5,float _minagle=15)
@@ -980,8 +1068,9 @@ public class Player : MonoBehaviour
         }
 
         //&& GetComponent<NavMeshAgent>().destination != dest && nav.enabled
-        if (nav != null && nav.enabled)
+        if (nav != null )
         {
+            nav.enabled = true;
             NavMeshHit hit;
             if (NavMesh.SamplePosition(dest, out hit, 1f, NavMesh.AllAreas))
             {
@@ -1023,7 +1112,7 @@ public class Player : MonoBehaviour
             nav = GetComponent<NavMeshAgent>();
         }
 
-        if (nav != null && nav.enabled && GetComponent<NavMeshAgent>().speed != _speed )
+        if (nav != null  && GetComponent<NavMeshAgent>().speed != _speed )
         {
             GetComponent<NavMeshAgent>().speed = _speed;
 
@@ -1038,9 +1127,26 @@ public class Player : MonoBehaviour
             nav = GetComponent<NavMeshAgent>();
         }
 
-        if (nav != null && nav.enabled )
+        if (nav != null  )
         {
-            GetComponent<NavMeshAgent>().Warp(_warpTo);
+            nav.enabled = true;
+            nav.Warp(_warpTo);
+
+            //NavMeshHit hit;
+            //if (NavMesh.SamplePosition(_warpTo, out hit, 1f, NavMesh.AllAreas))
+            //{
+            //    nav.Warp(_warpTo);
+            //}
+            //else
+            //{
+            //    Debug.Log("Navmesh: No hit -- trying to find a closer target");
+
+            //    //if no hit, try to find one closer, but not infinitely
+            //    if (_warpTo.magnitude > 0.02f)
+            //    { WarpNav(_warpTo * 0.5f); }
+            //}
+
+     
 
 
         }
@@ -1068,7 +1174,7 @@ public class Player : MonoBehaviour
             nav = GetComponent<NavMeshAgent>();
         }
 
-        if (nav != null && nav.enabled)
+        if (nav != null )
         {
             return nav.velocity;
 
@@ -1086,7 +1192,7 @@ public class Player : MonoBehaviour
             nav = GetComponent<NavMeshAgent>();
         }
 
-        if (nav != null && nav.enabled )
+        if (nav != null )
         {
             return GetComponent<NavMeshAgent>().steeringTarget;
 
@@ -1102,7 +1208,7 @@ public class Player : MonoBehaviour
             nav = GetComponent<NavMeshAgent>();
         }
 
-        if (nav != null && nav.enabled )
+        if (nav != null )
         {
             return GetComponent<NavMeshAgent>().nextPosition;
 

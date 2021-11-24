@@ -10,7 +10,7 @@ public class Axe : Item
     {
        
 
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward, 1);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position + _player.transform.forward, 1);
 
 
         foreach (var hitCollider in hitColliders)

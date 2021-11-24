@@ -7,7 +7,7 @@ tags:
 <<CameraConversation YarnFunctions>>
 Licon: Welcome, welcome, welcome!
 Licon: This is the beautiful town of Happydale! See our beautiful trees, our luscious fruits, our thriving fish…
-<<CameraSetOffset YarnFunctions 40 0 3 -5>>
+<<CameraSetOffset YarnFunctions 30 0 4 -4>>
 <<LeadPlayerAndTalkRunning YarnFunctions southeastroadend TestCharacter4 1 2>>
 Licon: Happydale is my pride and joy. Happydale is what gives me life! It’s my reason for breathing!
 Margo: Oh, wow, this guy is a loooot. I hope he’ll shut up soon…

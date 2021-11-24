@@ -362,6 +362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: grub
+  itemClass: 4
   icon: {fileID: 21300000, guid: 12004b4385e204d469467c98a905082e, type: 3}
   usable: 0
   placable: 0
@@ -369,9 +370,10 @@ MonoBehaviour:
   buryable: 0
   on: 0
   stackSize: 1
-  maxStackSize: 1
+  maxStackSize: 5
   footprintWidth: -1
   footprintDepth: -1
+  subObject: {fileID: 0}
   subItem: {fileID: 0}
   notice: {fileID: 0}
   conditionalEvent:

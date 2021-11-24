@@ -427,6 +427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: fish
+  itemClass: 4
   icon: {fileID: 21300000, guid: bd3c6c903500ae2469d53cf38a7243a2, type: 3}
   usable: 0
   placable: 0

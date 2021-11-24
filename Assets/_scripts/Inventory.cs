@@ -19,6 +19,13 @@ public class Inventory : MonoBehaviour
         return GetItem(itemsInPockets, _item);
 
     }
+
+    public Item GetFromPockets(ItemClass _item)
+    {
+        if (itemsInPockets == null) { IntializeList(); }
+        return GetItem(itemsInPockets, _item);
+
+    }
     public Item GetFromPockets(string _item)
     {
         if (itemsInPockets == null) { IntializeList(); }
@@ -40,12 +47,24 @@ public class Inventory : MonoBehaviour
     }
 
 
+
+
     public Item GetItem(List<Item> listToSearch , int _item)
     {
         if (listToSearch.Count <= _item) 
         { return null; }
 
         return listToSearch[_item];
+    }
+
+    public Item GetItem(List<Item> listToSearch, ItemClass _item)
+    {
+        foreach (Item el in listToSearch)
+        {
+            if (el.itemClass == _item) { return el; }
+        }
+
+        return null;
     }
 
     public Item GetItem(List<Item> listToSearch, string _item)
@@ -82,7 +101,8 @@ public class Inventory : MonoBehaviour
 
         //if the item does not stack there needs to be an empty inventory spot for it
         //if the item is at max stacks dont check if there is an incomplete stack
-        if (_item.maxStackSize == _item.stackSize)
+        
+        if (_item.maxStackSize == _item.stackSize )
         {
             if (PocketItemsCount() < pocketSize)
             {
@@ -195,6 +215,10 @@ public class Inventory : MonoBehaviour
         }
     
     }
+
+
+ 
+
 
     public void SetIconToEmpty(Image _img)
     {

@@ -69,8 +69,6 @@ public static class SceneActions
     {
         
 
-         rotSpeed = 3;
-
         if (_player.nav != null )
         {
             if ( _player.nav.enabled == false)
@@ -78,7 +76,8 @@ public static class SceneActions
 
 
             _player.SetNavDestination(_actor.transform.position +  (_actor.transform.position - _location).normalized);
-            _player.SetNavMeshSpeed(_speed);
+            _player.SetNavMeshSpeed(_speed + Vector3.Distance(_player.transform.position,_player.GetNavDestination() ));
+
         }
       
        // _player.SetNavLeadObject((_actor.position - _actor.forward), _speed);

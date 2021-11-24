@@ -336,6 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: hole
+  itemClass: 7
   icon: {fileID: 0}
   usable: 0
   placable: 0
@@ -346,8 +347,12 @@ MonoBehaviour:
   maxStackSize: 1
   footprintWidth: -1
   footprintDepth: -1
+  subObject: {fileID: 0}
   subItem: {fileID: 0}
   notice: {fileID: 0}
+  conditionalEvent:
+    m_PersistentCalls:
+      m_Calls: []
   open: 1
   holeCollider: {fileID: 9001173251224740783}
   buriedIndicator: {fileID: 7452052362747186963}

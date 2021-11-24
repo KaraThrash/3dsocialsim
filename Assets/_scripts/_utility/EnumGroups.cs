@@ -18,6 +18,7 @@ public enum Villagers { licon,wilms,bear,cat,dog,monkey }
 public enum VillagerState { moving, idle, waiting, talking, activity }
 public enum VillagerStoryState { idle, inScene, inPrison, offScreen }
 
+public enum ItemClass { axe,net,shovel,fishingrod,consumable,fruit,cosmetic,enviromental }
 public enum Mood { happy, sad, neutral, scared, angry, confused, tired }
 public enum MouthPattern { happy, sad, neutral, scared, angry, confused, tired,fast,slow }
 public enum GroundTypes { grass,wood,stone,dirt,leaves,snow,water,squish,other}

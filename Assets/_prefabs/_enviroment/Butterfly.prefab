@@ -362,6 +362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: butterfly
+  itemClass: 4
   icon: {fileID: 21300000, guid: 9c39f5cacef8eba4aa6fab021ac66ba5, type: 3}
   usable: 0
   placable: 0
@@ -372,7 +373,8 @@ MonoBehaviour:
   maxStackSize: 1
   footprintWidth: -1
   footprintDepth: -1
-  subItem: {fileID: 638744636503708803}
+  subObject: {fileID: 0}
+  subItem: {fileID: 0}
   notice: {fileID: 0}
   conditionalEvent:
     m_PersistentCalls:

@@ -73,11 +73,14 @@ public class GameManager : MonoBehaviour
             if (actionTimer <= 0 && actionTimer != -1)
             { 
                 actionTimer = 0;
+                player.State(PlayerState.playerControlled);
+
                 if (player.State() == PlayerState.showing)
                 {
                     cameraControls.ConversationToggle(false);
-                    player.State( PlayerState.playerControlled);
+                    
                 }
+
                 //PlayerStateTransition();
             }
         }
@@ -274,8 +277,9 @@ public class GameManager : MonoBehaviour
         {
             player.State(PlayerState.inMenu);
         }
-        else { 
-            player.State(PlayerState.playerControlled);
+        else {
+            actionTimer = 0.1f;
+            //player.State(PlayerState.playerControlled);
         }
     }
 
@@ -360,7 +364,7 @@ public class GameManager : MonoBehaviour
         cameraControls.ConversationToggle(true);
 
         player.State(PlayerState.showing);
-        player.HoldToCamera(_bug.subItem);
+        player.HoldToCamera(_bug.SubObject());
         player.SetPendingItem(_bug);
 
         if (dialogueRunner.NodeExists(_bug.itemName) )

@@ -7,16 +7,18 @@ using UnityEngine.Events;
 
 public class Item : MonoBehaviour
 {
-    public string itemName; 
+    public string itemName;
+    public ItemClass itemClass;
     public Sprite icon;
     public bool usable, placable, holdable,buryable;
     public bool on;
     public int stackSize = 1, maxStackSize = 1,footprintWidth=-1,footprintDepth=-1;
     
-    public GameObject subItem; //fishing bob type items
+    public GameObject subObject; //fishing bob type items
+    public Item subItem; //if other items are fed into this one: e.g. bait used with the fishing rod
     public GameObject notice;
     
-    private Vector3 subItemStartPos;
+    private Vector3 subObjectStartPos;
 
 
     public UnityEvent conditionalEvent;
@@ -26,16 +28,16 @@ public class Item : MonoBehaviour
     {
 
         //for items that have a secondary component to them
-        if (subItem != null)
+        if (subObject != null)
         { 
-            subItemStartPos = subItem.transform.localPosition;
+            subObjectStartPos = subObject.transform.localPosition;
          }
     }
     void OnDisable()
     {
-        if (subItem != null)
+        if (subObject != null)
         {
-            subItem.transform.localPosition = subItemStartPos;
+            subObject.transform.localPosition = subObjectStartPos;
         }
     }
 
@@ -52,14 +54,45 @@ public class Item : MonoBehaviour
     
     }
 
-    public void ResetSubItemPos()
+    public void ResetsubObjectPos()
     {
-        subItem.transform.localPosition = subItemStartPos;
+        subObject.transform.localPosition = subObjectStartPos;
         on = false;
     }
+    public virtual void SetSubItem(Item _item)
+    {
+     
+    }
+
+    public virtual void UseSubItem()
+    {
+        if (subItem == null)
+        {
+            return;
+        }
 
 
- 
+        subItem.stackSize--;
+        subItem = null;
+    }
+
+    public Transform SubObject()
+    {
+        if (subObject != null)
+        { return subObject.transform; }
+
+        //safety if the subitem wasnt set
+        if (transform.childCount > 0 )
+        { return transform.GetChild(0); }
+
+        return transform;
+    }
+
+    public virtual Item Hold(Player _player)
+    {
+
+        return this;
+    }
 
     public virtual bool Use()
     {
@@ -85,6 +118,18 @@ public class Item : MonoBehaviour
 
         return false;
     }
+
+
+    /// <summary on the idea for Items>
+    /// An 'Item' passes itself to the iteming being interacted with to allow for each 'Item'
+    /// to define its own interaction based on context, or none as determined by the object
+    /// This way new items that get added only need to define how they are interacted with
+    /// 
+    /// 
+    /// </summary>
+
+
+
 
     public virtual bool Interact(GameManager gameManager) { return false; }
     public virtual bool Interact(Player _player) { return false; }

@@ -33,12 +33,7 @@ public class RadialMenu : Menus
 
     }
 
-    void OnEnable()
-    {
-
-        DoneTurning();
-
-    }
+   
 
     public void IntializeSlots()
     {
@@ -99,7 +94,12 @@ public class RadialMenu : Menus
     }
     public override void SlotButtonPressed(InventorySlotUI _slot)
     {
-        GameManager.instance.player.SetHeldItem(_slot.item);
+        //if this is not an empty slot, select the item and then close the menu
+        if (_slot.item != null)
+        { 
+            GameManager.instance.player.SetHeldItem(_slot.item);
+            GameManager.instance.ToggleMenu(Menu.radial);
+        }
 
     }
 
@@ -111,7 +111,7 @@ public class RadialMenu : Menus
 
         while (count < inventorySlots.Count )
         {
-            if (count + currentPage  < referenceInventory.itemsInPockets.Count)
+            if (count + currentPage  < referenceInventory.itemsInPockets.Count && referenceInventory.itemsInPockets[count + currentPage].stackSize != 0)
             {
                 inventorySlots[count].SetItem(referenceInventory.itemsInPockets[count + currentPage ]);
 
@@ -222,6 +222,15 @@ public class RadialMenu : Menus
     public override void Init()
     {
         UpdateMenuItems();
+        if (EventSystem.current.currentSelectedGameObject != inventorySlots[currentPlaceInList].slotButton.gameObject)
+        {
+            EventSystem.current.SetSelectedGameObject(inventorySlots[currentPlaceInList].slotButton.gameObject);
+        }
+        else
+        {
+          //  EventSystem.current.SetSelectedGameObject(inventorySlots[0].slotButton.gameObject);
+            //  EventSystem.current.SetSelectedGameObject(inventorySlots[1].slotButton.gameObject);
+        }
     }
 
     public override void MoveCursor(int _xdir, int _ydir)

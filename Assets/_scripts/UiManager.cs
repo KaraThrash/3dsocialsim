@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
@@ -120,6 +121,7 @@ public class UiManager : MonoBehaviour
             {
                 if (activeMenu == radial)
                 {
+                    EventSystem.current.SetSelectedGameObject(null);
                     activeMenu.gameObject.SetActive(false);
                     activeMenu = null;
                     return false;

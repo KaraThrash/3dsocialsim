@@ -11,7 +11,7 @@ public class Shovel : Item
     {
 
 
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward, 1);
+        Collider[] hitColliders = Physics.OverlapSphere(_player.transform.position + _player.transform.forward, 1);
 
 
         foreach (var hitCollider in hitColliders)
@@ -26,7 +26,7 @@ public class Shovel : Item
 
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position + Vector3.up + transform.forward , Vector3.down, out hit, 3.5f))
+        if (Physics.Raycast(_player.transform.position + (_player.transform.forward * 1.0f) + Vector3.up , Vector3.down, out hit, 3.5f))
         {
             Debug.Log(hit.point.ToString());
 

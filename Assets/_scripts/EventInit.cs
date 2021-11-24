@@ -56,7 +56,23 @@ public class EventInit : MonoBehaviour
         Vector3 playerTarget = (_villager.transform.position - gameManager.GetPlayer().transform.position);
         playerTarget = new Vector3(playerTarget.x, 0, playerTarget.z).normalized;
 
-      //  gameManager.cameraControls.otherTarget = _villager.transform;
+        RaycastHit hit;
+
+        if (Physics.Raycast(gameManager.GetPlayer().transform.position + Vector3.up, Vector3.down, out hit, 5.5f))
+        {
+            gameManager.GetPlayer().WarpNav(hit.point);
+
+
+
+
+        }
+        else 
+        {
+            Debug.Log("Navmesh: No hit -- where do I warp to?");
+            gameManager.GetPlayer().WarpNav(gameManager.GetPlayer().transform.position);
+        }
+
+        //  gameManager.cameraControls.otherTarget = _villager.transform;
 
 
         sceneDirector.sceneActive = true;

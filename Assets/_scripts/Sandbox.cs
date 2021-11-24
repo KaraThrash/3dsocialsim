@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -12,7 +13,13 @@ public class Sandbox : MonoBehaviour
     public Vector3 range;
     public Vector3 obj1Target, obj2Target, obj3Target;
     public float speed,rotSpeed;
+    public float rolltime=0.1f,timer;
+    public List<Texture> eyesLeft,eyesRight;
+    public Material leftEyeMaterial,rightEyeMaterial;
+    public SkinnedMeshRenderer lefteye, righteye;
+    public int count;
 
+    private Material[] mats;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,17 +34,44 @@ public class Sandbox : MonoBehaviour
     void Update()
     {
 
-        //if (on )
-        //{
-        //    if (obj3 != null)
-        //    {
-        //        AmbientFlies();
-        //    }
-        //}
+        if (on)
+        {
+            if (lefteye != null)
+            {
+                RollEyes();
+            }
+        }
 
     }
 
+    public void RollEyes()
+    {
+        timer += Time.deltaTime;
+        if (timer >= rolltime)
+        {
+            timer = 0;
+            if (count >= eyesLeft.Count)
+            {
+                count = 0;
+            }
 
+
+
+            mats = new Material[1];
+  
+            //   obj1.GetComponent<SkinnedMeshRenderer>().material = leftEyeMaterial;
+            leftEyeMaterial.SetTexture("Texture2D_72426835", eyesLeft[count]);
+            rightEyeMaterial.SetTexture("Texture2D_72426835", eyesRight[count]);
+            //mats[0] = leftEyeMaterial;
+            //lefteye.materials = mats;
+            //rightEyeMaterial.mainTexture = eyesRight[count];
+            //mats[0] = rightEyeMaterial;
+            //righteye.materials = mats;
+
+            count++;
+        }
+    
+    }
 
     public void AmbientFlies()
     {

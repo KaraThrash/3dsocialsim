@@ -18,7 +18,7 @@ public class FishingRod : Item
 
     private float minRange = 0.5f, MaxRange = 3.5f,incrementToCheck = 0.5f;
 
-    public bool FindWater(float _rng)
+    public bool FindWater(Player _player,float _rng)
     {
         if (_rng >= MaxRange)
         {
@@ -28,19 +28,22 @@ public class FishingRod : Item
         {
             RaycastHit hit;
 
-            if (Physics.Raycast(transform.position + Vector3.up + (transform.forward * _rng), Vector3.down, out hit, 3.5f))
+            if (Physics.Raycast(_player.transform.position + Vector3.up + (_player.transform.forward * _rng), Vector3.down, out hit, 3.5f))
             {
                 Debug.Log(hit.point.ToString());
 
                 if (hit.transform.tag.Equals("water"))
                 {
-                    subItem.transform.position = hit.point;
+                    if (subObject != null)
+                    {
+                        subObject.transform.position = hit.point;
+                    }
                     startPos = hit.point;
                     return true;
                 }
             }
 
-            return FindWater(_rng + incrementToCheck);
+            return FindWater(_player,_rng + incrementToCheck);
 
 
         }
@@ -50,8 +53,9 @@ public class FishingRod : Item
 
     public override bool Use(Player _player)
     {
+
         //recursively check to the max distance for water, if any is found it places the bob at the point and returns true
-        if (FindWater(0))
+        if (FindWater(_player,0))
         {
             on = true;
             currentFishChange = Random.Range(0, startPercentRange);
@@ -63,6 +67,7 @@ public class FishingRod : Item
 
 
 
+            _player.SetAnimationParameter(_player.Animator(), "speed",0.0f);
             _player.PlayAnimation(_player.Animator(), "start_fish");
 
             return true;
@@ -80,9 +85,13 @@ public class FishingRod : Item
 
     public override void IsOn()
     {
-        subItem.transform.position = Vector3.MoveTowards(subItem.transform.position, startPos + varience,Time.deltaTime * speed);
+        if (subObject == null)
+        {
+            return;
+        }
+        subObject.transform.position = Vector3.MoveTowards(subObject.transform.position, startPos + varience,Time.deltaTime * speed);
 
-        if (subItem.transform.position == startPos + varience)
+        if (subObject.transform.position == startPos + varience)
         {
             counter++;
             if (counter >= cycle)
@@ -164,6 +173,34 @@ public class FishingRod : Item
 
     }
 
+
+    public override void SetSubItem(Item _item)
+    {
+        if (subItem != null)
+        {
+          //  subItem.stackSize++;
+            //GameManager.instance.player.inventory.PutItemInPocket(subItem);
+
+            subItem = null;
+        }
+
+        if (_item == null) { return; }
+
+       // _item.stackSize--;
+        subItem = _item;
+    }
+
+    public override void UseSubItem( )
+    {
+        if (subItem == null)
+        {
+            return;
+        }
+
+
+        subItem.stackSize--;
+        subItem = null;
+    }
 
 
 }
