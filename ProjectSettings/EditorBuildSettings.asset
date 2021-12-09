@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/_scenes/justbus.unity
     guid: adac06e7fa6ecc542b580bfbe1949f79
   - enabled: 1
-    path: Assets/_scenes/aug26_game.unity
-    guid: 93abbcdc32750314bb666801ae282ddc
-  - enabled: 1
-    path: Assets/_scenes/gamebuild.unity
-    guid: 73928fbe4593c4b42a144f138b36e658
+    path: Assets/_scenes/current_game.unity
+    guid: b13fc331f1553f346bb42244aef7e7ac
   m_configObjects: {}

@@ -6,7 +6,7 @@ using System;
 public enum GameState {free,transitioning,singleCamera,multiCamera,scripted,talking,interacting }
 public enum CameraState { basic, outside, low,high,inside,showoff,conversation,focusing,zoomIn, lostwoods,custom }
 
-public enum PlayerState { playerControlled, inMenu, talking, choosing, fishing, acting, showing, inScene }
+public enum PlayerState { playerControlled, inMenu, talking, choosing, fishing, acting, showing, inScene,animating }
 
 //world location for game state checks
 public enum WorldLocation { overworldNorth,overWorldSouth, inside, lostwoods, bus  }

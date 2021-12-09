@@ -30,7 +30,7 @@ public class FishingRod : Item
 
             if (Physics.Raycast(_player.transform.position + Vector3.up + (_player.transform.forward * _rng), Vector3.down, out hit, 3.5f))
             {
-                Debug.Log(hit.point.ToString());
+                //Debug.Log(hit.point.ToString());
 
                 if (hit.transform.tag.Equals("water"))
                 {

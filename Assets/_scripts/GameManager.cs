@@ -62,6 +62,25 @@ public class GameManager : MonoBehaviour
         StartDay();
     }
 
+    public void ActionTimeLockout()
+    {
+        actionTimer -= Time.deltaTime;
+        if (actionTimer <= 0 && actionTimer != -1)
+        {
+            actionTimer = 0;
+           
+
+            if (player.State() == PlayerState.animating)
+            {
+                cameraControls.ConversationToggle(false);
+
+            }
+            player.State(PlayerState.playerControlled);
+
+            //PlayerStateTransition();
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -69,20 +88,7 @@ public class GameManager : MonoBehaviour
 
         if (actionTimer > 0)
         {
-            actionTimer -= Time.deltaTime;
-            if (actionTimer <= 0 && actionTimer != -1)
-            { 
-                actionTimer = 0;
-                player.State(PlayerState.playerControlled);
-
-                if (player.State() == PlayerState.showing)
-                {
-                    cameraControls.ConversationToggle(false);
-                    
-                }
-
-                //PlayerStateTransition();
-            }
+            ActionTimeLockout();
         }
 
         if (transitionTimer > 0)
@@ -581,10 +587,19 @@ public class GameManager : MonoBehaviour
     public void EndConversation()
     {
         cameraControls.ConversationToggle(false);
-       // chatbox.SetActive(false);
-        inConversation = false;
-        actionTimer = 0;
-        player.State(PlayerState.playerControlled);
+        // chatbox.SetActive(false);
+        if (player.State() == PlayerState.showing)
+        {
+            actionTimer = 1.0f;
+            player.State(PlayerState.animating);
+        }
+        else
+        {
+            inConversation = false;
+            actionTimer = 0;
+            player.State(PlayerState.playerControlled);
+        }
+        
 
         if (activeObject != null && activeObject.GetComponent<Villager>() != null)
         { activeObject.GetComponent<Villager>().State(VillagerState.idle); }

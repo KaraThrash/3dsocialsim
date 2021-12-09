@@ -8,10 +8,10 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: sleepy
-  m_Shader: {fileID: -6465566751694194690, guid: 940d79357fd7a4f01a49e7247aeaa4da,
+  m_Shader: {fileID: -6465566751694194690, guid: 1704416ffe1e24d4cb4fe5d66758860e,
     type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_72426835:
-        m_Texture: {fileID: 2800000, guid: 9fdac48b26b5ae84aa9492a85382473d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 91ac61dfdb4295544af69971991ec64d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_99A4C3B0:
@@ -60,8 +60,19 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _testtoonsubgraph_14E3462E_Texture2D117615ED_596436350:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _testtoonsubgraph_14E3462E_Texture2DCE6E5CAB_1490708553:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_534DD327: 1
+    - Vector1_534DD327: 0
+    - Vector1_6322A524: 0.464
+    - Vector1_86177972: 0.377
+    - Vector1_B680008E: 0
     - Vector1_CC9DD90F: 0
     - _AlphaClip: 0
     - _Blend: 0
@@ -85,8 +96,11 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_394A4422: {r: 0, g: 0, b: 0, a: 1}
-    - Color_49F14EFF: {r: 0, g: 0, b: 0, a: 1}
+    - Color_394A4422: {r: 0.4528302, g: 0.3408791, b: 0.16447133, a: 0}
+    - Color_49F14EFF: {r: 1, g: 1, b: 1, a: 1}
+    - Color_66F0BED7: {r: 1, g: 1, b: 1, a: 0}
+    - Color_941906B5: {r: 1, g: 1, b: 1, a: 0}
+    - Color_AC29EE9B: {r: 1, g: 1, b: 1, a: 1}
     - Color_F52EE448: {r: 0, g: 0, b: 0, a: 0}
     - Vector2_6A93A1CF: {r: 1, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}

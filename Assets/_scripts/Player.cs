@@ -77,6 +77,8 @@ public class Player : MonoBehaviour
                 }
 
             }
+
+            PlayAnimation(Animator(),"put_in_pocket");
             SetPendingItem( null);
 
         }
@@ -331,7 +333,11 @@ public class Player : MonoBehaviour
                     if (!Physics.SphereCast(transform.position + new Vector3(0,0.5f,0), 0.2f,transform.forward, out hit, 0.2f))
                     {
                         rb.velocity = Vector3.Lerp(rb.velocity, moveDirection * _speed, Time.deltaTime * acceleration);
+                        if (!Physics.SphereCast(transform.position + moveDirection + new Vector3(0, 0.5f, 0), 0.2f, Vector3.down, out hit, 2.2f) && hit.transform.tag == "water")
+                        {
+                            rb.velocity = Vector3.zero;
 
+                        }
                     }
                 rb.angularVelocity = Vector3.zero;
 
