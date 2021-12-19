@@ -191,10 +191,10 @@ public static class InputControls
     }
 
     public static float HorizontalAxis()
-    { return Input.GetAxis(hortAxis); }
+    { return Input.GetAxis(hortAxis) + Input.GetAxis("Horizontal"); }
 
     public static float VerticalAxis()
-    { return Input.GetAxis(vertAxis); }
+    { return Input.GetAxis(vertAxis) + Input.GetAxis("Vertical"); ; }
 
     public static float DpadHort()
     {

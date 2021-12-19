@@ -222,7 +222,7 @@ public class RadialMenu : Menus
     public override void Init()
     {
         UpdateMenuItems();
-        if (EventSystem.current.currentSelectedGameObject != inventorySlots[currentPlaceInList].slotButton.gameObject)
+        if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != inventorySlots[currentPlaceInList].slotButton.gameObject)
         {
             EventSystem.current.SetSelectedGameObject(inventorySlots[currentPlaceInList].slotButton.gameObject);
         }

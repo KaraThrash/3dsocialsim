@@ -38,7 +38,8 @@ public class Sandbox : MonoBehaviour
         {
             if (lefteye != null)
             {
-                RollEyes();
+
+                //RollEyes();
             }
         }
 
