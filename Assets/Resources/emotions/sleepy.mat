@@ -96,7 +96,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_394A4422: {r: 0.4528302, g: 0.3408791, b: 0.16447133, a: 0}
+    - Color_394A4422: {r: 0.5, g: 0.5, b: 0.5, a: 0}
     - Color_49F14EFF: {r: 1, g: 1, b: 1, a: 1}
     - Color_66F0BED7: {r: 1, g: 1, b: 1, a: 0}
     - Color_941906B5: {r: 1, g: 1, b: 1, a: 0}

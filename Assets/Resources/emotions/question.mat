@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: question
-  m_Shader: {fileID: -6465566751694194690, guid: 42dd6e598ba557845b30e6c302432f03,
+  m_Shader: {fileID: -6465566751694194690, guid: 1704416ffe1e24d4cb4fe5d66758860e,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_72426835:
-        m_Texture: {fileID: 2800000, guid: 506583fe29f812a44ab6a2b00b8e311c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 85872520b2ce44445810e2de99ccf48d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_99A4C3B0:
@@ -88,7 +88,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_394A4422: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
+    - Color_394A4422: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 1}
     - Color_49F14EFF: {r: 1, g: 1, b: 1, a: 1}
     - Color_66F0BED7: {r: 0, g: 0, b: 0, a: 0}
     - Color_941906B5: {r: 0, g: 0, b: 0, a: 0}

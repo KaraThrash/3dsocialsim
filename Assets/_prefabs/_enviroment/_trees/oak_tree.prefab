@@ -252,7 +252,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5b2a1630c6d1a614f8dd120056bc4715, type: 2}
+  - {fileID: 2100000, guid: d50f22dae3d6c014a936e825e65f32de, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -323,21 +323,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: 
-  toolUsable: 
+  itemClass: 0
   icon: {fileID: 0}
   usable: 1
   placable: 0
   holdable: 0
   buryable: 0
+  on: 0
   stackSize: 1
   maxStackSize: 1
   footprintWidth: -1
   footprintDepth: -1
+  subObject: {fileID: 0}
   subItem: {fileID: 0}
   notice: {fileID: 8478579374744746925}
+  conditionalEvent:
+    m_PersistentCalls:
+      m_Calls: []
   stump: {fileID: 7440211689933549658}
   trunk: {fileID: 2157680241837818142}
   leaves: {fileID: 536909022440483721}
+  villager: {fileID: 0}
 --- !u!136 &1217343679169476369
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -663,7 +669,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5b2a1630c6d1a614f8dd120056bc4715, type: 2}
+  - {fileID: 2100000, guid: b0910cfffa498d549b7e02bfabbc8386, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -168,7 +168,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 74a6516b1a7953c4db87e9480b02f457, type: 2}
+  - {fileID: 2100000, guid: dfbcb4467675a074cbc606b9fc605edd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -247,7 +247,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 74a6516b1a7953c4db87e9480b02f457, type: 2}
+  - {fileID: 2100000, guid: 3a8300ee9e2dfe74bb43ed690bf341db, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -397,21 +397,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: 
-  toolUsable: 
+  itemClass: 0
   icon: {fileID: 0}
   usable: 1
   placable: 0
   holdable: 0
   buryable: 0
+  on: 0
   stackSize: 1
   maxStackSize: 1
   footprintWidth: -1
   footprintDepth: -1
+  subObject: {fileID: 0}
   subItem: {fileID: 0}
   notice: {fileID: 3382807704945547230}
+  conditionalEvent:
+    m_PersistentCalls:
+      m_Calls: []
   stump: {fileID: 3423261240328122315}
   trunk: {fileID: 5928986723372842378}
   leaves: {fileID: 8760597849654246740}
+  villager: {fileID: 0}
 --- !u!136 &4857686193716179035
 CapsuleCollider:
   m_ObjectHideFlags: 0
