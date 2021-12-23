@@ -439,7 +439,7 @@ public class Villager : MonoBehaviour
 
         if (scriptToLoad != null)
         {
-            scriptToLoad = null;
+          //  scriptToLoad = null;
         }
         else 
         {

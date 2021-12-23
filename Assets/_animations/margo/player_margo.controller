@@ -17,9 +17,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.009998418
-  m_TransitionOffset: 0.2718306
-  m_ExitTime: 0.7862444
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0.043722115
+  m_ExitTime: 0.7137085
   m_HasExitTime: 0
   m_HasFixedDuration: 0
   m_InterruptionSource: 2
@@ -363,25 +363,25 @@ AnimatorStateMachine:
     m_Position: {x: 440, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4604189264797886729}
-    m_Position: {x: 760, y: 20, z: 0}
+    m_Position: {x: 880, y: -60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5663403515327466361}
     m_Position: {x: 280, y: 340, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4084299649506132999}
-    m_Position: {x: 760, y: -40, z: 0}
+    m_Position: {x: 790, y: -150, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7225628326561250958}
-    m_Position: {x: 760, y: 70, z: 0}
+    m_Position: {x: 970, y: 10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 568967082856655941}
     m_Position: {x: 280, y: 240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3201065452376867767}
-    m_Position: {x: 750, y: 150, z: 0}
+    m_Position: {x: 890, y: 90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6604523873489194545}
-    m_Position: {x: 750, y: 200, z: 0}
+    m_Position: {x: 770, y: 150, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6052000882903764384}
     m_Position: {x: 290, y: 290, z: 0}
@@ -484,7 +484,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 6d39362169c666945a288d243159f084, type: 2}
     m_Threshold: 1
-    m_Position: {x: 0, y: 0}
+    m_Position: {x: 1, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Blend
@@ -492,7 +492,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 72b30eccad3e9bc49ba5bc112481290a, type: 2}
     m_Threshold: 1.5
-    m_Position: {x: 0, y: 1}
+    m_Position: {x: 5, y: 5}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Blend
@@ -508,7 +508,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7400000, guid: 0441f3a4d68dcd9479d66ae62902251a, type: 2}
     m_Threshold: 2.5
-    m_Position: {x: 2, y: 1}
+    m_Position: {x: 6, y: 5}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Blend
@@ -560,37 +560,37 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: fail
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: stop_action
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Blend
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: speed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: fear
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer

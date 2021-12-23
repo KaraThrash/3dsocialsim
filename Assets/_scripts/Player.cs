@@ -311,9 +311,11 @@ public class Player : MonoBehaviour
         if (_dir.magnitude > 0)
         {
 
+            if (rb.velocity == Vector3.zero) 
+            {
+                SetAnimationBool(anim, "walk", true);
+            }
 
-
-            SetAnimationBool(anim, "walk", true);
 
             moveDirection = _dir; 
 
@@ -323,43 +325,58 @@ public class Player : MonoBehaviour
 
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), rotSpeed * Time.deltaTime);
 
-            //  rb.velocity = Vector3.Lerp(rb.velocity, moveDirection * _speed, Time.deltaTime * acceleration);
 
             float angle = Vector3.Angle(moveDirection , transform.forward);
 
-            if (angle < turnAngle)
+            //TODO: make a constant for the dead movement zone
+            if (_dir.magnitude < 0.75f && rb.velocity.magnitude < 0.1f)
             {
-                    RaycastHit hit;
-                    if (!Physics.SphereCast(transform.position + new Vector3(0,0.5f,0), 0.2f,transform.forward, out hit, 0.2f))
+                //this allows the player to rotate in place without moving the character
+                return;
+
+            }
+
+            rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * _speed * _dir.magnitude, Time.deltaTime * acceleration);
+
+
+            //the stutter direction change while running from animal crossing
+            if (angle > turnAngle)
+            {
+                if (rb.velocity.magnitude > 0)
+                {
+                    rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
+
+                    if (rb.velocity.magnitude <= 0.05f)
                     {
-                        rb.velocity = Vector3.Lerp(rb.velocity, moveDirection * _speed, Time.deltaTime * acceleration);
-                        if (!Physics.SphereCast(transform.position + moveDirection + new Vector3(0, 0.5f, 0), 0.2f, Vector3.down, out hit, 2.2f) && hit.transform.tag == "water")
-                        {
-                            rb.velocity = Vector3.zero;
-
-                        }
+                        rb.velocity = Vector3.zero;
+                        rb.angularVelocity = Vector3.zero;
+                        //SetNavMeshSpeed(0);
+                        //  SetNavDestination(transform.position);
                     }
-                rb.angularVelocity = Vector3.zero;
-
-
+                }
             }
-            else 
+
+            anim.speed = rb.velocity.magnitude / walkSpeed;
+
+
+
+            RaycastHit hit;
+            if (!Physics.SphereCast(transform.position + new Vector3(0, 0.5f, 0), 0.2f, transform.forward, out hit, 0.2f))
             {
-                rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
+
+                if (!Physics.SphereCast(transform.position + moveDirection + new Vector3(0, 0.5f, 0), 0.2f, Vector3.down, out hit, 2.2f) && hit.transform.tag == "water")
+                {
+                    rb.velocity = Vector3.zero;
+
+                }
             }
-           
 
-            // SetNavDestination(Vector3.Lerp(GetNavDestination(),transform.position + (moveDirection ),Time.deltaTime * acceleration));
-           // SetNavDestination(transform.position + (moveDirection * nav.speed));
 
-           // MoveNavmesh(_speed);
-
-           //anim.speed =  GetNavVelocity().magnitude / walkSpeed;
-           anim.speed =  rb.velocity.magnitude / walkSpeed;
+       
         }
         else
         {
-            SetAnimationBool(anim, "walk", false);
+            //no movement input, slow to a stop
             if (rb.velocity.magnitude > 0)
             {
                 rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
@@ -367,6 +384,8 @@ public class Player : MonoBehaviour
                 if (rb.velocity.magnitude <= 0.05f)
                 {
                     rb.velocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
+                    SetAnimationBool(anim, "walk", false);
                     //SetNavMeshSpeed(0);
                     // moveDirection = _dir;
 
@@ -374,10 +393,6 @@ public class Player : MonoBehaviour
                 }
             }
 
-            
-
-            //  rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
-            //   rb.angularVelocity = Vector3.zero;
         }
     }
 

@@ -116,17 +116,17 @@ public class CameraControls : MonoBehaviour
         if (cameraState == CameraState.basic) 
         {
             Track(player.transform.position);
-            cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
+            cam.transform.localEulerAngles = Vector3.Slerp(cam.transform.localEulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
         }
         else if (cameraState == CameraState.outside || cameraState == CameraState.lostwoods)
         {
             Track(player.transform.position);
-            cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
+            cam.transform.localEulerAngles = Vector3.Slerp(cam.transform.localEulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
         }
         else if (cameraState == CameraState.inside)
         { 
             TrackInside(player.transform.position);
-            cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
+            cam.transform.localEulerAngles = Vector3.Slerp(cam.transform.localEulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
         }
         else if (cameraState == CameraState.showoff)
         { }
@@ -390,7 +390,7 @@ public class CameraControls : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, playerXYPos, Time.deltaTime * _speed * followSpeedAdjustment);
         }
 
-        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(_angle, 0, 0), Time.deltaTime * _speed);
+        transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, new Vector3(_angle, 0, 0), Time.deltaTime * _speed);
 
         if (focusing == false)
         {

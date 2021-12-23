@@ -1,7 +1,67 @@
 title: Starbuck
-tags:
----
-<<PlayAnimation YarnFunctions Starbuck wavehello>>
-Starbuck: Nothing but the rain.
+tags: 
+colorID: 0
 
+---
+<<if visited("Starbuck") is false>>
+    <<PlayAnimation YarnFunctions Starbuck WaveHello>>
+<<else>>
+    <<PlayAnimation YarnFunctions Starbuck nervous>>
+    <<set $Starbuck_warning to true>>
+    <<if $Apollo_warning is true>>
+        <<set $Apollo_warning to false>>
+        <<PlayAnimation YarnFunctions Starbuck laugh>>
+        Player: Hey, Starbuck. 
+        Player: Apollo_warning is true 
+    <<else>>
+        
+        <<PlayAnimation YarnFunctions Starbuck dustingoff>>
+        Player: Apollo_warning is false 
+    <<endif>>
+
+    Starbuck: Bye.
+<<endif>>
+
+===
+
+title: Starbuck.Watch
+tags: 
+colorID: 0
+position: 512,430
+---
+Starbuck: Not really. 
+Starbuck: Same old nebula, doing the same old thing. 
+Starbuck: Oh, Ship wanted to see you. Go say hi to it.
+<<set $should_see_ship to true>>
+<<if visited("Ship") is true>>
+    Player: Already done!
+    Starbuck: Go say hi again.
+<<endif>>
+===
+
+title: Starbuck.Exit
+tags: 
+colorID: 6
+position: 211,417
+---
+<<if $Apollo_warning is true>>
+    <<set $sally_warning to false>>
+    <<PlayAnimation YarnFunctions WaveHello>>
+    Player: Hey, Starbuck. 
+    Starbuck: Oh! Hi. 
+    Starbuck: You snuck up on me. 
+    Starbuck: Don't do that.
+<<else>>
+    Player: Hey.
+    Starbuck: Hi.
+<<endif>>
+Starbuck: Bye. 
+===
+
+title: Starbuck.Sorry
+tags: 
+colorID: 0
+position: 827,439
+---
+Starbuck: Yeah. Don't do it again. #line:d7df49
 ===
