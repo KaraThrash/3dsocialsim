@@ -20,8 +20,14 @@ title: grub
 tags: 
 
 ---
+<<PlayPlayerAnimation YarnFunctions grab_something>>
+<<DisableContinueButton YarnFunctions>>
+<<wait 2>>
+<<PlayerShowOff YarnFunctions>>
+<<EnableContinueButton YarnFunctions>>
 grub: in a tub.
-
+<<PlayPlayerAnimation YarnFunctions put_in_pocket>>
+<<wait 1>>
 
 ===
 

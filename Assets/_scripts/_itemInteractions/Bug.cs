@@ -21,6 +21,9 @@ public class Bug : Item
         return false;
     }
 
+
+
+
     public override Item Hold(Player _player)
     {
         //the bugs are bait for the fishing rod, if it is in the inventory it should smart switch to that and not the bug itself when picking from the inventory

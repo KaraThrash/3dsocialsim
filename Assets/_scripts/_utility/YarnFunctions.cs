@@ -46,6 +46,28 @@ public class YarnFunctions : MonoBehaviour
         GameManager.instance.SetContinueButton(false);
     }
 
+
+    [YarnCommand("EnableDialogueBox")]
+    public void EnableDialogueBox()
+    {
+        Debug.Log("Yarn EnableContinueButton");
+
+        GameManager.instance.SetDialogueBox(true);
+    }
+
+    [YarnCommand("DisableDialogueBox")]
+    public void DisableDialogueBox()
+    {
+        Debug.Log("Yarn DisableContinueButton");
+
+
+        GameManager.instance.SetDialogueBox(false);
+    }
+
+
+
+
+
     [YarnCommand("AdvanceSceneAnimator")]
     public void AdvanceSceneAnimator()
     {
@@ -504,17 +526,30 @@ public class YarnFunctions : MonoBehaviour
         //<<yarncommand Actor parameters>>
     }
 
-    //[YarnCommand("PlayAnimation")]
-    //public void PlayAnimation(string _animation)
-    //{
-    //    Debug.Log("Yarn animations");
-    //    Debug.Log(_animation);
+    [YarnCommand("PlayPlayerAnimation")]
+    public void PlayPlayerAnimation(string _animation)
+    {
+        Debug.Log("PlayPlayerAnimation(string _animation)");
 
-    //    GameManager.instance.activeObject.GetComponent<Villager>().PlayAnimation(_animation.ToLower());
+        Player player = GameManager.instance.GetPlayer();
 
-    //    //<<yarntest Sally name>>
-    //    //<<yarncommand Actor parameters>>
-    //}
+
+        if (player == null) { Debug.Log("didnt find the player"); return; }
+
+        player.PlayAnimation(_animation);
+
+        //<<yarntest Sally name>>
+        //<<yarncommand Actor parameters>>
+    }
+
+    [YarnCommand("PlayerShowOff")]
+    public void PlayerShowOff( )
+    {
+        Debug.Log("PlayerShowOff");
+
+       GameManager.instance.ShowItem();
+
+    }
 
     [YarnCommand("PlayAnimation")]
     public void PlayAnimation(string _who,string _animation)

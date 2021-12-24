@@ -21,7 +21,9 @@ public class Player : MonoBehaviour
     public float turnAngle; //buffer for when the player will start moving before facing the exact direction of travel 
     public bool inside;
     public Transform InHands;
-    public GameObject heldItem,navLeadObject;
+    public GameObject heldItem,navLeadObject,pointOfInterest;
+    public GameObject prevHeldItem; //to take the tool back out after the pick up screen
+    private float poiRange=5;
     public Inventory inventory;
     public WorldUi placeholderActionText;
 
@@ -78,12 +80,14 @@ public class Player : MonoBehaviour
 
             }
 
-            PlayAnimation(Animator(),"put_in_pocket");
+         //   PlayAnimation(Animator(),"put_in_pocket");
             SetPendingItem( null);
 
+            StopHidingItem();
         }
 
 
+        if (_state == PlayerState.playerControlled) { SetKinematic(false); }
         if (_state == PlayerState.talking) { SetAnimationBool(anim, "walk", false); }
         else if (_state == PlayerState.inScene) { SetAnimationBool(anim, "walk", false); }
         else if (_state == PlayerState.fishing) { 
@@ -155,6 +159,7 @@ public class Player : MonoBehaviour
 
 
 
+
         if (leftEye != null)
         { BlinkTimer(); }
 
@@ -184,6 +189,7 @@ public class Player : MonoBehaviour
 
             PlayerControlled();
 
+            FocusPOI(pointOfInterest);
 
         }
         else if (state == PlayerState.talking)
@@ -193,8 +199,8 @@ public class Player : MonoBehaviour
         else if (state == PlayerState.fishing)
         {
             Fishing();
-           
-           
+
+
 
         }
         else if (state == PlayerState.inMenu)
@@ -204,12 +210,37 @@ public class Player : MonoBehaviour
             InMenuControls();
 
         }
-        else if (state == PlayerState.inScene)
+        else if (state == PlayerState.showing)
         {
-            
-            
+            if (poiRange < 10)
+            {
+                poiRange = 10;
+            }
+
+            SetVelocities(Vector3.zero, Vector3.zero);
+
+            GameObject cam = GameManager.instance.cam.gameObject;
+            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(cam.transform.position.x, transform.position.y, cam.transform.position.z) - transform.position);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 1 * Time.deltaTime);
+
+            FocusPOI(GameManager.instance.cam.gameObject);
 
         }
+        else if (state == PlayerState.acting)
+        {
+
+
+
+        }
+        else if (state == PlayerState.inScene)
+        {
+
+
+
+        }
+        else { }
+        return;
         // else { SetVelocities(Vector3.zero, Vector3.zero); }
 
         if (nav != null && nav.enabled)
@@ -356,8 +387,8 @@ public class Player : MonoBehaviour
                 }
             }
 
-            anim.speed = rb.velocity.magnitude / walkSpeed;
-
+            anim.speed = (rb.velocity.magnitude * 2) / walkSpeed;
+            SetAnimationParameter(anim,"speed",rb.velocity.magnitude / walkSpeed);
 
 
             RaycastHit hit;
@@ -380,12 +411,14 @@ public class Player : MonoBehaviour
             if (rb.velocity.magnitude > 0)
             {
                 rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
-
+                anim.speed = (rb.velocity.magnitude * 2) / walkSpeed;
+                SetAnimationParameter(anim, "speed", rb.velocity.magnitude / walkSpeed);
                 if (rb.velocity.magnitude <= 0.05f)
                 {
                     rb.velocity = Vector3.zero;
                     rb.angularVelocity = Vector3.zero;
                     SetAnimationBool(anim, "walk", false);
+                    anim.speed = 1;
                     //SetNavMeshSpeed(0);
                     // moveDirection = _dir;
 
@@ -509,6 +542,28 @@ public class Player : MonoBehaviour
 
     }
 
+    public void HideHeldItem()
+    {
+        //briefly stop showing the tool used when showing off a new item
+        if (heldItem != null)
+        {
+            prevHeldItem.gameObject.SetActive(false);
+            prevHeldItem = heldItem;
+        }
+
+    }
+
+    public void StopHidingItem()
+    {
+        //if a tool ws hidden during pickup bring it back out
+        if (prevHeldItem != null)
+        {
+            prevHeldItem.gameObject.SetActive(true);
+            prevHeldItem = null;
+        }
+    }
+
+
 
     //Interact with characters and objects, Use tool or item, TODO:Move furniture(Press and hold A)
     public void Interact()
@@ -601,7 +656,81 @@ public class Player : MonoBehaviour
 
         return false;
     }
-   
+
+
+    public void OnTriggerStay(Collider other)
+    {
+
+        if (pointOfInterest == null && other.gameObject.tag == "POI")
+        {
+            SetPoi(other.transform);
+
+
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        //if (other.gameObject.tag == "POI")
+        //{
+        //    rig.weight = 0;
+        //}
+    }
+
+    public void SetPoi(Transform _poi)
+    {
+        float angle = Vector3.Angle(_poi.transform.position - transform.position, transform.forward);
+
+        if (angle < 110)
+        {
+            pointOfInterest = _poi.gameObject;
+            poiRange = Vector3.Distance(_poi.transform.position, transform.position) * 1.1f;
+
+
+        }
+    }
+
+    public void FocusPOI(GameObject _poi=null)
+    {
+        if (_poi == null)
+        {
+            if (rig.weight > 0)
+            {
+                rig.weight = Mathf.Lerp(rig.weight, 0, Time.deltaTime);
+            }
+        }
+        else 
+        {
+            head.position = _poi.transform.position;
+
+            float angle = Vector3.Angle(_poi.transform.position - transform.position, transform.forward);
+
+            if (angle > 175 || Vector3.Distance(_poi.transform.position,transform.position) > poiRange)
+            {
+                if (_poi == pointOfInterest)
+                { 
+                    pointOfInterest = null;
+                }
+            }
+            else 
+            {
+                rig.weight = Mathf.Lerp(rig.weight, 1 - (Vector3.Distance(transform.position, _poi.transform.position) / poiRange), Time.deltaTime);
+            }
+
+        }
+
+
+        
+    }
+
+
+
+
+
+
+
+
+
 
 
     public void Fishing()
@@ -678,9 +807,11 @@ public class Player : MonoBehaviour
 
     public void HoldToCamera(Transform _obj)
     {
-        transform.LookAt(new Vector3(transform.position.x, transform.position.y, transform.position.z - 10));
-        _obj.position = InHands.position;
-        _obj.rotation = InHands.rotation;
+       // transform.LookAt(new Vector3(transform.position.x, transform.position.y, transform.position.z - 10));
+
+        _obj.position = new Vector3(InHands.position.x, InHands.position.y, InHands.position.z - 0.5f);
+        //_obj.position = InHands.position;
+        //_obj.rotation = InHands.rotation;
     }
 
     public void ChangeHeldItem()
@@ -1301,6 +1432,16 @@ public class Player : MonoBehaviour
     }
 
 
+    public void PlayAnimation( string _animation, bool replay = false)
+    {
+        if (anim == null) { anim = GetComponent<Animator>(); }
+
+        if (anim == null) { return; }
+
+        anim.Play(_animation);
+    }
+
+
     public void PlayAnimation(Animator animator, string _animation, bool replay = false)
     {
         if (animator == null) { return; }
@@ -1310,6 +1451,8 @@ public class Player : MonoBehaviour
 
 
     }
+
+
 
 
     public void EnableAnimator(Animator animator, bool _on)

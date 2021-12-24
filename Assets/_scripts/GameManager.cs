@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Yarn.Unity;
@@ -49,7 +50,7 @@ public class GameManager : MonoBehaviour
 
     public Vector3 pendingNewPosition; //apply at the end of the transitioning step
 
-
+    public UnityEvent pendingEvent;
 
     // Start is called before the first frame update
     void Start()
@@ -68,14 +69,14 @@ public class GameManager : MonoBehaviour
         if (actionTimer <= 0 && actionTimer != -1)
         {
             actionTimer = 0;
-           
-
-            if (player.State() == PlayerState.animating)
-            {
-                cameraControls.ConversationToggle(false);
-
-            }
             player.State(PlayerState.playerControlled);
+            cameraControls.ConversationToggle(false);
+            //if (player.State() == PlayerState.animating)
+            //{
+            //    cameraControls.ConversationToggle(false);
+
+            //}
+            //player.State(PlayerState.playerControlled);
 
             //PlayerStateTransition();
         }
@@ -354,7 +355,7 @@ public class GameManager : MonoBehaviour
         {
             if (terrainManager.Dig(_square))
             {
-                actionTimer = 0.2f;
+                actionTimer = 0.5f;
                 //player.state = PlayerState.acting;
             }
 
@@ -367,25 +368,43 @@ public class GameManager : MonoBehaviour
     {
         activeObject = _bug.transform;
 
-        cameraControls.ConversationToggle(true);
+        player.State(PlayerState.acting);
 
-        player.State(PlayerState.showing);
-        player.HoldToCamera(_bug.SubObject());
+        actionTimer = 5;
+
+        _bug.SubObject().gameObject.SetActive(false);
+
         player.SetPendingItem(_bug);
+        player.SetKinematic(true);
 
-        if (dialogueRunner.NodeExists(_bug.itemName) )
+
+        if (dialogueRunner.NodeExists(_bug.itemName))
         {
             //the background shouldnt remain active while getting an item
-            Time.timeScale = 0;
-            dialogueRunner.StartDialogue(_bug.itemName);
+        //    Time.timeScale = 0;
+            dialogueRunner.StartDialogue(player.pocketPendingItem.itemName);
+            StartConversation();
         }
-        else 
+
+
+
+    }
+
+
+    public void ShowItem()
+    {
+        player.State(PlayerState.showing);
+        Item pendingItem = player.pocketPendingItem;
+
+        if (pendingItem != null)
         {
-            actionTimer = 2;
-
+            player.pocketPendingItem.SubObject().gameObject.SetActive(true);
+            player.HoldToCamera(player.pocketPendingItem.SubObject());
         }
 
+        cameraControls.ConversationToggle(true);
 
+        
         
     }
 
@@ -574,11 +593,12 @@ public class GameManager : MonoBehaviour
 
     public void StartConversation()
     {
-       // cameraControls.ConversationToggle(true);
-        
+        // cameraControls.ConversationToggle(true);
+
 
 
         //chatbox.SetActive(true);
+        player.SetKinematic(true);
         inConversation = true;
         actionTimer = -1;
         player.State(PlayerState.talking);
@@ -588,18 +608,20 @@ public class GameManager : MonoBehaviour
     {
         cameraControls.ConversationToggle(false);
         // chatbox.SetActive(false);
-        if (player.State() == PlayerState.showing)
-        {
-            actionTimer = 1.0f;
-            player.State(PlayerState.animating);
-        }
-        else
-        {
-            inConversation = false;
-            actionTimer = 0;
-            player.State(PlayerState.playerControlled);
-        }
-        
+        //if (player.State() == PlayerState.showing)
+        //{
+        //    actionTimer = 1.0f;
+        //    player.State(PlayerState.animating);
+        //}
+        //else
+        //{
+        //    inConversation = false;
+        //    actionTimer = 0;
+        //    player.State(PlayerState.playerControlled);
+        //}
+        inConversation = false;
+        actionTimer = 0;
+        player.State(PlayerState.playerControlled);
 
         if (activeObject != null && activeObject.GetComponent<Villager>() != null)
         { activeObject.GetComponent<Villager>().State(VillagerState.idle); }
@@ -828,7 +850,12 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void SetDialogueBox(bool _on)
+    {
+        dialogueRunner.GetComponent<DialogueUI>().dialogueContainer.gameObject.SetActive(_on);
 
+
+    }
 
 
     public Villager FindVillager(string _name)

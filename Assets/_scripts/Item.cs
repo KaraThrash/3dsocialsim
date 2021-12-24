@@ -142,6 +142,30 @@ public class Item : MonoBehaviour
         return false;
     }
 
+    public virtual bool PickUp(GameManager gameManager) { return false; }
+    public virtual bool PickUp(Player _player) { return false; }
+    public virtual bool PickUp(Villager _villager) { return false; }
+    public virtual bool PickUp(Item _item) { return false; }
+    public virtual bool PickUp()
+    {
+
+        if (notice != null && notice.activeSelf) { }
+        return false;
+    }
+
+
+    public virtual bool Drop(GameManager gameManager) { return false; }
+    public virtual bool Drop(Player _player) { return false; }
+    public virtual bool Drop(Villager _villager) { return false; }
+    public virtual bool Drop(Item _item) { return false; }
+    public virtual bool Drop(Vector3 _pos) { return false; }
+    public virtual bool Drop()
+    {
+        return false;
+    }
+
+
+
     public virtual void Dig()
     {
 
