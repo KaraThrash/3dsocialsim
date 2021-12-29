@@ -49,6 +49,9 @@ public class Item : MonoBehaviour
         }
     }
 
+    public bool On() { return on; }
+    public virtual void On(bool _on) { on = _on; }
+
     public virtual void IsOn()
     { 
     
@@ -213,5 +216,25 @@ public class Item : MonoBehaviour
             return false;
     }
 
-  
+
+    public void OnTriggerEnter(Collider col)
+    {
+        TriggerEnter(col);
+    }
+
+    public virtual void TriggerEnter(Collider col)
+    {
+    
+    }
+
+    public void OnTriggerStay(Collider col)
+    {
+        TriggerStay(col);
+    }
+
+    public virtual void TriggerStay(Collider col)
+    {
+
+    }
+
 }

@@ -28,6 +28,7 @@ public class AudioManager : MonoBehaviour
     public List<AudioClip> green, yellow, red;
     public List<AudioClip> stepsGrass,stepsStone, stepsDirt;
     public List<AudioClip> wind;
+    public List<AudioClip> rustle;
 
     private GroundTypes currentGround;
     private int groundCount;
