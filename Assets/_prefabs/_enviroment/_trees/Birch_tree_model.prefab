@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 258897694811453808}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.0398, z: 0}
+  m_LocalPosition: {x: 0, y: 0.54, z: 0}
   m_LocalScale: {x: 60.899998, y: 56.549984, z: 52.199993}
   m_Children: []
   m_Father: {fileID: 6915635912022393209}
@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b0ea6dd529f6330438c6a63814f1cbbf, type: 2}
+  - {fileID: 2100000, guid: 422a2f4a36c933d429a363d974a492d2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -103,7 +103,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 811389244330455165}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.07333946, y: 2.7469933, z: -0.11465563}
+  m_LocalPosition: {x: -0.07333946, y: 2.2471933, z: -0.11465563}
   m_LocalScale: {x: 0.7, y: 0.6, z: 0.65}
   m_Children:
   - {fileID: 3091330252176201047}
@@ -219,7 +219,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2544254108733379438}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.6714, z: 0}
+  m_LocalPosition: {x: 0, y: 0.17159998, z: 0}
   m_LocalScale: {x: 60.899998, y: 56.549984, z: 52.199993}
   m_Children: []
   m_Father: {fileID: 6915635912022393209}
@@ -251,7 +251,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b0ea6dd529f6330438c6a63814f1cbbf, type: 2}
+  - {fileID: 2100000, guid: 422a2f4a36c933d429a363d974a492d2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -573,20 +573,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: 
-  toolUsable: 
+  itemClass: 0
   icon: {fileID: 0}
   usable: 1
   placable: 0
   holdable: 0
+  buryable: 0
+  on: 0
   stackSize: 1
   maxStackSize: 1
   footprintWidth: -1
   footprintDepth: -1
+  subObject: {fileID: 0}
   subItem: {fileID: 0}
   notice: {fileID: 8943048816013452628}
+  conditionalEvent:
+    m_PersistentCalls:
+      m_Calls: []
   stump: {fileID: 258897694811453808}
   trunk: {fileID: 2544254108733379438}
   leaves: {fileID: 811389244330455165}
+  villager: {fileID: 0}
 --- !u!208 &1798980192274103041
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -740,8 +747,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9b3098da32cb1ef4c9dc6078e65efcf6, type: 2}
-  - {fileID: 2100000, guid: 9b3098da32cb1ef4c9dc6078e65efcf6, type: 2}
+  - {fileID: 2100000, guid: c60112b57a661174d8d9edd7edab5c97, type: 2}
+  - {fileID: 2100000, guid: c60112b57a661174d8d9edd7edab5c97, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -786,7 +793,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8943048816013452628}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5002, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 3195598832131515885}
