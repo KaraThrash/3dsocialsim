@@ -367,43 +367,51 @@ public class Player : MonoBehaviour
 
             }
 
-            rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * _speed * _dir.magnitude, Time.deltaTime * acceleration);
+           
 
 
-            //the stutter direction change while running from animal crossing
-            if (angle > turnAngle)
-            {
-                if (rb.velocity.magnitude > 0)
-                {
-                    rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
+            
 
-                    if (rb.velocity.magnitude <= 0.05f)
-                    {
-                        rb.velocity = Vector3.zero;
-                        rb.angularVelocity = Vector3.zero;
-                        //SetNavMeshSpeed(0);
-                        //  SetNavDestination(transform.position);
-                    }
-                }
-            }
-
-            anim.speed = (rb.velocity.magnitude * 2) / walkSpeed;
-            SetAnimationParameter(anim,"speed",rb.velocity.magnitude / walkSpeed);
+           
 
 
             RaycastHit hit;
-            if (!Physics.SphereCast(transform.position + new Vector3(0, 0.5f, 0), 0.2f, transform.forward, out hit, 0.2f))
+            if (Physics.SphereCast(transform.position + new Vector3(0, 0.5f, 0), 0.2f, transform.forward, out hit, 0.2f))
             {
+                rb.velocity = Vector3.zero;
 
-                if (!Physics.SphereCast(transform.position + moveDirection + new Vector3(0, 0.5f, 0), 0.2f, Vector3.down, out hit, 2.2f) && hit.transform.tag == "water")
+            }
+            else if (Physics.SphereCast(transform.position + moveDirection + new Vector3(0, 0.5f, 0), 0.2f, Vector3.down, out hit, 2.2f) && hit.transform.tag == "water")
+            {
+                rb.velocity = Vector3.zero;
+
+            }
+            else 
+            {
+                
+
+                //the stutter direction change while running from animal crossing
+                if (angle > turnAngle)
                 {
-                    rb.velocity = Vector3.zero;
+                    if (rb.velocity.magnitude > 0)
+                    {
+                      //  rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
 
+                        if (rb.velocity.magnitude <= 0.05f)
+                        {
+                            rb.velocity = Vector3.zero;
+                            rb.angularVelocity = Vector3.zero;
+                            //SetNavMeshSpeed(0);
+                            //  SetNavDestination(transform.position);
+                        }
+                    }
                 }
+                else { rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * _speed * moveDirection.magnitude, Time.deltaTime * acceleration); }
             }
 
+            anim.speed = (rb.velocity.magnitude * 2) / walkSpeed;
+            SetAnimationParameter(anim, "speed", rb.velocity.magnitude / walkSpeed);
 
-       
         }
         else
         {

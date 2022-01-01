@@ -205,7 +205,7 @@ public class CameraControls : MonoBehaviour
         //so the camera doesnt jitte dont move if the target is only slightly off from center
         if (Vector3.Distance(_target, transform.position) > maxPlayerDistance)
         {
-            transform.position = Vector3.MoveTowards(transform.position, _target, Time.deltaTime * followSpeed * followSpeedAdjustment);
+            transform.position = Vector3.Lerp(transform.position, _target, Time.deltaTime * (followSpeed + Vector3.Distance(transform.position, player.transform.position) ));
         }
     }
 

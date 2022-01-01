@@ -36,14 +36,31 @@ public class Sandbox : MonoBehaviour
 
         if (on)
         {
-            if (lefteye != null)
+            if (obj1 != null)
             {
-
+                SpawnFence();
+                on = false;
                 //RollEyes();
             }
         }
 
     }
+
+    public void SpawnFence()
+    {
+        count = 0;
+
+        GameObject parent = Instantiate(obj1,obj1.transform.position,obj1.transform.rotation);
+
+        while (count < 30)
+        {
+            GameObject clone = Instantiate(obj2, obj1.transform.position, obj2.transform.rotation);
+            clone.transform.parent = parent.transform;
+            clone.transform.position += new Vector3( 3.6f * count, 0,0);
+            count++;
+        }
+    }
+
 
     public void RollEyes()
     {

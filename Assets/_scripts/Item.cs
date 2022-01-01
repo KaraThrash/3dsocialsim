@@ -17,9 +17,8 @@ public class Item : MonoBehaviour
     public GameObject subObject; //fishing bob type items
     public Item subItem; //if other items are fed into this one: e.g. bait used with the fishing rod
     public GameObject notice;
-    
-    private Vector3 subObjectStartPos;
 
+    protected Vector3 subObjectStartPos;
 
     public UnityEvent conditionalEvent;
     
