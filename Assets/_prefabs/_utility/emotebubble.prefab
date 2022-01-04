@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 49076183987234057}
   - component: {fileID: 49076183987234059}
   - component: {fileID: 49076183987234056}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 49076184884999344}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: bubblemodel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 49076185545627002}
   - component: {fileID: 49076185545627004}
   - component: {fileID: 49076185545627005}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 49076185619106996}
   - component: {fileID: 49076185619106998}
   - component: {fileID: 49076185619106999}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,7 +280,7 @@ GameObject:
   m_Component:
   - component: {fileID: 49076185805567138}
   - component: {fileID: 49076185805567141}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: emotebubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -357,7 +357,7 @@ public class AudioManager : MonoBehaviour
 
         AudioClip clip = null;
 
-        int layerMask = 1 << 8;
+        int layerMask = 11 << 8;
 
         RaycastHit hit;
 
