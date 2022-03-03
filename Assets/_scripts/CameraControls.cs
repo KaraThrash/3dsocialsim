@@ -139,13 +139,14 @@ public class CameraControls : MonoBehaviour
             if (GameManager.instance.activeObject != null)
             {
                 tempTrackPosition = (player.transform.position + ((GameManager.instance.activeObject.position - player.transform.position) * 0.5f)) ;
+                tempTrackPosition = GameManager.instance.ActiveObject().position;
 
 
             }
 
             Track(tempTrackPosition - new Vector3(0, 0, 1));
-            transform.LookAt(tempTrackPosition);
-            cam.transform.localEulerAngles = Vector3.Lerp(cam.transform.localEulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
+           // transform.LookAt(tempTrackPosition);
+            cam.transform.localEulerAngles = Vector3.Slerp(cam.transform.localEulerAngles, new Vector3(cameraAngle, 0, 0), Time.deltaTime * camAdjustSpeed);
 
         }
         else if (cameraState == CameraState.focusing)
@@ -255,18 +256,6 @@ public class CameraControls : MonoBehaviour
     }
 
 
-    public void TrackPlayer()
-    {
-        Vector3 playerXYPos = camOffset + player.transform.position;
-
-        CameraEffect();
-
-        if (Vector3.Distance(playerXYPos, transform.position) > maxPlayerDistance )
-        {
-            transform.position = Vector3.MoveTowards(transform.position, playerXYPos,Time.deltaTime * followSpeed * followSpeedAdjustment);
-        }
-    }
-
 
 
 
@@ -305,19 +294,6 @@ public class CameraControls : MonoBehaviour
         lostwoodsEffect.EndEffect();
     }
 
-
-
-
-
-
-    public void TrackPlayerInside()
-    {
-        Vector3 playerXYPos = camOffset + player.transform.position;
-        if (Vector3.Distance(playerXYPos, transform.position) > maxPlayerDistanceInside)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, playerXYPos, Time.deltaTime * followSpeed * followSpeedAdjustment);
-        }
-    }
 
 
     public void SetCameraTrackingOffset(string _offsetType)

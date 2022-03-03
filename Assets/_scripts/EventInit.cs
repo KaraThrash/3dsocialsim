@@ -50,6 +50,7 @@ public class EventInit : MonoBehaviour
         _villager.StoryState(VillagerStoryState.inScene);
         _villager.ScriptedAction(SceneAction.leadPlayer);
         _villager.SetNavMeshDestination(_location);
+        _villager.watchPlayer = false;
 
         gameManager.GetPlayer().State(PlayerState.inScene);
 

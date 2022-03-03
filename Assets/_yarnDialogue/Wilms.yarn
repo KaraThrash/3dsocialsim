@@ -1,174 +1,67 @@
 title: Wilms
 tags: 
 colorID: 0
-position: 168,26
+
 ---
+<<if visited("Wilms") is false>>
+    <<PlayAnimation YarnFunctions Wilms WaveHello>>
+<<else>>
+    <<PlayAnimation YarnFunctions Wilms nervous>>
+    <<set $Wilms_warning to true>>
+    <<if $Apollo_warning is true>>
+        <<set $Apollo_warning to false>>
+        <<PlayAnimation YarnFunctions Wilms laugh>>
+        Player: Hey, Wilms. 
+        Player: Apollo_warning is true 
+    <<else>>
+        
+        <<PlayAnimation YarnFunctions Wilms dustingoff>>
+        Player: Apollo_warning is false 
+    <<endif>>
 
-<<Comment YarnFunctions I haven't edited this yet, as I imagine the length of the scene will change once we see how long moving takes and how the pacing feels with movement in>>
+    Wilms: Bye.
+<<endif>>
 
-<<Comment YarnFunctions Lcion leads Margo through town. As we walk past, we see other characters - Cindy hiding in the trees, Pollack patrolling, FFM fishing, etc. These should be momentary set pieces, as though being positioned for a movie scene from the camera's perspective, to make it feel like more of a cinematic introduction to the town>>
-
-Licon: Welcome, welcome, welcome!
-<<wait 2>>
-Licon: This is the beautiful town of Happydale! See our beautiful trees, our luscious fruits, our thriving fish…
-Licon: Happydale is my pride and joy. Happydale is what gives me life! It’s my reason for breathing!
-Margo: Oh, wow, this guy is a loooot. I hope he’ll shut up soon…
-Licon: Each and every one of our residents pours our soul into Happydale. It’s the efforts of all of us that makes it what it is.
-Licon: We expect that you’ll make the same efforts with your cafe!
-Licon: Oh, but first - you need a place to live, don’t you?
-Licon: Licon: It just so happens we have a spare house available! Follow me!
-
-<<Comment YarnFunctions Licon leads Margo to her new home>>
-Licon: It hasn’t been lived in for a while, but it was too sentimental for us to get rid of…
-Licon: You don’t mind, do you?
-Margo: Mind?! Do you know how long I’ve been dreaming of living in a house of my own?!
-Margo: I’ll take it!
-Licon: Great! You have no idea how much it pained me to see this house empty…
-Licon: Knowing you’re here to bring it to life will keep me at peace.
-Margo: I sure wish I could be at peace right about now…
-Licon: Moving on - follow me!
-Licon: Between your house and town is this thick forest.
-Licon: It’s lovely during the day, but please stay out of it at night. We’ve had way too many cases of villagers getting lost, and Pollack won’t like having to run after you!
-
-<<Comment YarnFunctions They emerge into the town plaza>>
-Licon: And this is the town plaza! As you can see, here’s the town hall - I spend a lot of my time here.
-Licon: And over here…
-
-<<Comment YarnFunctions They run to the cafe>>
-Licon: This is where we’ll be building your cafe!
-
-<<Playanimation YarnFunctions LiconFlourish>>
-Licon: What do you think?
-
-<<Comment YarnFunctions These choices are Margo's>>
--> It’s perfect!
-    Margo: It's perfect! I couldn't have made it better myself!
-    Licon: Of course you couldn't!
-
--> Are there no other options?
-    Margo: Is this my only option?
-    <<PlayAnimation YarnFunctions Licon Angry>>
-
-Licon: As I’m sure you know, space in town is somewhat limited. But don’t worry!
-Licon: I’ve done my research, and this is a well-trafficked spot. It’ll be perfect for your cafe!
-Licon: Now, then. I think it would be helpful for you to go around and meet all of our townsfolk. There should be some of them roaming about.
-Licon: I, unfortunately, am very busy at the moment, or I would introduce you myself! No matter.
-Licon: Go give everyone a big hello. Make friends! Make connections! Explore!
-Licon: There’s so much to love about Happydale!
-Licon: Remember - you have three days to win our bet!
-
-<<PlayAnimation YarnFunctions LiconFlourish>>
-<<PlayAnimation YarnFunctions Margo Sigh>>
-
-Licon: I’ll see you later!
-
-<<Comment YarnFunctions Licon will wander around as Margo walks away, but when he is off screen and far enough away he will disappear, or else enter the town hall>>
 ===
-title: VBWDayTwo2
+
+title: Wilms.Watch
 tags: 
 colorID: 0
-position: 462,-356
+
 ---
-Voice: Hey… hey, you hear me?
-Margo: What? Who is that?
-Voice: Can you hear me? Hey!
-
--> Who are you?
-    Margo: Who are you? And... where are you?
--> ...
-    Margo: Yeeeaaah, hearing voices is never a good sign. I'm outta here.
-    Voice: Hey! I know you can hear me! Don’t you think something weird is going on? Don’t you want to know what it is?
-    
-    -> Okay, who are you?
-        Margo: Sure I do. Who are you?
-    
-    -> I don’t talk to strangers.
-        Margo: I didn't sit through those stranger danger PSAs for nothing. I don't talk to strangers.
-        Voice: Like hell you don’t. How’d you end up here if that’s true?
-        -> Okay, okay, I’ll bite.
-            Margo: Okay, okay, I'll bite. What's going on?
-        -> Walk away.
-            Voice: Hey! Hey, wait!
-            <<Comment YarnFunctions End conversation>>
-            <<Comment YarnFunctions The game will make Margo turn around and walk a few steps away to disrupt the sequence. It's up to us whether we want the player to be able to go back and revisit the VBW if they choose to walk away here. Regardless, this is the end of the negative response paths. All lines below will continue for the positive paths.>>
-
-
-Voice: Listen. You gotta listen to me.
-Voice: You’re in danger. Ain't you figured that out?
-Voice: What’ve they got you doing, busywork?
-Margo: It’s not busywork…
-Voice: HA! They do, don’t they?
-Voice: Did they tell you your dream would come true if you moved here?
-Voice: What’d they tell you to get ya into that sad excuse for quicksand they call a town?
-Margo: They’re building me a cafe…
-Voice: A cafe! HA! Guess they never had one of those.
-Voice: Listen, listen. You gotta listen to me. I’m trying to help you, see?
-Voice: They aren’t building you a cafe. Not for real.
-Voice: It’s all a lie. You gotta get out of here.
-
--> Why should I believe a voice behind a wall?
-    Margo: Why should I believe a bodiless voice on the other side of the town wall?
-    Voice: Got a reason not to?
-    Margo: Yes - I have a brain.
-    Voice: Don't say I didn't try to help ya.
-    Voice: You’ll be sorry when I’m right. They’re always sorry…
--> Sure. Whatever, guy.
-    Margo: Sure. Whatever, guy. I'm outtie.
-    Voice: You’ll be sorry when I’m right. They’re always sorry…
--> I’m listening.
-    Voice: Don’t believe me, eh?
-    
-    Voice: Why don’t you ask ‘em about your cafe? Just ask ‘em. See what happens.
-    
-    <<set $AskCafe to true>>
-    <<Comment YarnFunctions While this isn't implemented in the current script, theoretically this would unlock the ability to ask other characters about the cafe>>
-    
-    Voice: Better yet, why not take a peek inside? Tell me what you find... if you’re still in one piece by then. HEK!
+Wilms: Not really. 
+Wilms: Same old nebula, doing the same old thing. 
+Wilms: Oh, Ship wanted to see you. Go say hi to it.
+<<set $should_see_ship to true>>
+<<if visited("Ship") is true>>
+    Player: Already done!
+    Wilms: Go say hi again.
+<<endif>>
 ===
-title: VBWDayThree
+
+title: Wilms.Exit
+tags: 
+colorID: 6
+
+---
+<<if $Apollo_warning is true>>
+    <<set $sally_warning to false>>
+    <<PlayAnimation YarnFunctions WaveHello>>
+    Player: Hey, Wilms. 
+    Wilms: Oh! Hi. 
+    Wilms: You snuck up on me. 
+    Wilms: Don't do that.
+<<else>>
+    Player: Hey.
+    Wilms: Hi.
+<<endif>>
+Wilms: Bye. 
+===
+
+title: Wilms.Sorry
 tags: 
 colorID: 0
-position: 575,16
+position: 827,439
 ---
-<<Comment YarnFunctions As Margo approaches the wall where the Voice Behind the Wall stays, Licon is already standing there. Approaching closer will automatically pull Margo into the conversation>>
-
-Licon: Margo! Hello! Fancy seeing you here!
-Licon: Why on earth have you come by?
-
-<<Comment YarnFunctions the idea with these choices was to have the player choose them even though there is only the one option, to reinforce Margo's being caught off-guard and Licon's railroading>>
--> Uh…
-Licon: Don’t be shy! This is a lovely spot.
-Licon: Though, I was having a nicer time alone.
-<<PlayAnimation YarnFunctions LiconPupilDilate>>
-Licon: I’d love to be given some SPACE.
-<<PlayAnimation YarnFunctions LiconNormalEyes>>
-Licon: Unless there was something you wanted to tell me?
-
--> Um, enjoy your me-time.
-    <<Play Animation YarnFunction LiconMoveSlow>>
-    <<Comment YarnFunctions Whatever idle/default animations Licon has, they should slow down somewhat to indicate Licon is being pacified by being given what he wants. So not slow-mo, just as though he's calmer>>
-    Licon: Thank you. I will.
-    Licon: Maybe you should enjoy time to yourself as well, hmm?
-    <<Comment YarnFunctions Margo is able to walk away, and the conversation ends here with Licon staying towards the wall, watching Margo. His body will face Margo no matter where she moves until she goes out of sight.>>
-
--> When will my cafe be done?
-    Margo: When will the cafe be finished? It's been three days.
-    <<Comment YarnFunctions Licon’s eyes flash/get big/he has some reflexive response to the question, but stifles it and goes back to his regular idle animation>>
-    Licon: Your cafe will be done very soon! My, your generation is impatient…
-    Licon: You know we’re building you a cafe from scratch, right?
-    <<Comment YarnFunctions Licon takes a step closer to Margo>>
-    Licon: We’re making your dream come true, Margo.
-    Licon: But it seems you’re unappreciative of all the effort I’ve been putting in here.
-    Licon: You’ve been listening to people you can’t trust, it seems.
-    Licon: People who’ve done nothing for you. Nothing, at least, compared to what Happydale has done for you.
-    Licon: We’re your family now. Your home. Your community.
-    Licon: We care about you. We’re making your dream come true.
-    Licon: I’ve been working so hard, Margo.
-    Licon: And you’re so unappreciative.
-    
-    <<Comment YarnFunctions the font in these two lines gets progressively smaller, as Licon is transitioning to mutter under his breath>>
-    Licon: So unappreciative.
-    Licon: So unappreciative.
-
-    <<Comment YarnFunctions Licon trails off here, but any time Margo goes near him from now on, he starts trembling and murmuring “so unappreciative” over and over.>>
+Wilms: Yeah. Don't do it again. 
 ===

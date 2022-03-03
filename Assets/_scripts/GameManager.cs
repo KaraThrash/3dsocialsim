@@ -326,7 +326,7 @@ public class GameManager : MonoBehaviour
                 audioManager.PlayWorldEffect(_villager.Voice());
             }
 
-            activeObject = _villager.transform;
+            ActiveObject(_villager.transform);
            //  dialogueRunner.Add(_villager.scriptToLoad);
             //  _villager.scriptToLoad = null;
 
@@ -366,7 +366,7 @@ public class GameManager : MonoBehaviour
 
     public void CatchBug(Item _bug)
     {
-        activeObject = _bug.transform;
+        ActiveObject(_bug.transform);
 
         player.State(PlayerState.acting);
 
@@ -857,6 +857,17 @@ public class GameManager : MonoBehaviour
 
     }
 
+
+
+    public Transform ActiveObject()
+    {
+        return activeObject;
+    }
+
+    public void ActiveObject(Transform _obj)
+    {
+         activeObject = _obj;
+    }
 
     public Villager FindVillager(string _name)
     {

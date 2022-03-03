@@ -1,0 +1,319 @@
+
+title: DayOne_Groundbreaking
+tags: dayOne
+colorID: 0
+
+---
+Licon: Everyone, welcome to the groundbreaking ceremony for our new cafe!
+Licon: I’m sure you’ve all met Margo by now. She is our new resident, and will be the owner of this cafe!
+
+<<Comment YarnFunctions Everyone should applaud here - is there a function for mass-targeting everyone at once?>>
+
+Licon: Margo, is there anything you would like to say?
+
+-> I’m happy to be here!
+-> This is going to be incredible!
+-> Let’s all hang out!
+
+Licon: Wise words, indeed.
+Licon: All right, without further ado… Bring out the shovel, Margo!
+
+<<Comment YarnFunctions Margo pulls out a shovel and walks to where the cafe site is. Then she digs a hole into the ground.>>
+<<Comment YarnFunctions Applause>>
+
+Licon: Congratulations, Margo! Congratulations, Happydale!
+Licon: This new addition to our town is vital to help keep us bustling and alive!
+Licon: I can’t wait to see what else you’ll do here, Margo.
+Licon: Thank you for coming, everyone! Have a good night!
+===
+title: DayOne_CindyHidenSeek
+tags: dayOne, Cindy
+colorID: 0
+
+---
+<<Comment YarnFunctions this is Cindy's introduction. She is hiding behind a bunch of trees. As Margo approaches the trees, this exchange takes place>>
+
+Cindy: ...
+Margo: ...?
+Margo: Uh, hello?
+
+<<PlayAnimation YarnFunctions Cindy Shock>>
+Cindy: !
+Cindy: Ohmigosh! You found me!
+
+<<Comment YarnFunctions Cindy comes out from behind the tree and into the light. The player will see her spider head for the first time. After a beat, she will speak to Margo>>
+
+Cindy: I've been waiting for someone to find me ALL. DAY.
+<<PlayAnimation YarnFunctions Cindy Sad>>
+Cindy: Everyone's too busy to play hide and seek anymore.
+<<PlayAnimation YarnFunctions Cindy Confused>>
+Cindy: But... who are you? I haven't seen you before.
+Cindy: Margo? You're new here? And you're opening up a coffee shop?!
+<<PlayAnimation YarnFunctions Cindy Happy>>
+Cindy: That's incredible! I've always wanted to try coffee!
+
+-> You don't really need any...
+-> It's delicious! You'll love it!
+
+<<Comments YarnFunctions Cindy returns to neutral>>
+Cindy: When you open your coffee shop, will you let me draw there?
+Cindy: I'm an expert at drawing, and I have the most incredible crayon set you will EVER see.
+<<PlayAnimation YarnFunctions Cindy Shock>>
+Cindy: WAIT! I have an even BETTER idea!
+<<PlayAnimation YarnFunctions Cindy Blush>>
+Cindy: ...Will you play hide and seek with me while you're here?
+
+-> Sure!
+-> Err...
+
+<<PlayAnimation YarnFunctions Cindy Happy>>
+Cindy: I'll hide every day, and you can come find me!
+
+<<Comments YarnFunctions Cindy turns to run back into the trees (maybe taking a few steps depending on how long the animations take), then turns around to face Margo again>>
+
+Cindy: You better do it! I'll be waiting for you!
+
+<<Comments YarnFunctions she runs away>>
+===
+
+
+
+
+
+
+
+
+
+title: DayOne_FMBait
+tags: dayOne, FM
+colorID: 0
+
+---
+<<Comments YarnFunctions Fish fisherman is walking around the map, pausing occasionally with maybe a “?” emote above his face, moving very slowly, maybe sighing sometimes>>
+
+FM: Oh, it’s you. Hello.
+
+-> Who are you?
+	FM: I’m Fish Fisherman. Aren’t you Margo?
+	FM: I heard about you. Got a cafe opening up, huh?
+	FM: Welcome to town. Your new place is situated in a great spot.
+	FM: Your house, I mean. Not your cafe.
+	FM: Lotsa fishing spots near your place. Just off through the forest.
+	FM: Don’t go through the forest while you’re here, though.
+	FM: No point. There’s not even bait in there.
+	-> Bait?
+		FM: I wanted to go fishing, but I’m outta bait…
+		FM: It’s really hard to find any. It’s like all the worms are afraid of me.
+		FM: At this rate, I’ll never get enough in time…
+        [[DayOne_FMBaitChoice]]
+
+-> What are you doing?
+	FM: Me? I’m collecting bait.
+	FM: I wanted to go fishing, but I’m outta bait…
+	FM: It’s really hard to find any. It’s like all the worms are afraid of me.
+	FM: At this rate, I’ll never get enough in time…
+    [[DayOne_FMBaitChoice]]
+===
+title: DayOne_PollackWelcome
+tags: dayOne, Pollack
+colorID: 0
+
+---
+<<Comment YarnFunctions this occurs upon Margo talking to Pollack after Licon has asked her to introduce herself>>
+
+Pollack: Hm? Margo?
+Pollack: ...I see. A new resident to our town, are you?
+
+<<Comment YarnFunctions Pollack circles Margo once, pausing at the end of the circle to stare at her for a beat>>
+
+Pollack: Very well.
+Pollack: I am Captain Pollack, Chief of Police of Happydale. Any wrongdoing, illicit goings-on, and otherwise underhanded activity will have to answer to me.
+Pollack: Now, I don’t expect any trouble out of you. But keep in mind that we have rules and laws here, just like any other place.
+Pollack: We may be a small town, but safety is as important as if we were a city of five hundred.
+
+<<PlayAnimation YarnFunctions Margo Laughing>>
+<<Comment YarnFunctions the below is in italics, as Margo is thinking it>>
+Margo: Five hundred? How many people does he think live in a city?
+
+<<Comment YarnFunctions Pollack freezes (his animation stops). Then he turns his head to look at Margo>>
+Pollack: You think that’s funny?
+<<Comment YarnFunctions Margo stops laughing now>>
+Pollack: …
+
+<<Comment YarnFunctions Pollack's animations go back to normal>>
+Pollack: Well. Thank you for introducing yourself to me, Margo.
+Pollack: I’ll protect you just as much as anyone else.
+Pollack: And if anyone - and I mean anyone - threatens the law…
+
+<<Comment YarnFunctions Pollack walks closer up to Margo, as though getting in her face>>
+Pollack: I’ll be waiting.
+Pollack: Dismissed.
+
+<<Comment YarnFunctions Margo is now free to walk around, but Pollack is now suspicious of her. Pollack will trail Margo at the edge of the screen as discussed, and then when she does something wrong, will call her out. However, this has not fully been settled on>>
+===
+title: DayOne_FMBaitChoice
+tags: dayOne, FM
+colorID: 0
+
+---
+-> I’ll help you!
+			FM: You will?
+			FM: Aw, now that brings back memories. What a helpful kid you are.
+			<<Comments YarnFunctions finding the bait can be a mini-game or a cutscene>>
+			FM: I can’t believe I might have enough bait for tomorrow!
+			FM: You really are the best.
+			FM: Anything you ever need, you come to me, got it?
+			FM: Old Uncle Fish’s got your back.
+		-> Well, good luck.
+			<<PlayAnimation YarnFunctions FM Sigh>>
+			FM: Thanks.
+===
+
+
+
+
+
+
+
+title: DayOne_WilmsCoffee
+tags: dayOne, Wilms
+colorID: 0
+
+---
+<<Comments YarnFunctions Wilms is pacing the coffee shop angrily. The first time Margo talks to him, he responds:>>
+
+Wilms: ...
+
+<<Comments YarnFunctions the second time:>>
+
+Wilms: .......
+
+<<Comments YarnFunctions the third time:>>
+
+Wilms: .....................
+
+<<Comments YarnFunctions lastly:>>
+Wilms: WHAT?! What do you want?!
+Wilms: ....Oh, so you’re the new one in town, huh?
+Wilms: So this cafe is gonna be yours?
+
+-> That’s the idea.
+-> What’s it to you?
+
+Wilms: Heh. Kids these days. No respect for their elders. No respect for who’s come before.
+Wilms: You wanna know who I am, kid?
+Wilms: I’m Wilms. Head honcho here. I run that shop and the only bar in town.
+Wilms: You get what that means, kid?
+Wilms: That means we’re competition.
+Wilms: I don’t got no time for a starry-eyed dreamer coming in here and messing everything up, you hear me?
+Wilms: So. We can get along or we can not get along. It all depends on what you wanna do.
+Wilms: We can be friends. We can work together. Or we can’t.
+Wilms: It’s not my decision.
+Wilms: But I’ll give you some time, you know. Maybe we can work out some special drink in that shop of yours. Wilms ain’t opposed to it.
+Wilms: You figure it out and make up your mind, yeah?
+Wilms: It’s up to you.
+===
+title: DayThree_WilmsInvite
+tags: dayThree, Wilms
+colorID: 0
+position: -168,-312
+---
+Wilms: Margo. Margo! There you are!
+Wilms: My one true star. I’ve been looking all over for you.
+
+Margo (thinking): Ew… don’t touch me, please....
+
+Wilms: Margo, I been thinking in the last couple of days.
+Wilms: You know what you need?
+Wilms: A mentor.
+Margo (thinking): A mentor?
+<<PlayAnimation YarnFunctions Wilms Happy>>
+Wilms: A business mentor!
+Wilms: You need somebody to show you around, show the ropes. Teach you how to operate within the confines of the Happydale system.
+Wilms: This town’s more sticky than you think. You need a protector, you know?
+Wilms: I can do that for you. I can be that for you. But I need a little something in return.
+Wilms: You see, our businesses can cohabitate peacefully together. We can respect one another. We can work together.
+Wilms: Or, I can crush you and your filthy pile of sticks into sawdust. I won’t hesitate to do so.
+Wilms: You’d do well to believe me, Miss Margo. It won’t turn out too good for you if you don’t.
+Wilms: Now, I’ll give you until tomorrow morning to make your choice. But you better make it snappy.
+Wilms: I’d hate for something to happen to your cute little cafe before it gets finished.
+Wilms: Hate for something to happen to you, too, you know what I mean?
+Wilms: But don’t worry about it, Margo. I’m sure everything’s fine.
+Wilms: I’ll expect word from you tomorrow. Pleasure doin' business.
+
+<<Comments YarnFunctions while Pollack is a physically intimidating presence (so he doesn't speak much but animates a lot), Wilms is a charmer. He'll talk your ear off and do it all with a pleasant smile, no matter how far south the conversation goes.>>
+===
+
+
+
+
+
+title: DayOne_TownIntro
+tags: dayOne
+colorID: 0
+
+---
+<<AnimateMouth YarnFunctions happy 5 TestCharacter4>>
+Licon: Welcome, welcome, welcome!
+<<LeadPlayerAndTalkRunning YarnFunctions southeastroadend TestCharacter4 1 2>>
+Licon: This is the beautiful town of Happydale! See our beautiful trees, our luscious fruits, our thriving fish…
+Licon: Happydale is my pride and joy. Happydale is what gives me life! It’s my reason for breathing!
+Margo: Oh, wow, this guy is a loooot. I hope he’ll shut up soon…
+Licon: Each and every one of our residents pours our soul into Happydale. It’s the efforts of all of us that makes it what it is.
+Licon: We expect that you’ll make the same efforts with your cafe!
+<<AnimateMouth YarnFunctions neutral 4 TestCharacter4>>
+Licon: Oh, but first - you need a place to live, don’t you?
+<<SetConversationTargetLocation YarnFunctions southeastroadend>>
+Licon: Licon: It just so happens we have a spare house available! Follow me!
+<<LeadPlayerAndTalkRunning YarnFunctions playerhouse TestCharacter4 1 2>>
+<<Comment YarnFunctions Licon leads Margo to her new home>>
+Licon: It hasn’t been lived in for a while, but it was too sentimental for us to get rid of…
+Licon: You don’t mind, do you?
+<<SetConversationTargetLocation YarnFunctions playerhouse>>
+Margo: Mind?! Do you know how long I’ve been dreaming of living in a house of my own?!
+Margo: I’ll take it!
+Licon: Great! You have no idea how much it pained me to see this house empty…
+Licon: Knowing you’re here to bring it to life will keep me at peace.
+Margo: I sure wish I could be at peace right about now…
+<<LeadPlayerAndTalkRunning YarnFunctions southRoadTurn TestCharacter4 1 2>>
+<<SetConversationTargetLocation YarnFunctions lostwoodssouth>>
+Licon: Moving on - follow me!
+<<DisableContinueButton YarnFunctions>>
+Licon: Between your house and town is this thick forest.
+<<MovePlayerAndSpeaker YarnFunctions lostwoodsnorth>>
+<<wait 1>>
+<<LeadPlayerAndTalk YarnFunctions northRoadTurn TestCharacter4 2>>
+Licon: It’s lovely during the day, but please stay out of it at night. We’ve had way too many cases of villagers getting lost, and Pollack won’t like having to run after you!
+<<Comment YarnFunctions They emerge into the town plaza>>
+Licon: And this is the town plaza! As you can see, here’s the town hall - I spend a lot of my time here.
+<<LeadPlayerAndTalkRunning YarnFunctions constructionSite TestCharacter4 1 4>>
+Licon: And over here…
+<<SetConversationTargetLocation YarnFunctions constructionSite>>
+<<Comment YarnFunctions They run to the cafe>>
+Licon: This is where we’ll be building your cafe!
+<<Playanimation YarnFunctions LiconFlourish>>
+Licon: What do you think?
+<<EnableContinueButton YarnFunctions>>
+<<EndScene YarnFunctions>>
+<<Comment YarnFunctions These choices are Margo's>>
+-> It’s perfect!
+    Margo: It's perfect! I couldn't have made it better myself!
+    Licon: Of course you couldn't!
+
+-> Are there no other options?
+    Margo: Is this my only option?
+    <<PlayAnimation YarnFunctions Licon Angry>>
+
+Licon: As I’m sure you know, space in town is somewhat limited. But don’t worry!
+Licon: I’ve done my research, and this is a well-trafficked spot. It’ll be perfect for your cafe!
+Licon: Now, then. I think it would be helpful for you to go around and meet all of our townsfolk. There should be some of them roaming about.
+Licon: I, unfortunately, am very busy at the moment, or I would introduce you myself! No matter.
+Licon: Go give everyone a big hello. Make friends! Make connections! Explore!
+Licon: There’s so much to love about Happydale!
+<<PlayAnimation YarnFunctions dustingoff>>
+Licon: Remember - you have three days to win our bet!
+Licon: I’ll see you later!
+<<EndScene YarnFunctions>>
+
+<<Comment YarnFunctions Licon will wander around as Margo walks away, but when he is off screen and far enough away he will disappear, or else enter the town hall>>
+===

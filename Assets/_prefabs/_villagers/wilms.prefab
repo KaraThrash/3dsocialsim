@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4955037719678799676}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lower body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5583515139059084929}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Whiskers_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1070528722406227640}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Upper body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7402606680246505602}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Snout
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 1499962320807690672}
   - component: {fileID: 1499962320807690673}
   - component: {fileID: 1499962320807690674}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: wilms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -231,14 +231,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1499962320807690676}
-  m_LocalRotation: {x: -0, y: 0.9983494, z: -0, w: 0.057431754}
+  m_LocalRotation: {x: 0, y: 0.99834937, z: 0, w: 0.057433393}
   m_LocalPosition: {x: 34.172, y: 0, z: -24.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1499962320586357756}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 173.41501, z: 0}
 --- !u!136 &1499962320807690686
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -286,11 +286,11 @@ MonoBehaviour:
   currentStoryState: 0
   scriptedAction: 0
   mood: 0
-  npcName: Licon
+  npcName: Starbuck
   scene: 
   heldAnimation: 
-  rotSpeed: 1
-  speed: 0.3
+  rotSpeed: 0.1
+  speed: 0.2
   anim: {fileID: 1499962320586357754}
   head: {fileID: 1499962321849419344}
   animatedHead: {fileID: 0}
@@ -299,13 +299,13 @@ MonoBehaviour:
   motif: {fileID: 0}
   blinkTimer: 0
   leftEye: {fileID: 0}
-  rightEye: {fileID: 0}
-  closedEye: {fileID: 2100000, guid: ac5c538f258548448893c1305d72e484, type: 2}
-  openEye: {fileID: 2100000, guid: a2de02af96da126498cd1592aa6c390e, type: 2}
+  rightEye: {fileID: 649076247681769346}
+  closedEye: {fileID: 2100000, guid: 93173a3108024484685e01dd0f591cda, type: 2}
+  openEye: {fileID: 2100000, guid: 4c78bcd80001aa346b86bb17fc7a267d, type: 2}
   phase: 0
   mouthAnimator: {fileID: 1499962320807690673}
   rig: {fileID: 1499962321605990128}
-  scriptToLoad: {fileID: 2480198943629176163, guid: e58a935aac7726149b1b656557bd37d0,
+  scriptToLoad: {fileID: 2480198943629176163, guid: 8e72d60b33925fd4cb2b1a27f080cee0,
     type: 3}
 --- !u!114 &1499962320807690673
 MonoBehaviour:
@@ -320,11 +320,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouthRenderer: {fileID: 0}
-  open: {fileID: 2100000, guid: 637c85ea58f95c24ebeea5d797036783, type: 2}
+  open: {fileID: 2100000, guid: 81e7f1e103f105b4a92412c64bcc9f71, type: 2}
   sad: {fileID: 2100000, guid: 3f0b46c8de6063949b6e45de9da1bd29, type: 2}
   angry: {fileID: 2100000, guid: e29eb16c8688e4f46b9ddc424cb1292b, type: 2}
   closed: {fileID: 2100000, guid: c7521c56a36c25445b1f560f396260a3, type: 2}
-  neutral: {fileID: 2100000, guid: 8e7a294cac743bf40a49e270398ad4cb, type: 2}
+  neutral: {fileID: 2100000, guid: 81e7f1e103f105b4a92412c64bcc9f71, type: 2}
   pattern: 1
   speakTime: 3
   mouthInterval: 0.1
@@ -573,7 +573,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8462023955027741479}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Leg2_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -603,7 +603,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8264249463509054248}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ear_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -633,7 +633,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8376594260647979433}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Leg2_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -664,7 +664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5157597933673346924}
   - component: {fileID: 7352444871318027843}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wilms_Whiskers_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -703,7 +703,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 7398004236862290907, guid: 28d893b6ab0203841a50507c2ced5dff, type: 3}
+  - {fileID: 2100000, guid: 9c04b91d567d52e47bd2f3ef121356f8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -765,7 +765,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7294585115592613126}
   - component: {fileID: 4885991397981377795}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wilms_Eye_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -805,7 +805,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2464413398511677206, guid: 28d893b6ab0203841a50507c2ced5dff, type: 3}
+  - {fileID: 2100000, guid: 4c78bcd80001aa346b86bb17fc7a267d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -866,7 +866,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6973246664602429474}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Leg1_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -898,7 +898,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4721425286762749739}
   - component: {fileID: 7169184532293633112}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wilms_Nose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -938,7 +938,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 7398004236862290907, guid: 28d893b6ab0203841a50507c2ced5dff, type: 3}
+  - {fileID: 2100000, guid: 9c04b91d567d52e47bd2f3ef121356f8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -999,7 +999,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1203987779519838535}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ear_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1029,7 +1029,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8875547914907311910}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Hat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1059,7 +1059,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6162941983839504139}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Chest_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1090,7 +1090,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3001120361402746257}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Whiskers_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1120,7 +1120,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 902848625267913665}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Arm1_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1152,7 +1152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5962016191340539389}
   - component: {fileID: 3795513592988893386}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wilms_Ears
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1192,7 +1192,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 7398004236862290907, guid: 28d893b6ab0203841a50507c2ced5dff, type: 3}
+  - {fileID: 2100000, guid: 9c04b91d567d52e47bd2f3ef121356f8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1253,7 +1253,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3915563124345852957}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Arm1_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1285,7 +1285,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6246799133443333624}
   - component: {fileID: 712630352053671922}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wilms_Whiskers_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1324,7 +1324,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 7398004236862290907, guid: 28d893b6ab0203841a50507c2ced5dff, type: 3}
+  - {fileID: 2100000, guid: 9c04b91d567d52e47bd2f3ef121356f8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1386,7 +1386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5191333688704463874}
   - component: {fileID: 526678727494607949}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wilms_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1426,8 +1426,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 7398004236862290907, guid: 28d893b6ab0203841a50507c2ced5dff, type: 3}
-  - {fileID: 6370911445166510512, guid: 28d893b6ab0203841a50507c2ced5dff, type: 3}
+  - {fileID: 2100000, guid: 9c04b91d567d52e47bd2f3ef121356f8, type: 2}
+  - {fileID: 2100000, guid: 81e7f1e103f105b4a92412c64bcc9f71, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1488,7 +1488,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4158916322832778979}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Chest_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1519,7 +1519,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8747338270629037747}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Leg1_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1550,7 +1550,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9050570121352723043}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wilms Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1581,7 +1581,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7475839717374217848}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Arm2_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1611,7 +1611,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8287928893022712588}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Arm2_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1641,7 +1641,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5306681987680554196}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1679,7 +1679,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7501494456540635688}
   - component: {fileID: 649076247681769346}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wilms__Eye_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1719,7 +1719,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2464413398511677206, guid: 28d893b6ab0203841a50507c2ced5dff, type: 3}
+  - {fileID: 2100000, guid: 4c78bcd80001aa346b86bb17fc7a267d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

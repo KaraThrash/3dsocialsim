@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8276304329838602485}
-  - component: {fileID: 1228226035024112133}
+  - component: {fileID: 461677787145135971}
   m_Layer: 0
   m_Name: axe
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1228226035024112133
+--- !u!114 &461677787145135971
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -48,7 +48,7 @@ MonoBehaviour:
   itemName: axe
   itemClass: 0
   icon: {fileID: 21300000, guid: e8d94c09123cea74ba47424ce3fcf378, type: 3}
-  usable: 1
+  usable: 0
   placable: 0
   holdable: 0
   buryable: 0

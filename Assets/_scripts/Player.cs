@@ -127,8 +127,8 @@ public class Player : MonoBehaviour
     void Start()
     {
 
-        PlayAnimation(anim,"start_fish");
-        SetText("game start");
+      //  PlayAnimation(anim,"start_fish");
+       // SetText("game start");
 
         mouthAnimator = GetComponent<MouthController>();
         rb = GetComponent<Rigidbody>();
@@ -302,7 +302,7 @@ public class Player : MonoBehaviour
 
     public void Talking()
     {
-        LookAtAction(gameManager.GetActiveObject(),rotSpeed);
+        LookAtAction(gameManager.ActiveObject(),rotSpeed);
         SetVelocities(Vector3.zero, Vector3.zero);
     }
 
@@ -636,10 +636,10 @@ public class Player : MonoBehaviour
 
 
         RaycastHit hit;
-
+        LayerMask mask = LayerMask.GetMask("Villager");
         Vector3 dir = Vector3.down + (Vector3.forward * 3);//transform.TransformDirection(dir.normalized)
 
-        if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.05f, transform.forward, out hit, 3.5f))
+        if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.05f, transform.forward, out hit, 3.5f, mask))
         {
 
             if (hit.transform.GetComponent<Villager>() != null)
