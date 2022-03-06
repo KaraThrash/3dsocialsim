@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     public ItemManager itemManager;
     public LocationManager locationManager;
     public SceneDirector sceneDirector;
+    public StoryTracking storyTracker;
 
     public ScriptableScene activeScene;
 
@@ -316,9 +317,28 @@ public class GameManager : MonoBehaviour
 
     public void InteractWithVillager(Villager _villager)
     {
-       
 
-        if (_villager.scriptToLoad != null)
+        if (_villager.VillagerName() == StoryTracker().NextNarrativeActor()) 
+        {
+            //the next major story step in the day starts with this villager
+            YarnProgram nextStory= StoryTracker().StartSection();
+            Debug.Log(nextStory);
+
+            if (nextStory != null)
+            {
+                //the next major story step in the day starts with this villager
+                dialogueRunner.Add(nextStory);
+                if (inConversation == false)
+                {
+                    StartConversation();
+                    audioManager.PlayWorldEffect(_villager.Voice());
+                }
+
+                ActiveObject(_villager.transform);
+                dialogueRunner.StartDialogue(StoryTracker().NodeTitle());
+            }
+        }
+        else if (_villager.scriptToLoad != null)
         {
             if (inConversation == false)
             {
@@ -327,7 +347,7 @@ public class GameManager : MonoBehaviour
             }
 
             ActiveObject(_villager.transform);
-           //  dialogueRunner.Add(_villager.scriptToLoad);
+            //  dialogueRunner.Add(_villager.scriptToLoad);
             //  _villager.scriptToLoad = null;
 
             //find the script for this village based on the game state
@@ -336,11 +356,12 @@ public class GameManager : MonoBehaviour
             //yarn wants a string for the title of the dialogue
             dialogueRunner.StartDialogue(_villager.name);
 
-           // _villager.Interact();
+            // _villager.Interact();
         }
-        else {
+        else
+        {
 
-           // _villager.Bonk();
+            // _villager.Bonk();
         }
 
         _villager.Interact();
@@ -691,23 +712,33 @@ public class GameManager : MonoBehaviour
 
 
     public UiManager UiManager()
-    { return uiManager; }
+    {
+        if (uiManager == null) { uiManager = FindObjectOfType<UiManager>(); }
+        return uiManager;
+    }
 
     public TerrainManager TerrainManager()
-    { return terrainManager; }
+    {
+        if (terrainManager == null) { terrainManager = FindObjectOfType<TerrainManager>(); }
+        return terrainManager;
+    }
 
     public TimeManager TimeManager()
-    { return timeManager; }
+    {
+        if (timeManager == null) { timeManager = FindObjectOfType<TimeManager>(); }
+        return timeManager;
+
+    }
 
     public AudioManager AudioManager()
     {
-        if (audioManager == null) { audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>(); }
+        if (audioManager == null) { audioManager = FindObjectOfType<AudioManager>(); }
         return audioManager;
     }
 
     public SceneDirector SceneDirector()
     {
-        if (sceneDirector == null) { sceneDirector = GameObject.Find("SceneDirector").GetComponent<SceneDirector>(); }
+        if (sceneDirector == null) { sceneDirector = FindObjectOfType<SceneDirector>(); }
         return sceneDirector;
     }
 
@@ -725,7 +756,7 @@ public class GameManager : MonoBehaviour
     {
 
         if (locationManager == null)
-        { locationManager = GameObject.Find("LocationManager").GetComponent<LocationManager>(); }
+        { locationManager = FindObjectOfType<LocationManager>(); }
 
         return locationManager;
     }
@@ -737,6 +768,15 @@ public class GameManager : MonoBehaviour
         { itemManager = FindObjectOfType<ItemManager>(); }
 
         return itemManager;
+    }
+
+    public StoryTracking StoryTracker()
+    {
+
+        if (storyTracker == null)
+        { storyTracker = FindObjectOfType<StoryTracking>(); }
+
+        return storyTracker;
     }
 
     public bool DialogueIsRunning()

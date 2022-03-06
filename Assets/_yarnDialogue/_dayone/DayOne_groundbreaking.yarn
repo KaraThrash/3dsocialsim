@@ -1,0 +1,28 @@
+
+title: node
+tags: dayOne
+colorID: 0
+
+---
+Licon: Everyone, welcome to the groundbreaking ceremony for our new cafe!
+Licon: I’m sure you’ve all met Margo by now. She is our new resident, and will be the owner of this cafe!
+
+<<Comment YarnFunctions Everyone should applaud here - is there a function for mass-targeting everyone at once?>>
+
+Licon: Margo, is there anything you would like to say?
+
+-> I’m happy to be here!
+-> This is going to be incredible!
+-> Let’s all hang out!
+
+Licon: Wise words, indeed.
+Licon: All right, without further ado… Bring out the shovel, Margo!
+
+<<Comment YarnFunctions Margo pulls out a shovel and walks to where the cafe site is. Then she digs a hole into the ground.>>
+<<Comment YarnFunctions Applause>>
+
+Licon: Congratulations, Margo! Congratulations, Happydale!
+Licon: This new addition to our town is vital to help keep us bustling and alive!
+Licon: I can’t wait to see what else you’ll do here, Margo.
+Licon: Thank you for coming, everyone! Have a good night!
+===

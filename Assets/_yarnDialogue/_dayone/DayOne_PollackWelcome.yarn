@@ -1,0 +1,38 @@
+
+title: DayOne_PollackWelcome
+tags: dayOne, Pollack
+colorID: 0
+
+---
+<<Comment YarnFunctions this occurs upon Margo talking to Pollack after Licon has asked her to introduce herself>>
+
+Pollack: Hm? Margo?
+Pollack: ...I see. A new resident to our town, are you?
+
+<<Comment YarnFunctions Pollack circles Margo once, pausing at the end of the circle to stare at her for a beat>>
+
+Pollack: Very well.
+Pollack: I am Captain Pollack, Chief of Police of Happydale. Any wrongdoing, illicit goings-on, and otherwise underhanded activity will have to answer to me.
+Pollack: Now, I don’t expect any trouble out of you. But keep in mind that we have rules and laws here, just like any other place.
+Pollack: We may be a small town, but safety is as important as if we were a city of five hundred.
+
+<<PlayAnimation YarnFunctions Margo Laughing>>
+<<Comment YarnFunctions the below is in italics, as Margo is thinking it>>
+Margo: Five hundred? How many people does he think live in a city?
+
+<<Comment YarnFunctions Pollack freezes (his animation stops). Then he turns his head to look at Margo>>
+Pollack: You think that’s funny?
+<<Comment YarnFunctions Margo stops laughing now>>
+Pollack: …
+
+<<Comment YarnFunctions Pollack's animations go back to normal>>
+Pollack: Well. Thank you for introducing yourself to me, Margo.
+Pollack: I’ll protect you just as much as anyone else.
+Pollack: And if anyone - and I mean anyone - threatens the law…
+
+<<Comment YarnFunctions Pollack walks closer up to Margo, as though getting in her face>>
+Pollack: I’ll be waiting.
+Pollack: Dismissed.
+
+<<Comment YarnFunctions Margo is now free to walk around, but Pollack is now suspicious of her. Pollack will trail Margo at the edge of the screen as discussed, and then when she does something wrong, will call her out. However, this has not fully been settled on>>
+===

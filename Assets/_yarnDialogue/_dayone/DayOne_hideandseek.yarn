@@ -1,0 +1,50 @@
+
+title: DayOne_CindyHidenSeek
+tags: dayOne, Cindy
+colorID: 0
+
+---
+<<Comment YarnFunctions this is Cindy's introduction. She is hiding behind a bunch of trees. As Margo approaches the trees, this exchange takes place>>
+
+Cindy: ...
+Margo: ...?
+Margo: Uh, hello?
+
+<<PlayAnimation YarnFunctions Cindy Shock>>
+Cindy: !
+Cindy: Ohmigosh! You found me!
+
+<<Comment YarnFunctions Cindy comes out from behind the tree and into the light. The player will see her spider head for the first time. After a beat, she will speak to Margo>>
+
+Cindy: I've been waiting for someone to find me ALL. DAY.
+<<PlayAnimation YarnFunctions Cindy Sad>>
+Cindy: Everyone's too busy to play hide and seek anymore.
+<<PlayAnimation YarnFunctions Cindy Confused>>
+Cindy: But... who are you? I haven't seen you before.
+Cindy: Margo? You're new here? And you're opening up a coffee shop?!
+<<PlayAnimation YarnFunctions Cindy Happy>>
+Cindy: That's incredible! I've always wanted to try coffee!
+
+-> You don't really need any...
+-> It's delicious! You'll love it!
+
+<<Comments YarnFunctions Cindy returns to neutral>>
+Cindy: When you open your coffee shop, will you let me draw there?
+Cindy: I'm an expert at drawing, and I have the most incredible crayon set you will EVER see.
+<<PlayAnimation YarnFunctions Cindy Shock>>
+Cindy: WAIT! I have an even BETTER idea!
+<<PlayAnimation YarnFunctions Cindy Blush>>
+Cindy: ...Will you play hide and seek with me while you're here?
+
+-> Sure!
+-> Err...
+
+<<PlayAnimation YarnFunctions Cindy Happy>>
+Cindy: I'll hide every day, and you can come find me!
+
+<<Comments YarnFunctions Cindy turns to run back into the trees (maybe taking a few steps depending on how long the animations take), then turns around to face Margo again>>
+
+Cindy: You better do it! I'll be waiting for you!
+
+<<Comments YarnFunctions she runs away>>
+===

@@ -1,0 +1,31 @@
+
+title: DayOne_FMBait
+tags: dayOne, FM
+colorID: 0
+
+---
+<<Comments YarnFunctions Fish fisherman is walking around the map, pausing occasionally with maybe a “?” emote above his face, moving very slowly, maybe sighing sometimes>>
+
+FM: Oh, it’s you. Hello.
+
+-> Who are you?
+	FM: I’m Fish Fisherman. Aren’t you Margo?
+	FM: I heard about you. Got a cafe opening up, huh?
+	FM: Welcome to town. Your new place is situated in a great spot.
+	FM: Your house, I mean. Not your cafe.
+	FM: Lotsa fishing spots near your place. Just off through the forest.
+	FM: Don’t go through the forest while you’re here, though.
+	FM: No point. There’s not even bait in there.
+	-> Bait?
+		FM: I wanted to go fishing, but I’m outta bait…
+		FM: It’s really hard to find any. It’s like all the worms are afraid of me.
+		FM: At this rate, I’ll never get enough in time…
+        [[DayOne_FMBaitChoice]]
+
+-> What are you doing?
+	FM: Me? I’m collecting bait.
+	FM: I wanted to go fishing, but I’m outta bait…
+	FM: It’s really hard to find any. It’s like all the worms are afraid of me.
+	FM: At this rate, I’ll never get enough in time…
+    [[DayOne_FMBaitChoice]]
+===

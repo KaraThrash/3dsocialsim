@@ -46,6 +46,11 @@ public class Player : MonoBehaviour
 
     private Rigidbody rb;
 
+    private string AP_startFish = "start_fish";
+    private string AP_walk = "walk";
+    private string AP_speed = "speed";
+    private string AP_stopAction = "stop_action";
+
     public PlayerState State (){ return state; }
 
     public void State(PlayerState _state) { OnStateChange(_state); state = _state; }
@@ -53,7 +58,6 @@ public class Player : MonoBehaviour
     public void OnStateChange(PlayerState _state)
     {
         Debug.Log("new player state: " + _state);
-
 
         //new state is same as the old state
         if (State() == _state) { return; }
@@ -88,11 +92,11 @@ public class Player : MonoBehaviour
 
 
         if (_state == PlayerState.playerControlled) { SetKinematic(false); }
-        if (_state == PlayerState.talking) { SetAnimationBool(anim, "walk", false); }
-        else if (_state == PlayerState.inScene) { SetAnimationBool(anim, "walk", false); }
+        if (_state == PlayerState.talking) { SetAnimationBool(anim, AP_walk, false); }
+        else if (_state == PlayerState.inScene) { SetAnimationBool(anim, AP_walk, false); }
         else if (_state == PlayerState.fishing) { 
-            SetAnimationBool(anim, "walk", false); 
-            PlayAnimation(Animator(), "start_fish"); 
+            SetAnimationBool(anim, AP_walk, false); 
+            PlayAnimation(Animator(), AP_startFish); 
         }
 
 
@@ -127,7 +131,7 @@ public class Player : MonoBehaviour
     void Start()
     {
 
-      //  PlayAnimation(anim,"start_fish");
+      //  PlayAnimation(anim,AP_startFish);
        // SetText("game start");
 
         mouthAnimator = GetComponent<MouthController>();
@@ -247,26 +251,26 @@ public class Player : MonoBehaviour
         {
             if (nav.velocity.magnitude > 0.1f)
             {
-                SetAnimationBool(anim, "walk", true);
-                SetAnimationParameter(anim, "speed", nav.velocity.magnitude * 0.5f);
+                SetAnimationBool(anim, AP_walk, true);
+                SetAnimationParameter(anim, AP_speed, nav.velocity.magnitude * 0.5f);
                 anim.speed = Mathf.Clamp(nav.velocity.magnitude * 0.7f, 0.5f, walkSpeed);
             }
             else {
                 anim.speed = 1;
-                SetAnimationBool(anim, "walk", false);
+                SetAnimationBool(anim, AP_walk, false);
             }
         }
         else 
         {
             if (rb.velocity.magnitude > 0.1f)
             {
-                SetAnimationBool(anim, "walk", true);
-                SetAnimationParameter(anim,"speed", rb.velocity.magnitude * 0.5f);
+                SetAnimationBool(anim, AP_walk, true);
+                SetAnimationParameter(anim,AP_speed, rb.velocity.magnitude * 0.5f);
                 anim.speed = Mathf.Clamp(rb.velocity.magnitude * 0.5f, 0.5f, walkSpeed);
             }
             else {
                 anim.speed = 1;
-                SetAnimationBool(anim, "walk", false);
+                SetAnimationBool(anim, AP_walk, false);
             }
         }
 
@@ -344,7 +348,7 @@ public class Player : MonoBehaviour
 
             if (rb.velocity == Vector3.zero) 
             {
-                SetAnimationBool(anim, "walk", true);
+                SetAnimationBool(anim, AP_walk, true);
             }
 
 
@@ -410,7 +414,7 @@ public class Player : MonoBehaviour
             }
 
             anim.speed = (rb.velocity.magnitude * 2) / walkSpeed;
-            SetAnimationParameter(anim, "speed", rb.velocity.magnitude / walkSpeed);
+            SetAnimationParameter(anim, AP_speed, rb.velocity.magnitude / walkSpeed);
 
         }
         else
@@ -420,12 +424,12 @@ public class Player : MonoBehaviour
             {
                 rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
                 anim.speed = (rb.velocity.magnitude * 2) / walkSpeed;
-                SetAnimationParameter(anim, "speed", rb.velocity.magnitude / walkSpeed);
+                SetAnimationParameter(anim, AP_speed, rb.velocity.magnitude / walkSpeed);
                 if (rb.velocity.magnitude <= 0.05f)
                 {
                     rb.velocity = Vector3.zero;
                     rb.angularVelocity = Vector3.zero;
-                    SetAnimationBool(anim, "walk", false);
+                    SetAnimationBool(anim, AP_walk, false);
                     anim.speed = 1;
                     //SetNavMeshSpeed(0);
                     // moveDirection = _dir;
@@ -769,7 +773,7 @@ public class Player : MonoBehaviour
         {
             if (heldItem.GetComponent<FishingRod>() != null)
             {
-                SetAnimationTrigger(Animator(), "stop_action");
+                SetAnimationTrigger(Animator(), AP_stopAction);
                 Item caughtFish = GameManager.instance.ItemManager().CatchFish(transform.position, heldItem.GetComponent<FishingRod>().currentFishChange);
 
                 if (caughtFish != null)

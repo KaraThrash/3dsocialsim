@@ -14,6 +14,7 @@ public class Villager : MonoBehaviour
     public VillagerStoryState currentStoryState;
     public SceneAction scriptedAction;
     public Mood mood;
+    public Villagers villagerName;
     public string npcName,scene,heldAnimation;
     public float rotSpeed,speed; //time between greetings is the value of seconds that need to elapse before this npc will use a greeting instead of smalltalk
     public Animator anim;
@@ -554,6 +555,10 @@ public class Villager : MonoBehaviour
     public AudioClip Motif() { return motif; }
     public void Motif(AudioClip _clip) { motif = _clip; ; }
     public void Voice(AudioClip _clip) { voice = _clip; }
+
+    public Villagers VillagerName()
+    { return villagerName; }
+
 
 
 
