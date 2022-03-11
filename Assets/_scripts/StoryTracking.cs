@@ -23,6 +23,7 @@ public class StoryTracking : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        day = 1;
         nextStoryStart = Villagers.licon;
     }
 
@@ -114,5 +115,5 @@ public class StoryTracking : MonoBehaviour
     public string NodeTitle()
     { return yarnNode; }
 
-
+    public int GetDay() { return day; }
 }

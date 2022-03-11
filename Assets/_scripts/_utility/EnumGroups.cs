@@ -14,7 +14,7 @@ public enum WorldLocation { overworldNorth,overWorldSouth, inside, lostwoods, bu
 //maplocation for orienteering
 public enum MapLocation { townhall,constructionSite, townSquare,playerHouse, voiceInWall, lostwoodsSouthEntrance,lostwoodsNorthEntrance,northRoadTurn, southRoadTurn, townEntrance, southeastRoadEnd,basicOverworld,basicInterior }
 
-public enum Villagers { licon,wilms,bear,cat,dog,monkey,world }
+public enum Villagers { licon,wilms,bear,fish,cat,dog,monkey,world }
 public enum VillagerState { moving, idle, waiting, talking, activity }
 public enum VillagerStoryState { idle, inScene, inPrison, offScreen }
 

@@ -307,7 +307,6 @@ public class GameManager : MonoBehaviour
 
 
 
-
     public void BonkVillager(Villager _villager)
     {
         //todo: check for scene state here
@@ -318,51 +317,54 @@ public class GameManager : MonoBehaviour
     public void InteractWithVillager(Villager _villager)
     {
 
-        if (_villager.VillagerName() == StoryTracker().NextNarrativeActor()) 
-        {
+        
             //the next major story step in the day starts with this villager
-            YarnProgram nextStory= StoryTracker().StartSection();
-            Debug.Log(nextStory);
+          //  YarnProgram nextStory= StoryTracker().StartSection();
+           // Debug.Log(nextStory);
 
-            if (nextStory != null)
-            {
+           // if (nextStory != null)
+           // {
                 //the next major story step in the day starts with this villager
-                dialogueRunner.Add(nextStory);
+             //   dialogueRunner.Add(nextStory);
                 if (inConversation == false)
                 {
                     StartConversation();
                     audioManager.PlayWorldEffect(_villager.Voice());
                 }
 
-                ActiveObject(_villager.transform);
-                dialogueRunner.StartDialogue(StoryTracker().NodeTitle());
-            }
-        }
-        else if (_villager.scriptToLoad != null)
-        {
-            if (inConversation == false)
-            {
-                StartConversation();
-                audioManager.PlayWorldEffect(_villager.Voice());
-            }
+                string nodeTitle = "day" + StoryTracker().GetDay().ToString() + _villager.VillagerName().ToString().ToLower();
+        Debug.Log(nodeTitle);
+        ActiveObject(_villager.transform);
+                dialogueRunner.StartDialogue(nodeTitle);
+           // }
+        //if (_villager.VillagerName() == StoryTracker().NextNarrativeActor())
+        //{
+        //}
+        //else if (_villager.scriptToLoad != null)
+        //{
+        //    if (inConversation == false)
+        //    {
+        //        StartConversation();
+        //        audioManager.PlayWorldEffect(_villager.Voice());
+        //    }
 
-            ActiveObject(_villager.transform);
-            //  dialogueRunner.Add(_villager.scriptToLoad);
-            //  _villager.scriptToLoad = null;
+        //    ActiveObject(_villager.transform);
+        //    //  dialogueRunner.Add(_villager.scriptToLoad);
+        //    //  _villager.scriptToLoad = null;
 
-            //find the script for this village based on the game state
+        //    //find the script for this village based on the game state
 
-            //todo: contextual checks
-            //yarn wants a string for the title of the dialogue
-            dialogueRunner.StartDialogue(_villager.name);
+        //    //todo: contextual checks
+        //    //yarn wants a string for the title of the dialogue
+        //    dialogueRunner.StartDialogue(_villager.name);
 
-            // _villager.Interact();
-        }
-        else
-        {
+        //    // _villager.Interact();
+        //}
+        //else
+        //{
 
-            // _villager.Bonk();
-        }
+        //    // _villager.Bonk();
+        //}
 
         _villager.Interact();
     }
@@ -901,7 +903,8 @@ public class GameManager : MonoBehaviour
 
     public Transform ActiveObject()
     {
-        return activeObject;
+        if (activeObject != null) { return activeObject; }
+        return transform;
     }
 
     public void ActiveObject(Transform _obj)
@@ -919,6 +922,18 @@ public class GameManager : MonoBehaviour
         foreach (Transform el in villagerParent)
         {
             if (el.GetComponent<Villager>() != null && el.GetComponent<Villager>().npcName.Equals(_name))
+            { return el.GetComponent<Villager>(); }
+        }
+
+
+        return null;
+    }
+
+    public Villager FindVillager(Villagers _name)
+    {
+        foreach (Transform el in villagerParent)
+        {
+            if (el.GetComponent<Villager>() != null && el.GetComponent<Villager>().VillagerName() == _name)
             { return el.GetComponent<Villager>(); }
         }
 

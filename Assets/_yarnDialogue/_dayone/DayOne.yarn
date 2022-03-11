@@ -1,0 +1,77 @@
+
+title: groundbreaking
+tags: dayOne
+colorID: 0
+
+---
+Licon: Everyone, welcome to the groundbreaking ceremony for our new cafe!
+Licon: I’m sure you’ve all met Margo by now. She is our new resident, and will be the owner of this cafe!
+
+<<Comment YarnFunctions Everyone should applaud here - is there a function for mass-targeting everyone at once?>>
+
+Licon: Margo, is there anything you would like to say?
+
+-> I’m happy to be here!
+-> This is going to be incredible!
+-> Let’s all hang out!
+
+Licon: Wise words, indeed.
+Licon: All right, without further ado… Bring out the shovel, Margo!
+
+<<Comment YarnFunctions Margo pulls out a shovel and walks to where the cafe site is. Then she digs a hole into the ground.>>
+<<Comment YarnFunctions Applause>>
+
+Licon: Congratulations, Margo! Congratulations, Happydale!
+Licon: This new addition to our town is vital to help keep us bustling and alive!
+Licon: I can’t wait to see what else you’ll do here, Margo.
+Licon: Thank you for coming, everyone! Have a good night!
+===
+
+title: day1fish
+tags: dayOne, FM
+colorID: 0
+
+---
+<<Comments YarnFunctions Fish fisherman is walking around the map, pausing occasionally with maybe a “?” emote above his face, moving very slowly, maybe sighing sometimes>>
+
+FM: Oh, it’s you. Hello.
+
+-> Who are you?
+	FM: I’m Fish Fisherman. Aren’t you Margo?
+	FM: I heard about you. Got a cafe opening up, huh?
+	FM: Welcome to town. Your new place is situated in a great spot.
+	FM: Your house, I mean. Not your cafe.
+	FM: Lotsa fishing spots near your place. Just off through the forest.
+	FM: Don’t go through the forest while you’re here, though.
+	FM: No point. There’s not even bait in there.
+	-> Bait?
+		FM: I wanted to go fishing, but I’m outta bait…
+		FM: It’s really hard to find any. It’s like all the worms are afraid of me.
+		FM: At this rate, I’ll never get enough in time…
+        [[DayOne_FMBaitChoice]]
+
+-> What are you doing?
+	FM: Me? I’m collecting bait.
+	FM: I wanted to go fishing, but I’m outta bait…
+	FM: It’s really hard to find any. It’s like all the worms are afraid of me.
+	FM: At this rate, I’ll never get enough in time…
+    [[DayOne_FMBaitChoice]]
+===
+
+title: DayOne_FMBaitChoice
+tags: dayOne, FM
+colorID: 0
+
+---
+-> I’ll help you!
+			FM: You will?
+			FM: Aw, now that brings back memories. What a helpful kid you are.
+			<<Comments YarnFunctions finding the bait can be a mini-game or a cutscene>>
+			FM: I can’t believe I might have enough bait for tomorrow!
+			FM: You really are the best.
+			FM: Anything you ever need, you come to me, got it?
+			FM: Old Uncle Fish’s got your back.
+		-> Well, good luck.
+			<<PlayAnimation YarnFunctions FM Sigh>>
+			FM: Thanks.
+===

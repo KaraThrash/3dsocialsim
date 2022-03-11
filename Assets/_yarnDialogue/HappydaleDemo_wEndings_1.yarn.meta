@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 05c3f08b619510645952b0a5f7aeb468
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 94073015eacc34c1d8fc6786e43d60ca, type: 3}
+  baseLanguageID: 
+  stringIDs: []
+  compilationStatus: 0
+  isSuccesfullyCompiled: 0
+  compilationErrorMessage: "Error on line 985 at position 8:\nmismatched input '1'
+    expecting FORMAT_FUNCTION_EXPRESSION_START\r\n[pause 1]\r\r\n       ^"
+  baseLanguage: {instanceID: 0}
+  localizations: []
