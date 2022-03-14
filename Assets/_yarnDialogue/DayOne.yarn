@@ -17,7 +17,7 @@ Licon: Margo, is there anything you would like to say?
 
 Licon: Wise words, indeed.
 Licon: All right, without further ado… Bring out the shovel, Margo!
-
+<<SceneSpecificAction YarnFunctions>>
 <<Comment YarnFunctions Margo pulls out a shovel and walks to where the cafe site is. Then she digs a hole into the ground.>>
 <<Comment YarnFunctions Applause>>
 

@@ -9,10 +9,14 @@ public enum CameraState { basic, outside, low,high,inside,showoff,conversation,f
 public enum PlayerState { playerControlled, inMenu, talking, choosing, fishing, acting, showing, inScene,animating }
 
 //world location for game state checks
-public enum WorldLocation { overworldNorth,overWorldSouth, inside, lostwoods, bus  }
+public enum WorldLocation { overWorldNorth,overWorldSouth, inside, lostwoods, bus  }
 
 //maplocation for orienteering
-public enum MapLocation { townhall,constructionSite, townSquare,playerHouse, voiceInWall, lostwoodsSouthEntrance,lostwoodsNorthEntrance,northRoadTurn, southRoadTurn, townEntrance, southeastRoadEnd,basicOverworld,basicInterior }
+public enum MapLocation {
+    townhall,constructionSite, townSquare,playerHouse, voiceInWall,
+    lostwoodsSouthEntrance,lostwoodsNorthEntrance,northRoadTurn, southRoadTurn,
+    townEntrance, southeastRoadEnd,basicOverworld,basicInterior 
+}
 
 public enum Villagers { licon,wilms,bear,fish,cat,dog,monkey,world }
 public enum VillagerState { moving, idle, waiting, talking, activity }
@@ -25,7 +29,7 @@ public enum GroundTypes { grass,wood,stone,dirt,leaves,snow,water,squish,other}
 public enum Menu { inventory,radial,tool,usable,system,pause}
 
 
-public enum SceneAction { none,talk,leadPlayer, trailPlayer,watchPlayer,fliers,walkAndTalk,walkingToCheckpoint, holdingAnimation }
+public enum SceneAction { none,talk,leadPlayer, trailPlayer,watchPlayer,movePlayer,fliers,walkAndTalk,walkingToCheckpoint, holdingAnimation }
 
 
 

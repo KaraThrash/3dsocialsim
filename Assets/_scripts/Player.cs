@@ -601,31 +601,23 @@ public class Player : MonoBehaviour
         else if (heldItem != null && heldItem.activeSelf && heldItem.GetComponent<Item>() != null)
         {
 
-            if (heldItem.GetComponent<Item>().TryCatch())
-            {
-
-                return;
-            }
-            else 
-            {
-                    heldItem.GetComponent<Item>().Use(this);
-            }
+            UseItem();
 
 
         }
         else
         {
+
             RaycastHit hit;
 
-                if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.05f, transform.TransformDirection((Vector3.down + Vector3.forward + Vector3.forward).normalized), out hit, 3.5f))
+            if (Physics.SphereCast(transform.position + (Vector3.up * 0.65f), 0.05f, transform.TransformDirection((Vector3.down + Vector3.forward + Vector3.forward).normalized), out hit, 3.5f))
+            {
+                if (hit.transform.GetComponent<Item>() != null && hit.transform.GetComponent<Item>().Interact(this))
                 {
-                    if (hit.transform.GetComponent<Item>() != null && hit.transform.GetComponent<Item>().Interact(this))
-                    {
-                    }
-                    
-
                 }
 
+
+            }
         }
         //if no one to talk to check hands for tools
         //     UseTool();
@@ -634,6 +626,26 @@ public class Player : MonoBehaviour
 
 
     }
+
+    public void UseItem()
+    {
+        if (heldItem != null && heldItem.activeSelf && heldItem.GetComponent<Item>() != null)
+        {
+
+            if (heldItem.GetComponent<Item>().TryCatch())
+            {
+
+                return;
+            }
+            else
+            {
+                heldItem.GetComponent<Item>().Use(this);
+            }
+
+
+        }
+    }
+
 
     public bool InteractWithVillager()
     {
@@ -966,6 +978,15 @@ public class Player : MonoBehaviour
         rb.angularVelocity = angularVel;
     }
 
+    public Vector3 GetVelocity()
+    {
+        return RB().velocity;
+    }
+
+    public Rigidbody RB() 
+    {
+        return rb;
+    }
 
     public void SetNavLeadObject(Vector3 _dest,float _speed)
     {
@@ -974,7 +995,7 @@ public class Player : MonoBehaviour
         if (nav.enabled == false)
         {
             nav.enabled = true;
-            nav.Warp(transform.position);
+           // nav.Warp(transform.position);
             SetKinematic(true);
         }
 
@@ -1279,6 +1300,20 @@ public class Player : MonoBehaviour
         if (nav != null  && GetComponent<NavMeshAgent>().speed != _speed )
         {
             GetComponent<NavMeshAgent>().speed = _speed;
+
+        }
+    }
+
+    public void SetNavMeshVelocity(Vector3 _speed)
+    {
+        if (nav == null)
+        {
+            nav = GetComponent<NavMeshAgent>();
+        }
+
+        if (nav != null )
+        {
+            GetComponent<NavMeshAgent>().velocity = _speed;
 
         }
     }

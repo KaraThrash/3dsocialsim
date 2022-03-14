@@ -255,7 +255,7 @@ public class Villager : MonoBehaviour
 
     public void InitScriptableScene(Transform _target,int _linesOfDialogue)
     {
-        currentScene = new SceneObject();
+        //currentScene = new SceneObject();
         currentScene.targetPos = _target.position;
         currentScene.startPos = transform.position;
         currentScene.linesOfDialogue = _linesOfDialogue;

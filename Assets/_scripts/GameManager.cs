@@ -70,8 +70,12 @@ public class GameManager : MonoBehaviour
         if (actionTimer <= 0 && actionTimer != -1)
         {
             actionTimer = 0;
-            player.State(PlayerState.playerControlled);
-            cameraControls.ConversationToggle(false);
+            if (player.State() != PlayerState.inScene)
+            { 
+                player.State(PlayerState.playerControlled);
+                cameraControls.ConversationToggle(false);
+            }
+            
             //if (player.State() == PlayerState.animating)
             //{
             //    cameraControls.ConversationToggle(false);
@@ -170,6 +174,11 @@ public class GameManager : MonoBehaviour
         if (activeScene != null)
         {
             activeScene.SceneSpecificAction();
+        }
+
+        if (SceneDirector().PlannedScene() != null)
+        {
+            SceneDirector().PlannedScene().SceneSpecificAction();
         }
     }
 
@@ -303,7 +312,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-
+    public void AdvanceDialogue()
+    {
+        dialogueRunner.GetComponent<DialogueUI>().MarkLineComplete();
+    }
 
 
 
@@ -780,6 +792,16 @@ public class GameManager : MonoBehaviour
 
         return storyTracker;
     }
+
+    public DialogueRunner DialogueRunner()
+    {
+
+        if (dialogueRunner == null)
+        { dialogueRunner = FindObjectOfType<DialogueRunner>(); }
+
+        return dialogueRunner;
+    }
+
 
     public bool DialogueIsRunning()
     {

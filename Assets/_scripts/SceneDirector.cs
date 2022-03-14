@@ -8,6 +8,8 @@ public class SceneDirector : MonoBehaviour
     public SceneAction currentaction;
     public ScriptableScene activeScene;
 
+    private ScenePlanning plannedScene;
+
     public Player player;
 
     public Villager primary, secondary;
@@ -231,7 +233,13 @@ public class SceneDirector : MonoBehaviour
         activeScene = _scene;
     }
 
+    public void PlannedScene(ScenePlanning _scene)
+    {
+         plannedScene = _scene;
+    }
 
-
-
+    public ScenePlanning PlannedScene()
+    {
+        return plannedScene;
+    }
 }
