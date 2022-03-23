@@ -6,15 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_scenes/scenepicker.unity
+    path: Assets/_scenes/_Feb/scenepicker.unity
     guid: a74e310f7c1282f4298c75e27fdd11fe
   - enabled: 1
-    path: Assets/_scenes/justbus.unity
+    path: Assets/_scenes/_Feb/justbus.unity
     guid: adac06e7fa6ecc542b580bfbe1949f79
   - enabled: 1
-    path: Assets/_scenes/oldgamebuild.unity
+    path: Assets/_scenes/_Feb/oldgamebuild.unity
     guid: 9e75a69423f0f2541bf182f6664a267b
   - enabled: 1
-    path: Assets/_scenes/music_sandbox.unity
+    path: Assets/_scenes/_Feb/music_sandbox.unity
     guid: ba79973fa73e2d041a005c2a29119615
   m_configObjects: {}
