@@ -7,10 +7,19 @@ using UnityEngine.Events;
 
 public class Item : MonoBehaviour
 {
+    private GameManager gameManager;
+
     public string itemName;
+
     public ItemClass itemClass;
+
+    public WorldLocation worldLocation;
+
+
     public Sprite icon;
+
     public bool usable, placable, holdable,buryable;
+
     public bool on;
     public int stackSize = 1, maxStackSize = 1,footprintWidth=-1,footprintDepth=-1;
     
@@ -236,4 +245,21 @@ public class Item : MonoBehaviour
 
     }
 
+    public void Location(WorldLocation _location)
+    {
+         worldLocation = _location;
+    }
+
+    public WorldLocation Location()
+    {
+        return worldLocation;
+    }
+
+    public GameManager GM()
+    {
+        if (gameManager == null)
+        { gameManager = GameManager.instance; }
+
+        return gameManager;
+    }
 }

@@ -11,6 +11,50 @@ public class LocationManager : MonoBehaviour
     public Transform northRoadTurn,southRoadTurn;
     public Transform southeastRoadEnd;
 
+    public List<TerrainChunk> terrainChunks;
+
+
+    public void UnloadChunks()
+    { 
+    
+    }
+
+    public void UnloadChunks(WorldLocation _activeChunk)
+    {
+        if (terrainChunks == null) { return; }
+
+        foreach (TerrainChunk el in terrainChunks)
+        {
+            if (el.Location() != _activeChunk)
+            {
+                el.Load(false);
+            }
+
+        }
+    }
+
+
+    public void LoadTerrain(WorldLocation _activeChunk)
+    {
+        if (terrainChunks == null) { return; }
+
+        foreach (TerrainChunk el in terrainChunks)
+        {
+            if (el.Location() == _activeChunk)
+            {
+                el.Load(true);
+            }
+
+        }
+    }
+
+
+
+
+
+
+
+
 
 
     public Transform FindLocation(string _location)

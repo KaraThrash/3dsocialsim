@@ -11,7 +11,7 @@ public class MakeTerrainSector : MonoBehaviour
     public List<GameObject> trees,otherObjs;
     public GameObject square, hortfence, vertfence, cornerfence;
 
-    public Transform squareParent, objectParent;
+    public Transform squareParent, objectParent,treeParent;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,11 +40,11 @@ public class MakeTerrainSector : MonoBehaviour
     //testing --- using raycasts to place, to have more dynamic enviroment and not need the grid of squares
     public void MakeGroundGrid()
     {
-        int xpos = -20, zpos = -width;
+        int xpos = -20, zpos = 0;
 
         while (zpos < width)
         {
-            xpos = -length;
+            xpos = 0;
             while (xpos < length)
             {
                 RaycastHit hit;
@@ -60,36 +60,41 @@ public class MakeTerrainSector : MonoBehaviour
                         }
                         else if (hit.transform.tag.Equals("grass"))
                         {
-                            float rnd = Random.Range(0, 2500);
-                            if (rnd > 1 && rnd < 60)
+                            float rnd = Random.Range(0, 1000);
+                            if (rnd > 1 && rnd < 100)
                             {
                                 GameObject clone;
 
-                                if (rnd < 5 && trees.Count > 1) { clone = Instantiate(trees[0], hit.point,transform.rotation); }
-                                else if ((rnd > 50 && rnd < 60) && trees.Count >= 2) { clone = Instantiate(trees[1], hit.point,transform.rotation); }
-                                else if ((rnd > 5 && rnd < 20) && trees.Count >= 3) { clone = Instantiate(trees[2], hit.point,transform.rotation); }
-                                else if ((rnd > 20 && rnd < 45) && trees.Count > 3) { clone = Instantiate(trees[3], hit.point,transform.rotation); }
-                                else
-                                { clone = Instantiate(trees[0], hit.point,transform.rotation); }
+                                //if (rnd < 5 && trees.Count > 1) { clone = Instantiate(trees[0], hit.point,transform.rotation); }
+                                //else if ((rnd > 50 && rnd < 60) && trees.Count >= 2) { clone = Instantiate(trees[1], hit.point,transform.rotation); }
+                                //else if ((rnd > 5 && rnd < 20) && trees.Count >= 3) { clone = Instantiate(trees[2], hit.point,transform.rotation); }
+                                //else if ((rnd > 20 && rnd < 45) && trees.Count > 3) { clone = Instantiate(trees[3], hit.point,transform.rotation); }
+                                //else
+                                //{ clone = Instantiate(trees[0], hit.point + new Vector3(Random.Range(-0.25f, 0.25f), 0, Random.Range(-0.25f, 0.25f)), transform.rotation); }
 
-                                clone.transform.position -= Vector3.up * 0.5f;
-                                clone.transform.parent = objectParent;
+                                clone = Instantiate(trees[(int)Random.Range(0, trees.Count)], hit.point + new Vector3(Random.Range(-0.25f, 0.25f), 0, Random.Range(-0.25f, 0.25f)), transform.rotation);
+
+                                //clone.transform.position -= Vector3.up * 0.5f;
+                                clone.transform.parent = treeParent;
                                 // el.GetComponent<TerrainSquare>().PlantTree(clone);
 
 
                             }
-                            else if ((rnd > 200 && rnd < 260))
+                            else if ((rnd > 300 && rnd < 340))
                             {
                                 GameObject clone;
 
-                                if (rnd < 205 && trees.Count > 1) { clone = Instantiate(otherObjs[0], hit.point,transform.rotation); }
-                                else if ((rnd > 250 && rnd < 260) && trees.Count >= 2) { clone = Instantiate(otherObjs[1], hit.point,transform.rotation); }
-                                else if ((rnd > 25 && rnd < 220) && trees.Count >= 3) { clone = Instantiate(otherObjs[2], hit.point,transform.rotation); }
-                                else if ((rnd > 220 && rnd < 245) && trees.Count > 3) { clone = Instantiate(otherObjs[3], hit.point,transform.rotation); }
-                                else
-                                { clone = Instantiate(otherObjs[0], hit.point,transform.rotation); }
+                                //if (rnd < 305 && trees.Count > 1) { clone = Instantiate(otherObjs[0], hit.point,transform.rotation); }
+                                //else if ((rnd > 305 && rnd < 260) && trees.Count >= 2) { clone = Instantiate(otherObjs[1], hit.point,transform.rotation); }
+                                //else if ((rnd > 25 && rnd < 220) && trees.Count >= 3) { clone = Instantiate(otherObjs[2], hit.point,transform.rotation); }
+                                //else if ((rnd > 220 && rnd < 245) && trees.Count > 3) { clone = Instantiate(otherObjs[3], hit.point,transform.rotation); }
+                                //else
+                                //{ clone = Instantiate(otherObjs[0], hit.point + new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f)),transform.rotation); }
+
+                                clone = Instantiate(otherObjs[(int)Random.Range(0,otherObjs.Count)], hit.point + new Vector3(Random.Range(-0.5f, 0.5f),0,Random.Range(-0.5f, 0.5f)), transform.rotation);
 
                                 clone.transform.position -= Vector3.up * 0.05f;
+                                clone.transform.Rotate(0, Random.Range(-45.0f,45.0f), 0);
                               //  clone.transform.Rotate(0, 270, 0);
                                 clone.transform.parent = objectParent;
 
@@ -100,9 +105,9 @@ public class MakeTerrainSector : MonoBehaviour
 
                 }
            
-                xpos++;
+                xpos += 3;
             }
-            zpos++;
+            zpos += 2;
         }
     }
 

@@ -80,6 +80,68 @@ public class EventInit : MonoBehaviour
 
     }
 
+    private Door previousDoor;
+
+    public void EnterDoor(GameManager gameManager, Door _door)
+    {
+
+        previousDoor = _door;
+
+        gameManager.TransitionTimer(Constants.CHUNK_TRANSITION_TIME) ;
+        gameManager.ActionTimer(Constants.CHUNK_ACTION_TIME) ;
+
+
+        gameManager.State(GameState.transitioning);
+
+        gameManager.player.State(PlayerState.acting);
+
+        gameManager.player.EnterDoor();
+
+
+        gameManager.pendingNewPosition = _door.ExitPosition();
+
+        gameManager.player.WorldLocation(_door.ExitLocation());
+        //camera fade to black animation is 1 second to black and .1 before the black clears
+
+        gameManager.cameraControls.anim.speed = 1;
+
+        gameManager.cameraControls.anim.Play(Constants.ANIM_CLEAR_TO_BLACK);
+
+        gameManager.LocationManager().LoadTerrain(_door.ExitLocation());
+
+
+    }
+
+    public bool ExitDoor(GameManager gameManager)
+    {
+        if (previousDoor == null)
+        {
+            gameManager.player.State(PlayerState.playerControlled);
+            return false;
+        }
+
+        //gameManager.pendingNewPosition = previousDoor.ExitPosition();
+        gameManager.player.WorldLocation(previousDoor.ExitLocation());
+        gameManager.LocationManager().UnloadChunks(previousDoor.ExitLocation());
+        
+
+        gameManager.player.State(PlayerState.playerControlled);
+
+        gameManager.player.TeleportPlayer(previousDoor.ExitPosition(), previousDoor.ExitRotation());
+
+        
+
+
+        gameManager.cameraControls.SetLocation(previousDoor.ExitPosition());
+        //camera fade to black animation is 1 second to black and .1 before the black clears
+
+
+
+        return true;
+
+
+    }
+
 
 
     public void EnterBuilding(GameManager gameManager, Transform _location)

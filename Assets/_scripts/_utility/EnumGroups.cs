@@ -9,7 +9,7 @@ public enum CameraState { basic, outside, low,high,inside,showoff,conversation,f
 public enum PlayerState { playerControlled, inMenu, talking, choosing, fishing, acting, showing, inScene,animating }
 
 //world location for game state checks
-public enum WorldLocation { overWorldNorth,overWorldSouth, inside, lostwoods, bus  }
+public enum WorldLocation { none,overWorldNorth,overWorldSouth, inside, lostwoods, bus  }
 
 //maplocation for orienteering
 public enum MapLocation {

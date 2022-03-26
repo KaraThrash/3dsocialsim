@@ -23,7 +23,7 @@ public class BendingManager : MonoBehaviour
   private bool enablePlanet = default;
 
   [SerializeField]
-  [Range(0.005f, 0.1f)]
+  [Range(0.001f, 0.1f)]
   private float bendingAmount = 0.015f;
 
   #endregion

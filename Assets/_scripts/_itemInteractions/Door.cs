@@ -2,68 +2,60 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+/// <summary>
+/// 
+/// HOW THE DOORS WORK
+/// 
+/// The door should have another door it is 'connected to' and an 'exitobj' for where the player should exit
+/// 
+/// When interacting with a door the gamemanager calls the event init to start transitioning to the new location
+/// the new map chunk is loaded, the screen blacked out
+/// then the player is teleported, their animator reset and the old chunk is unloaded
+/// 
+///  "Door" is the term used for any transitional space even if there is no physical representation
+/// </summary>
+/// 
 public class Door : Item
 {
+    public Door connectedDoor;
     public GameObject interiorObj,connectedArea,wall;
+
     public GameManager gameManager;
 
     public Transform exitObj;// where the player should go when using this door
 
     public bool interior;
     public bool exit;
+
     public string _camSetting;
 
-    public override bool Interact(GameManager _gameManager) 
+    public override bool Interact(Player _player ) 
     {
-        gameManager = _gameManager;
 
-        if (exit)
-        {
-            gameManager.ExitArea(interiorObj, connectedArea, _camSetting);
+        GM().EnterDoor(this);
 
-        }
-        else
-        {
-            gameManager.EnterArea(interiorObj, connectedArea, _camSetting);
-        }
 
         return true;
     }
 
-    public void OnTriggerEnter(Collider other)
+    public override void TriggerEnter(Collider other)
     {
-        if (gameManager == null) { gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); }
+       
 
         if (other.GetComponent<Player>() != null && connectedArea != null)
         {
 
             if (exit)
             {
-                gameManager.ExitArea(interiorObj, connectedArea, _camSetting);
+                GM().ExitArea(interiorObj, connectedArea, _camSetting);
 
             }
             else 
             {
-                gameManager.EnterArea(interiorObj, connectedArea, _camSetting);
+                GM().EnterArea(interiorObj, connectedArea, _camSetting);
             }
-
-            //if (exit)
-            //{
-            //    gameManager.LeaveBuilding();
-            //}
-            //else
-            //{
-            //    if (interiorObj != null)
-            //    {
-            //        gameManager.EnterArea(interiorObj, connectedArea, _camSetting);
-
-            //    }
-            //    else
-            //    {
-            //        gameManager.EnterRoom(connectedArea);
-            //    }
-
-            //}
 
         }
     }
@@ -93,5 +85,49 @@ public class Door : Item
         
     }
 
+    public Vector3 ExitPosition()
+    {
+        
+
+        if (connectedDoor != null)
+        {
+            if (connectedDoor.exitObj != null)
+            {
+                return connectedDoor.exitObj.position;
+            }
+            return connectedDoor.transform.position;
+        }
+
+        if (exitObj != null) { return exitObj.position; }
+
+        return transform.position;
+    }
+
+    public Quaternion ExitRotation()
+    {
+
+
+        if (connectedDoor != null)
+        {
+            if (connectedDoor.exitObj != null)
+            {
+                return connectedDoor.exitObj.rotation;
+            }
+            return connectedDoor.transform.rotation;
+        }
+
+        if (exitObj != null) { return exitObj.rotation; }
+
+        return transform.rotation;
+    }
+
+
+
+    public WorldLocation ExitLocation()
+    {
+        if (connectedDoor != null) { return connectedDoor.Location(); }
+
+        return WorldLocation.none;
+    }
 
 }

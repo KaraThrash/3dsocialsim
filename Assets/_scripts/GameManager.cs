@@ -97,26 +97,14 @@ public class GameManager : MonoBehaviour
             ActionTimeLockout();
         }
 
-        if (transitionTimer > 0)
-        {
-            transitionTimer -= Time.deltaTime;
-
-            if (transitionTimer <= 0)
-            {
-                transitionTimer = 0;
-                State(GameState.free);
-                
-              //  cameraControls.SetLocation(player.transform.position);
-            }
-        }
+        
 
 
 
         GameStateSwitch();
 
 
-        //for spawning sound clouds
-        AudioManager().TrackSilenceTime();
+      
 
 
 
@@ -147,13 +135,37 @@ public class GameManager : MonoBehaviour
     {
 
         if (State() == GameState.free)
-        { }
+        {
+            //for spawning sound clouds
+            AudioManager().TrackSilenceTime();
+        }
         else if (State() == GameState.transitioning) 
-        { }
+        {
+
+            if (transitionTimer > 0)
+            {
+                transitionTimer -= Time.deltaTime;
+
+                if (transitionTimer <= 0)
+                {
+                    transitionTimer = 0;
+                    State(GameState.free);
+
+                    //  cameraControls.SetLocation(player.transform.position);
+                }
+            }
+
+        }
         else if (State() == GameState.scripted)
-        { }
+        {
+            //for spawning sound clouds
+            AudioManager().TrackSilenceTime();
+        }
         else if (State() == GameState.talking)
-        { }
+        {
+            //for spawning sound clouds
+            AudioManager().TrackSilenceTime();
+        }
     }
 
 
@@ -446,7 +458,10 @@ public class GameManager : MonoBehaviour
 
 
 
-
+    public void EnterDoor(Door _door)
+    {
+        EventInit().EnterDoor(this,_door);
+    }
 
     public void EnterArea(GameObject _interiorObj, GameObject _connectedArea,string _type="")
     {
@@ -477,30 +492,7 @@ public class GameManager : MonoBehaviour
 
         EventInit().EnterBuilding(GetComponent<GameManager>(),_connectedArea.transform);
 
-        //actionTimer = 1.35f;
-        //transitionTimer = 1.3f;
 
-        //State(GameState.transitioning);
-
-        //player.State(PlayerState.acting);
-
-       // TerrainManager().EnterBuilding(_interiorObj, _connectedArea);
-
-       // pendingNewPosition = new Vector3(_connectedArea.transform.position.x, _connectedArea.transform.position.y, _connectedArea.transform.position.z);
-        //player.transform.position = new Vector3(_connectedArea.transform.position.x, _connectedArea.transform.position.y, _connectedArea.transform.position.z);
-        //cameraControls.SetLocation(_connectedArea.transform.position);
-
-
-        if (_connectedArea.transform.parent != null)
-        {
-           // cameraControls.SetLocation(_connectedArea.transform.parent.position);
-
-        }
-        else
-        {
-            //cameraControls.SetLocation(_connectedArea.transform.position);
-
-        }
 
     }
 
@@ -839,11 +831,6 @@ public class GameManager : MonoBehaviour
         if (State() == GameState.transitioning) 
         {
 
-         
-
-
-
-
             if (activeObject != null)
             {
                 if (activeObject.GetComponent<Villager>() != null)
@@ -853,20 +840,25 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            //dont move the player until the transition effect is over (e.g. fading to black, dont move until the screen is fully black) 
-            player.TeleportPlayer(pendingNewPosition);
+            if (EventInit().ExitDoor(this) == false)
+            {
+                //dont move the player until the transition effect is over (e.g. fading to black, dont move until the screen is fully black) 
+                player.TeleportPlayer(pendingNewPosition,player.transform.rotation);
 
-            player.SetVelocities(Vector3.zero,Vector3.zero);
+                player.SetVelocities(Vector3.zero, Vector3.zero);
 
-            cameraControls.SetLocation(player.transform.position);
+                cameraControls.SetLocation(player.transform.position);
+
+
+            }
 
 
             if (SceneDirector().sceneActive == false)
             {
                 acceptInput = true;
-                //   dialogueRunner.GetComponent<DialogueUI>().acceptsInput = true;
+                
 
-                player.State(PlayerState.playerControlled);
+               
 
             }
 
@@ -962,6 +954,22 @@ public class GameManager : MonoBehaviour
 
         return null;
     }
+
+
+    public float ActionTimer() { return actionTimer; }
+    public void ActionTimer(float _time) {  actionTimer = _time; }
+
+
+
+    public float TransitionTimer() { return transitionTimer; }
+    public void TransitionTimer(float _time) { transitionTimer = _time; }
+
+
+
+
+
+
+
 
 
     public void MakeGroundGrid()

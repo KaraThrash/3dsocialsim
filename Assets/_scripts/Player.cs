@@ -461,15 +461,29 @@ public class Player : MonoBehaviour
 
     }
 
+    public void EnterDoor()
+    {
+        SetAnimationParameter(anim, AP_walk, false);
+        gameManager.player.SetVelocities(Vector3.zero, Vector3.zero);
+        gameManager.player.SetNavVelocity(Vector3.zero);
+        gameManager.player.SetNavMeshSpeed(0);
+    }
 
-    public void TeleportPlayer(Vector3 _pos) 
+    public void TeleportPlayer(Vector3 _pos,Quaternion _rot) 
     {
         transform.position = _pos;
+        transform.rotation = _rot;
 
+        SetVelocities(Vector3.zero, Vector3.zero);
+        SetAnimationParameter(anim, AP_speed, 0);
+        SetAnimationParameter(anim, AP_walk, false);
 
         if (nav != null && nav.enabled == true)
         {
             WarpNav(_pos);
+            
+            SetNavVelocity(Vector3.zero);
+            SetNavMeshSpeed(0);
         }
         else 
         {
@@ -614,6 +628,7 @@ public class Player : MonoBehaviour
             {
                 if (hit.transform.GetComponent<Item>() != null && hit.transform.GetComponent<Item>().Interact(this))
                 {
+
                 }
 
 
