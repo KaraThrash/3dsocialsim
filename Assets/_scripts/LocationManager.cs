@@ -49,6 +49,21 @@ public class LocationManager : MonoBehaviour
     }
 
 
+    public TerrainChunk GetChunk(WorldLocation _chunk)
+    {
+        if (terrainChunks == null) { return null; }
+
+        foreach (TerrainChunk el in terrainChunks)
+        {
+            if (el.Location() == _chunk)
+            {
+                return el;
+            }
+
+        }
+        return null; 
+    }
+
 
 
 

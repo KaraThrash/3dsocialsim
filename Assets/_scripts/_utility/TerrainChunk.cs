@@ -5,6 +5,7 @@ using UnityEngine;
 public class TerrainChunk : MonoBehaviour
 {
     public Transform items, ground, water,enviroment;
+    public Transform bottomLeft, topRight;
     public WorldLocation worldLocation;
     // Start is called before the first frame update
     void Start()
@@ -36,5 +37,45 @@ public class TerrainChunk : MonoBehaviour
     }
 
 
-   
+    public float Width()
+    {
+        if (bottomLeft != null && topRight != null)
+        { 
+            
+            return Mathf.Abs(bottomLeft.position.x - topRight.position.x);
+
+        }
+
+        return 0;
+    }
+
+    public float Height()
+    {
+        if (bottomLeft != null && topRight != null)
+        {
+
+            return Mathf.Abs(bottomLeft.position.z - topRight.position.z);
+
+        }
+
+        return 0;
+    }
+
+
+    public Vector3 BottomLeft() 
+    {
+        if (bottomLeft != null)
+        { return bottomLeft.position; }
+
+        return Vector3.zero;
+    }
+
+    public Vector3 TopRight()
+    {
+        if (topRight != null)
+        { return topRight.position; }
+
+        return Vector3.zero;
+    }
+
 }

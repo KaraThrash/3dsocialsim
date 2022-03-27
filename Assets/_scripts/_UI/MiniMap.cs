@@ -12,7 +12,7 @@ public class MiniMap : MonoBehaviour
     public float scrollSpeed;
 
     private float mapWidth=100.0f, mapHeight = 82.0f;
-    private float imageWidth = 1342.0f, imageHeight = 719.0f;
+    private float imageWidth = 1342.0f, imageHeight = 420.0f;
 
     public bool updateMap = true;
     // Start is called before the first frame update
@@ -38,17 +38,22 @@ public class MiniMap : MonoBehaviour
 
     public Vector2 TranslatedPosition()
     {
+
+        TerrainChunk chunk = GameManager.instance.LocationManager().GetChunk(Player().WorldLocation());
+        
         Vector2 pos = Vector2.zero;
+
         if (Player().WorldLocation() == WorldLocation.overWorldSouth)
         {
-            pos = new Vector2((Player().transform.position.x - 10) / mapWidth, (Player().transform.position.z - 14) / mapHeight);
+            pos = new Vector2((Player().transform.position.x - 10) / chunk.Width(), (Player().transform.position.z - 14) / chunk.Height());
             pos = new Vector2(pos.x * -imageWidth, -pos.y * imageHeight);
-          //  pos = new Vector2(pos.x - 198.4f, pos.y - 236.8f);
+            pos = new Vector2(pos.x - 100.4f, pos.y - 60.8f);
         }
         else if (Player().WorldLocation() == WorldLocation.overWorldNorth)
         {
-            pos = new Vector2((Player().transform.position.x - 130) / mapWidth, (Player().transform.position.z - 10) / mapHeight);
-            pos = new Vector2(pos.x * -imageWidth, -pos.y * imageHeight);
+            pos = new Vector2((Player().transform.position.x - 150) / chunk.Width(), (Player().transform.position.z - 14) / chunk.Height());
+            pos = new Vector2(pos.x * -imageWidth, -pos.y * 800);
+            pos = new Vector2(pos.x + 130.4f, pos.y - 1050.8f);
         }
 
         return pos;
