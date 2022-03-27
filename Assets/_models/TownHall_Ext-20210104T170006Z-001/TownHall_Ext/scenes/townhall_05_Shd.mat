@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: townhall_05_Shd
-  m_Shader: {fileID: -6465566751694194690, guid: 940d79357fd7a4f01a49e7247aeaa4da,
+  m_Shader: {fileID: -6465566751694194690, guid: d22fed08aa4a8c54c98704c868797204,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -35,6 +35,10 @@ Material:
     m_TexEnvs:
     - Texture2D_72426835:
         m_Texture: {fileID: 2800000, guid: bcf7e7e61c1c4684681f863bad39d28e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_82548B6A:
+        m_Texture: {fileID: 2800000, guid: 4dae435bc6478f84fb206f8b066b861f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -78,6 +82,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_2AABD8BF: 0
+    - Vector1_2F033551: 0
+    - Vector1_99E7935: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -100,8 +107,12 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_1D6ACEA8: {r: 0, g: 0, b: 0, a: 0}
     - Color_394A4422: {r: 0, g: 0, b: 0, a: 0}
     - Color_49F14EFF: {r: 0, g: 0, b: 0, a: 0}
+    - Color_796B3B6: {r: 1, g: 1, b: 1, a: 1}
+    - Color_8E22BC5D: {r: 0, g: 0, b: 0, a: 0}
+    - Color_AF64D4C2: {r: 0, g: 0, b: 0, a: 1}
     - Color_F52EE448: {r: 0, g: 0, b: 0, a: 0}
     - Vector2_6A93A1CF: {r: 1, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}

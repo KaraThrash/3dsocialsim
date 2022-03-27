@@ -8,7 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Javid Shaikh_Wind 1
-  m_Shader: {fileID: 4800000, guid: b0de36573bf09fe44a094517228ba9f5, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 7a38d870c22497e4c83c27deec4b88f1,
+    type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -18,12 +19,20 @@ Material:
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - Texture2D_1569F4BF:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_B655D323: 1
     - Vector1_C37359FA: 1
+    - Vector1_F514FAFC: 0.4
     - Vector1_F831175F: 1
+    - Vector1_FF42B893: 0.4
     m_Colors:
+    - Color_28DA9B58: {r: 0.13181067, g: 1, b: 0, a: 1}
     - Color_4FBC447: {r: 0.6215633, g: 1, b: 0.4481132, a: 0}
     - Color_C2373DE7: {r: 0.023363115, g: 0.8113208, b: 0.003826994, a: 0}
-    - Vector2_EB9EF6FE: {r: 0, g: 1, b: 0, a: 0}
+    - Vector2_751C5663: {r: 4, g: 4, b: 0, a: 0}
+    - Vector2_EB9EF6FE: {r: 1, g: 1, b: 0, a: 0}
