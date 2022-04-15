@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: emote_question
-  m_Shader: {fileID: -6465566751694194690, guid: 42dd6e598ba557845b30e6c302432f03,
+  m_Shader: {fileID: -6465566751694194690, guid: 93109a9196ecfcb4788a57c0774c0b21,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -22,6 +22,10 @@ Material:
     m_TexEnvs:
     - Texture2D_72426835:
         m_Texture: {fileID: 2800000, guid: 506583fe29f812a44ab6a2b00b8e311c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_82548B6A:
+        m_Texture: {fileID: 2800000, guid: 3c7a780fb7e9b9d4fb45fb4786b9fbf6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_99A4C3B0:
@@ -61,9 +65,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_2AABD8BF: 0
+    - Vector1_2F033551: 0
     - Vector1_534DD327: 1
     - Vector1_6322A524: 0.7
     - Vector1_86177972: 0.7
+    - Vector1_99E7935: 0
     - Vector1_B680008E: 32
     - Vector1_CC9DD90F: 0
     - _AlphaClip: 0
@@ -88,11 +95,15 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_1D6ACEA8: {r: 1, g: 1, b: 1, a: 0}
     - Color_394A4422: {r: 1, g: 1, b: 1, a: 0}
     - Color_49F14EFF: {r: 1, g: 1, b: 1, a: 1}
     - Color_66F0BED7: {r: 0, g: 0, b: 0, a: 0}
+    - Color_796B3B6: {r: 1, g: 0, b: 0, a: 0}
+    - Color_8E22BC5D: {r: 0.2968781, g: 1, b: 0, a: 0}
     - Color_941906B5: {r: 0, g: 0, b: 0, a: 0}
     - Color_AC29EE9B: {r: 0, g: 0, b: 0, a: 0}
+    - Color_AF64D4C2: {r: 1, g: 0, b: 0.6752095, a: 0}
     - Color_F52EE448: {r: 1, g: 1, b: 1, a: 0}
     - Vector2_6A93A1CF: {r: 1, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
