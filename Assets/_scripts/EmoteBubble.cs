@@ -7,11 +7,16 @@ public class EmoteBubble : MonoBehaviour
     public float displayTime, timer;
 
     public MeshRenderer renderer;
+    public Transform target;
+    public Camera cam;
+    public Transform emoteCanvas;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-       
+        Vector3 screenPos = cam.WorldToScreenPoint(target.position);
     }
 
     // Update is called once per frame

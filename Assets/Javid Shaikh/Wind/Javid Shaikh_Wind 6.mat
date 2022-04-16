@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Javid Shaikh_Wind 6
+  m_Shader: {fileID: -6465566751694194690, guid: 715b4bf3e3a561d4fbfb1846e96292e6,
+    type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_1569F4BF:
+        m_Texture: {fileID: 2800000, guid: 0e3052df9e84df046868892e6c5e4d4c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_82548B6A:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_2AABD8BF: 1
+    - Vector1_2F033551: 0
+    - Vector1_4946FA2C: 1
+    - Vector1_99E7935: 0.5
+    - Vector1_B655D323: 1
+    - Vector1_C37359FA: 1
+    - Vector1_DAFB7E4D: 0.1
+    - Vector1_F514FAFC: 1.2
+    - Vector1_F831175F: 1
+    - Vector1_FF42B893: 0.2
+    m_Colors:
+    - Color_1D6ACEA8: {r: 0.8301887, g: 0.19188325, b: 0.19188325, a: 0}
+    - Color_28DA9B58: {r: 0.25262952, g: 1, b: 0, a: 1}
+    - Color_4FBC447: {r: 0.6215633, g: 1, b: 0.4481132, a: 0}
+    - Color_796B3B6: {r: 0.61314964, g: 0, b: 1, a: 0.49019608}
+    - Color_8E22BC5D: {r: 0.8396226, g: 0.22574759, b: 0.22574759, a: 0}
+    - Color_AF64D4C2: {r: 0, g: 0.9528302, b: 0.47315836, a: 0.42745098}
+    - Color_C2373DE7: {r: 0.023363115, g: 0.8113208, b: 0.003826994, a: 0}
+    - Vector2_208FB804: {r: 12, g: 1, b: 0, a: 0}
+    - Vector2_4BFE9973: {r: 1, g: 1, b: 1, a: 1}
+    - Vector2_4C00574F: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_74BB9019: {r: 1, g: 1, b: 1, a: 1}
+    - Vector2_751C5663: {r: 4, g: 4, b: 0, a: 0}
+    - Vector2_BA8159AC: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_EB9EF6FE: {r: 1, g: 1, b: 0, a: 0}

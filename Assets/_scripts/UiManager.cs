@@ -16,6 +16,20 @@ public class UiManager : MonoBehaviour
 
     private List<WorldUi> worldUiPool;
 
+    public Camera cam;
+    public Transform emoteCanvas;
+
+    // Vector3 screenPos = cam.WorldToScreenPoint(target.position);
+
+    public void PlaceBubble(Vector3 _pos, Mood _mood)
+    {
+        Vector3 screenPos = cam.WorldToScreenPoint(_pos);
+        //TODO: use the canvas for emote bubbles instead of trying to make them work inside the rolling world
+
+    }
+
+
+
     // Start is called before the first frame update
     void Start()
     {
