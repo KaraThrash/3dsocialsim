@@ -364,7 +364,7 @@ public class Player : MonoBehaviour
             float angle = Vector3.Angle(moveDirection , transform.forward);
 
             //TODO: make a constant for the dead movement zone
-            if (_dir.magnitude < 0.75f && rb.velocity.magnitude < 0.1f)
+            if (_dir.magnitude < 0.25f && rb.velocity.magnitude < 0.1f)
             {
                 //this allows the player to rotate in place without moving the character
                 return;
