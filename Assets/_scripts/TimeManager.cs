@@ -18,10 +18,10 @@ public class TimeManager : MonoBehaviour
 
     public int currentHour;
 
-    private Vector3 BASESUNANGLE_DAY = new Vector3(0 ,360,0);
-    private Vector3 SUNROTATION_DAY = new Vector3(5,-25,0);
+    private Vector3 BASESUNANGLE_DAY = new Vector3(15 ,45,0);
+    private Vector3 SUNROTATION_DAY = new Vector3(10,15,0);
 
-    private Vector3 BASESUNANGLE_NIGHT = new Vector3(5, 360, 0);
+    private Vector3 BASESUNANGLE_NIGHT = new Vector3(15, 135, 0);
     private Vector3 SUNROTATION_NIGHT = new Vector3(0, -15, 0);
 
     public bool isNight;
@@ -38,7 +38,7 @@ public class TimeManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        GameManager.instance.TimeAdvance().AddListener(AdvanceTime);
     }
 
     // Update is called once per frame
@@ -62,7 +62,10 @@ public class TimeManager : MonoBehaviour
         }
         else 
         {
-            sun.eulerAngles = Vector3.Lerp(sun.eulerAngles, BASESUNANGLE_DAY + (SUNROTATION_DAY * currentHour), Time.deltaTime * sunspeed);
+            Vector3 newrot = new Vector3(SUNROTATION_DAY.x , SUNROTATION_DAY.y * currentHour, SUNROTATION_DAY.z);
+
+            sun.eulerAngles = Vector3.Lerp(sun.eulerAngles, new Vector3(BASESUNANGLE_DAY.x, SUNROTATION_DAY.y * currentHour, BASESUNANGLE_DAY.z), Time.deltaTime * sunspeed);
+
 
         }
 
@@ -132,7 +135,7 @@ public class TimeManager : MonoBehaviour
     }
 
 
-    public void AdvanceTime( int _minute)
+    public void AdvanceTime()
     {
         currentHour++;
 

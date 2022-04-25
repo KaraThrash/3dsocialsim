@@ -7,9 +7,13 @@ using UnityEngine.UI;
 public class UiManager : MonoBehaviour
 {
     public GameObject chatBox, pauseMenu;
+
     public Menus activeMenu,inventory,radial;
+
     public Transform inventorySlots;
+
     public Image emptySlotIcon;
+
     public Sprite emptyslot;
 
     public WorldUi worldUiPrefab;
@@ -17,6 +21,7 @@ public class UiManager : MonoBehaviour
     private List<WorldUi> worldUiPool;
 
     public Camera cam;
+
     public Transform emoteCanvas;
 
     // Vector3 screenPos = cam.WorldToScreenPoint(target.position);

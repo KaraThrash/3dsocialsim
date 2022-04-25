@@ -53,6 +53,23 @@ public class GameManager : MonoBehaviour
 
     public UnityEvent pendingEvent;
 
+    public UnityEvent event_timeAdvance;
+
+
+    public UnityEvent TimeAdvance()
+    {
+
+
+
+
+        if (event_timeAdvance == null)
+        {
+            event_timeAdvance = new UnityEvent();
+
+        }
+        return event_timeAdvance;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -108,10 +125,10 @@ public class GameManager : MonoBehaviour
 
 
 
-        if (Input.GetKey(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L))
         {
-            TimeManager().AdvanceTime(5);
-         
+            
+            TimeAdvance().Invoke();
 
         }
 

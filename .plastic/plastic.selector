@@ -1,0 +1,3 @@
+rep "3dSocialSIm@Donato3@cloud"
+  path "/"
+    smartbranch "/main"
