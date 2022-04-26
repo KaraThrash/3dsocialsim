@@ -12,7 +12,7 @@ public class MiniMap : MonoBehaviour
     public float scrollSpeed;
 
     private float mapWidth=100.0f, mapHeight = 82.0f;
-    private float imageWidth = 1342.0f, imageHeight = 420.0f;
+    private float imageWidth = 450, imageHeight = 800.0f;
 
     public bool updateMap = true;
     // Start is called before the first frame update
@@ -46,14 +46,14 @@ public class MiniMap : MonoBehaviour
         if (Player().WorldLocation() == WorldLocation.overWorldSouth)
         {
             pos = new Vector2((Player().transform.position.x - 10) / chunk.Width(), (Player().transform.position.z - 14) / chunk.Height());
-            pos = new Vector2(pos.x * -imageWidth, -pos.y * imageHeight);
-            pos = new Vector2(pos.x - 100.4f, pos.y - 60.8f);
+            pos = new Vector2(pos.x * -imageWidth, -pos.y * (0.5f * imageHeight));
+            //pos = new Vector2(pos.x - 100.4f, pos.y - 60.8f);
         }
         else if (Player().WorldLocation() == WorldLocation.overWorldNorth)
         {
             pos = new Vector2((Player().transform.position.x - 150) / chunk.Width(), (Player().transform.position.z - 14) / chunk.Height());
-            pos = new Vector2(pos.x * -imageWidth, -pos.y * 800);
-            pos = new Vector2(pos.x + 130.4f, pos.y - 1050.8f);
+            pos = new Vector2(pos.x * -imageWidth, -pos.y * (0.5f * imageHeight));
+            pos = new Vector2(pos.x + 130.4f, pos.y + (0.5f * imageHeight));
         }
 
         return pos;

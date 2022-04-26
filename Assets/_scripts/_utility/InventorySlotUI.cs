@@ -13,6 +13,11 @@ public class InventorySlotUI : MonoBehaviour
     public GameObject itemQuantityBackground;
     public Item item;
 
+    public float width, height;
+
+    public float Height() { return width; }
+    public float Width() { return height; }
+
     // Start is called before the first frame update
     void Start()
     {

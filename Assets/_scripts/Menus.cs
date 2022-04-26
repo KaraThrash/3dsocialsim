@@ -18,10 +18,7 @@ public class Menus : MonoBehaviour
         Init();
     }
 
-    void Update()
-    {
-        
-    }
+   
 
     public virtual void Init()
     {
@@ -78,5 +75,8 @@ public class Menus : MonoBehaviour
     }
 
 
-
+    public Transform SelectibleElementsParent()
+    { 
+        return selectibleElementsParent;
+    }
 }

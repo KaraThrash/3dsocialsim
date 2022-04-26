@@ -97,11 +97,11 @@ Material:
     - Color_394A4422: {r: 1, g: 1, b: 1, a: 0}
     - Color_49F14EFF: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - Color_66F0BED7: {r: 0, g: 0, b: 0, a: 0}
-    - Color_796B3B6: {r: 1, g: 1, b: 1, a: 0}
+    - Color_796B3B6: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 0}
     - Color_8E22BC5D: {r: 0, g: 0, b: 0, a: 0}
     - Color_941906B5: {r: 1, g: 1, b: 1, a: 1}
     - Color_AC29EE9B: {r: 0.42352942, g: 0.42352942, b: 0.42352942, a: 1}
-    - Color_AF64D4C2: {r: 1, g: 1, b: 1, a: 0}
+    - Color_AF64D4C2: {r: 0.16981131, g: 0.16981131, b: 0.16981131, a: 0}
     - Color_F52EE448: {r: 0, g: 0, b: 0, a: 0}
     - Vector2_2A026BF4: {r: 1, g: 1, b: 0, a: 0}
     - Vector2_6A93A1CF: {r: 1, g: 1, b: 0, a: 0}
