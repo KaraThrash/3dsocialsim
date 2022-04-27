@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
+
+
     public GameObject chatBox, pauseMenu;
 
     public Menus activeMenu,inventory,radial;
@@ -16,6 +18,8 @@ public class UiManager : MonoBehaviour
 
     public Sprite emptyslot;
 
+    public ClockUI clockUi;
+
     public WorldUi worldUiPrefab;
 
     private List<WorldUi> worldUiPool;
@@ -25,6 +29,28 @@ public class UiManager : MonoBehaviour
     public Transform emoteCanvas;
 
     // Vector3 screenPos = cam.WorldToScreenPoint(target.position);
+
+
+    public void PostTimeAdvance()
+    {
+        
+
+        if (ClockUI())
+        {
+            ClockUI().SetDayNumber(GameManager.instance.TimeManager().GetDay());
+            ClockUI().SetHour(GameManager.instance.TimeManager().GetHourAsPercent());
+        }
+
+    
+    }
+
+
+
+
+
+
+
+
 
     public void PlaceBubble(Vector3 _pos, Mood _mood)
     {
@@ -38,7 +64,6 @@ public class UiManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     private void OnDisable()
@@ -206,7 +231,10 @@ public class UiManager : MonoBehaviour
     }
 
 
-
+    public ClockUI ClockUI()
+    {
+        return clockUi;
+    }
 
 
 }

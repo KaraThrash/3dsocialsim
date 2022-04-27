@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public NavMeshAgent nav;
     public AudioSource audioSource0;
     public AudioSource audioSource1;
+
     private bool  audioSourceToggle;
 
     public PlayerState state;
@@ -30,6 +31,8 @@ public class Player : MonoBehaviour
 
     public Transform head, animatedHead;
     public bool focusRig;
+    public bool useMovementAcceleration; // or instant snap in movement direction;
+
     public Rig rig;
 
     private bool eyesOpen, toggleToResetRepeatedAction; //e.g. player animation when appearing on camera, and do that everything they appear on camera
@@ -336,6 +339,7 @@ public class Player : MonoBehaviour
 
         moveDirection = Vector3.right * InputControls.HorizontalAxis();
         moveDirection = moveDirection + (Vector3.forward * InputControls.VerticalAxis());
+        SetAnimationParameter(anim, AP_speed, moveDirection.magnitude);
 
         Walk(moveDirection,walkSpeed );
 
@@ -349,6 +353,7 @@ public class Player : MonoBehaviour
             if (rb.velocity == Vector3.zero) 
             {
                 SetAnimationBool(anim, AP_walk, true);
+                SetAnimationParameter(anim, AP_speed, 0);
             }
 
 
@@ -358,7 +363,16 @@ public class Player : MonoBehaviour
             if (_dir.magnitude > 1)
             { moveDirection = (_dir).normalized; }
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), rotSpeed * Time.deltaTime);
+
+            //useMovementAcceleration -> the player character rotates to the intended direction, otherwise sets its rotation directly
+            if (useMovementAcceleration)
+            { transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), rotSpeed * Time.deltaTime); }
+            else
+            {
+                transform.rotation = Quaternion.LookRotation(moveDirection);
+            }
+            
+            
 
 
             float angle = Vector3.Angle(moveDirection , transform.forward);
@@ -366,6 +380,7 @@ public class Player : MonoBehaviour
             //TODO: make a constant for the dead movement zone
             if (_dir.magnitude < 0.25f && rb.velocity.magnitude < 0.1f)
             {
+                SetAnimationParameter(anim, AP_speed, 0);
                 //this allows the player to rotate in place without moving the character
                 return;
 
@@ -392,29 +407,37 @@ public class Player : MonoBehaviour
             }
             else 
             {
-                
 
-                //the stutter direction change while running from animal crossing
-                if (angle > turnAngle)
+                //useMovementAcceleration -> the player character rotates to the intended direction and accelerates forward when facing in the correct direction
+                if (useMovementAcceleration)
                 {
-                    if (rb.velocity.magnitude > 0)
+                    //the stutter direction change while running from animal crossing
+                    if (angle > turnAngle)
                     {
-                      //  rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
-
-                        if (rb.velocity.magnitude <= 0.05f)
+                        if (rb.velocity.magnitude > 0)
                         {
-                            rb.velocity = Vector3.zero;
-                            rb.angularVelocity = Vector3.zero;
-                            //SetNavMeshSpeed(0);
-                            //  SetNavDestination(transform.position);
+                            if (rb.velocity.magnitude <= 0.05f)
+                            {
+                                rb.velocity = Vector3.zero;
+                                rb.angularVelocity = Vector3.zero;
+                            }
                         }
                     }
+                    else { rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * _speed * moveDirection.magnitude, Time.deltaTime * acceleration); }
                 }
-                else { rb.velocity = Vector3.Lerp(rb.velocity, transform.forward * _speed * moveDirection.magnitude, Time.deltaTime * acceleration); }
+                else
+                {
+                    rb.velocity = transform.forward * _speed * moveDirection.magnitude;
+                }
+
+                //The player character will run in place against a solid object [This is the way it is in animal crossing]
+                anim.speed = (rb.velocity.magnitude * 2) / walkSpeed;
+                SetAnimationParameter(anim, AP_speed, rb.velocity.magnitude / walkSpeed);
             }
 
-            anim.speed = (rb.velocity.magnitude * 2) / walkSpeed;
-            SetAnimationParameter(anim, AP_speed, rb.velocity.magnitude / walkSpeed);
+            
+            
+            
 
         }
         else
@@ -422,20 +445,24 @@ public class Player : MonoBehaviour
             //no movement input, slow to a stop
             if (rb.velocity.magnitude > 0)
             {
-                rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
-                anim.speed = (rb.velocity.magnitude * 2) / walkSpeed;
-                SetAnimationParameter(anim, AP_speed, rb.velocity.magnitude / walkSpeed);
-                if (rb.velocity.magnitude <= 0.05f)
+
+                if (rb.velocity.magnitude <= 0.05f || useMovementAcceleration == false)
                 {
                     rb.velocity = Vector3.zero;
                     rb.angularVelocity = Vector3.zero;
                     SetAnimationBool(anim, AP_walk, false);
                     anim.speed = 1;
+                    SetAnimationParameter(anim, AP_speed, 0);
+                    return;
                     //SetNavMeshSpeed(0);
                     // moveDirection = _dir;
 
                     //  SetNavDestination(transform.position);
                 }
+                rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * deceleration);
+                anim.speed = (rb.velocity.magnitude * 2) / walkSpeed;
+                SetAnimationParameter(anim, AP_speed, rb.velocity.magnitude / walkSpeed);
+                
             }
 
         }

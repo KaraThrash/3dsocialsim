@@ -12,7 +12,7 @@ public class MiniMap : MonoBehaviour
     public float scrollSpeed;
 
     private float mapWidth=100.0f, mapHeight = 82.0f;
-    private float imageWidth = 450, imageHeight = 800.0f;
+    private float imageWidth = 240, imageHeight = 350.0f;
 
     public bool updateMap = true;
     // Start is called before the first frame update

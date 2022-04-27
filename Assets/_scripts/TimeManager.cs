@@ -5,24 +5,28 @@ using UnityEngine.UI;
 
 public class TimeManager : MonoBehaviour
 {
+    public ClockUI clockUi;
+    
     //settings
     public float sunspeed;
     public float morningIntensity, dayIntensity, nightIntensity;
-
+  
     public int hoursPerDay = 9; //an 'hour' is the incremented time per action e.g. can perform 9 story actions in a 9 hour day
+    public int actionCountTracker; //current number of actions performed on the current day
 
     public List<Color> colors; //morning, day,dusk, night
-    public Gradient dayGradient,nightGradient;
+    public List<Material> grassMaterials; 
+    public Gradient dayGradient,nightGradient, grassGradient;
 
     private int gameDay, gameHour, gameMinute, morningTime = 6, nightTime = 20; //when morning/night starts
 
     public int currentHour;
 
     private Vector3 BASESUNANGLE_DAY = new Vector3(15 ,45,0);
-    private Vector3 SUNROTATION_DAY = new Vector3(10,15,0);
+    private Vector3 SUNROTATION_DAY = new Vector3(1,5,0);
 
     private Vector3 BASESUNANGLE_NIGHT = new Vector3(15, 135, 0);
-    private Vector3 SUNROTATION_NIGHT = new Vector3(0, -15, 0);
+    private Vector3 SUNROTATION_NIGHT = new Vector3(1, -5, 0);
 
     public bool isNight;
     
@@ -35,14 +39,18 @@ public class TimeManager : MonoBehaviour
     public Text dayTenColumnText;
     public GameManager gameManager;
 
+
+    private string grass_baseColor = "Color_796B3B6";
+
+
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.instance.TimeAdvance().AddListener(AdvanceTime);
+        GameManager.instance.TimeAdvance().AddListener(TimeAdvance);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         
 
@@ -58,13 +66,13 @@ public class TimeManager : MonoBehaviour
 
         if (IsNight())
         {
-            sun.eulerAngles = Vector3.Lerp(sun.eulerAngles, BASESUNANGLE_NIGHT + (SUNROTATION_NIGHT * currentHour), Time.deltaTime * sunspeed);
+            sun.eulerAngles = Vector3.Lerp(sun.eulerAngles, BASESUNANGLE_NIGHT + (SUNROTATION_NIGHT * GetHour()), Time.deltaTime * sunspeed);
         }
         else 
         {
-            Vector3 newrot = new Vector3(SUNROTATION_DAY.x , SUNROTATION_DAY.y * currentHour, SUNROTATION_DAY.z);
+            Vector3 newrot = new Vector3(SUNROTATION_DAY.x , SUNROTATION_DAY.y * GetHour(), SUNROTATION_DAY.z);
 
-            sun.eulerAngles = Vector3.Lerp(sun.eulerAngles, new Vector3(BASESUNANGLE_DAY.x, SUNROTATION_DAY.y * currentHour, BASESUNANGLE_DAY.z), Time.deltaTime * sunspeed);
+            sun.eulerAngles = Vector3.Lerp(sun.eulerAngles, new Vector3(BASESUNANGLE_DAY.x, SUNROTATION_DAY.y * GetHour(), BASESUNANGLE_DAY.z), Time.deltaTime * sunspeed);
 
 
         }
@@ -80,23 +88,27 @@ public class TimeManager : MonoBehaviour
 
         if (IsNight())
         {
-            if (hoursPerDay > 0 && currentHour <= hoursPerDay)
-            {
-                newColor = nightGradient.Evaluate((float)currentHour / (float)hoursPerDay);
-            }
+            newColor = dayGradient.Evaluate(GetHourAsPercent());
             newIntensity = nightIntensity;
         }
         else
         {
-            if (hoursPerDay > 0 && currentHour <= hoursPerDay)
-            {
-                newColor = dayGradient.Evaluate((float)currentHour / (float)hoursPerDay);
-            }
+            newColor = dayGradient.Evaluate(GetHourAsPercent());
             newIntensity = dayIntensity;
         }
 
-        sunLight.intensity = Mathf.Lerp(sunLight.intensity, newIntensity, Time.deltaTime * sunspeed);
-        sunLight.color = Color.Lerp(sunLight.color, newColor, Time.deltaTime * sunspeed);
+        
+
+        if (sunLight.color != newColor)
+        {
+            sunLight.intensity = Mathf.Lerp(sunLight.intensity, newIntensity, Time.deltaTime * sunspeed);
+            sunLight.color = Color.Lerp(sunLight.color, newColor, Time.deltaTime * sunspeed);
+            foreach (Material el in grassMaterials)
+            {
+                el.SetColor(grass_baseColor, grassGradient.Evaluate(GetHourAsPercent()));
+            }
+        }
+
     }
 
 
@@ -124,7 +136,14 @@ public class TimeManager : MonoBehaviour
     public float GetHour()
     {
         //get the total hours passed: for tracking total time elapsed rather than for each day as a unique element
-        return (gameMinute / 60) ;
+        return actionCountTracker;
+
+    }
+
+    public float GetHourAsPercent()
+    {
+        //get the total hours passed: for tracking total time elapsed rather than for each day as a unique element
+        return (float)actionCountTracker / (float)(Constants.ACTIONS_PER_NIGHT + Constants.ACTIONS_PER_DAY);
 
     }
 
@@ -135,9 +154,27 @@ public class TimeManager : MonoBehaviour
     }
 
 
-    public void AdvanceTime()
+    public void TimeAdvance()
     {
-        currentHour++;
+        actionCountTracker++;
+
+        if (IsNight())
+        {
+            if (actionCountTracker >= Constants.ACTIONS_PER_NIGHT + Constants.ACTIONS_PER_DAY)
+            {
+                IsNight(false);
+                actionCountTracker = 0;
+            }
+
+        }
+        else
+        {
+            if (actionCountTracker >= Constants.ACTIONS_PER_DAY)
+            {
+                IsNight(true);
+            }
+        }
+        GameManager.instance.UiManager().PostTimeAdvance();
 
         SetClockHands();
         SetDateText();
@@ -168,5 +205,11 @@ public class TimeManager : MonoBehaviour
 
     public bool IsNight() { return isNight; }
     public void IsNight(bool _night) { isNight = _night; }
+
+
+    public ClockUI ClockUI()
+    {
+        return clockUi;
+    }
 
 }

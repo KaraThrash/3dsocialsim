@@ -8,7 +8,9 @@ public class Inventory : MonoBehaviour
     public int pocketSize;
     public Sprite emptyslot;
     public Transform inventorySlots;
+
     public List<Item> itemsInPockets,itemsInStorage;
+
     // Start is called before the first frame update
 
 
