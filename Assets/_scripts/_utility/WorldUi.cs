@@ -1,28 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WorldUi : MonoBehaviour
 {
     public Transform followThis;
-    public float textDisplayTime,timer;
+    public float textDisplayTime, timer;
 
     private TextMesh text;
 
-    // Start is called before the first frame update
-    void Start()
+    // Start is
+    // called before
+    // the first
+    // frame update
+    private void Start()
     {
         if (GetComponent<TextMesh>() != null)
         { text = GetComponent<TextMesh>(); }
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update is
+    // called once
+    // per frame
+    private void Update()
     {
         if (followThis != null)
         {
             transform.parent.position = followThis.position;
-            transform.parent.rotation = new Quaternion(0,0,0,0);
+            transform.parent.rotation = new Quaternion(0, 0, 0, 0);
         }
 
         if (timer != -1)
@@ -30,12 +33,11 @@ public class WorldUi : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0) { SetText(""); }
         }
-
     }
 
     public void SetColor(Material _mat)
     {
-        text.color =  _mat.color;
+        text.color = _mat.color;
     }
 
     public void SetText(string _text = "")
@@ -50,10 +52,9 @@ public class WorldUi : MonoBehaviour
         { timer = textDisplayTime; }
         else
         { timer = -1; }
-        
     }
 
-    public void SetText(string _text ,float _displayTime)
+    public void SetText(string _text, float _displayTime)
     {
         if (GetComponent<TextMesh>() == null)
         { text = GetComponent<TextMesh>(); }
@@ -65,7 +66,6 @@ public class WorldUi : MonoBehaviour
         { timer = _displayTime; }
         else
         { timer = -1; }
-
     }
 
     public bool Available()
@@ -73,5 +73,4 @@ public class WorldUi : MonoBehaviour
         //if the timer is -1 the text is blank and can be re used
         return timer == -1;
     }
-
 }

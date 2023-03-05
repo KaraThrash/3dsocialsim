@@ -1,16 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
-
-
     public GameObject chatBox, pauseMenu;
 
-    public Menus activeMenu,inventory,radial;
+    public Menus activeMenu, inventory, radial;
 
     public Transform inventorySlots;
 
@@ -28,41 +25,29 @@ public class UiManager : MonoBehaviour
 
     public Transform emoteCanvas;
 
-    // Vector3 screenPos = cam.WorldToScreenPoint(target.position);
-
+    // Vector3
+    // screenPos = cam.WorldToScreenPoint(target.position);
 
     public void PostTimeAdvance()
     {
-        
-
         if (ClockUI())
         {
             ClockUI().SetDayNumber(GameManager.instance.TimeManager().GetDay());
             ClockUI().SetHour(GameManager.instance.TimeManager().GetHourAsPercent());
         }
-
-    
     }
-
-
-
-
-
-
-
-
 
     public void PlaceBubble(Vector3 _pos, Mood _mood)
     {
         Vector3 screenPos = cam.WorldToScreenPoint(_pos);
         //TODO: use the canvas for emote bubbles instead of trying to make them work inside the rolling world
-
     }
 
-
-
-    // Start is called before the first frame update
-    void Start()
+    // Start is
+    // called before
+    // the first
+    // frame update
+    private void Start()
     {
     }
 
@@ -74,25 +59,22 @@ public class UiManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update is
+    // called once
+    // per frame
+    private void Update()
     {
-        
     }
-
-    
-
 
     public WorldUi GetWorldUi()
     {
         if (worldUiPool == null)
         {
             worldUiPool = new List<WorldUi>();
-
         }
 
         foreach (WorldUi el in worldUiPool)
-        { 
+        {
             if (el.Available()) { return el; }
         }
 
@@ -101,16 +83,12 @@ public class UiManager : MonoBehaviour
         return newUi;
     }
 
-    public void PlaceWorldText(string _text,Vector3 _position, float _lifeTime = 1)
+    public void PlaceWorldText(string _text, Vector3 _position, float _lifeTime = 1)
     {
         WorldUi newUi = GetWorldUi();
         newUi.transform.position = _position;
-        newUi.SetText(_text,_lifeTime);
-
+        newUi.SetText(_text, _lifeTime);
     }
-
-
-
 
     public Item GetSelection()
     {
@@ -121,15 +99,10 @@ public class UiManager : MonoBehaviour
         return null;
     }
 
-
-
-    public void MoveCursor(int _xdir,int _ydir)
+    public void MoveCursor(int _xdir, int _ydir)
     {
-        activeMenu.MoveCursor(_xdir,_ydir);
-
+        activeMenu.MoveCursor(_xdir, _ydir);
     }
-
-
 
     public bool OpenMenu(Menu _menu)
     {
@@ -143,11 +116,10 @@ public class UiManager : MonoBehaviour
                     activeMenu = null;
                     return false;
                 }
-                else 
+                else
                 {
                     //disable the previous menu
                     activeMenu.gameObject.SetActive(false);
-
                 }
             }
 
@@ -156,8 +128,6 @@ public class UiManager : MonoBehaviour
             inventory.Init();
             activeMenu = inventory;
             return true;
-            
-
         }
         else if (_menu == Menu.radial)
         {
@@ -174,7 +144,6 @@ public class UiManager : MonoBehaviour
                 {
                     //disable the previous menu
                     activeMenu.gameObject.SetActive(false);
-
                 }
             }
 
@@ -185,11 +154,8 @@ public class UiManager : MonoBehaviour
             return true;
         }
 
-
         return false;
     }
-
-
 
     public void SetIconsInInventoryScreen(List<Item> _itemList)
     {
@@ -198,30 +164,23 @@ public class UiManager : MonoBehaviour
         {
             if (count < _itemList.Count && inventorySlots.GetChild(count).GetComponent<Image>() != null)
             {
-
-
                 if (_itemList[count] != null && _itemList[count].icon != null)
                 {
                     inventorySlots.GetChild(count).GetComponent<Image>().sprite = _itemList[count].icon;
                     inventorySlots.GetChild(count).GetComponent<Image>().color = Color.black;
-
                 }
                 else
                 {
                     SetIconToEmpty(inventorySlots.GetChild(count).GetComponent<Image>());
                 }
-
-
             }
             else
             {
-
                 SetIconToEmpty(inventorySlots.GetChild(count).GetComponent<Image>());
             }
 
             count++;
         }
-
     }
 
     public void SetIconToEmpty(Image _img)
@@ -230,11 +189,8 @@ public class UiManager : MonoBehaviour
         _img.color = Color.blue;
     }
 
-
     public ClockUI ClockUI()
     {
         return clockUi;
     }
-
-
 }

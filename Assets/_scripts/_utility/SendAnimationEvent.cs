@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SendAnimationEvent : MonoBehaviour
 {
@@ -11,7 +9,6 @@ public class SendAnimationEvent : MonoBehaviour
         if (player == null) { return; }
         player.PlayFootstep();
     }
-
 
     //public void AnimatorEnumEvent(AnimationEvent _event)
     //{
@@ -44,5 +41,4 @@ public class SendAnimationEvent : MonoBehaviour
     //    player.PlaySoundType(_type);
     //    //player.PlaySound(EnumGroups.EnemySoundToString(_type));
     //}
-
 }

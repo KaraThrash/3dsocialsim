@@ -46,6 +46,8 @@ public class Door : Item
 
         if (other.GetComponent<Player>() != null && connectedArea != null)
         {
+            GM().EnterDoor(this);
+            return;
 
             if (exit)
             {

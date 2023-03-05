@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Yarn.Unity;
-
 
 public class GameManager : MonoBehaviour
 {
@@ -34,18 +31,17 @@ public class GameManager : MonoBehaviour
 
     public ScriptableScene activeScene;
 
+    public GameObject chatbox, showCameraItem;
+    public Text chatText, titleText;//for character names
 
-    public GameObject chatbox,showCameraItem;
-    public Text chatText,titleText;//for character names
-
-    public Transform cam,activeObject, groundParent,villagerParent;
-    public GameObject emoteBubblePrefab,dirtsquare, grassSquare;
+    public Transform cam, activeObject, groundParent, villagerParent;
+    public GameObject emoteBubblePrefab, dirtsquare, grassSquare;
 
     public bool acceptInput;
-    private bool inConversation,playerCanMove;
+    private bool inConversation, playerCanMove;
 
     private EventInit eventInit;
-    public float actionTimer,transitionTimer;
+    public float actionTimer, transitionTimer;
 
     public Button continueButton;
 
@@ -55,26 +51,22 @@ public class GameManager : MonoBehaviour
 
     public UnityEvent event_timeAdvance;
 
-
     public UnityEvent TimeAdvance()
     {
-
-
-
-
         if (event_timeAdvance == null)
         {
             event_timeAdvance = new UnityEvent();
-
         }
         return event_timeAdvance;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    // Start is
+    // called before
+    // the first
+    // frame update
+    private void Start()
     {
-        
-
+        //TODO: the gamemanager should call the submanagers to 'Init()' to control the order that listeners are added
 
         UnlockPlayerMovement(true);
 
@@ -88,11 +80,11 @@ public class GameManager : MonoBehaviour
         {
             actionTimer = 0;
             if (player.State() != PlayerState.inScene)
-            { 
+            {
                 player.State(PlayerState.playerControlled);
                 cameraControls.ConversationToggle(false);
             }
-            
+
             //if (player.State() == PlayerState.animating)
             //{
             //    cameraControls.ConversationToggle(false);
@@ -104,61 +96,43 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update is
+    // called once
+    // per frame
+    private void Update()
     {
-
-
         if (actionTimer > 0)
         {
             ActionTimeLockout();
         }
 
-        
-
-
-
         GameStateSwitch();
-
-
-      
-
-
 
         if (Input.GetKeyDown(KeyCode.L))
         {
-            
             TimeAdvance().Invoke();
-
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
-
-
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             SceneManager.LoadScene(0);
-
-
         }
-
     }
 
     public void GameStateSwitch()
     {
-
         if (State() == GameState.free)
         {
             //for spawning sound clouds
             AudioManager().TrackSilenceTime();
         }
-        else if (State() == GameState.transitioning) 
+        else if (State() == GameState.transitioning)
         {
-
             if (transitionTimer > 0)
             {
                 transitionTimer -= Time.deltaTime;
@@ -168,10 +142,9 @@ public class GameManager : MonoBehaviour
                     transitionTimer = 0;
                     State(GameState.free);
 
-                    //  cameraControls.SetLocation(player.transform.position);
+                    // cameraControls.SetLocation(player.transform.position);
                 }
             }
-
         }
         else if (State() == GameState.scripted)
         {
@@ -184,9 +157,6 @@ public class GameManager : MonoBehaviour
             AudioManager().TrackSilenceTime();
         }
     }
-
-
-
 
     public void AdvanceSceneAnimator()
     {
@@ -216,12 +186,10 @@ public class GameManager : MonoBehaviour
         SceneDirector().EndScene();
     }
 
-
     public void PlaySoundEffect(string _clip)
     {
         AudioManager().PlaySoundEffect(_clip);
     }
-
 
     public void MovePlayerAndSpeaker(string _location)
     {
@@ -229,92 +197,83 @@ public class GameManager : MonoBehaviour
 
         //when called from a yarnfunction get the location from the provided string
         MovePlayer(LocationManager().FindLocation(_location));
-
     }
-
 
     public void MovePlayer(string _location)
     {
-       
         //TODO: end conversations and interactions
 
         //when called from a yarnfunction get the location from the provided string
         MovePlayer(LocationManager().FindLocation(_location));
-
     }
-    
-
-    
 
     public void MovePlayer(Transform _location)
     {
-       // if (sceneDirector.sceneActive == true) { SceneDirector().EndScene(); }
-        EventInit().MovePlayer(GetComponent<GameManager>(),_location);
-
+        // if
+        // (sceneDirector.sceneActive
+        // == true)
+        // {
+        // SceneDirector().EndScene(); }
+        EventInit().MovePlayer(GetComponent<GameManager>(), _location);
     }
 
     public void SetConversationTargetLocation(string _location)
     {
-
-
         //when called from a yarnfunction get the location from the provided string
         SetConversationTargetLocation(LocationManager().FindLocation(_location));
-
     }
 
     public void SetConversationTargetLocation(Transform _location)
     {
-
         // set where the villager needs to walk to before the conversation can continue
         //disables the continue button until arrival
         EventInit().SetCheckPointLocation(GetComponent<GameManager>(), _location);
-
     }
-    public void LeadPlayer(string _location,string _villagerName)
-    {
 
+    public void LeadPlayer(string _location, string _villagerName)
+    {
         //TODO: end conversations and interactions
 
         //when called from a yarnfunction get the location from the provided string
         LeadPlayer(LocationManager().FindLocation(_location), FindVillager(_villagerName));
-
     }
 
-    public void LeadPlayer(string _location, string _villagerName,string _lineCount)
+    public void LeadPlayer(string _location, string _villagerName, string _lineCount)
     {
-
         //TODO: end conversations and interactions
 
         //when called from a yarnfunction get the location from the provided string
         LeadPlayer(LocationManager().FindLocation(_location), FindVillager(_villagerName), Int32.Parse(_lineCount));
-
     }
 
-    public void LeadPlayer(string _location, string _villagerName, string _lineCount,string _speed)
+    public void LeadPlayer(string _location, string _villagerName, string _lineCount, string _speed)
     {
-
         //TODO: end conversations and interactions
 
         //when called from a yarnfunction get the location from the provided string
         LeadPlayer(LocationManager().FindLocation(_location), FindVillager(_villagerName), Int32.Parse(_lineCount), float.Parse(_speed));
-
     }
 
-    public void LeadPlayer(Transform _location,Villager _villager,int _lineCount=1,float _speed=1)
+    public void LeadPlayer(Transform _location, Villager _villager, int _lineCount = 1, float _speed = 1)
     {
-       // if (SceneDirector().sceneActive == true) { SceneDirector().EndScene(); }
+        // if
+        // (SceneDirector().sceneActive
+        // == true)
+        // {
+        // SceneDirector().EndScene(); }
 
-        EventInit().LeadPlayer(GetComponent<GameManager>(), _villager,_location.position, _lineCount, _speed);
-
+        EventInit().LeadPlayer(GetComponent<GameManager>(), _villager, _location.position, _lineCount, _speed);
     }
 
     public void HavePlayerFollow(string _location, string _villagerName)
     {
-      //  if (sceneDirector.sceneActive == true) { SceneDirector().EndScene(); }
+        // if
+        // (sceneDirector.sceneActive
+        // == true)
+        // {
+        // SceneDirector().EndScene(); }
         EventInit().HavePlayerFollow(GetComponent<GameManager>(), FindVillager(_villagerName), LocationManager().FindLocation(_location).position);
-
     }
-
 
     public void ToggleMenu(Menu _menu)
     {
@@ -323,16 +282,15 @@ public class GameManager : MonoBehaviour
         {
             player.State(PlayerState.inMenu);
         }
-        else {
+        else
+        {
             actionTimer = 0.1f;
             //player.State(PlayerState.playerControlled);
         }
     }
 
-
     public void OnDialogueStart()
     {
-
     }
 
     public void OnDialogueEnd()
@@ -346,38 +304,33 @@ public class GameManager : MonoBehaviour
         dialogueRunner.GetComponent<DialogueUI>().MarkLineComplete();
     }
 
-
-
     public void BonkVillager(Villager _villager)
     {
         //todo: check for scene state here
         _villager.Bonk();
-
     }
 
     public void InteractWithVillager(Villager _villager)
     {
+        //the next major story step in the day starts with this villager
+        //  YarnProgram nextStory= StoryTracker().StartSection();
+        // Debug.Log(nextStory);
 
-        
-            //the next major story step in the day starts with this villager
-          //  YarnProgram nextStory= StoryTracker().StartSection();
-           // Debug.Log(nextStory);
+        // if (nextStory != null)
+        // {
+        //the next major story step in the day starts with this villager
+        //   dialogueRunner.Add(nextStory);
+        if (inConversation == false)
+        {
+            StartConversation();
+            audioManager.PlayWorldEffect(_villager.Voice());
+        }
 
-           // if (nextStory != null)
-           // {
-                //the next major story step in the day starts with this villager
-             //   dialogueRunner.Add(nextStory);
-                if (inConversation == false)
-                {
-                    StartConversation();
-                    audioManager.PlayWorldEffect(_villager.Voice());
-                }
-
-                string nodeTitle = "day" + StoryTracker().GetDay().ToString() + _villager.VillagerName().ToString().ToLower();
+        string nodeTitle = "day" + StoryTracker().GetDay().ToString() + _villager.VillagerName().ToString().ToLower();
         Debug.Log(nodeTitle);
         ActiveObject(_villager.transform);
-                dialogueRunner.StartDialogue(nodeTitle);
-           // }
+        dialogueRunner.StartDialogue(nodeTitle);
+        // }
         //if (_villager.VillagerName() == StoryTracker().NextNarrativeActor())
         //{
         //}
@@ -389,29 +342,43 @@ public class GameManager : MonoBehaviour
         //        audioManager.PlayWorldEffect(_villager.Voice());
         //    }
 
-        //    ActiveObject(_villager.transform);
-        //    //  dialogueRunner.Add(_villager.scriptToLoad);
-        //    //  _villager.scriptToLoad = null;
+        // ActiveObject(_villager.transform);
+        // //
+        // dialogueRunner.Add(_villager.scriptToLoad);
+        // //
+        // _villager.scriptToLoad
+        // = null;
 
-        //    //find the script for this village based on the game state
+        // //find
+        // the
+        // script
+        // for this
+        // village
+        // based on
+        // the game state
 
-        //    //todo: contextual checks
-        //    //yarn wants a string for the title of the dialogue
-        //    dialogueRunner.StartDialogue(_villager.name);
+        // //todo:
+        // contextual
+        // checks
+        // //yarn
+        // wants a
+        // string
+        // for the
+        // title of
+        // the
+        // dialogue dialogueRunner.StartDialogue(_villager.name);
 
         //    // _villager.Interact();
         //}
         //else
         //{
-
         //    // _villager.Bonk();
         //}
 
         _villager.Interact();
     }
 
-
-    public void InteractWithGround(Vector3 _square, string _interaction,GameObject _contextItem=null)
+    public void InteractWithGround(Vector3 _square, string _interaction, GameObject _contextItem = null)
     {
         _square = new Vector3(_square.x, Mathf.Round(_square.y), _square.z);
 
@@ -422,10 +389,7 @@ public class GameManager : MonoBehaviour
                 actionTimer = 0.5f;
                 //player.state = PlayerState.acting;
             }
-
         }
-      
-
     }
 
     public void CatchBug(Item _bug)
@@ -441,19 +405,14 @@ public class GameManager : MonoBehaviour
         player.SetPendingItem(_bug);
         player.SetKinematic(true);
 
-
         if (dialogueRunner.NodeExists(_bug.itemName))
         {
             //the background shouldnt remain active while getting an item
-        //    Time.timeScale = 0;
+            //    Time.timeScale = 0;
             dialogueRunner.StartDialogue(player.pocketPendingItem.itemName);
             StartConversation();
         }
-
-
-
     }
-
 
     public void ShowItem()
     {
@@ -467,28 +426,19 @@ public class GameManager : MonoBehaviour
         }
 
         cameraControls.ConversationToggle(true);
-
-        
-        
     }
-
-
-
 
     public void EnterDoor(Door _door)
     {
-        EventInit().EnterDoor(this,_door);
+        EventInit().EnterDoor(this, _door);
     }
 
-    public void EnterArea(GameObject _interiorObj, GameObject _connectedArea,string _type="")
+    public void EnterArea(GameObject _interiorObj, GameObject _connectedArea, string _type = "")
     {
-       
-
         if (_type.Equals("building"))
         {
             cameraControls.SetCameraTrackingOffset("inside");
             player.inside = true;
-
         }
         else if (_type.Equals("lostwoods"))
         {
@@ -500,28 +450,21 @@ public class GameManager : MonoBehaviour
 
                 //40 is the middle of the map TODO: set this to a variable when you defeine the map layout
                 EventInit().StartLostWoods(this, player.transform.position.z > 40);
-
             }
-            else {  }
+            else { }
 
             return;
         }
 
-        EventInit().EnterBuilding(GetComponent<GameManager>(),_connectedArea.transform);
-
-
-
+        EventInit().EnterBuilding(GetComponent<GameManager>(), _connectedArea.transform);
     }
 
     public void ExitArea(GameObject _interiorObj, GameObject _connectedArea, string _type = "")
     {
-
-
         if (_type.Equals("building"))
         {
             cameraControls.SetCameraTrackingOffset("low");
             player.inside = false;
-
         }
         else if (_type.Equals("lostwoods"))
         {
@@ -533,7 +476,6 @@ public class GameManager : MonoBehaviour
 
                 //40 is the middle of the map TODO: set this to a variable when you defeine the map layout
                 EventInit().StartLostWoods(this, player.transform.position.z > 40);
-
             }
             else { }
 
@@ -541,28 +483,21 @@ public class GameManager : MonoBehaviour
         }
 
         EventInit().ExitBuilding(GetComponent<GameManager>(), _connectedArea.transform);
-
-
-
     }
 
-
-
-    public void EnterBuilding(GameObject _interiorObj, GameObject _connectedArea,string _camSetting="")
+    public void EnterBuilding(GameObject _interiorObj, GameObject _connectedArea, string _camSetting = "")
     {
         actionTimer = 1.2f;
-       // player.State(PlayerState.acting);
+        // player.State(PlayerState.acting);
 
-        //  TerrainManager().EnterBuilding(_interiorObj,_connectedArea);
+        // TerrainManager().EnterBuilding(_interiorObj,_connectedArea);
 
         player.transform.position = new Vector3(_connectedArea.transform.position.x, -20, _connectedArea.transform.position.z);
-
 
         if (_camSetting.Equals("building"))
         {
             cameraControls.SetCameraTrackingOffset("inside");
             player.inside = true;
-
         }
         else if (_camSetting.Equals("lostwoods"))
         {
@@ -574,31 +509,27 @@ public class GameManager : MonoBehaviour
 
                 //40 is the middle of the map TODO: set this to a variable when you defeine the map layout
                 EventInit().StartLostWoods(this, player.transform.position.z > 40);
-
             }
             else { }
 
             return;
         }
 
-
         if (_connectedArea.transform.parent != null)
         {
             cameraControls.SetLocation(_connectedArea.transform.parent.position);
-
         }
-        else 
+        else
         {
             cameraControls.SetLocation(_connectedArea.transform.position);
-
         }
-
     }
 
     public void LeaveBuilding()
     {
         actionTimer = 0.2f;
-     //   player.state = PlayerState.acting;
+        // player.state
+        // = PlayerState.acting;
 
         TerrainManager().LeaveBuilding();
         player.transform.position = new Vector3(player.transform.position.x, 0, player.transform.position.z);
@@ -614,7 +545,7 @@ public class GameManager : MonoBehaviour
     public void EnterRoom(GameObject _connectedArea)
     {
         actionTimer = 0.1f;
-       //player.state = PlayerState.acting;
+        //player.state = PlayerState.acting;
 
         TerrainManager().RoomChange(_connectedArea);
 
@@ -622,24 +553,16 @@ public class GameManager : MonoBehaviour
 
         cameraControls.SetCameraTrackingOffset("inside");
         cameraControls.SetLocation(_connectedArea.transform.parent.position);
-
     }
-
 
     public void UnlockPlayerMovement(bool _canMove)
     {
         playerCanMove = _canMove;
     }
 
-
-
-
-
     public void StartConversation()
     {
         // cameraControls.ConversationToggle(true);
-
-
 
         //chatbox.SetActive(true);
         player.SetKinematic(true);
@@ -670,6 +593,8 @@ public class GameManager : MonoBehaviour
         if (activeObject != null && activeObject.GetComponent<Villager>() != null)
         { activeObject.GetComponent<Villager>().State(VillagerState.idle); }
 
+        //NOTE: advancing the time is only hear for an update video
+        TimeAdvance().Invoke();
     }
 
     public void ShowDialogue(string _line)
@@ -696,43 +621,34 @@ public class GameManager : MonoBehaviour
         titleText.text = _speakerName;
     }
 
-
     public void StartDay()
     {
         //music clouds
         //villager locations
         //reset fruit, bugs, fish?
-       // TimeManager().SetSunAngle(new Vector3(TimeManager().GetDay() * -15,0,171));
-
+        // TimeManager().SetSunAngle(new Vector3(TimeManager().GetDay() * -15,0,171));
 
         foreach (Transform el in villagerParent)
         {
             if (el.GetComponent<Villager>() != null)
             {
                 el.GetComponent<Villager>().ResetToStart();
-
             }
         }
 
-
+        TimeAdvance().Invoke();
     }
-
-
-
 
     public Player GetPlayer()
     { return player; }
-
 
     //for cam/player focus when interacting
     public Transform GetActiveObject()
     {
         //if the activeobject isnt set, focus on the camera
         if (activeObject == null) { return cam; }
-        return activeObject; 
+        return activeObject;
     }
-
-
 
     public UiManager UiManager()
     {
@@ -750,7 +666,6 @@ public class GameManager : MonoBehaviour
     {
         if (timeManager == null) { timeManager = FindObjectOfType<TimeManager>(); }
         return timeManager;
-
     }
 
     public AudioManager AudioManager()
@@ -765,10 +680,8 @@ public class GameManager : MonoBehaviour
         return sceneDirector;
     }
 
-
     public EventInit EventInit()
     {
-
         if (eventInit == null)
         { eventInit = GetComponent<EventInit>(); }
 
@@ -777,7 +690,6 @@ public class GameManager : MonoBehaviour
 
     public LocationManager LocationManager()
     {
-
         if (locationManager == null)
         { locationManager = FindObjectOfType<LocationManager>(); }
 
@@ -786,7 +698,6 @@ public class GameManager : MonoBehaviour
 
     public ItemManager ItemManager()
     {
-
         if (itemManager == null)
         { itemManager = FindObjectOfType<ItemManager>(); }
 
@@ -795,7 +706,6 @@ public class GameManager : MonoBehaviour
 
     public StoryTracking StoryTracker()
     {
-
         if (storyTracker == null)
         { storyTracker = FindObjectOfType<StoryTracking>(); }
 
@@ -804,13 +714,11 @@ public class GameManager : MonoBehaviour
 
     public DialogueRunner DialogueRunner()
     {
-
         if (dialogueRunner == null)
         { dialogueRunner = FindObjectOfType<DialogueRunner>(); }
 
         return dialogueRunner;
     }
-
 
     public bool DialogueIsRunning()
     {
@@ -822,12 +730,9 @@ public class GameManager : MonoBehaviour
     }
 
     public void StartDialogue(string _name)
-    { 
-        dialogueRunner.StartDialogue(_name); 
+    {
+        dialogueRunner.StartDialogue(_name);
     }
-
-
-
 
     public void State(GameState _state)
     {
@@ -839,15 +744,13 @@ public class GameManager : MonoBehaviour
     public GameState State()
     { return gameState; }
 
-
     public void OnGameStateChange(GameState _state)
     {
         //old state is same as the new state
         if (State() == _state) { return; }
 
-        if (State() == GameState.transitioning) 
+        if (State() == GameState.transitioning)
         {
-
             if (activeObject != null)
             {
                 if (activeObject.GetComponent<Villager>() != null)
@@ -859,55 +762,35 @@ public class GameManager : MonoBehaviour
 
             if (EventInit().ExitDoor(this) == false)
             {
-                //dont move the player until the transition effect is over (e.g. fading to black, dont move until the screen is fully black) 
-                player.TeleportPlayer(pendingNewPosition,player.transform.rotation);
+                //dont move the player until the transition effect is over (e.g. fading to black, dont move until the screen is fully black)
+                player.TeleportPlayer(pendingNewPosition, player.transform.rotation);
 
                 player.SetVelocities(Vector3.zero, Vector3.zero);
 
                 cameraControls.SetLocation(player.transform.position);
-
-
             }
-
 
             if (SceneDirector().sceneActive == false)
             {
                 acceptInput = true;
-                
-
-               
-
             }
 
             return;
         }
 
-        if (_state == GameState.transitioning) 
-        { 
+        if (_state == GameState.transitioning)
+        {
             acceptInput = false;
-           //   dialogueRunner.GetComponent<DialogueUI>().acceptsInput = false;
+            // dialogueRunner.GetComponent<DialogueUI>().acceptsInput
+            // = false;
         }
-        
-
     }
-
-
-
-
-
-
-
-
-
-
 
     public Button ContinueButton()
     {
         if (continueButton == null)
         { continueButton = dialogueRunner.GetComponent<DialogueUI>().dialogueContainer.transform.Find("Continue Button").GetComponent<Button>(); }
         return continueButton;
-
-
     }
 
     public void SetContinueButton(bool _on)
@@ -919,18 +802,12 @@ public class GameManager : MonoBehaviour
         ContinueButton().transform.GetChild(0).GetComponent<Text>().enabled = _on;
         ContinueButton().interactable = _on;
         ContinueButton().Select();
-
-
     }
 
     public void SetDialogueBox(bool _on)
     {
         dialogueRunner.GetComponent<DialogueUI>().dialogueContainer.gameObject.SetActive(_on);
-
-
     }
-
-
 
     public Transform ActiveObject()
     {
@@ -940,7 +817,7 @@ public class GameManager : MonoBehaviour
 
     public void ActiveObject(Transform _obj)
     {
-         activeObject = _obj;
+        activeObject = _obj;
     }
 
     public Villager FindVillager(string _name)
@@ -956,7 +833,6 @@ public class GameManager : MonoBehaviour
             { return el.GetComponent<Villager>(); }
         }
 
-
         return null;
     }
 
@@ -968,26 +844,20 @@ public class GameManager : MonoBehaviour
             { return el.GetComponent<Villager>(); }
         }
 
-
         return null;
     }
 
+    public float ActionTimer()
+    { return actionTimer; }
 
-    public float ActionTimer() { return actionTimer; }
-    public void ActionTimer(float _time) {  actionTimer = _time; }
+    public void ActionTimer(float _time)
+    { actionTimer = _time; }
 
+    public float TransitionTimer()
+    { return transitionTimer; }
 
-
-    public float TransitionTimer() { return transitionTimer; }
-    public void TransitionTimer(float _time) { transitionTimer = _time; }
-
-
-
-
-
-
-
-
+    public void TransitionTimer(float _time)
+    { transitionTimer = _time; }
 
     public void MakeGroundGrid()
     {

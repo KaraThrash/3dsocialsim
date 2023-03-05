@@ -1,14 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LostWoodsArea : MonoBehaviour
 {
     public LostWoods lostWoods;
-    public LostWoodsArea north,south,east,west;
+    public LostWoodsArea north, south, east, west;
     public int id;
     public string specialArea;
-    public Transform treeLayout,specialAreas;
+    public Transform treeLayout, specialAreas;
 
     public void ResetAllConnections()
     {
@@ -16,14 +14,12 @@ public class LostWoodsArea : MonoBehaviour
         south = null;
         east = null;
         west = null;
-    
     }
 
     public void SetConnection(Transform _parent)
     {
         transform.parent = _parent;
     }
-
 
     public void BreakConnection(Transform forestLayouts)
     {
@@ -33,20 +29,18 @@ public class LostWoodsArea : MonoBehaviour
             transform.parent = forestLayouts;
             transform.position = forestLayouts.position;
         }
-        else 
+        else
         {
             transform.parent = specialAreas;
             transform.position = specialAreas.position;
         }
-           
-            ResetAllConnections();
 
-        
+        ResetAllConnections();
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.GetComponent<Player>() != null || other.tag == "Player")
         {
             string direction = "north";
             if (other.transform.position.x < transform.position.x - 2)
@@ -59,7 +53,6 @@ public class LostWoodsArea : MonoBehaviour
             { direction = "south"; }
 
             lostWoods.EnterNewArea(id, other, direction);
-
         }
     }
 }

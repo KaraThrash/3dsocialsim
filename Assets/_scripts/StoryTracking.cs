@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class StoryTracking : MonoBehaviour
@@ -20,23 +19,25 @@ public class StoryTracking : MonoBehaviour
     //this way if 'dialoguestarted' is toggled on and a new dialogue is attempting to start we know there was a problem with the previous dialogue
     private bool dialogueStarted;
 
-    // Start is called before the first frame update
-    void Start()
+    // Start is
+    // called before
+    // the first
+    // frame update
+    private void Start()
     {
         day = 1;
         nextStoryStart = Villagers.licon;
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update is
+    // called once
+    // per frame
+    private void Update()
     {
-        
     }
-
 
     public YarnProgram StartSection()
     {
-       
         YarnProgram dialogue = GetYarn(day, sectionOfCurrentDay);
         Debug.Log("day and section: " + day + " : " + sectionOfCurrentDay);
 
@@ -55,18 +56,18 @@ public class StoryTracking : MonoBehaviour
         return null;
     }
 
-    public YarnProgram StartSection(int _day,int _section)
+    public YarnProgram StartSection(int _day, int _section)
     {
         if (dialogueStarted)
         {
             if (_day > dayOfPreviousScript || _section > sectionOfPreviousScript)
-            { 
+            {
                 //TODO: this case means the last script didnt finish but the next one is trying to run
                 //TODO: plan safety checks for erros from yarn, either technical or clerical
             }
         }
 
-        YarnProgram dialogue = GetYarn(_day,_section);
+        YarnProgram dialogue = GetYarn(_day, _section);
         if (dialogue != null)
         {
             dayOfPreviousScript = _day;
@@ -80,17 +81,13 @@ public class StoryTracking : MonoBehaviour
 
     public void EndSection(int _day, int _section)
     {
-
         dialogueStarted = false;
     }
 
-
     public void FromYarnSetStoryElements()
-    { 
+    {
         //TODO: create elements that can be flagged from yarn to let narrative set blockers and conditionals for how the narrative is presented
     }
-
-
 
     public YarnProgram GetYarn(int _day, int _section)
     {
@@ -101,8 +98,6 @@ public class StoryTracking : MonoBehaviour
                 return narrativeByDay[_day].GetYarn(_section);
             }
         }
-
-       
 
         return null;
     }
@@ -115,5 +110,6 @@ public class StoryTracking : MonoBehaviour
     public string NodeTitle()
     { return yarnNode; }
 
-    public int GetDay() { return day; }
+    public int GetDay()
+    { return day; }
 }

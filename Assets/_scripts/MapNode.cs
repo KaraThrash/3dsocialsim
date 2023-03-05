@@ -1,31 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MapNode : MonoBehaviour
 {
     [SerializeField]
     private LocationItems areaSpecificItems;
+
     [SerializeField]
     public MapLocation nodeID;
 
-    
-    void Start()
+    private void Start()
     {
-        
     }
 
-
-    void Update()
+    private void Update()
     {
-        
     }
 
     public LocationItems ItemList()
     {
         return areaSpecificItems;
     }
-
 
     public void NodeID(MapLocation _newID)
     {

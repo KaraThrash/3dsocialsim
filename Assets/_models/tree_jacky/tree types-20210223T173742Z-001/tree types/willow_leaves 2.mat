@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: willow_leaves 2
-  m_Shader: {fileID: -6465566751694194690, guid: 1704416ffe1e24d4cb4fe5d66758860e,
+  m_Shader: {fileID: -6465566751694194690, guid: 947e5ba84cf649f47bc24b137432bd6e,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -36,6 +36,10 @@ Material:
     m_TexEnvs:
     - Texture2D_72426835:
         m_Texture: {fileID: 2800000, guid: 615669d81f0f6604f9929d2ff5accc84, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_82548B6A:
+        m_Texture: {fileID: 2800000, guid: f61f97dbdc3aa45409c339d2b733aa7f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -75,6 +79,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_2AABD8BF: 0
+    - Vector1_2F033551: 0
+    - Vector1_99E7935: 0
     - Vector1_CC9DD90F: 0.12
     - _AlphaClip: 0
     - _Blend: 0
@@ -98,8 +105,13 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
+    - Color_1D6ACEA8: {r: 0, g: 0, b: 0, a: 0}
     - Color_394A4422: {r: 0.4612282, g: 0, b: 0.8584906, a: 1}
     - Color_49F14EFF: {r: 1, g: 1, b: 1, a: 1}
+    - Color_796B3B6: {r: 1, g: 0.45528454, b: 0, a: 0}
+    - Color_8E22BC5D: {r: 0, g: 0, b: 0, a: 0}
+    - Color_AF64D4C2: {r: 0, g: 0, b: 0, a: 0}
+    - Color_F4E9DEB6: {r: 0, g: 0, b: 0, a: 0}
     - Color_F52EE448: {r: 1, g: 1, b: 1, a: 1}
     - Vector2_6A93A1CF: {r: 1, g: 1, b: 0, a: 0}
     - Vector2_EEDE3294: {r: 0, g: 0, b: 0, a: 0}

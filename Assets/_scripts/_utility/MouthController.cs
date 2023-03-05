@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class MouthController : MonoBehaviour
@@ -11,23 +10,20 @@ public class MouthController : MonoBehaviour
     public MouthPattern pattern;
 
     public float speakTime, mouthInterval;//time to hold a mouth frame
-    public float mouthTimer,intervalTimer;
+    public float mouthTimer, intervalTimer;
     public int count;
     public List<Material> mouths;
 
     private Villager villager;
-    // Start is called before the first frame update
-    void Start()
+
+    // Start is
+    // called before
+    // the first
+    // frame update
+    private void Start()
     {
         villager = GetComponent<Villager>();
     }
-
-
-
-
-
-
-
 
     public bool isNeutral;
     public float blinkTimer;
@@ -43,10 +39,8 @@ public class MouthController : MonoBehaviour
             {
                 isNeutral = false;
                 SetMouth(villager.CurrentMood());
-                
 
                 blinkTimer = UnityEngine.Random.Range(0.2f, 0.5f);
-
             }
             else
             {
@@ -55,32 +49,22 @@ public class MouthController : MonoBehaviour
 
                 blinkTimer = UnityEngine.Random.Range(1.0f, 6.0f);
             }
-
-
-
         }
-
-
     }
 
-
-
-
-    // Update is called once per frame
-    void Update()
+    // Update is
+    // called once
+    // per frame
+    private void Update()
     {
-
         if (mouthRenderer == null) { return; }
 
-        if (Input.GetKeyDown(KeyCode.M)) { SetMouthPattern(MouthPattern.angry,12); }
+        if (Input.GetKeyDown(KeyCode.M)) { SetMouthPattern(MouthPattern.angry, 12); }
         if (Input.GetKeyDown(KeyCode.N)) { SetMouthPattern(MouthPattern.sad); }
         if (Input.GetKeyDown(KeyCode.B)) { SetMouthPattern(MouthPattern.happy); }
 
-
-
         if (mouthTimer != -1)
         {
-
             mouthTimer -= Time.deltaTime;
             intervalTimer -= Time.deltaTime;
 
@@ -98,20 +82,15 @@ public class MouthController : MonoBehaviour
                     intervalTimer = mouthInterval;
                 }
             }
-
-
-
         }
-        else 
+        else
         {
             if (villager != null)
             {
                 IdleMouthTimer();
             }
         }
-
     }
-
 
     public void MoveMouth()
     {
@@ -121,14 +100,10 @@ public class MouthController : MonoBehaviour
         if (count >= mouths.Count) { count = 0; }
 
         SetMouth(mouthRenderer.materials[0], mouths[count]);
-
-        
     }
 
     public void SetMouth(Mood _mood)
     {
- 
-
         //for setting the mouth to the mood when not talking
         if (_mood == Mood.neutral)
         { SetMouth(mouthRenderer.materials[0], closed); }
@@ -140,16 +115,12 @@ public class MouthController : MonoBehaviour
         { SetMouth(mouthRenderer.materials[0], open); }
     }
 
-
-    public void SetMouth(Material _head,Material _mouth)
+    public void SetMouth(Material _head, Material _mouth)
     {
-       
-
         Material[] mats = new Material[2];
         mats[0] = _head;
         mats[1] = _mouth;
         mouthRenderer.materials = mats;
-
     }
 
     public void SetMouthPattern(MouthPattern _pattern, float _length = 1)
@@ -164,8 +135,6 @@ public class MouthController : MonoBehaviour
 
         count = 0;
 
-      
-
         mouths = new List<Material>();
         pattern = _pattern;
 
@@ -179,7 +148,8 @@ public class MouthController : MonoBehaviour
             mouths.Add(neutral);
             mouths.Add(closed);
             mouths.Add(angry);
-        }else if (_pattern == MouthPattern.sad)
+        }
+        else if (_pattern == MouthPattern.sad)
         {
             mouths.Add(sad);
             mouths.Add(closed);
@@ -201,7 +171,7 @@ public class MouthController : MonoBehaviour
             mouths.Add(closed);
             mouths.Add(neutral);
         }
-         else
+        else
         {
             mouths.Add(open);
             mouths.Add(closed);
@@ -212,12 +182,5 @@ public class MouthController : MonoBehaviour
             mouths.Add(closed);
             mouths.Add(neutral);
         }
-
-
-
-
-
     }
-
-
 }

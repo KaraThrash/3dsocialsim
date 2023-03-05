@@ -1,26 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Room : MonoBehaviour
 {
-    //
 
 
-    public Transform floorParent,doorParent,wallParent;
+    public Transform floorParent, doorParent, wallParent;
 
-    public Material floorMat,wallFace;
-    // Start is called before the first frame update
-    void Start()
+    public Material floorMat, wallFace;
+
+    // Start is
+    // called before
+    // the first
+    // frame update
+    private void Start()
     {
-       // SetFloorMat(floorMat);
-       // SetWallMat(wallFace);
+        // SetFloorMat(floorMat); SetWallMat(wallFace);
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update is
+    // called once
+    // per frame
+    private void Update()
     {
-        
     }
 
     public void SetFloorMat(Material _floorMat)
@@ -34,9 +35,8 @@ public class Room : MonoBehaviour
         }
     }
 
-    public void SetWallMat( Material _wallFace)
+    public void SetWallMat(Material _wallFace)
     {
-   
         foreach (Transform el in wallParent)
         {
             if (el.GetComponent<MeshRenderer>() != null)
@@ -49,9 +49,8 @@ public class Room : MonoBehaviour
         {
             if (el.GetComponent<Door>() != null)
             {
-                el.GetComponent<Door>().SetWallMat(_wallFace) ;
+                el.GetComponent<Door>().SetWallMat(_wallFace);
             }
         }
     }
-
 }

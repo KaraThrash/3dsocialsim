@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class StandInForScenePlanning : MonoBehaviour
 {
@@ -8,15 +6,18 @@ public class StandInForScenePlanning : MonoBehaviour
     public VillagerState currentState;
     public VillagerStoryState currentStoryState;
 
-    // Start is called before the first frame update
-    void Start()
+    // Start is
+    // called before
+    // the first
+    // frame update
+    private void Start()
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update is
+    // called once
+    // per frame
+    private void Update()
     {
-        
     }
 }

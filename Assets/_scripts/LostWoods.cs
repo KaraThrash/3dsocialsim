@@ -1,36 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LostWoods : MonoBehaviour
 {
     //moving between locations rearrange everything except these
     //since they would be the only two visible
     public LostWoodsArea currentArea, previousArea;
-    public AudioCloud audioCloud,cloud0,clouda;
-    public int current,previous;
+
+    public AudioCloud audioCloud, cloud0, clouda;
+    public int current, previous;
     public Vector3 areaOffset; // for placing squares adjacent to each other
-    public Transform sections,forestLayouts;
-    public Transform entrance,exit, exitsouth;
+    public Transform sections, forestLayouts;
+    public Transform entrance, exit, exitsouth;
     public Transform overWorldNorth, overWorldSouth;
     public Door exitArea;
     public string pathTaken, targetPath0, targetpath1;
-    public int distanceToLeave,totalDistanceTraveled,sequence; //how many correct transitions need to happen
+    public int distanceToLeave, totalDistanceTraveled, sequence; //how many correct transitions need to happen
 
-
-
-    // Start is called before the first frame update
-    void Start()
+    // Start is
+    // called before
+    // the first
+    // frame update
+    private void Start()
     {
         RandomizeAreas();
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update is
+    // called once
+    // per frame
+    private void Update()
     {
-        
     }
-
 
     public void SetOverWorldExit(bool _north)
     {
@@ -39,7 +39,7 @@ public class LostWoods : MonoBehaviour
             exitArea.exitObj = overWorldNorth;
             exitArea.connectedArea = overWorldNorth.gameObject;
         }
-        else 
+        else
         {
             exitArea.exitObj = overWorldSouth;
             exitArea.connectedArea = overWorldSouth.gameObject;
@@ -58,20 +58,19 @@ public class LostWoods : MonoBehaviour
         {
             if (el.GetComponent<LostWoodsArea>() != null)
             {
-
                 el.GetComponent<LostWoodsArea>().BreakConnection(forestLayouts);
-
             }
         }
         foreach (Transform el in sections)
         {
             if (el.GetComponent<LostWoodsArea>() != null)
             {
-
                 el.GetComponent<LostWoodsArea>().BreakConnection(forestLayouts);
-
             }
         }
+
+        exit.transform.position = forestLayouts.position;
+        exitsouth.transform.position = forestLayouts.position;
 
         LostWoodsArea cur = entrance.GetComponent<LostWoodsArea>();
 
@@ -85,7 +84,6 @@ public class LostWoods : MonoBehaviour
         entrance.gameObject.SetActive(true);
         exit.gameObject.SetActive(false);
 
-
         if (cur.north == null)
         {
             cur.north = forestLayouts.GetChild(0).GetComponent<LostWoodsArea>();
@@ -94,7 +92,6 @@ public class LostWoods : MonoBehaviour
             forestLayouts.GetChild(0).position = cur.transform.position + new Vector3(0, 0, 35.0f);
             forestLayouts.GetChild(0).gameObject.SetActive(true);
             forestLayouts.GetChild(0).GetComponent<LostWoodsArea>().SetConnection(sections);
-
         }
         if (cur.south == null)
         {
@@ -104,8 +101,6 @@ public class LostWoods : MonoBehaviour
             forestLayouts.GetChild(0).position = cur.transform.position + new Vector3(0, 0, -35.0f);
             forestLayouts.GetChild(0).gameObject.SetActive(true);
             forestLayouts.GetChild(0).GetComponent<LostWoodsArea>().SetConnection(sections);
-
-
         }
         if (cur.east == null)
         {
@@ -115,8 +110,6 @@ public class LostWoods : MonoBehaviour
             forestLayouts.GetChild(0).position = cur.transform.position + new Vector3(35.0f, 0, 0);
             forestLayouts.GetChild(0).gameObject.SetActive(true);
             forestLayouts.GetChild(0).GetComponent<LostWoodsArea>().SetConnection(sections);
-
-
         }
         if (cur.west == null)
         {
@@ -126,13 +119,8 @@ public class LostWoods : MonoBehaviour
             forestLayouts.GetChild(0).position = cur.transform.position + new Vector3(-35.0f, 0, 0);
             forestLayouts.GetChild(0).gameObject.SetActive(true);
             forestLayouts.GetChild(0).GetComponent<LostWoodsArea>().SetConnection(sections);
-
-
-
         }
-
     }
-
 
     public void EnterNewArea(LostWoodsArea _area)
     {
@@ -150,15 +138,12 @@ public class LostWoods : MonoBehaviour
                 }
             }
         }
-    
-
     }
 
-    public void EnterNewArea(int _area,Collider other,string _dir="north")
+    public void EnterNewArea(int _area, Collider other, string _dir = "north")
     {
-
-       
-
+        //TODO: advancing the day is only hear for an update video
+        GameManager.instance.TimeAdvance().Invoke();
 
         previous = current;
         current = _area;
@@ -173,7 +158,6 @@ public class LostWoods : MonoBehaviour
         {
             if (el.GetComponent<LostWoodsArea>() != null)
             {
-
                 if (el.GetComponent<LostWoodsArea>().id == previous)
                 {
                     prev = el.GetComponent<LostWoodsArea>();
@@ -181,15 +165,13 @@ public class LostWoods : MonoBehaviour
                 else if (el.GetComponent<LostWoodsArea>().id == current)
                 {
                     cur = el.GetComponent<LostWoodsArea>();
-                 //   audioCloud.transform.position = el.position;
+                    // audioCloud.transform.position
+                    // = el.position;
                 }
-
             }
         }
 
         if (prev == null || cur == null) { return; }
-
-        
 
         //if the escape condition is reached dont undo it
         if (pathTaken.Equals(targetPath0) == false) //&& sequence < distanceToLeave
@@ -198,16 +180,21 @@ public class LostWoods : MonoBehaviour
             //{
             //    sequence++;
 
-            //    if (audioCloud.AudioSource().isPlaying == false || audioCloud.cloudColor.Equals("green") == false)
-            //    {
-                   
-            //          //  GameManager.instance.AudioManager().Set3dCloud(audioCloud, "green");
-                    
-            //    }
+            // if
+            // (audioCloud.AudioSource().isPlaying
+            // ==
+            // false
+            // ||
+            // audioCloud.cloudColor.Equals("green")
+            // ==
+            // false)
+            // { //
+            // GameManager.instance.AudioManager().Set3dCloud(audioCloud, "green");
 
+            // }
 
             //}
-            //else 
+            //else
             //{
             //    //when going the wrong direction set the clouds to yellow, and then red if still going the wrong way
             //    //if (audioCloud.AudioSource().isPlaying == false || audioCloud.cloudColor.Equals("green") == false)
@@ -216,7 +203,7 @@ public class LostWoods : MonoBehaviour
             //    //    {
             //    //       // GameManager.instance.AudioManager().Set3dCloud(audioCloud, "yellow");
             //    //    }
-            //    //    else 
+            //    //    else
             //    //    {
             //    //     //   GameManager.instance.AudioManager().Set3dCloud(audioCloud, "red");
             //    //    }
@@ -225,13 +212,7 @@ public class LostWoods : MonoBehaviour
             pathTaken += _dir[0];
 
             if (pathTaken.Length > distanceToLeave) { pathTaken = pathTaken.Substring(1, pathTaken.Length - 1); }
-
         }
-
-
-
-        
-
 
         //break all the adjacent connections from the previous area that do not lead to the current one
         //they are added back to the group to reset the new adjacent areas of the endless forest
@@ -240,21 +221,18 @@ public class LostWoods : MonoBehaviour
             prev.north.BreakConnection(forestLayouts);
             prev.north.gameObject.SetActive(false);
             prev.north = null;
-
         }
         if (prev.south != null && prev.south.id != current)
         {
             prev.south.BreakConnection(forestLayouts);
             prev.south.gameObject.SetActive(false);
             prev.south = null;
-
         }
         if (prev.east != null && prev.east.id != current)
         {
             prev.east.BreakConnection(forestLayouts);
             prev.east.gameObject.SetActive(false);
             prev.east = null;
-
         }
         if (prev.west != null && prev.west.id != current)
         {
@@ -284,7 +262,7 @@ public class LostWoods : MonoBehaviour
                 exitsouth.gameObject.SetActive(true);
                 exitsouth.GetComponent<LostWoodsArea>().SetConnection(sections);
             }
-            else 
+            else
             {
                 cur.north = forestLayouts.GetChild(0).GetComponent<LostWoodsArea>();
                 forestLayouts.GetChild(0).GetComponent<LostWoodsArea>().south = cur;
@@ -293,27 +271,18 @@ public class LostWoods : MonoBehaviour
                 forestLayouts.GetChild(0).gameObject.SetActive(true);
                 forestLayouts.GetChild(0).GetComponent<LostWoodsArea>().SetConnection(sections);
             }
-
-            
-
         }
-
 
         if (cur.south == null)
         {
             //if condition to exit reached always have the exit on the south
-       
-                cur.south = forestLayouts.GetChild(0).GetComponent<LostWoodsArea>();
-                forestLayouts.GetChild(0).GetComponent<LostWoodsArea>().north = cur;
 
-                forestLayouts.GetChild(0).position = cur.transform.position + new Vector3(0, 0, -35.0f);
-                forestLayouts.GetChild(0).gameObject.SetActive(true);
-                forestLayouts.GetChild(0).GetComponent<LostWoodsArea>().SetConnection(sections);
-            
+            cur.south = forestLayouts.GetChild(0).GetComponent<LostWoodsArea>();
+            forestLayouts.GetChild(0).GetComponent<LostWoodsArea>().north = cur;
 
-
-
-
+            forestLayouts.GetChild(0).position = cur.transform.position + new Vector3(0, 0, -35.0f);
+            forestLayouts.GetChild(0).gameObject.SetActive(true);
+            forestLayouts.GetChild(0).GetComponent<LostWoodsArea>().SetConnection(sections);
         }
         if (cur.east == null)
         {
@@ -323,8 +292,6 @@ public class LostWoods : MonoBehaviour
             forestLayouts.GetChild(0).position = cur.transform.position + new Vector3(35.0f, 0, 0);
             forestLayouts.GetChild(0).gameObject.SetActive(true);
             forestLayouts.GetChild(0).GetComponent<LostWoodsArea>().SetConnection(sections);
-
-
         }
         if (cur.west == null)
         {
@@ -334,44 +301,38 @@ public class LostWoods : MonoBehaviour
             forestLayouts.GetChild(0).position = cur.transform.position + new Vector3(-35.0f, 0, 0);
             forestLayouts.GetChild(0).gameObject.SetActive(true);
             forestLayouts.GetChild(0).GetComponent<LostWoodsArea>().SetConnection(sections);
-
-
-
         }
 
-
         //RandomizeAreas();
-
     }
-
-
 
     //public void EnterNewArea(int _area, Collider other)
     //{
     //    previous = current;
     //    current = _area;
 
-    //    foreach (Transform el in sections)
-    //    {
-    //        if (el.GetComponent<LostWoodsArea>() != null)
-    //        {
-    //            if (el.GetComponent<LostWoodsArea>().id != previous && el.GetComponent<LostWoodsArea>().id != current && el.GetComponent<LostWoodsArea>().treeLayout != null)
-    //            {
-    //                el.GetComponent<LostWoodsArea>().treeLayout.parent = forestLayouts;
-    //                el.GetComponent<LostWoodsArea>().treeLayout.position = forestLayouts.position;
-    //                el.GetComponent<LostWoodsArea>().treeLayout = null;
-    //            }
-    //        }
-    //    }
-    //    RandomizeAreas();
+    // foreach
+    // (Transform el
+    // in sections)
+    // { if
+    // (el.GetComponent<LostWoodsArea>()
+    // != null) { if
+    // (el.GetComponent<LostWoodsArea>().id
+    // != previous
+    // &&
+    // el.GetComponent<LostWoodsArea>().id
+    // != current &&
+    // el.GetComponent<LostWoodsArea>().treeLayout
+    // != null) {
+    // el.GetComponent<LostWoodsArea>().treeLayout.parent
+    // =
+    // forestLayouts;
+    // el.GetComponent<LostWoodsArea>().treeLayout.position
+    // =
+    // forestLayouts.position; el.GetComponent<LostWoodsArea>().treeLayout
+    // = null; } } } RandomizeAreas();
 
     //}
-
-
-
-
-
-
 
     public void RandomizeAreas()
     {
@@ -384,10 +345,9 @@ public class LostWoods : MonoBehaviour
         //            el.GetComponent<LostWoodsArea>().treeLayout = forestLayouts.GetChild(0);
         //            el.GetComponent<LostWoodsArea>().treeLayout.parent = el;
         //            el.GetComponent<LostWoodsArea>().treeLayout.position = el.position;
-                    
+
         //        }
         //    }
         //}
     }
-
 }

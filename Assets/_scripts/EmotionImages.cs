@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public static class EmotionImages 
+public static class EmotionImages
 {
     public static Material GetEmotion(Mood _mood)
     {
@@ -28,9 +26,7 @@ public static class EmotionImages
         //}
 
         return Resources.Load<Material>(emotionToLoad);
-
     }
-
 
     //to catch questions. alert and other elements that arent 'moods'
     public static Material GetThought(string _thought)
@@ -39,12 +35,6 @@ public static class EmotionImages
 
         thoughtToLoad += _thought;
 
-
         return Resources.Load<Material>(thoughtToLoad);
-
     }
-
-
-
-
 }

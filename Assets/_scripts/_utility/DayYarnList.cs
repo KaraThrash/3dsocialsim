@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "YarnForDay_Config")]
@@ -11,13 +10,11 @@ public class DayYarnList : ScriptableObject
     {
         if (narrativeSections != null)
         {
-            if (narrativeSections.Count >_section )
+            if (narrativeSections.Count > _section)
             {
                 return narrativeSections[_section];
             }
         }
-
-        
 
         return null;
     }

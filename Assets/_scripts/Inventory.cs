@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,51 +8,46 @@ public class Inventory : MonoBehaviour
     public Sprite emptyslot;
     public Transform inventorySlots;
 
-    public List<Item> itemsInPockets,itemsInStorage;
+    public List<Item> itemsInPockets, itemsInStorage;
 
-    // Start is called before the first frame update
+    // Start is
+    // called before
+    // the first
+    // frame update
 
-
-
-    public Item GetFromPockets( int _item)
+    public Item GetFromPockets(int _item)
     {
         if (itemsInPockets == null) { IntializeList(); }
         return GetItem(itemsInPockets, _item);
-
     }
 
     public Item GetFromPockets(ItemClass _item)
     {
         if (itemsInPockets == null) { IntializeList(); }
         return GetItem(itemsInPockets, _item);
-
     }
+
     public Item GetFromPockets(string _item)
     {
         if (itemsInPockets == null) { IntializeList(); }
         return GetItem(itemsInPockets, _item);
-
     }
 
     public Item GetFromStorage(int _item)
     {
         if (itemsInPockets == null) { IntializeList(); }
         return GetItem(itemsInStorage, _item);
-
     }
+
     public Item GetFromStorage(string _item)
     {
         if (itemsInPockets == null) { IntializeList(); }
         return GetItem(itemsInStorage, _item);
-
     }
 
-
-
-
-    public Item GetItem(List<Item> listToSearch , int _item)
+    public Item GetItem(List<Item> listToSearch, int _item)
     {
-        if (listToSearch.Count <= _item) 
+        if (listToSearch.Count <= _item)
         { return null; }
 
         return listToSearch[_item];
@@ -83,15 +77,13 @@ public class Inventory : MonoBehaviour
         return null;
     }
 
-    public void SetItemInList(List<Item> listToAddTo,Item _item, int _spot)
+    public void SetItemInList(List<Item> listToAddTo, Item _item, int _spot)
     {
         if (listToAddTo.Count > _spot)
         {
             listToAddTo[_spot] = _item;
         }
     }
-
-
 
     public bool TryToAddItemToPockets(Item _item)
     {
@@ -103,25 +95,26 @@ public class Inventory : MonoBehaviour
 
         //if the item does not stack there needs to be an empty inventory spot for it
         //if the item is at max stacks dont check if there is an incomplete stack
-        
-        if (_item.maxStackSize == _item.stackSize )
+
+        if (_item.maxStackSize == _item.stackSize)
         {
             if (PocketItemsCount() < pocketSize)
             {
-                return true; 
+                return true;
             }
         }
-        else 
+        else
         {
             foreach (Item el in itemsInPockets)
             {
                 if (el != null && el.itemName.Equals(_item.itemName) && _item.maxStackSize > _item.stackSize)
                 {
-                    while (el.maxStackSize > el.stackSize )
+                    while (el.maxStackSize > el.stackSize)
                     {
                         el.stackSize++;
                         _item.stackSize--;
-                        if (_item.stackSize == 0) { 
+                        if (_item.stackSize == 0)
+                        {
                             SetIconsInInventoryScreen();
 
                             return false;
@@ -134,10 +127,6 @@ public class Inventory : MonoBehaviour
             if (_item.stackSize > 0 && PocketItemsCount() < pocketSize)
             { return true; }
         }
-
-
-
-
 
         return false;
     }
@@ -157,16 +146,9 @@ public class Inventory : MonoBehaviour
                 return;
             }
             count++;
-          
         }
         itemsInPockets.Add(_item);
     }
-
-
-
-
-
-
 
     public int PocketItemsCount()
     {
@@ -174,7 +156,7 @@ public class Inventory : MonoBehaviour
         int count = 0;
         foreach (Item el in itemsInPockets)
         {
-            if (el != null )
+            if (el != null)
             {
                 count++;
             }
@@ -183,44 +165,31 @@ public class Inventory : MonoBehaviour
         return count;
     }
 
-
-
     public void SetIconsInInventoryScreen()
     {
         int count = 0;
-        while (count < inventorySlots.childCount )
+        while (count < inventorySlots.childCount)
         {
             if (count < itemsInPockets.Count && inventorySlots.GetChild(count).GetComponent<Image>() != null)
             {
-               
-
                 if (itemsInPockets[count] != null && itemsInPockets[count].icon != null)
                 {
                     inventorySlots.GetChild(count).GetComponent<Image>().sprite = itemsInPockets[count].icon;
                     inventorySlots.GetChild(count).GetComponent<Image>().color = Color.black;
-
                 }
-                else 
+                else
                 {
                     SetIconToEmpty(inventorySlots.GetChild(count).GetComponent<Image>());
                 }
-
-
             }
-            else 
+            else
             {
-
                 SetIconToEmpty(inventorySlots.GetChild(count).GetComponent<Image>());
             }
 
             count++;
         }
-    
     }
-
-
- 
-
 
     public void SetIconToEmpty(Image _img)
     {
@@ -228,12 +197,11 @@ public class Inventory : MonoBehaviour
         _img.color = Color.blue;
     }
 
-
     public void IntializeList()
-    { 
-        itemsInPockets = new List<Item>() ;
-        string itempath = "items/axe" ;
-        itemsInPockets.Add(( Resources.Load(itempath) as GameObject).GetComponent<Item>());
+    {
+        itemsInPockets = new List<Item>();
+        string itempath = "items/axe";
+        itemsInPockets.Add((Resources.Load(itempath) as GameObject).GetComponent<Item>());
         itempath = "items/fishingRod";
         itemsInPockets.Add((Resources.Load(itempath) as GameObject).GetComponent<Item>());
         itempath = "items/shovel";

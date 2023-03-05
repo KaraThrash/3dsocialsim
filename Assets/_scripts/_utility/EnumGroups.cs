@@ -1,42 +1,55 @@
-﻿
+﻿using System;
 
+public enum GameState
+{ free, transitioning, singleCamera, multiCamera, scripted, talking, interacting }
 
-using System;
+public enum CameraState
+{ basic, outside, low, high, inside, showoff, conversation, focusing, zoomIn, lostwoods, custom }
 
-public enum GameState {free,transitioning,singleCamera,multiCamera,scripted,talking,interacting }
-public enum CameraState { basic, outside, low,high,inside,showoff,conversation,focusing,zoomIn, lostwoods,custom }
-
-public enum PlayerState { playerControlled, inMenu, talking, choosing, fishing, acting, showing, inScene,animating }
+public enum PlayerState
+{ playerControlled, inMenu, talking, choosing, fishing, acting, showing, inScene, animating }
 
 //world location for game state checks
-public enum WorldLocation { none,overWorldNorth,overWorldSouth, inside, lostwoods, bus  }
+public enum WorldLocation
+{ none, overWorldNorth, overWorldSouth, inside, lostwoods, bus }
 
 //maplocation for orienteering
-public enum MapLocation {
-    townhall,constructionSite, townSquare,playerHouse, voiceInWall,
-    lostwoodsSouthEntrance,lostwoodsNorthEntrance,northRoadTurn, southRoadTurn,
-    townEntrance, southeastRoadEnd,basicOverworld,basicInterior 
+public enum MapLocation
+{
+    townhall, constructionSite, townSquare, playerHouse, voiceInWall,
+    lostwoodsSouthEntrance, lostwoodsNorthEntrance, northRoadTurn, southRoadTurn,
+    townEntrance, southeastRoadEnd, basicOverworld, basicInterior
 }
 
-public enum Villagers { licon,wilms,bear,fish,cat,dog,monkey,world }
-public enum VillagerState { moving, idle, waiting, talking, activity }
-public enum VillagerStoryState { idle, inScene, inPrison, offScreen }
+public enum Villagers
+{ licon, wilms, bear, fish, cat, dog, monkey, world }
 
-public enum ItemClass { axe,net,shovel,fishingrod,consumable,fruit,cosmetic,enviromental }
-public enum Mood { happy, sad, neutral, scared, angry, confused, tired }
-public enum MouthPattern { happy, sad, neutral, scared, angry, confused, tired,fast,slow }
-public enum GroundTypes { grass,wood,stone,dirt,leaves,snow,water,squish,other}
-public enum Menu { inventory,radial,tool,usable,system,pause}
+public enum VillagerState
+{ moving, idle, waiting, talking, activity }
 
+public enum VillagerStoryState
+{ idle, inScene, inPrison, offScreen }
 
-public enum SceneAction { none,talk,leadPlayer, trailPlayer,watchPlayer,movePlayer,fliers,walkAndTalk,walkingToCheckpoint, holdingAnimation }
+public enum ItemClass
+{ axe, net, shovel, fishingrod, consumable, fruit, cosmetic, enviromental }
 
+public enum Mood
+{ happy, sad, neutral, scared, angry, confused, tired }
 
+public enum MouthPattern
+{ happy, sad, neutral, scared, angry, confused, tired, fast, slow }
 
+public enum GroundTypes
+{ grass, wood, stone, dirt, leaves, snow, water, squish, other }
 
-public static class EnumGroups 
+public enum Menu
+{ inventory, radial, tool, usable, system, pause }
+
+public enum SceneAction
+{ none, talk, leadPlayer, trailPlayer, watchPlayer, movePlayer, fliers, walkAndTalk, walkingToCheckpoint, holdingAnimation }
+
+public static class EnumGroups
 {
-
     public static Mood MoodFromString(string _pattern)
     {
         foreach (Mood el in (Mood[])Enum.GetValues(typeof(Mood)))
@@ -44,7 +57,6 @@ public static class EnumGroups
             if (el.ToString().Equals(_pattern))
             { return el; }
         }
-       
 
         return Mood.neutral;
     }
@@ -57,10 +69,8 @@ public static class EnumGroups
             { return el; }
         }
 
-
         return VillagerState.idle;
     }
-
 
     public static VillagerStoryState VillagerStoryStateFromString(string _pattern)
     {
@@ -70,10 +80,8 @@ public static class EnumGroups
             { return el; }
         }
 
-
         return VillagerStoryState.idle;
     }
-
 
     public static MouthPattern MouthPatternFromString(string _pattern)
     {
@@ -83,14 +91,8 @@ public static class EnumGroups
             { return el; }
         }
 
-
         return MouthPattern.neutral;
     }
-
-
-
-
-
 
     public static MouthPattern ConvertMouthPattern(string _pattern)
     {
@@ -104,7 +106,6 @@ public static class EnumGroups
         { return MouthPattern.scared; }
         else if (_pattern.Equals("angry"))
         { return MouthPattern.angry; }
-
         else if (_pattern.Equals("confused"))
         { return MouthPattern.confused; }
         else if (_pattern.Equals("tired"))
@@ -114,10 +115,6 @@ public static class EnumGroups
         else if (_pattern.Equals("slow"))
         { return MouthPattern.slow; }
 
-
         return MouthPattern.neutral;
     }
-
-
-
 }

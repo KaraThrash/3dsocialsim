@@ -1,22 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TerrainChunk : MonoBehaviour
 {
-    public Transform items, ground, water,enviroment;
+    public Transform items, ground, water, enviroment;
     public Transform bottomLeft, topRight;
     public WorldLocation worldLocation;
-    // Start is called before the first frame update
-    void Start()
+
+    // Start is
+    // called before
+    // the first
+    // frame update
+    private void Start()
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update is
+    // called once
+    // per frame
+    private void Update()
     {
-        
     }
 
     public WorldLocation Location()
@@ -36,14 +38,11 @@ public class TerrainChunk : MonoBehaviour
         { items.gameObject.SetActive(_load); }
     }
 
-
     public float Width()
     {
         if (bottomLeft != null && topRight != null)
-        { 
-            
+        {
             return Mathf.Abs(bottomLeft.position.x - topRight.position.x);
-
         }
 
         return 0;
@@ -53,16 +52,13 @@ public class TerrainChunk : MonoBehaviour
     {
         if (bottomLeft != null && topRight != null)
         {
-
             return Mathf.Abs(bottomLeft.position.z - topRight.position.z);
-
         }
 
         return 0;
     }
 
-
-    public Vector3 BottomLeft() 
+    public Vector3 BottomLeft()
     {
         if (bottomLeft != null)
         { return bottomLeft.position; }
@@ -77,5 +73,4 @@ public class TerrainChunk : MonoBehaviour
 
         return Vector3.zero;
     }
-
 }

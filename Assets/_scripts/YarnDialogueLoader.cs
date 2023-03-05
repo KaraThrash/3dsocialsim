@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Yarn.Unity;
 
 public class YarnDialogueLoader : MonoBehaviour
@@ -19,10 +17,5 @@ public class YarnDialogueLoader : MonoBehaviour
             DialogueRunner dialogueRunner = FindObjectOfType<Yarn.Unity.DialogueRunner>();
             dialogueRunner.Add(scriptToLoad);
         }
-
     }
-
-
-
-
 }

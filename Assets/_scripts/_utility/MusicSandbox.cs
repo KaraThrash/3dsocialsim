@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,18 +9,25 @@ public class MusicSandbox : MonoBehaviour
     public List<Text> sliderValues;
 
     public GameObject uiParent;
-    // Start is called before the first frame update
-    void Start()
+
+    // Start is
+    // called before
+    // the first
+    // frame update
+    private void Start()
     {
         ResetToDefault();
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update is
+    // called once
+    // per frame
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.RightShift))
         { ToggleUi(); }
     }
+
     public void UpdateAudio()
     {
         audioManager.greenChance = sliders[0].value * 0.01f;
@@ -41,7 +47,6 @@ public class MusicSandbox : MonoBehaviour
         sliderValues[6].text = sliders[6].value.ToString();
     }
 
-
     public void ResetToDefault()
     {
         sliders[0].value = 30;
@@ -53,8 +58,6 @@ public class MusicSandbox : MonoBehaviour
         sliders[6].value = 12;
 
         UpdateAudio();
-
-
     }
 
     public void StopCurrentMusic()
@@ -71,5 +74,4 @@ public class MusicSandbox : MonoBehaviour
             uiParent.SetActive(!uiParent.activeSelf);
         }
     }
-
 }

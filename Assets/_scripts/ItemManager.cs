@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
@@ -11,23 +9,24 @@ public class ItemManager : MonoBehaviour
 
     public YarnProgram dialogue; //the flavor text for catching bugs/fish
 
-    // Start is called before the first frame update
-    void Start()
+    // Start is
+    // called before
+    // the first
+    // frame update
+    private void Start()
     {
         if (dialogue != null)
         {
             GameManager.instance.dialogueRunner.Add(dialogue);
         }
-
-
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update is
+    // called once
+    // per frame
+    private void Update()
     {
-        
     }
-
 
     public Item CatchFish(Vector3 _pos, float _chance)
     {
@@ -37,7 +36,7 @@ public class ItemManager : MonoBehaviour
 
         Debug.Log("Found Node While Fishing: " + node.NodeID());
 
-        if (_chance < 15 )
+        if (_chance < 15)
         {
             //do stuff
             return null;
@@ -56,10 +55,8 @@ public class ItemManager : MonoBehaviour
         return node.ItemList().rareFish;
     }
 
-
     public Item GetGrub(Vector3 _pos, float _chance)
     {
-
         MapNode node = GameManager.instance.LocationManager().FindClosestMapNode(_pos);
 
         Debug.Log("Found Node: " + node.NodeID());

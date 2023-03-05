@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class InventorySlotUI : MonoBehaviour
@@ -15,22 +13,29 @@ public class InventorySlotUI : MonoBehaviour
 
     public float width, height;
 
-    public float Height() { return width; }
-    public float Width() { return height; }
+    public float Height()
+    { return width; }
 
-    // Start is called before the first frame update
-    void Start()
+    public float Width()
+    { return height; }
+
+    // Start is
+    // called before
+    // the first
+    // frame update
+    private void Start()
     {
         if (picture == null)
         { picture = GetComponent<Image>(); }
-        
+
         picture.sprite = itemIcon;
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update is
+    // called once
+    // per frame
+    private void Update()
     {
-        
     }
 
     public void ButtonPressed()
@@ -41,11 +46,8 @@ public class InventorySlotUI : MonoBehaviour
         }
     }
 
-
-
     public void SetPicture(Sprite _sprite)
     {
-
         if (picture == null)
         { return; }
 
@@ -54,22 +56,15 @@ public class InventorySlotUI : MonoBehaviour
         picture.sprite = itemIcon;
         if (_sprite != null)
         {
-            
             picture.color = Color.black;
         }
         else
         {
-            
-
         }
-        
-
-
     }
 
     public void SetItem(string _name, string _count)
     {
-
         if (itemName != null)
         { itemName.text = _name; }
         if (itemCount != null)
@@ -88,9 +83,8 @@ public class InventorySlotUI : MonoBehaviour
         if (itemCount != null)
         {
             if (_count > 1)
-            { 
+            {
                 itemCount.text = _count.ToString();
-          
             }
         }
     }
@@ -109,7 +103,7 @@ public class InventorySlotUI : MonoBehaviour
                 itemQuantityBackground.SetActive(false);
             }
         }
-        else 
+        else
         {
             if (itemQuantityBackground != null)
             {
@@ -123,7 +117,5 @@ public class InventorySlotUI : MonoBehaviour
 
             SetPicture(_item.icon);
         }
-       
     }
-
 }

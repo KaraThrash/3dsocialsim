@@ -1,22 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class LocationManager : MonoBehaviour
 {
     public Transform playerHouseFrontDoor, playerRoomInterior;
-    public Transform townhallFrontDoor,townhallInterior, constructionSite;
+    public Transform townhallFrontDoor, townhallInterior, constructionSite;
     public Transform lostWoodsSouthEntrance, lostwoodsNorthEntrance, lostwoodsInterior;
-    public Transform townEntrance,voiceInWall;
-    public Transform northRoadTurn,southRoadTurn;
+    public Transform townEntrance, voiceInWall;
+    public Transform northRoadTurn, southRoadTurn;
     public Transform southeastRoadEnd;
 
     public List<TerrainChunk> terrainChunks;
 
-
     public void UnloadChunks()
-    { 
-    
+    {
     }
 
     public void UnloadChunks(WorldLocation _activeChunk)
@@ -29,10 +26,8 @@ public class LocationManager : MonoBehaviour
             {
                 el.Load(false);
             }
-
         }
     }
-
 
     public void LoadTerrain(WorldLocation _activeChunk)
     {
@@ -44,10 +39,8 @@ public class LocationManager : MonoBehaviour
             {
                 el.Load(true);
             }
-
         }
     }
-
 
     public TerrainChunk GetChunk(WorldLocation _chunk)
     {
@@ -59,22 +52,12 @@ public class LocationManager : MonoBehaviour
             {
                 return el;
             }
-
         }
-        return null; 
+        return null;
     }
-
-
-
-
-
-
-
-
 
     public Transform FindLocation(string _location)
     {
-        
         //for getting the location from indicators in a yarn script
 
         //town
@@ -108,7 +91,6 @@ public class LocationManager : MonoBehaviour
         { return lostwoodsNorthEntrance; }
         else if (_location.ToLower().Equals("lostwoods"))
         { return lostWoodsSouthEntrance; }
-
         else if (_location.ToLower().Equals("southroadturn"))
         { return southRoadTurn; }
         else if (_location.ToLower().Equals("northroadturn"))
@@ -116,15 +98,12 @@ public class LocationManager : MonoBehaviour
         else if (_location.ToLower().Equals("southeastroadend"))
         { return southeastRoadEnd; }
 
-
         //if nothing matches send the player to their house
         return playerRoomInterior;
     }
 
-
     public Transform FindLocation(MapLocation _location)
     {
-
         //for getting the location from indicators in a yarn script
 
         //town
@@ -146,7 +125,6 @@ public class LocationManager : MonoBehaviour
         { return lostWoodsSouthEntrance; }
         else if (_location == MapLocation.lostwoodsNorthEntrance)
         { return lostwoodsNorthEntrance; }
-
         else if (_location == MapLocation.northRoadTurn)
         { return northRoadTurn; }
         else if (_location == MapLocation.southRoadTurn)
@@ -158,7 +136,6 @@ public class LocationManager : MonoBehaviour
         return playerRoomInterior;
     }
 
-
     public MapNode FindClosestMapNode(Vector3 _location)
     {
         MapNode[] nodes = FindObjectsOfType<MapNode>();
@@ -166,7 +143,6 @@ public class LocationManager : MonoBehaviour
         if (nodes != null && nodes.Length > 0)
         {
             MapNode closestNode = nodes[0];
-
 
             foreach (MapNode el in nodes)
             {
@@ -177,9 +153,7 @@ public class LocationManager : MonoBehaviour
             }
             return closestNode;
         }
-  
+
         return null;
     }
-
-
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ScenePlanning : MonoBehaviour
@@ -8,18 +7,18 @@ public class ScenePlanning : MonoBehaviour
     private Player player;
     public WorldLocation location;
     public List<StandInForScenePlanning> villagerStandIns;
-    
+
     public StandInForScenePlanning playerSpot;
 
     public List<Transform> keyPositions;
     public Transform sceneFocus; //where characters should be looking
     public string yarnNodeTitle;
 
-
     public int stage;
     public bool activated = false;
 
     protected float timer;
+
     public void Start()
     {
         Setup();
@@ -39,8 +38,6 @@ public class ScenePlanning : MonoBehaviour
             }
         }
         playerSpot.gameObject.SetActive(false);
-        
-
     }
 
     public void Update()
@@ -50,7 +47,6 @@ public class ScenePlanning : MonoBehaviour
             SceneIsRunning();
         }
     }
-
 
     public virtual void SceneIsRunning()
     {
@@ -66,11 +62,10 @@ public class ScenePlanning : MonoBehaviour
         {
             StageTwo();
         }
-
     }
 
     public virtual void StageZero()
-    {  }
+    { }
 
     public virtual void StageOne()
     { }
@@ -81,13 +76,14 @@ public class ScenePlanning : MonoBehaviour
     public virtual void StageThree()
     { }
 
-
     public virtual void SceneSpecificAction()
     { }
 
-    public int Stage() { return stage; }
-    public void Stage(int _stage) { stage = _stage; }
+    public int Stage()
+    { return stage; }
 
+    public void Stage(int _stage)
+    { stage = _stage; }
 
     public void OnTriggerEnter(Collider other)
     {
@@ -101,7 +97,6 @@ public class ScenePlanning : MonoBehaviour
             activated = true;
             Gamemanager().GetPlayer().SetNavLeadObject(playerSpot.transform.position, 10);
             Gamemanager().StartDialogue(yarnNodeTitle);
-
         }
     }
 
@@ -111,8 +106,7 @@ public class ScenePlanning : MonoBehaviour
         {
             sceneFocus = new GameObject().transform;
         }
-        return sceneFocus; 
-    
+        return sceneFocus;
     }
 
     public GameManager Gamemanager()
@@ -132,5 +126,4 @@ public class ScenePlanning : MonoBehaviour
         }
         return player;
     }
-
 }

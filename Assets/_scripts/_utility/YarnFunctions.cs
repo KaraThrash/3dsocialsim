@@ -3,31 +3,30 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Yarn.Unity;
 
-/// <Yarn functions are laid out in this maner inside the yarn script>
-///  
-///  <<yarntest Sally name>>
-///  <<yarncommand Actor parameters>>
-/// 
-
+/// <Yarn functions
+/// are laid out in
+/// this maner
+/// inside the yarn script>
+///
+/// <<yarntest Sally
+/// name>>
+/// <<yarncommand
+/// Actor parameters>>
 
 public class YarnFunctions : MonoBehaviour
 {
-
     /// <summary>
     /// System Commands
     /// </summary>
-
 
     [YarnCommand("LoadNewUnityScene")]
     public void LoadNewUnityScene(string _scene)
     {
         Debug.Log("Yarn LoadNewUnityScene");
 
-     //   Application.LoadLevel(_scene);
+        // Application.LoadLevel(_scene);
         SceneManager.LoadScene(_scene);
-
     }
-
 
     [YarnCommand("EnableContinueButton")]
     public void EnableContinueButton()
@@ -42,10 +41,8 @@ public class YarnFunctions : MonoBehaviour
     {
         Debug.Log("Yarn DisableContinueButton");
 
-
         GameManager.instance.SetContinueButton(false);
     }
-
 
     [YarnCommand("EnableDialogueBox")]
     public void EnableDialogueBox()
@@ -60,13 +57,8 @@ public class YarnFunctions : MonoBehaviour
     {
         Debug.Log("Yarn DisableContinueButton");
 
-
         GameManager.instance.SetDialogueBox(false);
     }
-
-
-
-
 
     [YarnCommand("AdvanceSceneAnimator")]
     public void AdvanceSceneAnimator()
@@ -77,8 +69,6 @@ public class YarnFunctions : MonoBehaviour
         GameManager.instance.AdvanceSceneAnimator();
     }
 
-
-
     [YarnCommand("PlaySoundEffect")]
     public void PlaySoundEffect(string _clip)
     {
@@ -88,20 +78,13 @@ public class YarnFunctions : MonoBehaviour
         GameManager.instance.PlaySoundEffect(_clip);
     }
 
-
-
     /// <summary>
     /// end System Commands
     /// </summary>
 
-
-
-
     /// <summary>
     /// Transitions
     /// </summary>
-
-
 
     [YarnCommand("FadeToBlack")]
     public void FadeToBlack(string _speed)
@@ -133,7 +116,6 @@ public class YarnFunctions : MonoBehaviour
         GameManager.instance.cameraControls.anim.Play("CameraFadeToBlack");
     }
 
-
     [YarnCommand("EndScene")]
     public void EndScene()
     {
@@ -145,13 +127,9 @@ public class YarnFunctions : MonoBehaviour
         //<<yarncommand Actor parameters>>
     }
 
-
-
     /// <summary>
     /// end Transitions
     /// </summary>
-
-
 
     /// <summary>
     /// audio controls
@@ -162,16 +140,12 @@ public class YarnFunctions : MonoBehaviour
     {
         Debug.Log("Yarn FootstepVolumnModifier");
 
-
         GameManager.instance.AudioManager().footstepModifier = float.Parse(_volumnMod);
-
     }
-
 
     /// <summary>
     /// end audio controls
     /// </summary>
-
 
     /// <summary>
     /// Camera controls
@@ -182,9 +156,7 @@ public class YarnFunctions : MonoBehaviour
     {
         Debug.Log("Yarn CameraConversation");
 
-
         GameManager.instance.cameraControls.State(CameraState.conversation);
-
     }
 
     [YarnCommand("CameraLow")]
@@ -192,9 +164,7 @@ public class YarnFunctions : MonoBehaviour
     {
         Debug.Log("Yarn CameraLow");
 
-
         GameManager.instance.cameraControls.SetCameraTrackingOffset("low");
-
     }
 
     [YarnCommand("CameraSetOffset")]
@@ -202,20 +172,15 @@ public class YarnFunctions : MonoBehaviour
     {
         Debug.Log("Yarn CameraSetOffset");
 
-
         GameManager.instance.cameraControls.SetCameraTrackingOffset(float.Parse(_angle), float.Parse(_xOffset), float.Parse(_yOffset), float.Parse(_zOffset));
-
     }
-    
 
     [YarnCommand("CameraHigh")]
     public void CameraHigh()
     {
         Debug.Log("Yarn CameraHigh");
 
-
         GameManager.instance.cameraControls.SetCameraTrackingOffset("high");
-
     }
 
     [YarnCommand("CameraOutside")]
@@ -223,16 +188,12 @@ public class YarnFunctions : MonoBehaviour
     {
         Debug.Log("Yarn CameraOutside");
 
-
         GameManager.instance.cameraControls.State(CameraState.outside);
-
     }
 
     /// <summary>
     /// end Camera controls
     /// </summary>
-
-
 
     [YarnCommand("SceneSpecificAction")]
     public void SceneSpecificAction()
@@ -244,16 +205,12 @@ public class YarnFunctions : MonoBehaviour
         //have player face speaker
 
         GameManager.instance.SceneSpecificAction();
-
     }
 
-
-
-
     /// <summary>
-    /// start - Conversation types
+    /// start -
+    /// Conversation types
     /// </summary>
-
 
     [YarnCommand("StaticConversation")]
     public void StaticConversation()
@@ -269,20 +226,14 @@ public class YarnFunctions : MonoBehaviour
         GameManager.instance.cameraControls.anim.Play("CameraFadeToBlack");
     }
 
-
-
-
     /// <summary>
-    /// end - Conversation types
+    /// end -
+    /// Conversation types
     /// </summary>
-
-
 
     /// <summary>
     /// Movement
     /// </summary>
-
-
 
     [YarnCommand("MovePlayer")]
     public void MovePlayer(string _location)
@@ -307,8 +258,7 @@ public class YarnFunctions : MonoBehaviour
         //<<yarncommand Actor parameters>>
     }
 
-    
-  [YarnCommand("HavePlayerFollow")]
+    [YarnCommand("HavePlayerFollow")]
     public void HavePlayerFollow(string _location, string _who)
     {
         //move the player and who they are speaking to
@@ -338,14 +288,14 @@ public class YarnFunctions : MonoBehaviour
         //move the player and who they are speaking to
         Debug.Log("Yarn LeadPlayer: " + _who);
 
-        GameManager.instance.LeadPlayer(_location, _who,  _lineCount);
+        GameManager.instance.LeadPlayer(_location, _who, _lineCount);
 
         //<<yarntest Sally name>>
         //<<yarncommand Actor parameters>>
     }
 
     [YarnCommand("LeadPlayerAndTalkRunning")]
-    public void LeadPlayer(string _location, string _who, string _lineCount,string _speed)
+    public void LeadPlayer(string _location, string _who, string _lineCount, string _speed)
     {
         //move the player and who they are speaking to
         Debug.Log("Yarn LeadPlayer: " + _who);
@@ -362,7 +312,6 @@ public class YarnFunctions : MonoBehaviour
         //move every character involved in the scene
         Debug.Log("Yarn MoveScene");
 
-
         //<<yarntest Sally name>>
         //<<yarncommand Actor parameters>>
     }
@@ -378,43 +327,34 @@ public class YarnFunctions : MonoBehaviour
         //<<yarncommand Actor parameters>>
     }
 
-
-
     /// <summary>
     /// end Movement
     /// </summary>
-    /// 
-
 
     /// <summary>
     /// Villager Controls
     /// </summary>
-    /// 
 
     [YarnCommand("StartGroupPlacement")]
     public void StartGroupPlacement()
     {
         Debug.Log("Yarn StartGroupPlacement");
-
     }
 
-
     [YarnCommand("TeleportVillager")]
-    public void TeleportVillager(string _villager,string _location)
+    public void TeleportVillager(string _villager, string _location)
     {
         Debug.Log("Yarn TeleportVillager");
 
         Villager villager = GameManager.instance.FindVillager(_villager);
 
-
         if (villager == null) { return; }
 
         villager.Teleport(GameManager.instance.LocationManager().FindLocation(_location));
-
     }
 
     [YarnCommand("TeleportVillagerVector3")]
-    public void TeleportVillagerVector3(string _villager, string _x,string _z)
+    public void TeleportVillagerVector3(string _villager, string _x, string _z)
     {
         Debug.Log("Yarn TeleportVillagerVector3");
 
@@ -422,11 +362,9 @@ public class YarnFunctions : MonoBehaviour
 
         if (villager == null) { return; }
 
-        Vector3 tempvec = new Vector3(Int32.Parse(_x), villager.transform.position.y, Int32.Parse(_z) );
-
+        Vector3 tempvec = new Vector3(Int32.Parse(_x), villager.transform.position.y, Int32.Parse(_z));
 
         villager.Teleport(tempvec);
-
     }
 
     [YarnCommand("VillagerThought")]
@@ -438,8 +376,7 @@ public class YarnFunctions : MonoBehaviour
 
         if (villager == null) { return; }
 
-        villager.ThoughtBubble(EnumGroups.MoodFromString(_thought.ToLower()),2);
-
+        villager.ThoughtBubble(EnumGroups.MoodFromString(_thought.ToLower()), 2);
     }
 
     [YarnCommand("SetVillagerMood")]
@@ -452,7 +389,6 @@ public class YarnFunctions : MonoBehaviour
         if (villager == null) { return; }
 
         villager.CurrentMood(EnumGroups.MoodFromString(_mood.ToLower()));
-
     }
 
     [YarnCommand("SetVillagerState")]
@@ -477,7 +413,6 @@ public class YarnFunctions : MonoBehaviour
         if (villager == null) { return; }
 
         villager.StoryState(EnumGroups.VillagerStoryStateFromString(_state));
-
     }
 
     [YarnCommand("VillagerHoldAnimationUntilOnScreen")]
@@ -492,29 +427,15 @@ public class YarnFunctions : MonoBehaviour
         villager.StoryState(VillagerStoryState.inScene);
         villager.ScriptedAction(SceneAction.holdingAnimation);
         villager.heldAnimation = _animation;
-
     }
-
-
 
     /// <summary>
     /// End Villager Controls
     /// </summary>
 
-
-
-
-
-
-
-
-
-
-
     /// <summary>
     /// Animations
     /// </summary>
-
 
     [YarnCommand("function0")]
     public void YarnFunction(string spriteName)
@@ -533,7 +454,6 @@ public class YarnFunctions : MonoBehaviour
 
         Player player = GameManager.instance.GetPlayer();
 
-
         if (player == null) { Debug.Log("didnt find the player"); return; }
 
         player.PlayAnimation(_animation);
@@ -543,26 +463,24 @@ public class YarnFunctions : MonoBehaviour
     }
 
     [YarnCommand("PlayerShowOff")]
-    public void PlayerShowOff( )
+    public void PlayerShowOff()
     {
         Debug.Log("PlayerShowOff");
 
-       GameManager.instance.ShowItem();
-
+        GameManager.instance.ShowItem();
     }
 
     [YarnCommand("PlayAnimation")]
-    public void PlayAnimation(string _who,string _animation)
+    public void PlayAnimation(string _who, string _animation)
     {
         Debug.Log("_who and Yarn animations");
         Debug.Log(_who + " " + _animation);
 
         Villager villager = GameManager.instance.FindVillager(_who);
 
+        if (villager == null) { Debug.Log("didnt find"); return; }
 
-        if (villager == null) { Debug.Log("didnt find");  return; }
-
-            villager.PlayAnimation(_animation);
+        villager.PlayAnimation(_animation);
 
         //<<yarntest Sally name>>
         //<<yarncommand Actor parameters>>
@@ -575,7 +493,6 @@ public class YarnFunctions : MonoBehaviour
 
         Villager villager = GameManager.instance.FindVillager(_who);
 
-
         if (villager == null) { Debug.Log("didnt find"); return; }
 
         if (villager.rig != null)
@@ -587,8 +504,6 @@ public class YarnFunctions : MonoBehaviour
         //<<yarncommand Actor parameters>>
     }
 
-
-
     //sit and stand toggle the 'sitting' boolean for the animation state to work with the mask for their legs
     [YarnCommand("Sit")]
     public void Sit(string _who)
@@ -597,11 +512,9 @@ public class YarnFunctions : MonoBehaviour
 
         Villager villager = GameManager.instance.FindVillager(_who);
 
-
         if (villager == null) { return; }
 
-        villager.SetAnimatorParameter("sitting",true);
-
+        villager.SetAnimatorParameter("sitting", true);
     }
 
     [YarnCommand("Stand")]
@@ -611,21 +524,17 @@ public class YarnFunctions : MonoBehaviour
 
         Villager villager = GameManager.instance.FindVillager(_who);
 
-
         if (villager == null) { return; }
 
         villager.SetAnimatorParameter("sitting", false);
-
     }
 
-
     [YarnCommand("AnimateMouth")]
-    public void AnimateMouth(string _who, string _pattern,string _length)
+    public void AnimateMouth(string _who, string _pattern, string _length)
     {
         Debug.Log("Yabrn AnimateMouth");
 
         Villager villager = GameManager.instance.FindVillager(_who);
-
 
         if (villager == null) { return; }
 
@@ -635,24 +544,13 @@ public class YarnFunctions : MonoBehaviour
         //<<yarncommand Actor parameters>>
     }
 
-
     /// <summary>
     /// end Animations
     /// </summary>
-
-
-
-
-
-
-
 
     [YarnCommand("Comment")]
     public void YarnComment(string[] _comment)
     {
         Debug.Log("comment: " + _comment);
-
     }
-
 }
-

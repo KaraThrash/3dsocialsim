@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6249866053782438357}
   - component: {fileID: 6249866053782438359}
   - component: {fileID: 6249866053782438358}
-  m_Layer: 12
+  m_Layer: 2
   m_Name: bramble_single_3 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f2dec597366b8e54eab2d807803b3a4b, type: 2}
+  - {fileID: 2100000, guid: b1d5a3a85fc77a049a18a0ea472812d2, type: 2}
+  - {fileID: 2100000, guid: 691119bc39165bb4e960b64b4ecbe59c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -88,7 +89,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6249866053940155321}
-  m_Layer: 12
+  m_Layer: 2
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,7 +132,7 @@ GameObject:
   - component: {fileID: 6249866054378078878}
   - component: {fileID: 6249866054378078872}
   - component: {fileID: 6249866054378078879}
-  m_Layer: 12
+  m_Layer: 2
   m_Name: bramble_single_3 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +179,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f2dec597366b8e54eab2d807803b3a4b, type: 2}
+  - {fileID: 2100000, guid: b1d5a3a85fc77a049a18a0ea472812d2, type: 2}
+  - {fileID: 2100000, guid: 691119bc39165bb4e960b64b4ecbe59c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -210,7 +212,7 @@ GameObject:
   - component: {fileID: 6249866054475876635}
   - component: {fileID: 6249866054475876629}
   - component: {fileID: 6249866054475876628}
-  m_Layer: 12
+  m_Layer: 2
   m_Name: bramble_single_4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +259,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f2dec597366b8e54eab2d807803b3a4b, type: 2}
+  - {fileID: 2100000, guid: b1d5a3a85fc77a049a18a0ea472812d2, type: 2}
+  - {fileID: 2100000, guid: 691119bc39165bb4e960b64b4ecbe59c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -289,7 +292,7 @@ GameObject:
   - component: {fileID: 6249866054722215989}
   - component: {fileID: 6249866054722215991}
   - component: {fileID: 6249866054722215990}
-  m_Layer: 12
+  m_Layer: 2
   m_Name: bramble_single_2 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +339,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f2dec597366b8e54eab2d807803b3a4b, type: 2}
+  - {fileID: 2100000, guid: b1d5a3a85fc77a049a18a0ea472812d2, type: 2}
+  - {fileID: 2100000, guid: 691119bc39165bb4e960b64b4ecbe59c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -368,7 +372,7 @@ GameObject:
   - component: {fileID: 6249866054884006949}
   - component: {fileID: 6249866054884006951}
   - component: {fileID: 6249866054884006950}
-  m_Layer: 12
+  m_Layer: 2
   m_Name: bramble_single_4 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -415,7 +419,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f2dec597366b8e54eab2d807803b3a4b, type: 2}
+  - {fileID: 2100000, guid: b1d5a3a85fc77a049a18a0ea472812d2, type: 2}
+  - {fileID: 2100000, guid: 691119bc39165bb4e960b64b4ecbe59c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -447,7 +452,7 @@ GameObject:
   - component: {fileID: 6249866055007823680}
   - component: {fileID: 6249866055007823682}
   - component: {fileID: 6249866055007823681}
-  m_Layer: 12
+  m_Layer: 2
   m_Name: bramble_single_3 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -494,7 +499,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f2dec597366b8e54eab2d807803b3a4b, type: 2}
+  - {fileID: 2100000, guid: b1d5a3a85fc77a049a18a0ea472812d2, type: 2}
+  - {fileID: 2100000, guid: 691119bc39165bb4e960b64b4ecbe59c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -526,7 +532,7 @@ GameObject:
   - component: {fileID: 6249866055284017757}
   - component: {fileID: 6249866055284017759}
   - component: {fileID: 6249866055284017758}
-  m_Layer: 12
+  m_Layer: 2
   m_Name: bramble_single_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -573,7 +579,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f2dec597366b8e54eab2d807803b3a4b, type: 2}
+  - {fileID: 2100000, guid: b1d5a3a85fc77a049a18a0ea472812d2, type: 2}
+  - {fileID: 2100000, guid: 691119bc39165bb4e960b64b4ecbe59c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -605,7 +612,7 @@ GameObject:
   - component: {fileID: 6249866055316348265}
   - component: {fileID: 6249866055316348267}
   - component: {fileID: 6249866055316348266}
-  m_Layer: 12
+  m_Layer: 2
   m_Name: bramble_single_2 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -652,7 +659,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f2dec597366b8e54eab2d807803b3a4b, type: 2}
+  - {fileID: 2100000, guid: b1d5a3a85fc77a049a18a0ea472812d2, type: 2}
+  - {fileID: 2100000, guid: 691119bc39165bb4e960b64b4ecbe59c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -684,7 +692,7 @@ GameObject:
   - component: {fileID: 6249866055378689344}
   - component: {fileID: 6249866055378689346}
   - component: {fileID: 6249866055378689345}
-  m_Layer: 12
+  m_Layer: 2
   m_Name: bramble_single_2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -731,7 +739,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f2dec597366b8e54eab2d807803b3a4b, type: 2}
+  - {fileID: 2100000, guid: b1d5a3a85fc77a049a18a0ea472812d2, type: 2}
+  - {fileID: 2100000, guid: 691119bc39165bb4e960b64b4ecbe59c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -763,7 +772,7 @@ GameObject:
   - component: {fileID: 6249866055416871562}
   - component: {fileID: 6249866055416871556}
   - component: {fileID: 6249866055416871563}
-  m_Layer: 12
+  m_Layer: 2
   m_Name: bramble_single_2 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -810,7 +819,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f2dec597366b8e54eab2d807803b3a4b, type: 2}
+  - {fileID: 2100000, guid: b1d5a3a85fc77a049a18a0ea472812d2, type: 2}
+  - {fileID: 2100000, guid: 691119bc39165bb4e960b64b4ecbe59c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -842,7 +852,7 @@ GameObject:
   - component: {fileID: 6249866055524215601}
   - component: {fileID: 6249866055524215603}
   - component: {fileID: 6249866055524215602}
-  m_Layer: 12
+  m_Layer: 2
   m_Name: bramble_single_3 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -889,7 +899,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f2dec597366b8e54eab2d807803b3a4b, type: 2}
+  - {fileID: 2100000, guid: b1d5a3a85fc77a049a18a0ea472812d2, type: 2}
+  - {fileID: 2100000, guid: 691119bc39165bb4e960b64b4ecbe59c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -922,7 +933,7 @@ GameObject:
   - component: {fileID: 6249866055602330194}
   - component: {fileID: 6249866055602330193}
   - component: {fileID: 6249866055602330192}
-  m_Layer: 12
+  m_Layer: 2
   m_Name: Bramble_item (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

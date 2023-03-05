@@ -1,35 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [ExecuteInEditMode]
 public class TerrainGenerator : MonoBehaviour
 {
     public bool on;
     public int rows, columns;
-    public Transform terrainParent,enviromentpieces,interactablepieces;
+    public Transform terrainParent, enviromentpieces, interactablepieces;
     public Material grass, dirt, sidewalk, water;
-    public GameObject terrain5x5,tile2,sidewalkTile,waterTile,bridgeempty, empty;
-    // Start is called before the first frame update
-    void Start()
+    public GameObject terrain5x5, tile2, sidewalkTile, waterTile, bridgeempty, empty;
+
+    // Start is
+    // called before
+    // the first
+    // frame update
+    private void Start()
     {
-       // MakeBlankTerrain();
+        // MakeBlankTerrain();
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update is
+    // called once
+    // per frame
+    private void Update()
     {
         if (on)
         {
-
             FillTerrain();
-               // MakeBlankTerrain();
+            // MakeBlankTerrain();
             on = false;
         }
     }
-
-
-
 
     public void FillTerrain()
     {
@@ -43,11 +43,9 @@ public class TerrainGenerator : MonoBehaviour
             {
                 if (col < 6 || col > columns - 5 || row < 6 || row > rows - 5)
                 {
-   
                 }
                 else if (col == 20 || row == 5 || row == 40)
                 {
-                   
                 }
                 else if (col % 2 == 0)
                 {
@@ -57,7 +55,6 @@ public class TerrainGenerator : MonoBehaviour
                         clone.transform.parent = cloneparent.GetComponent<TerrainChunk>().enviroment;
                         clone.transform.Rotate(0, Random.Range(-15, 15), 0);
                     }
-                   
                 }
                 else
                 {
@@ -75,10 +72,9 @@ public class TerrainGenerator : MonoBehaviour
         }
     }
 
-
     public void MakeBlankTerrain()
     {
-        GameObject cloneparent = Instantiate(empty, transform.position , transform.rotation) ;
+        GameObject cloneparent = Instantiate(empty, transform.position, transform.rotation);
         int col = 0;
         int row = 0;
         while (row < rows)
@@ -101,16 +97,15 @@ public class TerrainGenerator : MonoBehaviour
                     GameObject clone = Instantiate(terrain5x5, transform.position + new Vector3(col, 0, row), transform.rotation);
                     clone.transform.parent = cloneparent.transform;
                 }
-                else 
+                else
                 {
                     GameObject clone = Instantiate(tile2, transform.position + new Vector3(col, 0, row), transform.rotation);
                     clone.transform.parent = cloneparent.transform;
                 }
-                
+
                 col++;
             }
             row++;
         }
     }
-
 }

@@ -5,98 +5,94 @@ using UnityEngine.Rendering;
 [ExecuteAlways]
 public class BendingManager : MonoBehaviour
 {
-  #region Constants
+    #region Constants
 
-  private const string BENDING_FEATURE = "ENABLE_BENDING";
+    private const string BENDING_FEATURE = "ENABLE_BENDING";
 
-  private const string PLANET_FEATURE = "ENABLE_BENDING_PLANET";
+    private const string PLANET_FEATURE = "ENABLE_BENDING_PLANET";
 
-  private static readonly int BENDING_AMOUNT =
-    Shader.PropertyToID("_BendingAmount");
+    private static readonly int BENDING_AMOUNT =
+      Shader.PropertyToID("_BendingAmount");
 
-  #endregion
+    #endregion Constants
 
+    #region Inspector
 
-  #region Inspector
+    [SerializeField]
+    private bool enablePlanet = default;
 
-  [SerializeField]
-  private bool enablePlanet = default;
+    [SerializeField]
+    [Range(0.001f, 0.1f)]
+    private float bendingAmount = 0.015f;
 
-  [SerializeField]
-  [Range(0.001f, 0.1f)]
-  private float bendingAmount = 0.015f;
+    #endregion Inspector
 
-  #endregion
+    #region Fields
 
+    private float _prevAmount;
 
-  #region Fields
+    #endregion Fields
 
-  private float _prevAmount;
+    #region MonoBehaviour
 
-  #endregion
+    private void Awake()
+    {
+        if (Application.isPlaying)
+            Shader.EnableKeyword(BENDING_FEATURE);
+        else
+            Shader.DisableKeyword(BENDING_FEATURE);
 
+        if (enablePlanet)
+            Shader.EnableKeyword(PLANET_FEATURE);
+        else
+            Shader.DisableKeyword(PLANET_FEATURE);
 
-  #region MonoBehaviour
+        UpdateBendingAmount();
+    }
 
-  private void Awake ()
-  {
-    if ( Application.isPlaying )
-      Shader.EnableKeyword(BENDING_FEATURE);
-    else
-      Shader.DisableKeyword(BENDING_FEATURE);
+    private void OnEnable()
+    {
+        if (!Application.isPlaying)
+            return;
 
-    if ( enablePlanet )
-      Shader.EnableKeyword(PLANET_FEATURE);
-    else
-      Shader.DisableKeyword(PLANET_FEATURE);
+        RenderPipelineManager.beginCameraRendering += OnBeginCameraRendering;
+        RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
+    }
 
-    UpdateBendingAmount();
-  }
+    private void Update()
+    {
+        if (Math.Abs(_prevAmount - bendingAmount) > Mathf.Epsilon)
+            UpdateBendingAmount();
+    }
 
-  private void OnEnable ()
-  {
-    if ( !Application.isPlaying )
-      return;
-    
-    RenderPipelineManager.beginCameraRendering += OnBeginCameraRendering;
-    RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
-  }
+    private void OnDisable()
+    {
+        RenderPipelineManager.beginCameraRendering -= OnBeginCameraRendering;
+        RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
+    }
 
-  private void Update ()
-  {
-    if ( Math.Abs(_prevAmount - bendingAmount) > Mathf.Epsilon )
-      UpdateBendingAmount();
-  }
+    #endregion MonoBehaviour
 
-  private void OnDisable ()
-  {
-    RenderPipelineManager.beginCameraRendering -= OnBeginCameraRendering;
-    RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
-  }
+    #region Methods
 
-  #endregion
+    private void UpdateBendingAmount()
+    {
+        _prevAmount = bendingAmount;
+        Shader.SetGlobalFloat(BENDING_AMOUNT, bendingAmount);
+    }
 
+    private static void OnBeginCameraRendering(ScriptableRenderContext ctx,
+                                                Camera cam)
+    {
+        cam.cullingMatrix = Matrix4x4.Ortho(-99, 99, -99, 99, 0.001f, 99) *
+                            cam.worldToCameraMatrix;
+    }
 
-  #region Methods
-
-  private void UpdateBendingAmount ()
-  {
-    _prevAmount = bendingAmount;
-    Shader.SetGlobalFloat(BENDING_AMOUNT, bendingAmount);
-  }
-
-  private static void OnBeginCameraRendering (ScriptableRenderContext ctx,
+    private static void OnEndCameraRendering(ScriptableRenderContext ctx,
                                               Camera cam)
-  {
-    cam.cullingMatrix = Matrix4x4.Ortho(-99, 99, -99, 99, 0.001f, 99) *
-                        cam.worldToCameraMatrix;
-  }
+    {
+        cam.ResetCullingMatrix();
+    }
 
-  private static void OnEndCameraRendering (ScriptableRenderContext ctx,
-                                            Camera cam)
-  {
-    cam.ResetCullingMatrix();
-  }
-
-  #endregion
+    #endregion Methods
 }

@@ -1,8 +1,7 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogueLoader 
+public class DialogueLoader
 {
     //dictionary by name for npc's dialogue. When an npc is encountered load their dialogue into this dictionary from the spreadsheet
     // npc name: dialogue type
@@ -16,47 +15,36 @@ public class DialogueLoader
         LoadCharacterDialogue("Generic");
     }
 
-
     public static List<Dialogue> GetDialogue(string _characterName)
     {
         if (loadedDialogue == null)
         {
             IntializeDialogueDictionary();
-           
         }
-
-
 
         //if the character's dialogue is in the dictionary return it
         if (loadedDialogue.ContainsKey(_characterName))
         {
             return loadedDialogue[_characterName];
         }
-        else 
+        else
         {
             //otherwise load the dialogue.
-            LoadCharacterDialogue( _characterName);
+            LoadCharacterDialogue(_characterName);
 
             if (loadedDialogue.ContainsKey(_characterName))
             {
                 return loadedDialogue[_characterName];
             }
-
         }
         //in the case there is no dialogue for this character load the 'generic' dialogue
 
         if (loadedDialogue.ContainsKey("Generic") == false)
         {
-            
         }
 
         return loadedDialogue["Generic"];
     }
-
-
-
-
-
 
     public static void LoadAllDialogueFromFile()
     {
@@ -65,37 +53,23 @@ public class DialogueLoader
         string text = Resources.Load<TextAsset>("DialogueSpreadsheet").ToString();
         string[] strValues = text.Split('\n');
 
-
         int count = 1; //0 is the header
         while (count < strValues.Length)
         {
             string[] tempstring = strValues[count].Split(',');
 
-
-
-
-
-            //  MasterDialogueList.Add(newitem);
-
-
+            // MasterDialogueList.Add(newitem);
 
             count++;
-
         }
-
-
     }
-
-
 
     //load only one characters dialogue, and only keep in memory the ones that are active
     //character dialogue saved in the Resources/Character_Dialogue folder
     public static void LoadCharacterDialogue(string _characterName)
     {
-
         if (Resources.Load<TextAsset>("Character_Dialogue/" + _characterName) == null)
         {
-
             Debug.Log("No dialogue for that character found");
 
             if (_characterName != "Generic") { LoadCharacterDialogue("Generic"); }
@@ -105,14 +79,12 @@ public class DialogueLoader
         if (loadedDialogue == null)
         {
             IntializeDialogueDictionary();
-
         }
 
         // string text = File.ReadAllText("./Resources/DialogueSpreadsheet.txt");
         //Load a text file (Assets/Resources/....)
         string text = Resources.Load<TextAsset>("Character_Dialogue/" + _characterName).ToString();
         string[] strValues = text.Split('\n');
-
 
         int count = 1; //0 is the header
         while (count < strValues.Length)
@@ -123,22 +95,19 @@ public class DialogueLoader
             //each entry should be a minimum of 4 elements: name, type, mood, body
             if (tempstring.Length > 3 && tempstring[3] != "")
             {
-
                 //check if the character already has an entry, if not then create one
                 if (loadedDialogue.ContainsKey(_characterName) == false)
                 {
                     loadedDialogue.Add(_characterName, new List<Dialogue>());
                 }
 
-
                 List<string> newbody = new List<string>();
 
                 for (int i = 3; i < tempstring.Length; i++)
                 {
-                    //make sure no blank lines are mistakenly added due to text formatting 
+                    //make sure no blank lines are mistakenly added due to text formatting
                     if (tempstring[i].Length > 1)
                     { newbody.Add(tempstring[i]); }
-                   
                 }
 
                 //make sure there were valid dialogue lines after accounting for text formatting mistakes
@@ -151,15 +120,7 @@ public class DialogueLoader
                 }
             }
 
-
-
             count++;
-
         }
-
-
     }
-
-
-
 }

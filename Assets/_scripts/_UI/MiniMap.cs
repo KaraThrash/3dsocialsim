@@ -51,9 +51,9 @@ public class MiniMap : MonoBehaviour
         }
         else if (Player().WorldLocation() == WorldLocation.overWorldNorth)
         {
-            pos = new Vector2((Player().transform.position.x - 150) / chunk.Width(), (Player().transform.position.z - 14) / chunk.Height());
+            pos = new Vector2((Player().transform.position.x - chunk.BottomLeft().x) / chunk.Width(), (Player().transform.position.z - 14) / chunk.Height());
             pos = new Vector2(pos.x * -imageWidth, -pos.y * (0.5f * imageHeight));
-            pos = new Vector2(pos.x + 130.4f, pos.y + (0.5f * imageHeight));
+            pos = new Vector2(pos.x + 5.4f , pos.y + -(0.5f * imageHeight));
         }
 
         return pos;

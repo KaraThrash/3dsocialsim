@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 using Yarn.Unity;
+
 public class SceneDirector : MonoBehaviour
 {
     public SceneAction currentaction;
@@ -20,35 +20,35 @@ public class SceneDirector : MonoBehaviour
 
     public List<MapLocation> locations;
 
-    public bool sceneActive = false,waitForCheckpoint = false;
+    public bool sceneActive = false, waitForCheckpoint = false;
 
     public SceneObject currentScene;
     public Transform checkPointTransform;
 
-
-    // Start is called before the first frame update
-    void Start()
+    // Start is
+    // called before
+    // the first
+    // frame update
+    private void Start()
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    // Update is
+    // called once
+    // per frame
+    private void Update()
     {
         if (currentScene != null) { currentaction = currentScene.actionType; }
 
-        if (sceneActive) 
+        if (sceneActive)
         {
-
-            if (waitForCheckpoint) 
+            if (waitForCheckpoint)
             {
-                
-
             }
 
             if (currentScene.actionType == SceneAction.walkAndTalk)
             {
-              //  WalkAndTalk();
+                // WalkAndTalk();
             }
             else if (currentScene.actionType == SceneAction.leadPlayer)
             {
@@ -58,11 +58,10 @@ public class SceneDirector : MonoBehaviour
             {
                 CheckForCheckPoint();
             }
-            else 
+            else
             {
-                SceneActions.RotateToFace(primary.transform,player.transform);
+                SceneActions.RotateToFace(primary.transform, player.transform);
                 GameManager.instance.SetContinueButton(true);
-
             }
         }
     }
@@ -72,26 +71,22 @@ public class SceneDirector : MonoBehaviour
         //check if a final location was tagged, and if so make sure the villager is going there
         if (checkPoint != Vector3.zero)
         {
-            
-                if (Vector3.Distance(checkPoint, primary.transform.position) > 1)
-                {
-                    SceneActions.LeadPlayer(primary.transform, checkPoint, player, primary.GetNavMeshSpeed());
-                    GameManager.instance.SetContinueButton(false);
-                    return;
-                }
-         
+            if (Vector3.Distance(checkPoint, primary.transform.position) > 1)
+            {
+                SceneActions.LeadPlayer(primary.transform, checkPoint, player, primary.GetNavMeshSpeed());
+                GameManager.instance.SetContinueButton(false);
+                return;
+            }
         }
-        else 
+        else
         {
-          //  return;
+            // return;
         }
 
         currentScene.actionType = SceneAction.none;
         GameManager.instance.SetContinueButton(true);
         //RunDialogue();
-
     }
-
 
     public void EndScene()
     {
@@ -103,29 +98,24 @@ public class SceneDirector : MonoBehaviour
         }
         if (player != null)
         {
-
             player.EndNavLeadObject();
             player.State(PlayerState.playerControlled);
         }
 
-
         waitForCheckpoint = false;
         sceneActive = false;
         GameManager.instance.SetContinueButton(true);
-
-
     }
-
 
     public void WalkAndTalk()
     {
         if (primary == null) { return; }
 
-        if ( Vector3.Distance(primary.transform.position, currentScene.targetPos) < 1  ) 
+        if (Vector3.Distance(primary.transform.position, currentScene.targetPos) < 1)
         {
             EndScene();
-            return;  
-        } 
+            return;
+        }
 
         SceneActions.HavePlayerFollow(primary.transform, currentScene.targetPos, player, 1);
 
@@ -133,17 +123,13 @@ public class SceneDirector : MonoBehaviour
         {
             RunDialogueByDistance();
         }
-
-
-
     }
-
 
     public void LeadPlayer()
     {
         if (primary == null) { return; }
 
-        if ( (Vector3.Distance(primary.transform.position, currentScene.targetPos) < 1 ))
+        if ((Vector3.Distance(primary.transform.position, currentScene.targetPos) < 1))
         {
             //GameManager.instance.dialogueRunner.GetComponent<DialogueUI>().MarkLineComplete();
             if (checkPoint != Vector3.zero)
@@ -152,8 +138,7 @@ public class SceneDirector : MonoBehaviour
             endPos = currentScene.targetPos;
             currentScene.actionType = SceneAction.walkingToCheckpoint;
 
-
-          //  GameManager.instance.SetContinueButton(false);
+            //  GameManager.instance.SetContinueButton(false);
             // ReEnabledContinueButton();
             //EndScene();
 
@@ -165,17 +150,14 @@ public class SceneDirector : MonoBehaviour
 
         if (currentScene.linesOfDialogue > currentScene.phase)
         {
-          //  RunDialogueByDistance();
+            // RunDialogueByDistance();
         }
-       // else { ReEnabledContinueButton(); }
-
-
-
+        // else {
+        // ReEnabledContinueButton(); }
     }
 
-   public void  RunDialogueByDistance()
-   {
-
+    public void RunDialogueByDistance()
+    {
         if (Vector3.Distance(primary.transform.position, currentScene.startPos) >= (currentScene.distanceIncrement * 1) && currentScene.linesOfDialogue > currentScene.phase)
         {
             currentScene.startPos = primary.transform.position;
@@ -183,24 +165,12 @@ public class SceneDirector : MonoBehaviour
             RunDialogue();
         }
         else { currentScene.actionType = SceneAction.walkingToCheckpoint; }
-
-
     }
-
 
     public void RunDialogue()
     {
-
-        
-    
-            GameManager.instance.dialogueRunner.GetComponent<DialogueUI>().MarkLineComplete();
-        
-
-
+        GameManager.instance.dialogueRunner.GetComponent<DialogueUI>().MarkLineComplete();
     }
-
-
-
 
     public void SetCheckPointPosition(Vector3 _pos)
     {
@@ -208,7 +178,6 @@ public class SceneDirector : MonoBehaviour
         {
             checkPointTransform.position = _pos;
             waitForCheckpoint = true;
-
         }
     }
 
@@ -217,25 +186,17 @@ public class SceneDirector : MonoBehaviour
         if (checkPointTransform != null)
         {
             checkPointTransform.rotation = _rot;
-
         }
     }
 
-
-
     public void InitScene(ScriptableScene _scene)
     {
-
-       
-
-
-
         activeScene = _scene;
     }
 
     public void PlannedScene(ScenePlanning _scene)
     {
-         plannedScene = _scene;
+        plannedScene = _scene;
     }
 
     public ScenePlanning PlannedScene()
