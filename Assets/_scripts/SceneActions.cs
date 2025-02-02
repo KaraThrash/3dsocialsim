@@ -85,7 +85,7 @@ public static class SceneActions
     {
         Vector3 screenPoint = GameManager.instance.cam.GetComponent<Camera>().WorldToViewportPoint(_pos);
 
-        if (screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1)
+        if (screenPoint.z > 0 && screenPoint.x > 0.02f && screenPoint.x < 0.98f && screenPoint.y > 0.02f && screenPoint.y < 0.98f)
         { return true; }
 
         return false;
@@ -138,14 +138,15 @@ public static class SceneActions
             _villager.SetNavMeshSpeed(0);
             _villager.SetAnimatorParameter("walking", false);
 
-            if (Quaternion.Angle(_villager.head.rotation, _villager.animatedHead.rotation) > 30)
+            if (_villager.animatedHead != null && Quaternion.Angle(_villager.head.rotation, _villager.animatedHead.rotation) > 30)
             {
                 RotateToFace(_villager.transform, _player);
             }
         }
         else
         {
-            _villager.SetNavMeshSpeed(1);
+            float newSpeed = Mathf.Lerp(_villager.GetNavMeshSpeed(), 1, Time.deltaTime);
+            _villager.SetNavMeshSpeed(newSpeed);
         }
     }
 

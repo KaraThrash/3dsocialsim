@@ -25,7 +25,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_99A4C3B0:
-        m_Texture: {fileID: 2800000, guid: 96f2820c1f6bbe04c95948bbd23f5214, type: 3}
+        m_Texture: {fileID: 2800000, guid: d44954dd7ead6c2459ee12353ea38cb6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -65,9 +65,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_534DD327: 44
+    - Vector1_534DD327: 1
     - Vector1_6322A524: 0.414
-    - Vector1_86177972: 0.414
+    - Vector1_86177972: 0.882
     - Vector1_B680008E: 12
     - _BumpScale: 1
     - _Cutoff: 0.5
